@@ -10,6 +10,235 @@
   z-index: 100;
 }
 
+/* .main { //Hay que corregir los estilos para no pisarse
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+
+.indexMain {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.form_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputs {
+  font-size: 3rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.nextButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.genresDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 3rem;
+}
+
+.genreDiv {
+  height: 20rem;
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.genreName {
+  height: 3rem;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selected {
+  border-bottom: 1px solid rgb(172, 172, 172);
+  border-radius: 99rem;
+  transform: scale(1.25);
+}
+
+.no_selected {
+  border: none;
+  transition: all 450ms;
+}
+
+.no_selected:hover {
+  transform: scale(1.25);
+}
+
+.divButtons {
+  width: 15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.restartGenreButton,
+.submitFormButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.restartGenreButton:hover,
+.submitFormButton:hover {
+  transform: scale(1.1);
+}
+
+.no_hide {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+.loginWrapper {
+  width: 75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+
+.logIn_signUp_Div {
+  height: 18rem;
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgb(250, 250, 250);
+  color: black;
+  border-radius: 0.5rem;
+}
+
+.loginForm {
+  width: 20rem;
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.loginInput {
+  width: 95%;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 1.05rem;
+  color: black;
+  outline: none;
+}
+
+.noBorder {
+  border: none;
+}
+
+.loginDivInput {
+  width: 97%;
+  display: flex;
+  align-items: center;
+  height: 2.2rem;
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+  font-size: 1.05rem;
+  color: black;
+  outline: none;
+}
+
+.loginButton {
+  height: 2rem;
+  width: 50%;
+  background-color: rgb(115, 154, 161);
+  border-radius: 5rem;
+  font-size: 1.1rem;
+  color: black;
+  border: none;
+}
+
+.separator {
+  width: 97%;
+  border: 1px solid rgb(185, 185, 185);
+}
+
+.googleLogin {
+  width: 12rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 3rem;
+}
+
+.signUpSection {
+  width: 15rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.mobileImg > span {
+  border-radius: 3rem;
+}
+
+.carousel__songs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.songDiv {
+  width: 10.5rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: rgba(241, 241, 241, 0.336);
+}
+
+.imgSongDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.songName {
+  margin-left: 0.9rem;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
