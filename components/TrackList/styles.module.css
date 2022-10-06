@@ -1,0 +1,41 @@
+.tracks_list {
+  height: 70%;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.track_list_row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 2px solid #acacac;
+}
+.track_list_row:hover {
+  cursor: pointer;
+  background: #d5c8c8;
+}
+
+.track_info {
+  display: flex;
+  gap: 1rem;
+  width: 80%;
+  margin-left: 1rem;
+}
+.buttons_container {
+  display: flex;
+  gap: 1rem;
+}
+
+.track_list_header {
+  display: flex;
+  border: 2px solid #acacac;
+  padding-left: 0.7rem;
+  align-items: center;
+  gap: 0.7rem;
+  background: #acacac;
+  color: #4e4949;
+  border-radius: 5px;
+}
+.track_name {
+  font-weight: 600;
+}
