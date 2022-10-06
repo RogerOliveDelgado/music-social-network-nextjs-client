@@ -6,7 +6,7 @@ const Home = (props: Props) => {
   return (
     <>
       <Layout>
-        <div>Home</div>
+        <h1>Home</h1>
       </Layout>
     </>
   );

@@ -1,0 +1,100 @@
+.container {
+  background-color: bisque;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.album_details_container {
+  border: 2px solid black;
+  background: #f3eeee;
+  width: 70vw;
+  height: 80vh;
+}
+.album_details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  padding: 0.5rem;
+}
+.album_image {
+  box-shadow: 0px 36px 0px -23px rgba(23, 10, 10, 0.1);
+  border-radius: 5px;
+}
+.play_button {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  justify-self: flex-end;
+  background-color: #d9353b;
+  color: #f3eeee;
+}
+
+.play_button:hover {
+  color: black;
+}
+.play_button_container {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  margin-right: 2rem;
+}
+.follow_button {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  justify-self: flex-end;
+}
+.albums_ratings {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+  color: #acacac;
+  gap: 0.5rem;
+}
+.album_artist {
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  color: #acacac;
+  gap: 0.5rem;
+}
+
+.album_tracks_info {
+  display: flex;
+  gap: 1rem;
+  height: 70%;
+  padding: 0.5rem;
+}
+
+.album_extra_info {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: max-content;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 0.5rem;
+}
+.extra_info_title {
+  font-weight: 600;
+  align-self: center;
+  color: #acacac;
+}
+.info_element {
+  display: flex;
+  justify-content: space-between;
+}
+.info_element_title {
+  font-weight: 500;
+}
+
+.album_tracklist {
+  display: flex;
+  flex-direction: column;
+
+  width: 80%;
+}

@@ -1,0 +1,85 @@
+.container {
+  background-color: bisque;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist_details_container {
+  border: 2px solid black;
+  background: #f3eeee;
+  width: 70vw;
+  height: 80vh;
+}
+
+.artist_details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  padding: 0.5rem;
+}
+
+.artist_image {
+  border-radius: 50%;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+  color: #acacac;
+  gap: 0.5rem;
+}
+
+.artist_genres {
+  display: flex;
+  gap: 1rem;
+}
+.follow_button {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  justify-self: flex-end;
+}
+
+.genre {
+  border: 2px solid #acacac;
+  border-radius: 5px;
+  padding: 0.2rem;
+  color: #868383;
+}
+
+.play_button {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  justify-self: flex-end;
+  background-color: #d9353b;
+  color: #f3eeee;
+}
+.play_button:hover {
+  color: black;
+}
+
+.play_button_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 1;
+  margin-right: 2rem;
+}
+.discography_info {
+  color: #acacac;
+  font-weight: 500;
+}
+
+.artist_discography_info {
+  display: flex;
+  gap: 1rem;
+  height: 70%;
+  padding: 0.5rem;
+  width: 100%;
+}
