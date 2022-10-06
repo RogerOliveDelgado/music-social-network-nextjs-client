@@ -1,0 +1,11 @@
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 60%;
+  height: 4rem;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background-color: rgba(31, 41, 55);
+}
