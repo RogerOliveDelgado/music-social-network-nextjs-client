@@ -27,7 +27,7 @@ export default function SearchAppBar() {
             role="combobox"
             aria-controls="search-suggestions"
             aria-expanded="false"
-            placeholder="Search Google"
+            placeholder="Search for songs, artists..."
           />
         </div>
 

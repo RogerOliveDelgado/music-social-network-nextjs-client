@@ -1,6 +1,6 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  background-color: rgba(31, 41, 55);
+  background-color: var(--black);
 }
 

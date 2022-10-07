@@ -9,8 +9,8 @@
   box-shadow: none;
   border-radius: 24px;
   margin: 0.5rem auto;
-  width: auto;
-  max-width: 20rem;
+  width: 20rem;
+  max-width: 25rem;
 }
 
 .searchbar:hover {
@@ -82,8 +82,14 @@
   margin-top: -37px;
   height: 34px;
   font-size: 16px;
+  font-style: italic;
   max-width: 100%;
   width: 100%;
+}
+
+.searchbar_input::placeholder {
+  color: var(--lighthest_blue);
+  opacity: 1;
 }
 
 .searchbar_right {
