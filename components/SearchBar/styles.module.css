@@ -1,24 +1,21 @@
-
-
 .searchbar {
   font-size: 14px;
-  font-family: arial, sans-serif;
-  color: #202124;
+  color: #fff;
   display: flex;
   z-index: 3;
   height: 44px;
-  background: white;
-  border: 1px solid #dfe1e5;
+  background: var(--lightGrey);
+  border: 1px solid var(--black);
   box-shadow: none;
   border-radius: 24px;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   width: auto;
-  max-width: 224px;
+  max-width: 20rem;
 }
 
 .searchbar:hover {
   box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-  border-color: rgba(223,225,229,0);
+  cursor: pointer;
 }
 
 .searchbar_wrapper {
@@ -30,7 +27,7 @@
 .searchbar_left {
   font-size: 14px;
   font-family: arial, sans-serif;
-  color: #202124;
+  color: #fff;
   display: flex;
   align-items: center;
   padding-right: 13px;
@@ -43,7 +40,7 @@
 
 .search_icon {
   margin-top: 3px;
-  color: #9aa0a6;
+  color: #fff;
   height: 20px;
   line-height: 20px;
   width: 20px;
@@ -77,7 +74,7 @@
   border: none;
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, .87);
+  color: #fff;
   word-wrap: break-word;
   outline: none;
   display: flex;
@@ -92,13 +89,14 @@
 .searchbar_right {
   display: flex;
   flex: 0 0 auto;
-  margin-top: -5px;
   align-items: stretch;
-  flex-direction: row
+  flex-direction: row;
+  height: 2rem;
+  width: 2rem;
 }
 
 .searchbar_clear_icon {
-  margin-right: 12px
+  margin-right: 12px;
 }
 
 .voice_search {
