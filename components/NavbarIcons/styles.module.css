@@ -1,5 +1,4 @@
 .icons {
-    border: 2px solid yellow;
     display: flex;
     flex-grow: .5;
     justify-content: space-around;

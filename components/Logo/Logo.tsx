@@ -8,7 +8,7 @@ function Logo() {
       <Image
         src="/images/spotify_logo.png"
         alt="Spotify Logo"
-        width={90}
+        width={100}
         height={30}
         objectFit="contain"
       />

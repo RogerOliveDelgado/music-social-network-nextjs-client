@@ -2,6 +2,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: .2;
-  border: 2px solid purple;
+  flex-grow: .1;
 }

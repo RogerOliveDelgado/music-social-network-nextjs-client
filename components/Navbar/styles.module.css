@@ -1,9 +1,6 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  /* height: 4rem;
-  font-size: 2.5rem; */
   background-color: rgba(31, 41, 55);
-  border: 2px solid red;
 }
 
