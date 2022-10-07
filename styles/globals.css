@@ -16,6 +16,11 @@ body {
   --lighthest_blue: #90b8f8;
 }
 
+.App{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 
 /* Sidebar */
@@ -23,7 +28,6 @@ body {
   background-color: var(--black);
   border: none;
   position: static;
-  max-height: 100vh;
 }
 
 

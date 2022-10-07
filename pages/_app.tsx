@@ -11,8 +11,10 @@ type ComponentWithPageLayout = AppProps & {
 function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <>
-      <Component {...pageProps} />
-      <Player />
+      <div className="App">
+        <Component {...pageProps} />
+        <Player />
+      </div>
     </>
   );
 }
