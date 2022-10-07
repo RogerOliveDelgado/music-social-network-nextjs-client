@@ -16,18 +16,22 @@ body {
   --ligthest_blue: #90b8f8;
 }
 
+
+
 /* Sidebar */
 .css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
   background-color: rgb(31, 41, 55);
   border: none;
-  max-height: 99vh;
+  position: static;
+  max-height: 100vh;
 }
+
 
 /*Player */
 .rhap_container {
   background-color: rgb(31, 41, 55) !important;
-  width: 100vw !important;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
 }
 
 .rhap_main-controls-button,
