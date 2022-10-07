@@ -107,15 +107,7 @@ function Sidebar(props: ButtonProps) {
     <>
       <Box>
         <Drawer variant="permanent" open={open}>
-          <div className={styles.logoContainer}>
-            <Image
-              src="/spotify_logo.png"
-              priority
-              alt="Spotify Logo"
-              layout="fill"
-              objectFit="contain"
-            />
-          </div>
+
 
           <List>
             {["Home", "Your library", "Create playlist", "Liked songs"].map(

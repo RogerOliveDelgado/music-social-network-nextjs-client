@@ -8,14 +8,11 @@ import { Children } from "../../interfaces/interfaces";
 
 function Layout({ children }: Children) {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.main}>
-        <Sidebar />
-        <SearchAppBar />
-        <Navbar />
-      </div>
+    <>
+      {/* <Sidebar /> */}
+      <Navbar />
       {children}
-    </div>
+    </>
   );
 }
 

@@ -1,15 +1,9 @@
 .navbar {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
-  width: 40%;
-  height: 4rem;
-  font-size: 2.5rem;
+  /* height: 4rem;
+  font-size: 2.5rem; */
   background-color: rgba(31, 41, 55);
+  border: 2px solid red;
 }
 
-.span {
-  margin-bottom: 0.9rem;
-}
