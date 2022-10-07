@@ -1,0 +1,22 @@
+.inputs {
+  font-size: 3rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+.nextButton {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.no_hide {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}

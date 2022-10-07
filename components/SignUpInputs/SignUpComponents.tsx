@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import MusicPreferences from "../MusicPreferences/MusicPreferences";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import styles from "../../styles/Home.module.css";
+import styles from "./styles.module.css";
 
 type Props = {};
 

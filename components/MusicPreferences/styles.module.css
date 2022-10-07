@@ -1,0 +1,67 @@
+.genresDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 3rem;
+}
+
+.genreDiv {
+  height: 20rem;
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.genreName {
+  height: 3rem;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divButtons {
+  width: 15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.restartGenreButton,
+.submitFormButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: var(--ligthest_blue);
+  border-radius: 3rem;
+}
+
+.restartGenreButton:hover,
+.submitFormButton:hover {
+  transform: scale(1.1);
+}
+
+.selected {
+  border-bottom: 1px solid rgb(172, 172, 172);
+  border-radius: 99rem;
+  transform: scale(1.25);
+}
+
+.no_selected {
+  border: none;
+  transition: all 450ms;
+}
+
+.no_selected:hover {
+  transform: scale(1.25);
+}

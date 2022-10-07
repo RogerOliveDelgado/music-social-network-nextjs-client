@@ -2,19 +2,17 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background-color: rgba(31, 41, 55, 0.95);
+  background-color: var(--grey);
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+:root {
+  --grey: #353941;
+  --black: #26282b;
+  --darker_blue: #5f85db;
+  --ligthest_blue: #90b8f8;
 }
 
 /* Sidebar */

@@ -1,7 +1,7 @@
 import React from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import styles from "../../styles/Home.module.css";
+import styles from "./styles.module.css";
 
 type Props = {};
 

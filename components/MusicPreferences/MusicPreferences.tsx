@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import styles from "../../styles/Home.module.css";
+import styles from "./styles.module.css";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";

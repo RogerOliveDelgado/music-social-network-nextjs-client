@@ -1,0 +1,24 @@
+.carousel__songs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.songDiv {
+  width: 10.5rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: var(--black);
+}
+
+.imgSongDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.songName {
+  margin-left: 0.9rem;
+}
