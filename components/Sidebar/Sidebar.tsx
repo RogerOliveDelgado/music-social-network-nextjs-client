@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { Button, ButtonProps } from "./Button";
-import sidebarStyles from "../../styles/sidebar/Sidebar.module.css";
+import { ButtonProps } from "./Button";
+import styles from "./styles.module.css";
 import HomeIcon from "@mui/icons-material/Home";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -12,7 +12,6 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -108,7 +107,7 @@ function Sidebar(props: ButtonProps) {
     <>
       <Box>
         <Drawer variant="permanent" open={open}>
-          <div className={sidebarStyles.logoContainer}>
+          <div className={styles.logoContainer}>
             <Image
               src="/spotify_logo.png"
               priority

@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid red;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  /* position: relative; */
+  /* z-index: 100; */
+}
+

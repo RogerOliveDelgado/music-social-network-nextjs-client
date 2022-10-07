@@ -1,14 +1,4 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-}
 
-.main {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  z-index: 100;
-}
 
 .indexMain {
   min-height: 100vh;
@@ -77,8 +67,3 @@
   border-radius: 3rem;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  z-index: 1000;
-}

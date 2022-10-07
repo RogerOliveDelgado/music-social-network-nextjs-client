@@ -1,14 +1,11 @@
 import React from "react";
-import Image from "next/image";
-import playerStyles from "../../styles/player/Player.module.css";
+import styles from "./styles.module.css";
 import PlayerWeb from "./PlayerWeb";
-
-
 
 function Player() {
   return (
     <>
-      <div className={playerStyles.player}>
+      <div className={styles.player}>
         <PlayerWeb />
       </div>
     </>
