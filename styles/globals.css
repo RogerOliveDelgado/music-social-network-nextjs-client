@@ -16,12 +16,12 @@ body {
   --lighthest_blue: #90b8f8;
 }
 
-.App{
+.App {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100vh;
 }
-
 
 /* Sidebar */
 .css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
@@ -29,7 +29,6 @@ body {
   border: none;
   position: static;
 }
-
 
 /*Player */
 .rhap_container {
