@@ -82,5 +82,25 @@
   gap: 1rem;
   height: 55vh;
   padding: 0.5rem;
-  width: 100%;
+  width: 98%;
+}
+
+@media screen and (max-width: 900px) {
+  .artist_details {
+    flex-direction: column;
+  }
+  .artist_information {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .play_button_container {
+    width: 100%;
+  }
+  .type {
+    margin: 0;
+  }
+  .artist_discography_info {
+    height: 40vh;
+  }
 }

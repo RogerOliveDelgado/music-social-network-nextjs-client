@@ -30,7 +30,7 @@ const ArtistDetails = (props: Props) => {
               height={200}
               layout="fixed"
             />
-            <div>
+            <div className={styles.artist_information}>
               <p className={styles.type}>Artist</p>
               <h1 className={styles.artist_name}>Kings of Leon</h1>
               <div className={styles.artist_genres}>

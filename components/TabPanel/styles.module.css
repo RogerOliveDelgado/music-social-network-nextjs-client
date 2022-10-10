@@ -26,3 +26,9 @@
   flex-direction: column;
   min-width: 80%;
 }
+
+@media screen and (max-width: 900px) {
+  .tabs_content {
+    height: 55%;
+  }
+}
