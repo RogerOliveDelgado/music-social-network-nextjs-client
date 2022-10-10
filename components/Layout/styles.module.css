@@ -5,10 +5,9 @@
 
 .main {
   display: flex;
-  margin-left: 4rem;
-  justify-content: center;
-  align-items: center;
+  margin-left: 6rem;
   width: auto;
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
