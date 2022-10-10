@@ -74,89 +74,96 @@ function Sidebar(props: ButtonProps) {
 
   return (
     <>
-      <Drawer variant="permanent" open={open}>
-        <List>
-          {["Home", "Your library", "Create playlist", "Liked songs"].map(
-            (text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
-                sx={{
-                  display: "block",
-                  fontWeight: 400,
-                  lineHeight: "21px",
-                  color: "white",
-                  backgroundColor: "inherit",
-                  width: "100%",
-                }}
-              >
-                <ListItemButton
+      <div className={styles.sidebar}>
+        <Drawer variant="permanent" open={open} sx={{
+          height: "100%",
+        }}>
+          <List>
+            {["Home", "Your library", "Create playlist", "Liked songs"].map(
+              (text, index) => (
+                <ListItem
+                  key={text}
+                  disablePadding
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    display: "block",
+                    fontWeight: 400,
+                    lineHeight: "21px",
+                    color: "white",
+                    backgroundColor: "inherit",
+                    width: "100%",
                   }}
                 >
-                  <ListItemIcon
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: "white",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    {index === 0 && <HomeIcon />}
-                    {index === 1 && <LibraryMusicIcon />}
-                    {index === 2 && <AddBoxIcon />}
-                    {index === 3 && <FavoriteIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            )
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                    >
+                      {index === 0 && <HomeIcon />}
+                      {index === 1 && <LibraryMusicIcon />}
+                      {index === 2 && <AddBoxIcon />}
+                      {index === 3 && <FavoriteIcon />}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            )}
+          </List>
+        </Drawer>
+        <IconButton
+          onClick={open ? handleDrawerClose : handleDrawerOpen}
+          sx={{
+            padding: 0,
+            position: "absolute",
+            top: "50%",
+            left: open ? "13.4rem" : "2.5rem",
+            transform: "translateY(-50%)",
+            transition: "left 225ms ease-in-out",
+            zIndex: 150,
+          }}
+        >
+          {open ? (
+            <ChevronLeftIcon
+              sx={{
+                color: "white",
+                borderRadius: "50%",
+                padding: "0.5rem",
+                backgroundColor: "var(--black)",
+                " &:hover": {
+                  backgroundColor: "var(--grey)",
+                  border: "1px solid var(--lightGrey)",
+                },
+              }}
+            />
+          ) : (
+            <ChevronRightIcon
+              sx={{
+                color: "white",
+                borderRadius: "50%",
+                padding: "0.5rem",
+                backgroundColor: "var(--black)",
+                " &:hover": {
+                  backgroundColor: "var(--grey)",
+                  border: "1px solid var(--lightGrey)",
+                },
+              }}
+            />
           )}
-        </List>
-      </Drawer>
-      <IconButton
-        onClick={open ? handleDrawerClose : handleDrawerOpen}
-        sx={{
-          padding: 0,
-          position: "absolute",
-          top: "50%",
-          left: open ? "13.4rem" : "2.5rem",
-          transform: "translateY(-50%)",
-          transition: "left 225ms ease-in-out",
-          zIndex: 1,
-        }}
-      >
-        {open ? (
-          <ChevronLeftIcon
-            sx={{
-              color: "white",
-              borderRadius: "50%",
-              padding: "0.5rem",
-              backgroundColor: "var(--black)",
-              " &:hover": {
-                backgroundColor: "var(--grey)",
-                border: "1px solid var(--lightGrey)",
-              },
-            }}
-          />
-        ) : (
-          <ChevronRightIcon
-            sx={{
-              color: "white",
-              borderRadius: "50%",
-              padding: "0.5rem",
-              backgroundColor: "var(--black)",
-              " &:hover": {
-                backgroundColor: "var(--grey)",
-                border: "1px solid var(--lightGrey)",
-              },
-            }}
-          />
-        )}
-      </IconButton>
+        </IconButton>
+      </div>
     </>
   );
 }
