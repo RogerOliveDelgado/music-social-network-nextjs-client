@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 80vw;
-  border: 2px solid yellow;
+  margin-bottom: 0.5rem;
 }
 
 .horizontal_scroll {
   display: flex;
   gap: 1rem;
-  height: 320px;
+
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -24,4 +24,10 @@
   font-size: 40px;
   justify-content: center;
   /* scroll-snap-align: start; */
+}
+
+@media screen and (min-width: 900px) {
+  .row_container {
+    width: 90vw;
+  }
 }

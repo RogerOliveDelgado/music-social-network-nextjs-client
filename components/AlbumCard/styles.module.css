@@ -96,3 +96,17 @@
     transform: none;
   }
 }
+
+@media screen and (max-width: 900px) {
+  .card_container {
+    height: 10rem;
+    width: 6rem;
+  }
+  .album_name {
+    font-size: 0.8rem;
+    width: 90%;
+  }
+  .album_artist {
+    font-size: 0.7rem;
+  }
+}
