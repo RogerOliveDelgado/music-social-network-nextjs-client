@@ -3,8 +3,6 @@ import React from 'react';
 import AlbumCard from '../AlbumCard/AlbumCard';
 
 import styles from './styles.module.css';
-import 'swiper/css';
-import 'swiper/css/pagination';
 
 type Props = {};
 
