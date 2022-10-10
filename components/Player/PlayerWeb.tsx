@@ -1,34 +1,36 @@
-import React, { useState } from "react";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import {
+  TracksList,
+  Track,
+} from '../../redux/features/player/musicPlayerSlice';
 
 const PlayerWeb = () => {
   const router = useRouter();
   const [currentTrack, setTrackIndex] = useState(0);
+  const tracks = useSelector((state: TracksList) => state.tracks);
 
   const handleClickNext = () => {
     setTrackIndex((currentTrack) =>
-      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0
+      currentTrack < tracks.length - 1 ? currentTrack + 1 : 0
     );
   };
 
   const handleEnd = () => {
-    console.log("end");
+    console.log('end');
     setTrackIndex((currentTrack) =>
-      currentTrack < playlist.length - 1 ? currentTrack + 1 : 0
+      currentTrack < tracks.length - 1 ? currentTrack + 1 : 0
     );
   };
-  const playlist = [
-    { src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/ziyounvshen.mp3" },
-    { src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3" },
-    { src: "https://hanzluo.s3-us-west-1.amazonaws.com/music/suipian.mp3" },
-  ];
+
   return (
     <>
-      {router.pathname !== "/signup" ? (
+      {router.pathname !== '/signup' ? (
         <AudioPlayer
-          src={playlist[currentTrack].src}
+          src={tracks[currentTrack]?.src}
           showSkipControls
           onClickNext={handleClickNext}
           onEnded={handleEnd}
