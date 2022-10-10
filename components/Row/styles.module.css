@@ -1,0 +1,27 @@
+.row_container {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  border: 2px solid yellow;
+}
+
+.horizontal_scroll {
+  display: flex;
+  gap: 1rem;
+  height: 320px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.item {
+  align-items: center;
+  background-color: red;
+  color: white;
+  border: 1px solid black;
+  display: flex;
+  flex: 0 0 320px;
+  font-size: 40px;
+  justify-content: center;
+  /* scroll-snap-align: start; */
+}

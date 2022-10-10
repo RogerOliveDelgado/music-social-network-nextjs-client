@@ -4,6 +4,7 @@ import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TracksList } from '../../redux/features/player/musicPlayerSlice';
 import Button from '@mui/material/Button';
+import Row from '../../components/Row/Row';
 
 import styles from './styles.module.css';
 
@@ -37,16 +38,18 @@ const Library = (props: Props) => {
   return (
     <>
       <Layout>
-        <h1>Library</h1>
-        <AlbumCard />
-        <AlbumCard />
-        <AlbumCard />
-        <Button
-          onClick={() => dispatch(updateTrackList(playlist))}
-          sx={{ height: '50px' }}
-        >
-          Update TrackList
-        </Button>
+        <div>
+          <Row title="Albums">
+            <AlbumCard />
+            <AlbumCard />
+            <AlbumCard />
+            <AlbumCard />
+            <AlbumCard />
+            <AlbumCard />
+            <AlbumCard />
+          </Row>
+          <Row title="Artist" />
+        </div>
       </Layout>
     </>
   );
