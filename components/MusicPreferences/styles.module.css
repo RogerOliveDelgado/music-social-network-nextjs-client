@@ -23,9 +23,8 @@
 }
 
 .divButtons {
-  width: 15rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -39,16 +38,15 @@
   border: none;
   padding-left: 1rem;
   padding-right: 1rem;
-  text-transform: capitalize;
   cursor: pointer;
   font-weight: bold;
-  background-color: var(--ligthest_blue);
-  border-radius: 3rem;
+  color: var(--lightest_blue);
+  transition: all 300ms;
 }
 
 .restartGenreButton:hover,
 .submitFormButton:hover {
-  transform: scale(1.1);
+  color: var(--darker_blue);
 }
 
 .selected {

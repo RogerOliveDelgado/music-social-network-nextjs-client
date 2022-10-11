@@ -27,6 +27,10 @@
   display: none;
 }
 
+.formStyles {
+  height: 100%;
+}
+
 @media only screen and (max-width: 500px) {
   .inputs {
     font-size: 1.75rem;

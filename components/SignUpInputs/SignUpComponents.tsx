@@ -49,7 +49,7 @@ const SignUpComponents = (props: Props) => {
   };
 
   return (
-    <>
+    <div className={styles.formStyles}>
       <div
         className={signUpCompleted ? `${styles.hide}` : `${styles.no_hide} `}
       >
@@ -127,7 +127,7 @@ const SignUpComponents = (props: Props) => {
         </motion.div>
       </div>
       <MusicPreferences signUpCompleted={signUpCompleted} />
-    </>
+    </div>
   );
 };
 
