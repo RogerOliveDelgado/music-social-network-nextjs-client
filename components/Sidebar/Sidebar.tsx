@@ -69,8 +69,6 @@ function Sidebar(props: ButtonProps) {
 
   const { t } = useI18N();
 
-  console.log(t('home').home);
-
   const handleNavigation = (path: string) => {
     if (path !== 'undefined') {
       router.push(path);

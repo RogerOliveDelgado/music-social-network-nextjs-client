@@ -39,3 +39,12 @@
 .track_name {
   font-weight: 600;
 }
+
+@media screen and (max-width: 900px) {
+  .tracks_list {
+    height: 90%;
+  }
+  .tracks_list::-webkit-scrollbar {
+    display: none;
+  }
+}

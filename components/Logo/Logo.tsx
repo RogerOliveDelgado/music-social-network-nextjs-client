@@ -1,11 +1,10 @@
-import React from "react";
-import Image from "next/image";
-import styles from "./styles.module.css";
+import React from 'react';
+import Image from 'next/image';
+import styles from './styles.module.css';
 
-import { LogoProps } from "../../interfaces/interfaces";
+import { LogoProps } from '../../interfaces/interfaces';
 
 function Logo({ Height, Width, ClassName }: LogoProps) {
-  console.log(Height, Width, ClassName);
   return (
     <div className={`${ClassName}`}>
       <Image
