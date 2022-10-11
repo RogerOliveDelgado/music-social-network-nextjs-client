@@ -22,6 +22,19 @@ body {
   height: 100vh;
 }
 
+.logoNavbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0.1;
+}
+
+.logoMain {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 1rem;
+}
+
 /* Sidebar */
 .css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
   background-color: var(--black);
@@ -58,3 +71,37 @@ body {
     background-color: rgb(31, 41, 55);
   }
 } */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-button {
+  width: 35px;
+  height: 35px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border: 0px none #ffffff;
+  border-radius: 32px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--darker_blue);
+}
+::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 1px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+::-webkit-scrollbar-track:active {
+  background: #333333;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

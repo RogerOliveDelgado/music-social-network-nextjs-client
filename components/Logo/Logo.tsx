@@ -2,14 +2,17 @@ import React from "react";
 import Image from "next/image";
 import styles from "./styles.module.css";
 
-function Logo() {
+import { LogoProps } from "../../interfaces/interfaces";
+
+function Logo({ Height, Width, ClassName }: LogoProps) {
+  console.log(Height, Width, ClassName);
   return (
-    <div className={styles.logo}>
+    <div className={`${ClassName}`}>
       <Image
         src="/images/spotify_logo.png"
         alt="Spotify Logo"
-        width={100}
-        height={30}
+        width={Width}
+        height={Height}
         objectFit="contain"
       />
     </div>

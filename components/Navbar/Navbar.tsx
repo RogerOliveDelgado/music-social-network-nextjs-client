@@ -10,7 +10,7 @@ function Navbar({}: Props) {
   return (
     <>
       <div className={styles.navbar}>
-        <Logo />
+        <Logo Height={30} Width={100} ClassName={"logoNavbar"} />
         <SearchAppBar />
         <NavbarIcons />
       </div>
