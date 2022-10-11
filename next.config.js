@@ -7,6 +7,7 @@ const nextConfig = {
       'en.wikipedia.org',
       'upload.wikimedia.org',
       'via.placeholder.com',
+      'i.scdn.co',
     ],
   },
   i18n: {

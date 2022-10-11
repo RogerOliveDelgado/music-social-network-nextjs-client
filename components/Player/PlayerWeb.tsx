@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import {
   TracksList,
   Track,
-} from '../../redux/features/player/musicPlayerSlice';
+} from "../../redux/features/player/musicPlayerSlice";
+import Song from "./Song/Song";
+import styles from "./styles.module.css";
 
 const PlayerWeb = () => {
   const router = useRouter();
@@ -27,13 +29,16 @@ const PlayerWeb = () => {
 
   return (
     <>
-      {router.pathname !== '/signup' ? (
-        <AudioPlayer
-          src={tracks[currentTrack]?.src}
-          showSkipControls
-          onClickNext={handleClickNext}
-          onEnded={handleEnd}
-        />
+      {router.pathname !== "/signup" ? (
+        <div className={styles.container}>
+          <Song />
+          <AudioPlayer
+            src={tracks[currentTrack]?.src}
+            showSkipControls
+            onClickNext={handleClickNext}
+            onEnded={handleEnd}
+          />
+        </div>
       ) : null}
     </>
   );
