@@ -38,7 +38,6 @@ const Library = (props: Props) => {
   return (
     <>
       <Layout>
-        <div>
           <Row title="Albums">
             <AlbumCard />
             <AlbumCard />
@@ -49,7 +48,6 @@ const Library = (props: Props) => {
             <AlbumCard />
           </Row>
           <Row title="Artist" />
-        </div>
       </Layout>
     </>
   );

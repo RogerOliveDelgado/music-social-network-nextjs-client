@@ -1,14 +1,13 @@
 .row_container {
   display: flex;
   flex-direction: column;
-  width: min-content;
   width: 100%;
-  max-width: 90vw;
 }
 
 .horizontal_scroll {
   display: flex;
   gap: 1rem;
+  margin-right: 1rem;
   height: 320px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
