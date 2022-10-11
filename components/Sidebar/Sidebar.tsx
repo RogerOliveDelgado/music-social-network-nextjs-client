@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { ButtonProps } from './Button';
 import styles from './styles.module.css';
@@ -20,6 +20,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import en from '../../locales/en';
+import es from '../../locales/es';
+import fr from '../../locales/fr';
 
 const drawerWidth = '15rem';
 
@@ -65,6 +68,13 @@ function Sidebar(props: ButtonProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
+  const { locale } = router;
+  const languages = {
+    en: en,
+    es: es,
+    fr: fr,
+  };
+  const t = languages[locale];
 
   const handleNavigation = (path: string) => {
     if (path !== 'undefined') {
@@ -85,10 +95,10 @@ function Sidebar(props: ButtonProps) {
       <Drawer variant="permanent" open={open}>
         <List>
           {[
-            { text: 'Home', url: '/home' },
-            { text: 'Your library', url: '/library' },
-            { text: 'Create playlist' },
-            { text: 'Liked songs', url: '/favorites' },
+            { text: `${t.home.home}`, url: '/home' },
+            { text: `${t.home.library}`, url: '/library' },
+            { text: `${t.home.playlist}` },
+            { text: `${t.home.liked}`, url: '/favorites' },
           ].map((item, index) => (
             <ListItem
               key={item.text}
