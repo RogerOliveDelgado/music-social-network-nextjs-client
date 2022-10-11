@@ -1,7 +1,7 @@
 .tracks_list {
   height: 70%;
   overflow: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .track_list_row {
