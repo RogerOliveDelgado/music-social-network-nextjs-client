@@ -1,8 +1,9 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Player from '../components/Player/Player';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
+import { I18NProvider } from '../context/i18';
+import '../styles/globals.css';
 
 type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -13,10 +14,12 @@ type ComponentWithPageLayout = AppProps & {
 function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <Provider store={store}>
-      <div className="App">
-        <Component {...pageProps} />
-        <Player />
-      </div>
+      <I18NProvider>
+        <div className="App">
+          <Component {...pageProps} />
+          <Player />
+        </div>
+      </I18NProvider>
     </Provider>
   );
 }

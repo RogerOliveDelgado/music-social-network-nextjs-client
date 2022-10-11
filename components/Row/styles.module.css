@@ -25,3 +25,9 @@
   justify-content: center;
   /* scroll-snap-align: start; */
 }
+
+@media screen and (min-width: 900px) {
+  .row_container {
+    width: 90vw;
+  }
+}

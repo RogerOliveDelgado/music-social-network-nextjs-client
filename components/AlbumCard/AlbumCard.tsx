@@ -1,13 +1,14 @@
 import Image from 'next/image';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 import styles from './styles.module.css';
 
 type Props = {};
 
 const AlbumCard = (props: Props) => {
+  const router = useRouter();
   return (
     <div className={styles.card_container}>
       <div className={styles.card}>
@@ -20,7 +21,7 @@ const AlbumCard = (props: Props) => {
             alt="Album cover"
           />
         </div>
-        <IconButton
+        {/* <IconButton
           className={styles.play_button}
           aria-label="delete"
           size="small"
@@ -33,11 +34,21 @@ const AlbumCard = (props: Props) => {
               fontSize: '3rem',
             }}
           />
-        </IconButton>
+        </IconButton> */}
         <div className={styles.card_content}>
           <div className={styles.card_info}>
-            <p className={styles.album_name}>Album Name Name Name Name</p>
-            <p className={styles.album_artist}>Album Artist</p>
+            <p
+              className={styles.album_name}
+              onClick={() => router.push(`/album/${1}`)}
+            >
+              Album Name Name Name Name
+            </p>
+            <p
+              className={styles.album_artist}
+              onClick={() => router.push(`/artist/${1}`)}
+            >
+              Album Artist
+            </p>
           </div>
         </div>
       </div>
