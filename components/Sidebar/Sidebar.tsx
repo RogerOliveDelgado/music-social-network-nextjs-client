@@ -20,9 +20,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import en from '../../locales/en';
-import es from '../../locales/es';
-import fr from '../../locales/fr';
+import { useI18N } from '../../context/i18';
 
 const drawerWidth = '15rem';
 
@@ -68,13 +66,10 @@ function Sidebar(props: ButtonProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const { locale } = router;
-  const languages = {
-    en: en,
-    es: es,
-    fr: fr,
-  };
-  const t = languages[locale];
+
+  const { t } = useI18N();
+
+  console.log(t('home').home);
 
   const handleNavigation = (path: string) => {
     if (path !== 'undefined') {
@@ -95,10 +90,10 @@ function Sidebar(props: ButtonProps) {
       <Drawer variant="permanent" open={open}>
         <List>
           {[
-            { text: `${t.home.home}`, url: '/home' },
-            { text: `${t.home.library}`, url: '/library' },
-            { text: `${t.home.playlist}` },
-            { text: `${t.home.liked}`, url: '/favorites' },
+            { text: `${t('home').home}`, url: '/home' },
+            { text: `${t('home').library}`, url: '/library' },
+            { text: `${t('home').playlist}` },
+            { text: `${t('home').liked}`, url: '/favorites' },
           ].map((item, index) => (
             <ListItem
               key={item.text}
