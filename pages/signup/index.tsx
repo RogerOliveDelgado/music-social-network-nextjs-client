@@ -6,7 +6,7 @@ import styles from "./styles.module.css";
 
 const SignUp: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
         <title>Sign Up</title>
         <meta name="description" />
@@ -16,7 +16,7 @@ const SignUp: NextPage = () => {
       <div className={styles.main}>
         <SignUpComponents />
       </div>
-    </div>
+    </>
   );
 };
 

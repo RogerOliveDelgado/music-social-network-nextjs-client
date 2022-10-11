@@ -26,3 +26,15 @@
 .hide {
   display: none;
 }
+
+@media only screen and (max-width: 500px) {
+  .inputs {
+    font-size: 1.75rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .inputs {
+    font-size: 1.5rem;
+  }
+}

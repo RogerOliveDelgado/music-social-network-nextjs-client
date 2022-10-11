@@ -4,7 +4,6 @@
   justify-content: space-around;
   padding: 1rem;
   border-bottom: 1px solid #ccc;
-  margin-bottom: 3rem;
 }
 
 .genreDiv {
@@ -32,6 +31,7 @@
 
 .restartGenreButton,
 .submitFormButton {
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,4 +64,14 @@
 
 .no_selected:hover {
   transform: scale(1.25);
+}
+
+@media only screen and (max-width: 700px) {
+  .genreDiv {
+    height: 10rem;
+    width: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
