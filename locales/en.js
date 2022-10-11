@@ -5,4 +5,9 @@ export default {
     playlist: 'Create playlist',
     liked: 'Liked songs',
   },
+  greetings: {
+    morning: 'Good morning',
+    afternoon: 'Good afternoon',
+    night: 'Good evening',
+  },
 };
