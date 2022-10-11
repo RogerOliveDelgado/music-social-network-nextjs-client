@@ -1,4 +1,8 @@
 .player {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background-color: #f1f1f14f;
   z-index: 1000;
 }
