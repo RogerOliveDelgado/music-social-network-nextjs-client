@@ -2,23 +2,38 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-top: 2rem;
 }
 
 .songDiv {
-  width: 10.5rem;
   height: 12rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border-radius: 0.3rem;
   background-color: var(--black);
 }
 
 .imgSongDiv {
+  width: 10.5rem;
   display: flex;
   justify-content: center;
 }
 
 .songName {
   margin-left: 0.9rem;
+}
+
+@media only screen and (max-width: 1440px) {
+  .carousel__songs {
+    overflow-x: auto;
+    justify-content: start;
+  }
+
+  .songDiv {
+    margin-left: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .songDiv:last-child {
+    margin-right: 0.5rem;
+  }
 }

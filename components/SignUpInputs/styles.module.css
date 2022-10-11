@@ -6,6 +6,12 @@
   outline: none;
 }
 
+.form_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .nextButton {
   background-color: transparent;
   color: white;

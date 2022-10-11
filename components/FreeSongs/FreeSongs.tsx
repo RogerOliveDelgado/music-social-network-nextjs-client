@@ -64,7 +64,9 @@ const FreeSongs = (props: Props) => {
       {songsArray.map((song) => (
         <div key={song.id} className={styles.songDiv}>
           <div className={styles.imgSongDiv}>
-            <Image src={song.img} alt={song.name} width={145} height={125} />
+            <picture>
+              <img src={song.img} alt={song.name} />
+            </picture>
           </div>
           <span className={styles.songName}>{song.name}</span>
         </div>

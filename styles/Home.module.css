@@ -1,27 +1,14 @@
-
-
 .indexMain {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-around;
-  align-items: center;
-}
-
-.form_div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .loginWrapper {
-  width: 75rem;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  margin-bottom: 2rem;
 }
 
 .logIn_signUp_Div {
@@ -31,15 +18,9 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 1rem;
   background-color: rgb(250, 250, 250);
   color: black;
   border-radius: 0.5rem;
-}
-
-.separator {
-  width: 97%;
-  border: 1px solid var(--grey);
 }
 
 .googleLogin {
@@ -47,7 +28,7 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: var(--ligthest_blue);
+  background-color: var(--lightest_blue);
   padding: 0.5rem;
   border-radius: 3rem;
 }
@@ -63,7 +44,19 @@
   color: var(--darker_blue);
 }
 
-.mobileImg > span {
+.mobileImg {
   border-radius: 3rem;
 }
 
+@media only screen and (max-width: 700px) {
+  .logIn_signUp_Div {
+    height: 15rem;
+    width: 23rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .logIn_signUp_Div {
+    width: 21rem;
+  }
+}
