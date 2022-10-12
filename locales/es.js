@@ -10,4 +10,9 @@ export default {
     afternoon: 'Buenas tardes',
     night: 'Buenas noches',
   },
+  additional: {
+    albums: 'Álbumes',
+    artists: 'Artistas',
+    search: '¿Qué quieres escuchar?',
+  },
 };

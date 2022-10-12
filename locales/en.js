@@ -10,4 +10,9 @@ export default {
     afternoon: 'Good afternoon',
     night: 'Good evening',
   },
+  additional: {
+    albums: 'Albums',
+    artists: 'Artists',
+    search: 'What do you want to listen to?',
+  },
 };
