@@ -1,8 +1,8 @@
 export default {
   home: {
-    home: 'Home',
+    home: 'Inicio',
     library: 'Tu libreria',
-    playlist: 'Crear playlist',
+    playlist: 'Crear playList',
     liked: 'Canciones favoritas',
   },
   greetings: {
