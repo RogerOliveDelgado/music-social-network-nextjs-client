@@ -6,12 +6,23 @@ import Tooltip from '@mui/material/Tooltip';
 
 import Layout from '../../components/Layout/Layout';
 import TabPanel from '../../components/TabPanel/TabPanel';
-import styles from './styles.module.css';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
+
+import styles from './styles.module.css';
 
 type Props = {};
 
 const ArtistDetails = (props: Props) => {
+  const { query } = useRouter();
+
+  const {
+    data: artist,
+    isLoading,
+    error,
+  } = useGetArtistDetailsQuery(query.artistID);
+  console.log(artist);
   return (
     <>
       <Head>
@@ -24,19 +35,23 @@ const ArtistDetails = (props: Props) => {
           <div className={styles.artist_details}>
             <Image
               className={styles.artist_image}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/BombayBicycleClub.jpg/300px-BombayBicycleClub.jpg"
-              alt={'bombay'}
+              src={artist?.data.image}
+              alt={artist?.data.name}
               width={200}
               height={200}
               layout="fixed"
             />
             <div className={styles.artist_information}>
               <p className={styles.type}>Artist</p>
-              <h1 className={styles.artist_name}>Kings of Leon</h1>
+              <h1 className={styles.artist_name}>{artist?.data.name}</h1>
               <div className={styles.artist_genres}>
-                <p className={styles.genre}>Indie Rock</p>
-                <p className={styles.genre}>Alternative Rock</p>
-                <p className={styles.genre}>Southern Rock</p>
+                {artist?.data.genres.map((genre: string, index: number) => {
+                  return (
+                    <p key={index} className={styles.genre}>
+                      {genre}
+                    </p>
+                  );
+                })}
               </div>
               <Tooltip title="Add the artist to your library.">
                 <Button
@@ -62,7 +77,7 @@ const ArtistDetails = (props: Props) => {
             </div>
           </div>
           <div className={styles.artist_discography_info}>
-            <TabPanel />
+            <TabPanel data={artist?.data.tracks} />
           </div>
         </div>
       </Layout>

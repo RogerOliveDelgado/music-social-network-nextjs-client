@@ -2,13 +2,16 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import styles from './styles.module.css';
 import TrackList from '../../components/TrackList/TrackList';
+import { Track } from '../../interfaces/artistResponse';
 
-interface TabPanelProps {}
+interface TabPanelProps {
+  data: Track[];
+}
 interface TabsInterface {
   [tab: string]: boolean;
 }
 
-const TabPanel = (props: TabPanelProps) => {
+const TabPanel = ({ data }: TabPanelProps) => {
   const [tabs, setTabs] = useState<TabsInterface>({
     general: true,
   });
@@ -51,12 +54,12 @@ const TabPanel = (props: TabPanelProps) => {
       <div className={styles.tabs_content}>
         {tabs?.general && (
           <div className={styles.trackList_container}>
-            <TrackList name="General Tracks Artist Details" />
+            <TrackList name={`Top Tracks`} tracks={data} />
           </div>
         )}
         {tabs?.tracks && (
           <div className={styles.trackList_container}>
-            <TrackList name="All Tracks Artist Details" />
+            {/* <TrackList name="All Tracks Artist Details" /> */}
           </div>
         )}
         {tabs?.albums && <p>Aqui va la Grid de Albums</p>}
