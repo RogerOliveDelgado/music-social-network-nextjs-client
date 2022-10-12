@@ -20,7 +20,6 @@ const PlayerWeb = () => {
   };
 
   const handleEnd = () => {
-    console.log('end');
     setTrackIndex((currentTrack) =>
       currentTrack < tracks.length - 1 ? currentTrack + 1 : 0
     );
