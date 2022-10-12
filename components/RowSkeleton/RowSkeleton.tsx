@@ -8,11 +8,13 @@ const RowSkeleton = (props: Props) => {
   return (
     <div className={styles.skeleton_container}>
       <Row>
-        <CardSkeleton width={175} height={155} />
-        <CardSkeleton width={175} height={155} />
-        <CardSkeleton width={175} height={155} />
-        <CardSkeleton width={175} height={155} />
-        <CardSkeleton width={175} height={155} />
+        {Array.from(Array(10).keys()).map((item, index) => {
+          return (
+            <div key={index}>
+              <CardSkeleton width={175} height={155} />
+            </div>
+          );
+        })}
       </Row>
     </div>
   );

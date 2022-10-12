@@ -18,6 +18,10 @@
   height: 7rem;
 }
 
+.card_image_artist span {
+  border-radius: 50%;
+}
+
 .card {
   display: flex;
   flex-direction: column;
