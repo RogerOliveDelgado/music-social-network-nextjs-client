@@ -7,13 +7,25 @@ import styles from './styles.module.css';
 
 type Props = {};
 
-const AlbumCard = ({ album }: any) => {
-  const { _id, title, image } = album;
+const AlbumCard = ({ item }: any) => {
+  const { _id, title, image, name } = item;
+
   const router = useRouter();
+
+  const handleNavigation = () => {
+    if (name) {
+      router.push(`/artist/${_id}`);
+    } else {
+      router.push(`/album/${_id}`);
+    }
+  };
+
   return (
     <div className={styles.card_container}>
       <div className={styles.card}>
-        <div className={styles.card_image}>
+        <div
+          className={`${styles.card_image} ${name && styles.card_image_artist}`}
+        >
           <Image
             src={image}
             height={24}
@@ -38,18 +50,15 @@ const AlbumCard = ({ album }: any) => {
         </IconButton> */}
         <div className={styles.card_content}>
           <div className={styles.card_info}>
-            <p
-              className={styles.album_name}
-              onClick={() => router.push(`/album/${1}`)}
-            >
-              {title}
+            <p className={styles.album_name} onClick={handleNavigation}>
+              {name ? name : title}
             </p>
-            <p
+            {/* <p
               className={styles.album_artist}
               onClick={() => router.push(`/artist/${1}`)}
             >
               Album Artist
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
