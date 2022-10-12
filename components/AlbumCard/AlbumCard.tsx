@@ -7,17 +7,18 @@ import styles from './styles.module.css';
 
 type Props = {};
 
-const AlbumCard = (props: Props) => {
+const AlbumCard = ({ album }: any) => {
+  const { _id, title, image } = album;
   const router = useRouter();
   return (
     <div className={styles.card_container}>
       <div className={styles.card}>
         <div className={styles.card_image}>
           <Image
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e3/BombayBicycleClub.jpg"
-            height={170}
-            width={200}
-            objectFit="cover"
+            src={image}
+            height={24}
+            width={24}
+            layout="responsive"
             alt="Album cover"
           />
         </div>
@@ -41,7 +42,7 @@ const AlbumCard = (props: Props) => {
               className={styles.album_name}
               onClick={() => router.push(`/album/${1}`)}
             >
-              Album Name Name Name Name
+              {title}
             </p>
             <p
               className={styles.album_artist}

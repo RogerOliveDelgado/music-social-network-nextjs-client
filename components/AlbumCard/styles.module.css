@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 15rem;
-  width: 11rem;
+  height: 240px;
+  width: 175px;
   border-radius: 10px;
   padding: 0.7rem;
   background: #1b1d1f;
@@ -11,6 +11,11 @@
 .card_container:hover {
   background: #2b2d2f;
   cursor: pointer;
+}
+
+.card_image {
+  width: 10rem;
+  height: 7rem;
 }
 
 .card {
@@ -29,6 +34,7 @@
   display: flex;
   flex: 1;
   position: relative;
+  align-items: flex-end;
 }
 
 .card_info {
