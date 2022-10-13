@@ -1,0 +1,54 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  max-width: 30%;
+  min-width: 30%;
+  height: 100%;
+  max-height: min-content;
+}
+
+.image_container {
+  margin: 1rem;
+}
+
+.song_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 70%;
+  max-width: 70%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.song_container > span:first-child {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.rotate {
+  animation: moving 5s linear alternate infinite;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 1rem;
+  cursor: pointer;
+}
+
+@keyframes moving {
+  from {
+    transform: translateX(15px);
+  }
+
+  to {
+    transform: translateX(-250px);
+  }
+}

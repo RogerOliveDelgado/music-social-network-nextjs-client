@@ -45,6 +45,8 @@ body {
 /*Player */
 .rhap_container {
   background-color: var(--black) !important;
+  box-shadow: none;
+  width: 70% !important;
   /* width: 100%;
   height: 100%; */
 }
