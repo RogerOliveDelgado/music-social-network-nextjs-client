@@ -1,10 +1,5 @@
-import React, { useState } from "react";
-
-import { motion } from "framer-motion";
-import MusicPreferences from "../MusicPreferences/MusicPreferences";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
-import styles from "./styles.module.css";
+import { useState } from "react";
+import SignUpInputs from "./SignUpInputs";
 
 type Props = {};
 
@@ -45,89 +40,24 @@ const SignUpComponents = (props: Props) => {
 
     if (username.length !== 0 && email.length !== 0 && password.length !== 0) {
       return setSignUpCompleted(true);
+    } else {
+      return setSignUpCompleted(false);
     }
   };
 
   return (
-    <div className={styles.formStyles}>
-      <div
-        className={signUpCompleted ? `${styles.hide}` : `${styles.no_hide} `}
-      >
-        <motion.div
-          className={
-            hideUserNameInput
-              ? `${styles.hide} `
-              : `${styles.no_hide} ${styles.form_div}`
-          }
-        >
-          <input
-            type="text"
-            onChange={(e) => {
-              getUserName(e);
-            }}
-            placeholder="Introduce your username"
-            className={styles.inputs}
-          />
-          <button
-            onClick={(e) => {
-              changeInputUserName(e);
-            }}
-            className={styles.nextButton}
-          >
-            <ArrowForwardIosIcon />
-          </button>
-        </motion.div>
-        <motion.div
-          className={
-            !hideEmailInput
-              ? `${styles.no_hide} ${styles.form_div}`
-              : `${styles.hide}`
-          }
-        >
-          <input
-            type="email"
-            onChange={(e) => {
-              getEmail(e);
-            }}
-            placeholder="Introduce your email"
-            className={styles.inputs}
-          />
-          <button
-            onClick={(e) => {
-              changeInputEmail(e);
-            }}
-            className={styles.nextButton}
-          >
-            <ArrowForwardIosIcon />
-          </button>
-        </motion.div>
-        <motion.div
-          className={
-            !hidePasswordInput
-              ? `${styles.no_hide} ${styles.form_div}`
-              : `${styles.hide}`
-          }
-        >
-          <input
-            type="password"
-            onChange={(e) => {
-              getPassword(e);
-            }}
-            placeholder="Introduce your password"
-            className={styles.inputs}
-          />
-          <button
-            onClick={(e) => {
-              changeInputPassword(e);
-            }}
-            className={styles.nextButton}
-          >
-            <ArrowForwardIosIcon />
-          </button>
-        </motion.div>
-      </div>
-      <MusicPreferences signUpCompleted={signUpCompleted} />
-    </div>
+    <SignUpInputs
+      hideUserNameInput={hideUserNameInput}
+      hideEmailInput={hideEmailInput}
+      hidePasswordInput={hidePasswordInput}
+      signUpCompleted={signUpCompleted}
+      getUserName={getUserName}
+      getEmail={getEmail}
+      getPassword={getPassword}
+      changeInputUserName={changeInputUserName}
+      changeInputEmail={changeInputEmail}
+      changeInputPassword={changeInputPassword}
+    />
   );
 };
 

@@ -44,7 +44,7 @@ const MusicPreferences = ({ signUpCompleted }: Props) => {
   return (
     <>
       {signUpCompleted === true && (
-        <>
+        <div className={styles.divGenre}>
           <div className={styles.genresDiv}>
             {musicGenre.map((genre) => {
               return (
@@ -79,7 +79,7 @@ const MusicPreferences = ({ signUpCompleted }: Props) => {
               <CheckIcon sx={{ color: "green" }} /> Confirm
             </button>
           </div>
-        </>
+        </div>
       )}
     </>
   );

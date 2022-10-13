@@ -1,3 +1,7 @@
+.divGenre {
+  height: 100%;
+}
+
 .genresDiv {
   display: flex;
   flex-wrap: wrap;

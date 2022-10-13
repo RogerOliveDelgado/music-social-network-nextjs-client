@@ -21,17 +21,13 @@
 
 .no_hide {
   height: 100%;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .hide {
   display: none;
-}
-
-.formStyles {
-  height: 100%;
 }
 
 @media only screen and (max-width: 500px) {
