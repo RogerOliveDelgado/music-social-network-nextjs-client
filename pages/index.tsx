@@ -17,7 +17,6 @@ import { Response } from "../interfaces/tracks";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch("http://localhost:4002/track");
-
   const result = await response.json();
   return {
     props: result,
