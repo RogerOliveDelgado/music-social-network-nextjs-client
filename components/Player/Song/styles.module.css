@@ -4,8 +4,6 @@
   justify-content: center;
   align-items: center;
   width: 30%;
-  max-width: 30%;
-  min-width: 30%;
   height: 100%;
   max-height: min-content;
 }
@@ -50,5 +48,17 @@
 
   to {
     transform: translateX(-250px);
+  }
+}
+
+@media (max-width: 1224px) {
+  .wrapper {
+    width: 60%;
+  }
+}
+
+@media (max-width: 790px) {
+  .wrapper {
+    width: 80%;
   }
 }

@@ -3,6 +3,7 @@
   background-color: var(--black);
   border: none;
   width: 100%;
+  max-height: fit-content;
 }
 
 .player {
@@ -13,3 +14,4 @@
   background-color: #f1f1f14f;
   z-index: 1000;
 }
+
