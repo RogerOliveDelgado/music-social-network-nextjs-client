@@ -1,9 +1,14 @@
 import Image from "next/image";
 import React from "react";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 import styles from "./styles.module.css";
 
-type Props = {};
+import { Data } from "../../interfaces/tracks";
+
+type Props = {
+  tracks: Data[];
+};
 
 const songsArray = [
   {
@@ -58,19 +63,28 @@ const songsArray = [
   },
 ];
 
-const FreeSongs = (props: Props) => {
+const FreeSongs = ({ tracks }: Props) => {
   return (
     <div className={styles.carousel__songs}>
-      {songsArray.map((song) => (
-        <div key={song.id} className={styles.songDiv}>
-          <div className={styles.imgSongDiv}>
-            <picture>
-              <img src={song.img} alt={song.name} />
-            </picture>
-          </div>
-          <span className={styles.songName}>{song.name}</span>
-        </div>
-      ))}
+      {tracks.map(
+        (track, index) =>
+          index < 10 && (
+            <div key={track._id} className={styles.songDiv}>
+              <div className={styles.imgSongDiv}>
+                <Image
+                  src={track.album.image}
+                  alt={track.title}
+                  width={125}
+                  height={125}
+                />
+              </div>
+              <span className={styles.songName}>{track.title}</span>
+              <button className={styles.playButton}>
+                <PlayCircleIcon sx={{ fontSize: "2rem" }} />
+              </button>
+            </div>
+          )
+      )}
     </div>
   );
 };

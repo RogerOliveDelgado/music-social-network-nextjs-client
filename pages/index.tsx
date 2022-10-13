@@ -1,18 +1,30 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+
+import { GetServerSideProps } from "next";
+
 import styles from "../styles/Home.module.css";
 
 import LoginInputs from "../components/LoginInputs/LoginInputs";
 
 import GoogleIcon from "@mui/icons-material/Google";
 import Link from "next/link";
-import DemoAppComponent from "../components/DemoApp/DemoAppComponent";
 
 import FreeSongs from "../components/FreeSongs/FreeSongs";
 import Logo from "../components/Logo/Logo";
 
-const Home: NextPage = () => {
+import { Response } from "../interfaces/tracks";
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await fetch("http://localhost:4002/track");
+
+  const result = await response.json();
+  return {
+    props: result,
+  };
+};
+
+const Home = ({ data }: Response) => {
   return (
     <>
       <Head>
@@ -42,7 +54,7 @@ const Home: NextPage = () => {
             </section>
           </div>
         </section>
-        <FreeSongs />
+        <FreeSongs tracks={data} />
       </main>
     </>
   );
