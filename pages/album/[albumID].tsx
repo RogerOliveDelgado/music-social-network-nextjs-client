@@ -10,10 +10,20 @@ import Layout from '../../components/Layout/Layout';
 import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
 import Head from 'next/head';
+import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
 
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
+  const id = '1atjqOZTCdrjxjMyCPZc2g';
+  const {
+    data: album,
+    isLoading,
+    error,
+    isFetching,
+  } = useGetAlbumDetailsQuery(id);
+
+  console.log(album);
   return (
     <>
       <Head>
