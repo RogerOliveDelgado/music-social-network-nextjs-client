@@ -13,17 +13,25 @@ import Link from "next/link";
 import FreeSongs from "../components/FreeSongs/FreeSongs";
 import Logo from "../components/Logo/Logo";
 
-import { Response } from "../interfaces/tracks";
+import { Data } from "../interfaces/tracks";
+
+interface parsedTracks {
+  parsedTracks: Data[];
+}
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch("http://localhost:4002/track");
   const result = await response.json();
+
+  //This is necessary. What it does is that Next does not render all the tracks, but only the first 10 tracks so that the app is not so heavy.
+  const parsedTracks = result.data.slice(0, 10).map((track: Data) => track);
+
   return {
-    props: result,
+    props: { parsedTracks },
   };
 };
 
-const Home = ({ data }: Response) => {
+const Home = ({ parsedTracks }: parsedTracks) => {
   return (
     <>
       <Head>
@@ -53,7 +61,7 @@ const Home = ({ data }: Response) => {
             </section>
           </div>
         </section>
-        <FreeSongs tracks={data} />
+        <FreeSongs tracks={parsedTracks} />
       </main>
     </>
   );
