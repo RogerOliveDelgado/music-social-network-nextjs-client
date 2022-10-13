@@ -4,27 +4,26 @@ import IconButton from '@mui/material/IconButton';
 import AlbumIcon from '@mui/icons-material/Album';
 import { Track } from '../../interfaces/artistResponse';
 import { millisToMinutes } from '../../utils/converter';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  TracksList,
+  updateTrackList,
+} from '../../redux/features/player/musicPlayerSlice';
 
 import styles from './styles.module.css';
+import { AnyAction } from '@reduxjs/toolkit';
 type Props = {
   name: string;
   tracks: Track[];
 };
 
 const TrackList = ({ name, tracks }: Props) => {
-  console.log(tracks);
-  const fakeList = [
-    'Track 1',
-    'Track 2',
-    'Track 3',
-    'Track 4',
-    'Track 5',
-    'Track 6',
-    'Track 7',
-    'Track 8',
-    'Track 9',
-    'Track 10',
-  ];
+  const dispatch = useDispatch();
+  const playerTracks = useSelector((state: TracksList) => state.tracks);
+
+  const updatePlayer = (): AnyAction => {
+    return dispatch(updateTrackList(tracks));
+  };
 
   return (
     <div>
@@ -35,7 +34,11 @@ const TrackList = ({ name, tracks }: Props) => {
       <div className={styles.tracks_list}>
         {tracks?.map((track, index) => {
           return (
-            <div key={index} className={styles.track_list_row}>
+            <div
+              key={index}
+              className={styles.track_list_row}
+              onClick={updatePlayer}
+            >
               <div className={styles.track_info}>
                 <p>{index + 1}</p>
                 <p className={styles.track_name}>{track.title}</p>

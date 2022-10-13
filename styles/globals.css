@@ -46,7 +46,7 @@ body {
 .rhap_container {
   background-color: var(--black) !important;
   box-shadow: none;
-  width: 100% !important;
+  width: 100%;
 }
 
 .rhap_main-controls-button,
@@ -108,7 +108,7 @@ body {
 
 @media (max-width: 1224px) {
   .rhap_container {
-    width: 100% !important;
+    width: 100%;
   }
 
   .rhap_volume-container {
@@ -121,7 +121,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20% !important;
   }
 
   .rhap_progress-section {
@@ -134,5 +133,12 @@ body {
 
   .rhap_volume-container {
     display: none;
+  }
+}
+
+@media (max-width: 735px) {
+  .rhap_container {
+    width: 15%;
+    align-items: flex-end;
   }
 }

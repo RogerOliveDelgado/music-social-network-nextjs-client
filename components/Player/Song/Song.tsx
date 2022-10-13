@@ -3,9 +3,15 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Image from "next/image";
 import styles from "./styles.module.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 function Song() {
-  
+  const { currentTrack } = useSelector(
+    (state: RootState) => state.currentTrack
+  );
+  const store = useSelector((state: RootState) => state);
+
   if (typeof window !== "undefined") {
     const titleSong = document.getElementById("title_song");
     const titleSongWidth = titleSong?.offsetWidth;
@@ -34,12 +40,12 @@ function Song() {
         <Image
           src="https://i.scdn.co/image/ab67616d00004851f4483d4440a89a2cab3b5141"
           alt="Picture of the author"
-          width={100}
-          height={100}
+          width="52px"
+          height="52px"
         />
       </div>
       <div className={styles.song_container}>
-        <span id="title_song">Title long example title long example title long example</span>
+        <span id="title_song">{currentTrack?.title}</span>
         <span id="artist_song">Artist</span>
       </div>
       <div className={styles.icons}>

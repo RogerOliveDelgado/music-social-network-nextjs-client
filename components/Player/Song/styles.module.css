@@ -59,6 +59,28 @@
 
 @media (max-width: 790px) {
   .wrapper {
+    justify-content: start;
     width: 80%;
   }
+
+  .icons {
+    display: none;
+  }
+
+  /* .song_container{
+    width: 100%;
+    max-width: 100%;
+  } */
+}
+
+@media (max-width: 735px) {
+  .wrapper {
+    justify-content: start;
+    width: 85%;
+  }
+
+  /* .song_container {
+    width: 78%;
+    max-width: 78%;
+  } */
 }

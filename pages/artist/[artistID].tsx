@@ -22,7 +22,7 @@ const ArtistDetails = (props: Props) => {
     isLoading,
     error,
   } = useGetArtistDetailsQuery(query.artistID);
-  console.log(artist);
+
   return (
     <>
       <Head>
