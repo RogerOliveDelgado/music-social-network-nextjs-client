@@ -83,13 +83,6 @@ const PlayerWeb = () => {
               showFilledVolume={false}
             />
           )}
-
-          <AudioPlayer
-            src={tracks[currentTrack]?.trackAudio}
-            showSkipControls
-            onClickNext={handleClickNext}
-            onEnded={handleEnd}
-          />
         </div>
       ) : null}
     </>
