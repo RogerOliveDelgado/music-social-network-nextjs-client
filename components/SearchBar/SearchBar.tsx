@@ -1,7 +1,9 @@
-import * as React from "react";
-import styles from "./styles.module.css";
+import * as React from 'react';
+import { useI18N } from '../../context/i18';
+import styles from './styles.module.css';
 
 export default function SearchAppBar() {
+  const { t } = useI18N();
   return (
     <div className={styles.searchbar}>
       <div className={styles.searchbar_wrapper}>
@@ -27,7 +29,7 @@ export default function SearchAppBar() {
             role="combobox"
             aria-controls="search-suggestions"
             aria-expanded="false"
-            placeholder="Search for songs, artists..."
+            placeholder={t('additional').search}
           />
         </div>
 

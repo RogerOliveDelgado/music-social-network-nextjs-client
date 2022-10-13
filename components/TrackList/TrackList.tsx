@@ -2,12 +2,17 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
 import AlbumIcon from '@mui/icons-material/Album';
+import { Track } from '../../interfaces/artistResponse';
+import { millisToMinutes } from '../../utils/converter';
+
 import styles from './styles.module.css';
 type Props = {
   name: string;
+  tracks: Track[];
 };
 
-const TrackList = (props: Props) => {
+const TrackList = ({ name, tracks }: Props) => {
+  console.log(tracks);
   const fakeList = [
     'Track 1',
     'Track 2',
@@ -25,15 +30,15 @@ const TrackList = (props: Props) => {
     <div>
       <div className={styles.track_list_header}>
         <AlbumIcon />
-        <p>{props.name || 'Album name'}</p>
+        <p>{name || 'Album name'}</p>
       </div>
       <div className={styles.tracks_list}>
-        {fakeList.map((track, index) => {
+        {tracks?.map((track, index) => {
           return (
             <div key={index} className={styles.track_list_row}>
               <div className={styles.track_info}>
                 <p>{index + 1}</p>
-                <p className={styles.track_name}>{track}</p>
+                <p className={styles.track_name}>{track.title}</p>
               </div>
               <div className={styles.buttons_container}>
                 <IconButton color="inherit" component="label">
@@ -44,7 +49,9 @@ const TrackList = (props: Props) => {
                   <input hidden />
                   <FavoriteBorderIcon />
                 </IconButton>
-                <p className={styles.track_duration}>12:67</p>
+                <p className={styles.track_duration}>
+                  {millisToMinutes(track.duration)}
+                </p>
               </div>
             </div>
           );
