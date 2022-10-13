@@ -1,27 +1,27 @@
-import dynamic from 'next/dynamic';
-import { useMediaQuery } from 'react-responsive';
-import 'react-h5-audio-player/lib/styles.css';
-import { TracksList } from '../../redux/features/player/musicPlayerSlice';
+import dynamic from "next/dynamic";
+import { useMediaQuery } from "react-responsive";
+import "react-h5-audio-player/lib/styles.css";
+import { TracksList } from "../../redux/features/player/musicPlayerSlice";
 
-import React, { createRef, useEffect, useRef, useState } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
-import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { currentTrack as setCurrentTrack } from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
+import React, { createRef, useEffect, useRef, useState } from "react";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { currentTrack as setCurrentTrack } from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
 
-import Song from './Song/Song';
-import styles from './styles.module.css';
+import Song from "./Song/Song";
+import styles from "./styles.module.css";
 
 const PlayerWeb = () => {
-  const AudioPlayer = dynamic(() => import('react-h5-audio-player'), {
+  const AudioPlayer = dynamic(() => import("react-h5-audio-player"), {
     ssr: false,
   });
 
   const router = useRouter();
   const isLargeScreen = useMediaQuery({
-    query: '(min-width: 790px)',
+    query: "(min-width: 735px)",
   });
 
   const dispatch = useDispatch();
@@ -60,11 +60,12 @@ const PlayerWeb = () => {
 
   return (
     <>
-      {router.pathname !== '/signup' ? (
+      {router.pathname !== "/signup" ? (
         <div className={styles.container}>
           <Song />
           {isLargeScreen && (
             <AudioPlayer
+              layout="stacked-reverse"
               src={tracks[currentTrack]?.trackAudio}
               showSkipControls
               onClickNext={handleClickNext}
@@ -73,6 +74,7 @@ const PlayerWeb = () => {
           )}
           {!isLargeScreen && (
             <AudioPlayer
+              layout="stacked-reverse"
               src={tracks[currentTrack]?.trackAudio}
               onClickNext={handleClickNext}
               onEnded={handleEnd}
