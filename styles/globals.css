@@ -107,3 +107,24 @@ body {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+@media (max-width: 1224px) {
+  .rhap_progress-section {
+    display: none;
+  }
+
+  .rhap_additional-controls {
+    display: none;
+  }
+
+  .rhap_volume-container {
+    display: none;
+  }
+
+  .rhap_container {
+    display: flex;
+    width: 10% !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
