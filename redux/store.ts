@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { trackListSlice } from './features/player/musicPlayerSlice';
+import { currentTrackSlice } from './features/player/currentTracks';
 
 import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
 import { albumAPI } from './albumAPI';
@@ -8,6 +9,7 @@ import { artistAPI } from './artistAPI';
 export const store = configureStore({
   reducer: {
     tracks: trackListSlice.reducer,
+    currentTrack: currentTrackSlice.reducer,
     [albumAPI.reducerPath]: albumAPI.reducer,
     [artistAPI.reducerPath]: artistAPI.reducer,
   },

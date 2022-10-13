@@ -1,13 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-
-export interface Track {
-  id: number;
-  title: string;
-  artist: string;
-  src: string;
-}
+import { Track } from '../../../interfaces/artistResponse';
 
 export interface TracksList {
   tracks: Array<Track>;
@@ -16,10 +10,15 @@ export interface TracksList {
 const initialState = {
   tracks: [
     {
-      id: 0,
+      _id: '',
       title: '',
-      artist: '',
-      src: '',
+      duration: 0,
+      trackNumber: 1,
+      trackAudio: '',
+      album: '',
+      createdAt: '',
+      updatedAt: '',
+      __v: 0,
     },
   ],
 } as TracksList;
