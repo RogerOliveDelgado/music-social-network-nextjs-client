@@ -5,18 +5,26 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 
 function Song() {
+  
   if (typeof window !== "undefined") {
     const titleSong = document.getElementById("title_song");
-    const titleSongLength = titleSong?.textContent?.length;
+    const titleSongWidth = titleSong?.offsetWidth;
     const artistSong = document.getElementById("artist_song");
-    const artistSongLength = artistSong?.textContent?.length;
+    const artistSongWidth = artistSong?.offsetWidth;
 
-    if (titleSongLength !== undefined && titleSongLength > 30) {
-      titleSong?.classList.add(`${styles.rotate}`);
+    if (titleSongWidth !== undefined && titleSong?.scrollWidth !== undefined) {
+      if (titleSongWidth < titleSong?.scrollWidth) {
+        titleSong.classList.add(styles.rotate);
+      }
     }
 
-    if (artistSongLength !== undefined && artistSongLength > 30) {
-      artistSong?.classList.add(`${styles.rotate}`);
+    if (
+      artistSongWidth !== undefined &&
+      artistSong?.scrollWidth !== undefined
+    ) {
+      if (artistSongWidth < artistSong?.scrollWidth) {
+        artistSong.classList.add(styles.rotate);
+      }
     }
   }
 
@@ -31,10 +39,8 @@ function Song() {
         />
       </div>
       <div className={styles.song_container}>
-        <span id="title_song">
-          Title long song example title long song example{" "}
-        </span>
-        <span id="artist_song">Artist </span>
+        <span id="title_song">Title long example title long example title long example</span>
+        <span id="artist_song">Artist</span>
       </div>
       <div className={styles.icons}>
         <FavoriteIcon />

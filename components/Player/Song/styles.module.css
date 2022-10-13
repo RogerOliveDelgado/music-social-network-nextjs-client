@@ -45,22 +45,10 @@
 
 @keyframes moving {
   from {
-    transform: translateX(10px);
+    transform: translateX(15px);
   }
-
-  /* 25% {
-    transform: translateX(-30px);
-  }
-
-  50% {
-    transform: translateX(-80px);
-  }
-
-  75% {
-    transform: translateX(-120px);
-  } */
 
   to {
-    transform: translateX(-150px);
+    transform: translateX(-250px);
   }
 }
