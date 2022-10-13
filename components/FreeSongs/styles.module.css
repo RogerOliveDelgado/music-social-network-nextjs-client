@@ -1,7 +1,8 @@
 .carousel__songs {
-  width: 100%;
+  width: 100% !important;
   display: flex;
-  justify-content: space-around;
+  overflow-x: auto;
+  justify-content: space-between;
 }
 
 .songDiv {
@@ -12,6 +13,16 @@
   align-items: center;
   border-radius: 0.3rem;
   background-color: var(--black);
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.songDiv:first-child {
+  margin-left: .5rem;
+}
+
+.songDiv:last-child {
+  margin-right: .5rem;
 }
 
 .imgSongDiv {
@@ -39,17 +50,3 @@
   z-index: 0;
 }
 
-@media only screen and (max-width: 1440px) {
-  .carousel__songs {
-    overflow-x: auto;
-    justify-content: start;
-  }
-
-  .songDiv {
-    margin-left: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .songDiv:last-child {
-    margin-right: 0.5rem;
-  }
-}
