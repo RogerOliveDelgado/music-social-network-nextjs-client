@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import IconButton from '@mui/material/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { useRouter } from 'next/router';
+import Image from "next/image";
+import IconButton from "@mui/material/IconButton";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useRouter } from "next/router";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 type Props = {};
 
@@ -21,7 +21,7 @@ const AlbumCard = ({ item }: any) => {
   };
 
   return (
-    <div className={styles.card_container}>
+    <div className={styles.card_container} onClick={handleNavigation}>
       <div className={styles.card}>
         <div
           className={`${styles.card_image} ${name && styles.card_image_artist}`}
@@ -50,9 +50,7 @@ const AlbumCard = ({ item }: any) => {
         </IconButton> */}
         <div className={styles.card_content}>
           <div className={styles.card_info}>
-            <p className={styles.album_name} onClick={handleNavigation}>
-              {name ? name : title}
-            </p>
+            <p className={styles.album_name}>{name ? name : title}</p>
             {/* <p
               className={styles.album_artist}
               onClick={() => router.push(`/artist/${1}`)}
