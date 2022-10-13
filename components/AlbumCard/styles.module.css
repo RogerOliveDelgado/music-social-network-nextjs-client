@@ -127,4 +127,8 @@
   .album_artist {
     font-size: 0.7rem;
   }
+  .card_image {
+    width: 6rem;
+    height: 5rem;
+  }
 }
