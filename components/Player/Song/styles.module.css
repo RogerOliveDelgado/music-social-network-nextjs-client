@@ -51,7 +51,7 @@
   }
 
   to {
-    transform: translateX(-250px);
+    transform: translateX(-120px);
   }
 }
 
@@ -71,10 +71,6 @@
     display: none;
   }
 
-  /* .song_container{
-    width: 100%;
-    max-width: 100%;
-  } */
 }
 
 @media (max-width: 735px) {
@@ -82,9 +78,4 @@
     justify-content: start;
     width: 85%;
   }
-
-  /* .song_container {
-    width: 78%;
-    max-width: 78%;
-  } */
 }
