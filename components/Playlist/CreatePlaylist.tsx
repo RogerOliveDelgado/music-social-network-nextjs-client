@@ -7,21 +7,22 @@ function CreatePlaylist() {
   const [hover, setHover] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [playlistName, setPlaylistName] = useState("My playlist");
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.image_container}>
-          {image !== null ? (
+          {image !== null && image !== undefined ? (
             <img
               className={styles.image_container}
-              src={URL.createObjectURL(image)}
+              src={URL.createObjectURL(new Blob([image]))}
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
             />
           ) : hover ? (
             <EditIcon className={styles.edit_icon} />
           ) : (
-            <MusicNoteIcon className={styles.image_container} />
+            <MusicNoteIcon />
           )}
           <label
             onMouseOver={() => setHover(true)}
