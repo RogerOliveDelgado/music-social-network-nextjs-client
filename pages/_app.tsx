@@ -3,8 +3,8 @@ import Player from "../components/Player/Player";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { I18NProvider } from "../context/i18";
+import { CookiesProvider } from "react-cookie";
 import "../styles/globals.css";
-import { AuthContextProvider } from "../context/AuthContext";
 
 type ComponentWithPageLayout = AppProps & {
   Component: AppProps["Component"] & {
@@ -14,7 +14,7 @@ type ComponentWithPageLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
-    <AuthContextProvider>
+    <CookiesProvider>
       <Provider store={store}>
         <I18NProvider>
           <div className="App">
@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
           </div>
         </I18NProvider>
       </Provider>
-    </AuthContextProvider>
+    </CookiesProvider>
   );
 }
 

@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import Rating from "@mui/material/Rating";
 import InterpreterModeIcon from "@mui/icons-material/InterpreterMode";
@@ -18,10 +19,6 @@ import { useRouter } from "next/router";
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
-  const router = useRouter();
-
-  const { isAuthenticated } = useAuthContext();
-
   const id = "1atjqOZTCdrjxjMyCPZc2g";
   const {
     data: album,
@@ -30,9 +27,7 @@ const AlbumDetails = (props: Props) => {
     isFetching,
   } = useGetAlbumDetailsQuery(id);
 
-  isAuthenticated === null ? (
-    router.push("/")
-  ) : (
+  return (
     <>
       <Head>
         <title>Album Details</title>

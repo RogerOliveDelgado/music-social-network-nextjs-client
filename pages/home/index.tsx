@@ -1,3 +1,5 @@
+import React from "react";
+
 import Layout from "../../components/Layout/Layout";
 import Row from "../../components/Row/Row";
 import { getGreetings } from "../../utils/getGreetings";
@@ -5,8 +7,6 @@ import { useGetAlbumsQuery } from "../../redux/albumAPI";
 import { useGetArtistsQuery } from "../../redux/artistAPI";
 import RowSkeleton from "../../components/RowSkeleton/RowSkeleton";
 import { useI18N } from "../../context/i18";
-import { useAuthContext } from "../../context/AuthContext";
-import { useRouter } from "next/router";
 
 import styles from "./styles.module.css";
 import Head from "next/head";
@@ -14,10 +14,6 @@ import Head from "next/head";
 type Props = {};
 
 const Home = (props: Props) => {
-  const router = useRouter();
-
-  const { isAuthenticated } = useAuthContext();
-
   const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined);
   const {
     data: artists,
@@ -26,9 +22,7 @@ const Home = (props: Props) => {
   } = useGetArtistsQuery(undefined);
   const { t } = useI18N();
 
-  isAuthenticated === null ? (
-    router.push("/")
-  ) : (
+  return (
     <>
       <Head>
         <title>{t("home").home}</title>
