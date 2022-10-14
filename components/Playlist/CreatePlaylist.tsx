@@ -16,7 +16,10 @@ function CreatePlaylist() {
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-  const [playlistName, setPlaylistName] = useState("My playlist");
+  const [playlistName, setPlaylistName] = useState("");
+  const [name, setName] = useState("My playlist");
+  const [playlistDescription, setPlaylistDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const [open, setOpen] = React.useState(false);
 
@@ -28,9 +31,10 @@ function CreatePlaylist() {
     setOpen(false);
   };
 
-  const handleSaveChanges = (playlistName: string) => {
+  const handleSaveChanges = () => {
     setOpen(false);
-    setPlaylistName(playlistName);
+    setName(playlistName);
+    setDescription(playlistDescription);
   };
 
   console.log(playlistName);
@@ -61,8 +65,9 @@ function CreatePlaylist() {
           </span>
         </div>
         <div className={styles.playlist_info}>
-          <span className={styles.playlist_name}>{playlistName}</span>
-          <span>julito23</span>
+          <span className={styles.playlist_name}>{name}</span>
+          <span>{description}</span>
+          <span>User name</span>
         </div>
       </div>
       <Dialog open={open} onClose={handleClose}>
@@ -110,9 +115,6 @@ function CreatePlaylist() {
             </div>
             <div className={styles.modal_data}>
               <TextField
-                sx={{
-                  color: "white",
-                }}
                 autoFocus
                 margin="dense"
                 id="name"
@@ -120,6 +122,7 @@ function CreatePlaylist() {
                 type="text"
                 fullWidth
                 variant="standard"
+                onChange={(e) => setPlaylistName(e.target.value)}
               />
               <TextareaAutosize
                 aria-label="minimum height"
@@ -127,16 +130,17 @@ function CreatePlaylist() {
                 placeholder="Add an optional description"
                 style={{
                   width: 200,
+                  height: 100,
                   backgroundColor: "#585c63",
+                  color: "white",
                 }}
+                onChange={(e) => setPlaylistDescription(e.target.value)}
               />
             </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={() => handleSaveChanges(playlistName)}>
-              Save Changes
-            </Button>
+            <Button onClick={() => handleSaveChanges()}>Save Changes</Button>
           </DialogActions>
         </div>
       </Dialog>
