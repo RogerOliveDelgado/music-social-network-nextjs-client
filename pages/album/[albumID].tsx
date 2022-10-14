@@ -12,11 +12,18 @@ import styles from './styles.module.css';
 import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
 import { useAddAlbumToLibraryMutation } from '../../redux/albumAPI';
+import { useState } from 'react';
+import {useGetUserQuery} from '../../redux/userAPI'
+import { Album, User, Response } from '../../interfaces/ServerResponse';
+import { useEffect } from 'react';
 
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
+  
   const id = '1atjqOZTCdrjxjMyCPZc2g';
+  const userID = '634914aeae48780770bfc2d5'
+  let isFollowed = undefined
   const {
     data: album,
     isLoading,
@@ -27,11 +34,19 @@ const AlbumDetails = (props: Props) => {
   const [addAlbum] = useAddAlbumToLibraryMutation()
 
   const handleClick = (album: any) => {
-    console.log(album.data)
     addAlbum(album.data)
   }
+  
+  const {data: user,
+  isSuccess} = useGetUserQuery(userID)
 
-  console.log(album);
+  console.log(user?.data.albums, "ALBUMS")
+  if (isSuccess) {
+    isFollowed = user.data.albums.find((album: Album) => album._id === id)
+  }
+  
+  const [follow, setFollow] = useState(isFollowed !== undefined)
+  
   return (
     <>
       <Head>
@@ -61,11 +76,12 @@ const AlbumDetails = (props: Props) => {
               </h2>
               <Tooltip title="Add this album to your library.">
                 <Button
-                  className={styles.follow_button}
+                  className={follow ? styles.follow_button_added : styles.follow_button}
                   variant="contained"
                   color="inherit"
                   startIcon={<FavoriteBorderIcon />}
                   onClick={()=> {
+                    setFollow(state => !state)
                     handleClick(album)}}
                 >
                   Follow

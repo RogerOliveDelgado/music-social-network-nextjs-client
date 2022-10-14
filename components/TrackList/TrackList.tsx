@@ -12,7 +12,6 @@ type Props = {
 };
 
 const TrackList = ({ name, tracks }: Props) => {
-  console.log(tracks);
   const fakeList = [
     'Track 1',
     'Track 2',

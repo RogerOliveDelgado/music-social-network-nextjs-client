@@ -2,7 +2,7 @@
 
 export interface Response<T> {
   ok: boolean;
-  data: T[];
+  data: T[] | T;
 }
 
 export interface Album {
@@ -42,4 +42,18 @@ export interface Track {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface User {
+  _id:        string;
+  username:   string;
+  email:      string;
+  phone:      string;
+  image:      string;
+  playlists:  any[];
+  artists:    any[];
+  albums:     Album[];
+  likedSongs: any[];
+  createdAt:  string;
+  updatedAt:  string;
 }
