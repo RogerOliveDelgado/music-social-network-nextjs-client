@@ -10,8 +10,11 @@ body {
 
 :root {
   --grey: #353941;
+  --green: #1db954;
   --lightGrey: #585c63;
   --black: #26282b;
+  --cian: #d71eb8;
+  --darkest_blue: #2e69f2;
   --darker_blue: #5f85db;
   --lightest_blue: #90b8f8;
 }
@@ -50,16 +53,25 @@ body {
 }
 
 .rhap_main-controls-button,
-.rhap_button-clear,
 .rhap_time {
   color: rgb(231, 231, 231) !important;
 }
 
 .rhap_volume-bar,
 .rhap_volume-indicator,
-.rhap_progress-filled,
 .rhap_progress-indicator {
   background-color: rgb(231, 231, 231) !important;
+}
+
+.rhap_progress-filled {
+  /* background: linear-gradient(90deg, #ffcd39 0%, #4dd4ac 100%); */
+  background: linear-gradient(90deg, var(--cian), var(--darkest_blue) 100%);
+  border-radius: 4px;
+}
+
+.rhap_repeat-button {
+  /* color: var(--green); */
+  color: var(--lightest_blue);
 }
 
 /* @media (prefers-color-scheme: dark) {
