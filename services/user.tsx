@@ -4,7 +4,6 @@ export const logIn = async (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) => {
   e.preventDefault();
-  console.log(email, password);
   try {
     const response = await fetch("http://localhost:4001/signin", {
       method: "POST",
@@ -17,8 +16,16 @@ export const logIn = async (
       }),
     });
 
+    if (response.status === 400) {
+      const result = await response.json();
+
+      return result;
+    }
+
     if (response.ok) {
       const result = await response.json();
+
+      localStorage.setItem("userToken", result.data);
 
       return result;
     }
