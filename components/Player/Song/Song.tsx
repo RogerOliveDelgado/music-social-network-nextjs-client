@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Image from "next/image";
 import styles from "./styles.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import useWidth from "../../../hook/useWidth";
 
 function Song() {
   const { currentTrack } = useSelector(
@@ -12,27 +13,41 @@ function Song() {
   );
   const store = useSelector((state: RootState) => state);
 
-  if (typeof window !== "undefined") {
+  const width = useWidth();
+
+  useEffect(() => {
+    const container = document.getElementById("container_song")?.offsetWidth;
+
     const titleSong = document.getElementById("title_song");
     const titleSongWidth = titleSong?.offsetWidth;
+
     const artistSong = document.getElementById("artist_song");
     const artistSongWidth = artistSong?.offsetWidth;
 
-    if (titleSongWidth !== undefined && titleSong?.scrollWidth !== undefined) {
-      if (titleSongWidth < titleSong?.scrollWidth) {
+    if (
+      container !== undefined &&
+      titleSongWidth !== undefined &&
+      titleSong !== null
+    ) {
+      if (titleSongWidth > container) {
         titleSong.classList.add(styles.rotate);
+      } else {
+        titleSong.classList.remove(styles.rotate);
       }
     }
 
     if (
+      container !== undefined &&
       artistSongWidth !== undefined &&
-      artistSong?.scrollWidth !== undefined
+      artistSong !== null
     ) {
-      if (artistSongWidth < artistSong?.scrollWidth) {
+      if (artistSongWidth > container) {
         artistSong.classList.add(styles.rotate);
+      } else {
+        artistSong.classList.remove(styles.rotate);
       }
     }
-  }
+  }, [store, width, currentTrack]);
 
   return (
     <div className={styles.wrapper}>
@@ -44,7 +59,7 @@ function Song() {
           height="52px"
         />
       </div>
-      <div className={styles.song_container}>
+      <div id="container_song" className={styles.song_container}>
         <span id="title_song">{currentTrack?.title}</span>
         <span id="artist_song">Artist</span>
       </div>
