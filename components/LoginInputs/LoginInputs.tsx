@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { logIn } from "../../services/user";
-
-import { useAuthContext } from "../../context/AuthContext";
+import { useCookies } from "react-cookie";
 
 import styles from "./styles.module.css";
 
@@ -16,6 +14,8 @@ const LoginInputs = (props: Props) => {
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
 
+  const [cookies, setCookie] = useCookies(["userToken"]);
+
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -24,21 +24,40 @@ const LoginInputs = (props: Props) => {
     setPassword(e.target.value);
   };
 
-  const checkData = async (
-    email: any,
-    password: any,
+  const logIn = async (
+    email: String,
+    password: String,
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const data = await logIn(email, password, e);
-
-    if (data.ok) {
-      toast.promise(router.push("/home"), {
-        loading: "Goooing...",
-        success: <b></b>,
-        error: <b></b>,
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:4001/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       });
-    } else {
-      toast.error("Oops, something went wrong!");
+
+      if (response.status === 400) {
+        const result = await response.json();
+        toast.error("Oops, something went wrong!");
+      }
+
+      if (response.ok) {
+        const result = await response.json();
+        setCookie("userToken", result.data, { path: "/" });
+        toast.promise(router.push("/home"), {
+          loading: "Goooing...",
+          success: <b></b>,
+          error: <b></b>,
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -65,7 +84,7 @@ const LoginInputs = (props: Props) => {
       <button
         className={styles.loginButton}
         onClick={(e) => {
-          checkData(email, password, e);
+          logIn(email, password, e);
         }}
       >
         Log In
