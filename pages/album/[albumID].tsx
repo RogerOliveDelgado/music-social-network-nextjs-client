@@ -1,21 +1,28 @@
-import Image from 'next/image';
-import Rating from '@mui/material/Rating';
-import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Button } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tooltip from '@mui/material/Tooltip';
+import Image from "next/image";
+import Rating from "@mui/material/Rating";
+import InterpreterModeIcon from "@mui/icons-material/InterpreterMode";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Button } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Tooltip from "@mui/material/Tooltip";
 
-import Layout from '../../components/Layout/Layout';
-import TrackList from '../../components/TrackList/TrackList';
-import styles from './styles.module.css';
-import Head from 'next/head';
-import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
+import Layout from "../../components/Layout/Layout";
+import TrackList from "../../components/TrackList/TrackList";
+import styles from "./styles.module.css";
+import Head from "next/head";
+import { useGetAlbumDetailsQuery } from "../../redux/albumAPI";
+import { useAuthContext } from "../../context/AuthContext";
+
+import { useRouter } from "next/router";
 
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
-  const id = '1atjqOZTCdrjxjMyCPZc2g';
+  const router = useRouter();
+
+  const { isAuthenticated } = useAuthContext();
+
+  const id = "1atjqOZTCdrjxjMyCPZc2g";
   const {
     data: album,
     isLoading,
@@ -23,8 +30,9 @@ const AlbumDetails = (props: Props) => {
     isFetching,
   } = useGetAlbumDetailsQuery(id);
 
-  console.log(album);
-  return (
+  isAuthenticated === null ? (
+    router.push("/")
+  ) : (
     <>
       <Head>
         <title>Album Details</title>
@@ -37,7 +45,7 @@ const AlbumDetails = (props: Props) => {
             <Image
               className={styles.album_image}
               src="https://upload.wikimedia.org/wikipedia/en/8/8a/BombayBicycleClubSongalbumcover.jpg"
-              alt={'bombay'}
+              alt={"bombay"}
               width={200}
               height={200}
               layout="fixed"
@@ -81,13 +89,13 @@ const AlbumDetails = (props: Props) => {
                 <p>2014-09-08</p>
               </span>
               <span className={styles.info_element}>
-                <p className={styles.info_element_title}>Duration:</p>{' '}
+                <p className={styles.info_element_title}>Duration:</p>{" "}
                 <p>65:65</p>
               </span>
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              <TrackList name="TrackList" />
+              <TrackList name={"TrackList"} />
             </div>
           </div>
         </div>

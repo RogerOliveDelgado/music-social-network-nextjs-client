@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { logIn } from "../../services/user";
+
+import { useAuthContext } from "../../context/AuthContext";
 
 import styles from "./styles.module.css";
 
 type Props = {};
 
 const LoginInputs = (props: Props) => {
+  const router = useRouter();
+
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
 
@@ -16,6 +22,24 @@ const LoginInputs = (props: Props) => {
 
   const getPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const checkData = async (
+    email: any,
+    password: any,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const data = await logIn(email, password, e);
+
+    if (data.ok) {
+      toast.promise(router.push("/home"), {
+        loading: "Goooing...",
+        success: <b></b>,
+        error: <b></b>,
+      });
+    } else {
+      toast.error("Oops, something went wrong!");
+    }
   };
 
   return (
@@ -36,10 +60,12 @@ const LoginInputs = (props: Props) => {
         <VisibilityIcon />
       </div>
 
+      <Toaster />
+
       <button
         className={styles.loginButton}
         onClick={(e) => {
-          logIn(email, password, e);
+          checkData(email, password, e);
         }}
       >
         Log In

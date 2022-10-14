@@ -1,20 +1,25 @@
-import { Button } from '@mui/material';
-import Image from 'next/image';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Tooltip from '@mui/material/Tooltip';
+import { Button } from "@mui/material";
+import Image from "next/image";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Tooltip from "@mui/material/Tooltip";
 
-import Layout from '../../components/Layout/Layout';
-import TabPanel from '../../components/TabPanel/TabPanel';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
+import Layout from "../../components/Layout/Layout";
+import TabPanel from "../../components/TabPanel/TabPanel";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useGetArtistDetailsQuery } from "../../redux/artistAPI";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
+import { useAuthContext } from "../../context/AuthContext";
 
 type Props = {};
 
 const ArtistDetails = (props: Props) => {
+  const router = useRouter();
+
+  const { isAuthenticated } = useAuthContext();
+
   const { query } = useRouter();
 
   const {
@@ -23,7 +28,9 @@ const ArtistDetails = (props: Props) => {
     error,
   } = useGetArtistDetailsQuery(query.artistID);
 
-  return (
+  isAuthenticated === null ? (
+    router.push("/")
+  ) : (
     <>
       <Head>
         <title>Artist Details</title>
