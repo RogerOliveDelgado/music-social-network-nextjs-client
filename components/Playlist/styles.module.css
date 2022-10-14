@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  flex-direction: column;
   margin-top: 2rem;
   width: 100%;
   border-radius: 0.5rem;
@@ -18,6 +17,16 @@
   border: 0.1rem solid var(--black);
 }
 
+.image_container > img {
+  position: relative;
+}
+
+.image_container > label {
+    position: absolute;
+  width: 15rem;
+  height: 15rem;
+}
+
 .input {
   display: none;
 }
@@ -33,7 +42,13 @@
 }
 
 .input_label > svg {
-    width: 6rem;
-    height: 6rem;
-    color: var(--darker_blue);
+  width: 100%;
+  height: 6rem;
+  color: var(--darker_blue);
+}
+
+.playlist_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
