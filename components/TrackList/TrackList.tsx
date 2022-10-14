@@ -6,13 +6,16 @@ import { Track } from '../../interfaces/artistResponse';
 import { millisToMinutes } from '../../utils/converter';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import {
+  setCurrentIndex,
+  currentTrack as setCurrentTrack,
+} from '../../redux/features/player/currentTracks';
 import { RootState } from '../../redux/store';
 
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 
 import styles from './styles.module.css';
-import { AnyAction } from '@reduxjs/toolkit';
-import { BaseSyntheticEvent, MouseEvent } from 'react';
+
 type Props = {
   name: string;
   tracks: Track[];
@@ -24,10 +27,10 @@ const TrackList = ({ name, tracks }: Props) => {
     (state: RootState) => state.currentTrack
   );
 
-  const updatePlayer = (track: Track) => {
-    const trackList = tracks.filter((trackItem) => trackItem._id !== track._id);
-
-    return dispatch(updateTrackList([track, ...trackList]));
+  const updatePlayer = (track: Track, index: number) => {
+    dispatch(updateTrackList(tracks));
+    dispatch(setCurrentIndex(index));
+    dispatch(setCurrentTrack(tracks[index]));
   };
 
   return (
@@ -40,9 +43,9 @@ const TrackList = ({ name, tracks }: Props) => {
         {tracks?.map((track, index) => {
           return (
             <div
-              key={index}
+              key={track._id}
               className={styles.track_list_row}
-              onClick={() => updatePlayer(track)}
+              onClick={() => updatePlayer(track, index)}
             >
               <div className={styles.track_info}>
                 <p>
