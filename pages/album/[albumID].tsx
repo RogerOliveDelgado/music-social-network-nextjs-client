@@ -11,6 +11,7 @@ import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
 import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
+import { useAddAlbumToLibraryMutation } from '../../redux/albumAPI';
 
 type Props = {};
 
@@ -22,6 +23,13 @@ const AlbumDetails = (props: Props) => {
     error,
     isFetching,
   } = useGetAlbumDetailsQuery(id);
+
+  const [addAlbum] = useAddAlbumToLibraryMutation()
+
+  const handleClick = (album: any) => {
+    console.log(album.data)
+    addAlbum(album.data)
+  }
 
   console.log(album);
   return (
@@ -57,6 +65,8 @@ const AlbumDetails = (props: Props) => {
                   variant="contained"
                   color="inherit"
                   startIcon={<FavoriteBorderIcon />}
+                  onClick={()=> {
+                    handleClick(album)}}
                 >
                   Follow
                 </Button>

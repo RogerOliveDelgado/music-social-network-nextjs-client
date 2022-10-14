@@ -2,7 +2,7 @@ import React from 'react';
 
 import AlbumCard from '../AlbumCard/AlbumCard';
 import { Artist } from '../../interfaces/artistResponse';
-import { Album } from '../../interfaces/albumResponse';
+import { Album } from '../../interfaces/ServerResponse';
 
 import styles from './styles.module.css';
 

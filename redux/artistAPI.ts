@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const API =
   process.env.REACT_APP_API_URL ||
-  'http://ec2-44-211-78-241.compute-1.amazonaws.com:4000/';
+  'http://localhost:4002';
+
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzQ4MzIxNzRjZjA5NzkxMzM1OGFhZGIiLCJ1c2VybmFtZSI6Imp1YW5reW55IiwiaWF0IjoxNjY1Njc1Nzk5LCJleHAiOjE2NjYxMDc3OTl9.djX5rgF1Z-srhjJ3XbgpI2ZrmzXf9CKsODiR8OkuDfU'
 
 export const artistAPI = createApi({
   reducerPath: 'artistAPI',
@@ -13,7 +15,7 @@ export const artistAPI = createApi({
     }),
     getArtistDetails: builder.query({
       query: (artistID) => `/artist/${artistID}`,
-    }),
+    })
   }),
 });
 
