@@ -4,7 +4,7 @@ const API =
   process.env.REACT_APP_API_URL ||
   'http://localhost:4001';
 
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzQ5MTRhZWFlNDg3ODA3NzBiZmMyZDUiLCJ1c2VybmFtZSI6Imp1YW5reW55IiwiaWF0IjoxNjY1NzMzODA2LCJleHAiOjE2NjYxNjU4MDZ9.D4v24lNJYygDejRfcjWVrYZsi6zhWXTXLWUy7UMuYDo'
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzQ5NjY1M2IzMmJiYmU2NTIxYmVjMjkiLCJ1c2VybmFtZSI6IlJvZ2VyIiwiaWF0IjoxNjY1NzU0NzA3LCJleHAiOjE2NjYxODY3MDd9.72ZanxJI8Z6QAvrIsFVibK-hIS-cfu-BRLi1t2i1jhE'
 
 export const userAPI = createApi({
   reducerPath: 'userAPI',

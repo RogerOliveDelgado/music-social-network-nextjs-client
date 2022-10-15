@@ -1,0 +1,9 @@
+.skeletton_button {
+    border-radius: 10px;
+    height: 3rem;
+    width: 9rem;
+    background-color: #252525;
+    color: white;
+    opacity: 50%;
+    justify-self: flex-end;
+  }

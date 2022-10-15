@@ -11,18 +11,35 @@ import { useRouter } from 'next/router';
 import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
 
 import styles from './styles.module.css';
+import { useGetUserQuery } from '../../redux/userAPI';
+import FollowButton from '../../components/FollowButton/FollowButton';
+import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
+import { Artist } from '../../interfaces/ServerResponse';
 
 type Props = {};
 
 const ArtistDetails = (props: Props) => {
+
   const { query } = useRouter();
+  const artistID = query.artistID?.toString() as string
+  const userID = '63496653b32bbbe6521bec29'
+  let isFollowed = undefined
 
   const {
     data: artist,
     isLoading,
     error,
-  } = useGetArtistDetailsQuery(query.artistID);
-  console.log(artist);
+  } = useGetArtistDetailsQuery(artistID);
+
+  const {
+    data: user,
+    isSuccess
+  } = useGetUserQuery(userID)
+
+  if (isSuccess) {
+    isFollowed = user.data.artists.some((item: Artist) => (item._id === artistID))
+  }  
+
   return (
     <>
       <Head>
@@ -54,14 +71,8 @@ const ArtistDetails = (props: Props) => {
                 })}
               </div>
               <Tooltip title="Add the artist to your library.">
-                <Button
-                  className={styles.follow_button}
-                  variant="contained"
-                  color="inherit"
-                  startIcon={<FavoriteBorderIcon />}
-                >
-                  Follow
-                </Button>
+              {!isLoading ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
+                <SkelettonButton/>}
               </Tooltip>
             </div>
             <div className={styles.play_button_container}>

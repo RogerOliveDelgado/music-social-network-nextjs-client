@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Rating from '@mui/material/Rating';
 import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Button } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tooltip from '@mui/material/Tooltip';
@@ -11,42 +10,38 @@ import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
 import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
-import { useAddAlbumToLibraryMutation } from '../../redux/albumAPI';
-import { useState } from 'react';
 import {useGetUserQuery} from '../../redux/userAPI'
-import { Album, User, Response } from '../../interfaces/ServerResponse';
-import { useEffect } from 'react';
+import { Album } from '../../interfaces/ServerResponse';
+import FollowButton from '../../components/FollowButton/FollowButton';
+import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
-  
-  const id = '1atjqOZTCdrjxjMyCPZc2g';
-  const userID = '634914aeae48780770bfc2d5'
+
+  const {query} = useRouter()
+  const albumID = query.albumID?.toString() as string
+  const userID = '63496653b32bbbe6521bec29'
   let isFollowed = undefined
+  
   const {
-    data: album,
+    data: album ,
     isLoading,
     error,
     isFetching,
-  } = useGetAlbumDetailsQuery(id);
-
-  const [addAlbum] = useAddAlbumToLibraryMutation()
-
-  const handleClick = (album: any) => {
-    addAlbum(album.data)
-  }
+  } = useGetAlbumDetailsQuery(albumID);
   
-  const {data: user,
-  isSuccess} = useGetUserQuery(userID)
+  const {
+    data: user,
+    isSuccess
+  } = useGetUserQuery(userID)
 
-  console.log(user?.data.albums, "ALBUMS")
+
   if (isSuccess) {
-    isFollowed = user.data.albums.find((album: Album) => album._id === id)
+    isFollowed = user.data.albums.some((album: Album) => album._id === albumID)
   }
-  
-  const [follow, setFollow] = useState(isFollowed !== undefined)
-  
+
   return (
     <>
       <Head>
@@ -59,8 +54,8 @@ const AlbumDetails = (props: Props) => {
           <div className={styles.album_details}>
             <Image
               className={styles.album_image}
-              src="https://upload.wikimedia.org/wikipedia/en/8/8a/BombayBicycleClubSongalbumcover.jpg"
-              alt={'bombay'}
+              src={album?.data.image}
+              alt={album?.data.title}
               width={200}
               height={200}
               layout="fixed"
@@ -75,17 +70,8 @@ const AlbumDetails = (props: Props) => {
                 Bombay Bicycle Club
               </h2>
               <Tooltip title="Add this album to your library.">
-                <Button
-                  className={follow ? styles.follow_button_added : styles.follow_button}
-                  variant="contained"
-                  color="inherit"
-                  startIcon={<FavoriteBorderIcon />}
-                  onClick={()=> {
-                    setFollow(state => !state)
-                    handleClick(album)}}
-                >
-                  Follow
-                </Button>
+                {!isLoading ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
+                <SkelettonButton/>}
               </Tooltip>
             </div>
             <div className={styles.play_button_container}>
@@ -113,7 +99,7 @@ const AlbumDetails = (props: Props) => {
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              <TrackList name="TrackList" />
+              <TrackList name="TrackList"/>
             </div>
           </div>
         </div>
