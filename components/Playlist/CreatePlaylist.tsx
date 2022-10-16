@@ -19,6 +19,7 @@ function CreatePlaylist() {
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
+  const [playlistImage, setPlaylistImage] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [playlistName, setPlaylistName] = useState("");
   const [title, setTitle] = useState("My playlist");
@@ -39,9 +40,12 @@ function CreatePlaylist() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     playlistName: string,
     playlistDescription: string,
-    image: File | null
+    playlistImage: File | null
   ) => {
     e.preventDefault();
+    setPlaylistImage(playlistImage);
+    setPlaylistName(playlistName);
+    setPlaylistDescription(playlistDescription);
     try {
       const response = await fetch("http://localhost:4002/playlist", {
         method: "POST",
@@ -52,19 +56,20 @@ function CreatePlaylist() {
         body: JSON.stringify({
           title: playlistName,
           description: playlistDescription,
-          image: image?.name,
+          image: playlistImage?.name,
         }),
       });
 
       if (response.status === 400) {
         const result = await response.json();
-        toast.error("Oops, something went wrong!");
+        toast.error("Please, complete all fields");
       }
 
       if (response.ok) {
         const result = await response.json();
         setTitle(playlistName);
         setDescription(playlistDescription);
+        setImage(playlistImage);
         setOpen(false);
         toast.success("Playlist created!");
       }
@@ -73,6 +78,7 @@ function CreatePlaylist() {
     }
   };
 
+  
   return (
     <>
       <div className={styles.container}>
@@ -124,10 +130,10 @@ function CreatePlaylist() {
                 onMouseOver={() => setModalHover(true)}
                 onMouseLeave={() => setModalHover(false)}
               >
-                {image !== null && image !== undefined ? (
+                {playlistImage !== null && playlistImage !== undefined ? (
                   <img
                     className={styles.modal_image_container}
-                    src={URL.createObjectURL(new Blob([image]))}
+                    src={URL.createObjectURL(new Blob([playlistImage]))}
                   />
                 ) : (
                   <>
@@ -145,23 +151,26 @@ function CreatePlaylist() {
                   className={styles.input}
                   type="file"
                   accept="image/png, image/jpeg"
-                  onChange={(e) => setImage(e.target.files[0])}
+                  onChange={(e) => setPlaylistImage(e.target.files[0])}
                 />
               </div>
               <div className={styles.modal_data}>
                 <TextField
                   autoFocus
+                  value={playlistName}
+                  placeholder="Playlist name"
                   margin="dense"
                   id="name"
-                  label="Playlist name"
                   type="text"
                   fullWidth
                   variant="standard"
                   onChange={(e) => setPlaylistName(e.target.value)}
                 />
                 <TextareaAutosize
+                  required
                   aria-label="minimum height"
                   minRows={3}
+                  value={playlistDescription}
                   placeholder="Add an optional description"
                   style={{
                     width: 200,
@@ -177,7 +186,12 @@ function CreatePlaylist() {
               <Button onClick={handleClose}>Cancel</Button>
               <Button
                 onClick={(e) =>
-                  handleSaveChanges(e, playlistName, playlistDescription, image)
+                  handleSaveChanges(
+                    e,
+                    playlistName,
+                    playlistDescription,
+                    playlistImage
+                  )
                 }
               >
                 Save Changes
