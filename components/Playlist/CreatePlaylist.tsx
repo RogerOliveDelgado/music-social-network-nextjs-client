@@ -10,14 +10,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import styles from "./styles.module.css";
 import { TextareaAutosize } from "@mui/base";
+import toast, { Toaster } from "react-hot-toast";
 import { style } from "@mui/system";
 
 function CreatePlaylist() {
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
+
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
+  const [playlistImage, setPlaylistImage] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [playlistName, setPlaylistName] = useState("");
-  const [name, setName] = useState("My playlist");
+  const [title, setTitle] = useState("My playlist");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [description, setDescription] = useState("");
 
@@ -31,14 +36,49 @@ function CreatePlaylist() {
     setOpen(false);
   };
 
-  const handleSaveChanges = () => {
-    setOpen(false);
-    setName(playlistName);
-    setDescription(playlistDescription);
+  const handleSaveChanges = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    playlistName: string,
+    playlistDescription: string,
+    playlistImage: File | null
+  ) => {
+    e.preventDefault();
+    setPlaylistImage(playlistImage);
+    setPlaylistName(playlistName);
+    setPlaylistDescription(playlistDescription);
+    try {
+      const response = await fetch("http://localhost:4002/playlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: playlistName,
+          description: playlistDescription,
+          image: playlistImage?.name,
+        }),
+      });
+
+      if (response.status === 400) {
+        const result = await response.json();
+        toast.error("Please, complete all fields");
+      }
+
+      if (response.ok) {
+        const result = await response.json();
+        setTitle(playlistName);
+        setDescription(playlistDescription);
+        setImage(playlistImage);
+        setOpen(false);
+        toast.success("Playlist created!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  console.log(playlistName);
-
+  
   return (
     <>
       <div className={styles.container}>
@@ -65,85 +105,102 @@ function CreatePlaylist() {
           </span>
         </div>
         <div className={styles.playlist_info}>
-          <span className={styles.playlist_name}>{name}</span>
+          <span className={styles.playlist_name}>{title}</span>
           <span>{description}</span>
           <span>User name</span>
         </div>
       </div>
-      <Dialog open={open} onClose={handleClose}>
-        <div className={styles.modal}>
-          <DialogTitle
-            sx={{
-              color: "white",
-            }}
-          >
-            Edit Details
-          </DialogTitle>
-          <DialogContent
-            sx={{
-              display: "flex",
-            }}
-          >
-            <div
-              className={styles.modal_image_container}
-              onMouseOver={() => setModalHover(true)}
-              onMouseLeave={() => setModalHover(false)}
+      <form>
+        <Dialog open={open} onClose={handleClose}>
+          <div className={styles.modal}>
+            <DialogTitle
+              sx={{
+                color: "white",
+              }}
             >
-              {image !== null && image !== undefined ? (
-                <img
-                  className={styles.modal_image_container}
-                  src={URL.createObjectURL(new Blob([image]))}
+              Edit Details
+            </DialogTitle>
+            <DialogContent
+              sx={{
+                display: "flex",
+              }}
+            >
+              <div
+                className={styles.modal_image_container}
+                onMouseOver={() => setModalHover(true)}
+                onMouseLeave={() => setModalHover(false)}
+              >
+                {playlistImage !== null && playlistImage !== undefined ? (
+                  <img
+                    className={styles.modal_image_container}
+                    src={URL.createObjectURL(new Blob([playlistImage]))}
+                  />
+                ) : (
+                  <>
+                    <EditIcon className={styles.edit_icon} />
+                    <span>Select an image</span>
+                  </>
+                )}
+                <label htmlFor="image" className={styles.input_label}>
+                  {modalHover && image !== null && image !== undefined ? (
+                    <EditIcon className={styles.edit_icon} />
+                  ) : null}
+                </label>
+                <input
+                  id="image"
+                  className={styles.input}
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={(e) => setPlaylistImage(e.target.files[0])}
                 />
-              ) : (
-                <>
-                  <EditIcon className={styles.edit_icon} />
-                  <span>Select an image</span>
-                </>
-              )}
-              <label htmlFor="image" className={styles.input_label}>
-                {modalHover && image !== null && image !== undefined ? (
-                  <EditIcon className={styles.edit_icon} />
-                ) : null}
-              </label>
-              <input
-                id="image"
-                className={styles.input}
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-            </div>
-            <div className={styles.modal_data}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Playlist name"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setPlaylistName(e.target.value)}
-              />
-              <TextareaAutosize
-                aria-label="minimum height"
-                minRows={3}
-                placeholder="Add an optional description"
-                style={{
-                  width: 200,
-                  height: 100,
-                  backgroundColor: "#585c63",
-                  color: "white",
-                }}
-                onChange={(e) => setPlaylistDescription(e.target.value)}
-              />
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={() => handleSaveChanges()}>Save Changes</Button>
-          </DialogActions>
-        </div>
-      </Dialog>
+              </div>
+              <div className={styles.modal_data}>
+                <TextField
+                  autoFocus
+                  value={playlistName}
+                  placeholder="Playlist name"
+                  margin="dense"
+                  id="name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(e) => setPlaylistName(e.target.value)}
+                />
+                <TextareaAutosize
+                  required
+                  aria-label="minimum height"
+                  minRows={3}
+                  value={playlistDescription}
+                  placeholder="Add an optional description"
+                  style={{
+                    width: 200,
+                    height: 100,
+                    backgroundColor: "#585c63",
+                    color: "white",
+                  }}
+                  onChange={(e) => setPlaylistDescription(e.target.value)}
+                />
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button
+                onClick={(e) =>
+                  handleSaveChanges(
+                    e,
+                    playlistName,
+                    playlistDescription,
+                    playlistImage
+                  )
+                }
+              >
+                Save Changes
+              </Button>
+            </DialogActions>
+          </div>
+        </Dialog>
+        <Toaster />
+      </form>
     </>
   );
 }
