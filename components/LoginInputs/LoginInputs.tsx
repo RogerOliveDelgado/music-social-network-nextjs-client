@@ -44,6 +44,7 @@ const LoginInputs = (props: Props) => {
 
       if (response.status === 400) {
         const result = await response.json();
+        console.log("aqui", result);
         toast.error("Oops, something went wrong!");
       }
 
@@ -57,7 +58,7 @@ const LoginInputs = (props: Props) => {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.error("klk", error);
     }
   };
 
