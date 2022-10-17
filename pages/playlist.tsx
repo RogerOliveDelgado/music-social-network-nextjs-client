@@ -6,6 +6,7 @@ import TabPanel from "../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
 import { useGetArtistDetailsQuery } from "../redux/artistAPI";
 import CreatePlaylist from "../components/Playlist/CreatePlaylist";
+import Searchbar from "../components/Playlist/Searchbar/Searchbar";
 
 type Props = {};
 
@@ -27,6 +28,7 @@ const Playlist = (props: Props) => {
       </Head>
       <Layout>
         <CreatePlaylist />
+        <Searchbar />
         <TabPanel data={artist?.data.tracks} />
       </Layout>
     </>

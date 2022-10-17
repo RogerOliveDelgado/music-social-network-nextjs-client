@@ -10,8 +10,9 @@ export default function middleware(req: NextRequest) {
     url.includes("/es/home") ||
     url.includes("/es/album") ||
     url.includes("/es/artist") ||
-    url.includes("/es/library") ||
-    url.includes("/es/playlist")
+    url.includes("/es/library")
+    // ||
+    // url.includes("/es/playlist")
   ) {
     if (userToken === undefined) {
       return NextResponse.redirect("http://localhost:3000/es");

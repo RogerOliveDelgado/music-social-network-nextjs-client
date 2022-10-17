@@ -62,7 +62,7 @@ function CreatePlaylist() {
 
       if (response.status === 400) {
         const result = await response.json();
-        toast.error("Please, complete all fields");
+        toast.error("Oops, something went wrong");
       }
 
       if (response.ok) {
@@ -78,7 +78,6 @@ function CreatePlaylist() {
     }
   };
 
-  
   return (
     <>
       <div className={styles.container}>
@@ -142,7 +141,9 @@ function CreatePlaylist() {
                   </>
                 )}
                 <label htmlFor="image" className={styles.input_label}>
-                  {modalHover && image !== null && image !== undefined ? (
+                  {modalHover &&
+                  playlistImage !== null &&
+                  playlistImage !== undefined ? (
                     <EditIcon className={styles.edit_icon} />
                   ) : null}
                 </label>
