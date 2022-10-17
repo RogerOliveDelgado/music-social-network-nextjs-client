@@ -19,9 +19,10 @@ import styles from './styles.module.css';
 type Props = {
   name: string;
   tracks: Track[];
+  heightValue?: number;
 };
 
-const TrackList = ({ name, tracks }: Props) => {
+const TrackList = ({ name, tracks, heightValue }: Props) => {
   const dispatch = useDispatch();
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
@@ -34,7 +35,7 @@ const TrackList = ({ name, tracks }: Props) => {
   };
 
   return (
-    <div>
+    <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
         <p>{name || 'Album name'}</p>
