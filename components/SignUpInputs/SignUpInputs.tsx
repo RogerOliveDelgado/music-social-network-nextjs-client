@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 import { motion } from "framer-motion";
 import MusicPreferences from "../MusicPreferences/MusicPreferences";
@@ -8,6 +9,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import toast, { Toaster } from "react-hot-toast";
 
 import styles from "./styles.module.css";
+import { createUser } from "../../services/user";
 type Props = {
   username: string;
   email: string;
@@ -22,6 +24,8 @@ type Props = {
   changeInputUserName: Function;
   changeInputEmail: Function;
   changeInputPassword: Function;
+  signUpFailed: boolean;
+  setSignUpFailed: Function;
 };
 
 const SignUpInputs = ({
@@ -38,6 +42,8 @@ const SignUpInputs = ({
   changeInputUserName,
   changeInputEmail,
   changeInputPassword,
+  setSignUpFailed,
+  signUpFailed,
 }: Props) => {
   //validation
   const validUsername = username.length < 5;
@@ -49,13 +55,15 @@ const SignUpInputs = ({
   const validPassword = passwordExpression.test(password);
 
   //react hooks
-  const [signUpFailed, setSignUpFailed] = useState(true);
+
+  const [failedMsg, setFailedMsg] = useState(String);
+  const [cookies, setCookie] = useCookies(["userToken"]);
 
   //next router
   const router = useRouter();
 
   //*Sign up function/
-  const signUp = (
+  const signUp = async (
     username: String,
     email: String,
     password: String,
@@ -66,17 +74,42 @@ const SignUpInputs = ({
     if (likedMusic.length < 5) {
       toast.error("Please select 5 genres or more.");
     } else {
-      toast.promise(router.push("/home"), {
-        loading: "Goooing...",
-        success: <b>Here we are!</b>,
-        error: <b>Oops, something goes bad :(</b>,
-      });
+      const result = await createUser(
+        username,
+        email,
+        password,
+        likedMusic,
+        setCookie,
+        e
+      );
+
+      if (!result.ok) {
+        if (result.msg === "User already exists") {
+          setSignUpFailed(true);
+          setFailedMsg("Email is in use");
+          router.push("/signup");
+        }
+
+        if (
+          result.msg === "Username is already used. Please select a new one."
+        ) {
+          setSignUpFailed(true);
+          setFailedMsg("Username is in use");
+          router.push("/signup");
+        }
+      } else {
+        toast.promise(router.push("/"), {
+          loading: "Goooing...",
+          success: <b>Here we are!</b>,
+          error: <b>Oops, something goes bad :(</b>,
+        });
+      }
     }
   };
 
   return (
     <>
-      <>
+      <div className={signUpFailed ? styles.hide : styles.none}>
         <motion.div
           className={
             hideUserNameInput
@@ -165,17 +198,21 @@ const SignUpInputs = ({
             and 1 special character
           </p>
         </motion.div>
-      </>
+      </div>
       <MusicPreferences
         getUserName={getUserName}
         getEmail={getEmail}
         getPassword={getPassword}
         signUpCompleted={signUpCompleted}
         signUpFailed={signUpFailed}
+        setSignUpFailed={setSignUpFailed}
         username={username}
         email={email}
         password={password}
         signUp={signUp}
+        failedMsg={failedMsg}
+        setCookie={setCookie}
+        setFailedMsg={setFailedMsg}
       />
       <Toaster />
     </>

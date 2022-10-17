@@ -6,6 +6,10 @@
   outline: none;
 }
 
+.none {
+  border: none;
+}
+
 .form_div {
   display: flex;
   flex-direction: column;

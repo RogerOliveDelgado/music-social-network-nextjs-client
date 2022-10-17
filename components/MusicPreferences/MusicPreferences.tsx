@@ -16,6 +16,10 @@ type Props = {
   username: string;
   email: string;
   password: string;
+  failedMsg: string;
+  setCookie: Function;
+  setSignUpFailed: Function;
+  setFailedMsg: Function;
 };
 
 const musicGenre = [
@@ -45,6 +49,10 @@ const MusicPreferences = ({
   username,
   email,
   password,
+  failedMsg,
+  setCookie,
+  setSignUpFailed,
+  setFailedMsg,
 }: Props) => {
   const [likedMusic, setLikedMusic] = useState<string[]>([]);
 
@@ -115,6 +123,11 @@ const MusicPreferences = ({
           username={username}
           email={email}
           password={password}
+          likedMusic={likedMusic}
+          failedMsg={failedMsg}
+          setCookie={setCookie}
+          setSignUpFailed={setSignUpFailed}
+          setFailedMsg={setFailedMsg}
         />
       )}
     </>

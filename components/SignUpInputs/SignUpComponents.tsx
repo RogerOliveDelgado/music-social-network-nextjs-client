@@ -13,6 +13,7 @@ const SignUpComponents = (props: Props) => {
   const [password, setPassword] = useState(String);
 
   const [signUpCompleted, setSignUpCompleted] = useState(false);
+  const [signUpFailed, setSignUpFailed] = useState(Boolean);
 
   const getUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
@@ -56,6 +57,8 @@ const SignUpComponents = (props: Props) => {
       username={username}
       email={email}
       password={password}
+      signUpFailed={signUpFailed}
+      setSignUpFailed={setSignUpFailed}
       hideUserNameInput={hideUserNameInput}
       hideEmailInput={hideEmailInput}
       hidePasswordInput={hidePasswordInput}
