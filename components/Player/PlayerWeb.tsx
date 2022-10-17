@@ -1,14 +1,17 @@
 import dynamic from 'next/dynamic';
 import { useMediaQuery } from 'react-responsive';
 import 'react-h5-audio-player/lib/styles.css';
-import { TracksList } from '../../redux/features/player/musicPlayerSlice';
 
-import React, { createRef, useEffect, useRef, useState } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
+import React, { useState } from 'react';
+
 import 'react-h5-audio-player/lib/styles.css';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { currentTrack as setCurrentTrack } from '../../redux/features/player/currentTracks';
+import {
+  currentTrack as setCurrentTrack,
+  incrementIndex,
+  resetIndex,
+} from '../../redux/features/player/currentTracks';
 import { RootState } from '../../redux/store';
 
 import Song from './Song/Song';
@@ -27,23 +30,20 @@ const PlayerWeb = () => {
   const dispatch = useDispatch();
   const [currentTrack, setTrackIndex] = useState(0);
   const { tracks } = useSelector((state: RootState) => state.tracks);
-  const currentTrackStore = useSelector(
-    (state: RootState) => state.currentTrack
+  const currentIndex = useSelector(
+    (state: RootState) => state.currentTrack.index
   );
-
-  useEffect(() => {
-    dispatch(setCurrentTrack(tracks[currentTrack]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tracks]);
 
   const handleClickNext = () => {
     setTrackIndex((prevState) =>
       prevState < tracks.length - 1 ? prevState + 1 : 0
     );
     if (currentTrack < tracks.length - 1) {
-      dispatch(setCurrentTrack(tracks[currentTrack + 1]));
+      dispatch(incrementIndex());
+      dispatch(setCurrentTrack(tracks[currentIndex + 1]));
     } else {
       dispatch(setCurrentTrack(tracks[0]));
+      dispatch(resetIndex());
     }
   };
 
@@ -52,9 +52,11 @@ const PlayerWeb = () => {
       prevState < tracks.length - 1 ? prevState + 1 : 0
     );
     if (currentTrack < tracks.length - 1) {
-      dispatch(setCurrentTrack(tracks[currentTrack + 1]));
+      dispatch(incrementIndex());
+      dispatch(setCurrentTrack(tracks[currentIndex + 1]));
     } else {
       dispatch(setCurrentTrack(tracks[0]));
+      dispatch(resetIndex());
     }
   };
 
@@ -66,7 +68,7 @@ const PlayerWeb = () => {
           {isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
-              src={tracks[currentTrack]?.trackAudio}
+              src={tracks[currentIndex]?.trackAudio}
               showSkipControls
               onClickNext={handleClickNext}
               onEnded={handleEnd}
@@ -77,7 +79,7 @@ const PlayerWeb = () => {
           {!isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
-              src={tracks[currentTrack]?.trackAudio}
+              src={tracks[currentIndex]?.trackAudio}
               onClickNext={handleClickNext}
               autoPlay={true}
               autoPlayAfterSrcChange={true}

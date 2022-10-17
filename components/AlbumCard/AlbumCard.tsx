@@ -1,9 +1,9 @@
-import Image from "next/image";
-import IconButton from "@mui/material/IconButton";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { useRouter } from "next/router";
+import Image from 'next/image';
+import IconButton from '@mui/material/IconButton';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { useRouter } from 'next/router';
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
 type Props = {};
 
@@ -27,6 +27,7 @@ const AlbumCard = ({ item }: any) => {
           className={`${styles.card_image} ${name && styles.card_image_artist}`}
         >
           <Image
+            className={styles.image}
             src={image}
             height={24}
             width={24}

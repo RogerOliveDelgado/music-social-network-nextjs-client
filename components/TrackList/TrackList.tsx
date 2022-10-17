@@ -5,13 +5,17 @@ import AlbumIcon from '@mui/icons-material/Album';
 import { Track } from '../../interfaces/artistResponse';
 import { millisToMinutes } from '../../utils/converter';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
 import {
-  TracksList,
-  updateTrackList,
-} from '../../redux/features/player/musicPlayerSlice';
+  setCurrentIndex,
+  currentTrack as setCurrentTrack,
+} from '../../redux/features/player/currentTracks';
+import { RootState } from '../../redux/store';
+
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 
 import styles from './styles.module.css';
-import { AnyAction } from '@reduxjs/toolkit';
+
 type Props = {
   name: string;
   tracks: Track[];
@@ -19,10 +23,14 @@ type Props = {
 
 const TrackList = ({ name, tracks }: Props) => {
   const dispatch = useDispatch();
-  const playerTracks = useSelector((state: TracksList) => state.tracks);
+  const { currentTrack } = useSelector(
+    (state: RootState) => state.currentTrack
+  );
 
-  const updatePlayer = (): AnyAction => {
-    return dispatch(updateTrackList(tracks));
+  const updatePlayer = (track: Track, index: number) => {
+    dispatch(updateTrackList(tracks));
+    dispatch(setCurrentIndex(index));
+    dispatch(setCurrentTrack(tracks[index]));
   };
 
   return (
@@ -35,12 +43,18 @@ const TrackList = ({ name, tracks }: Props) => {
         {tracks?.map((track, index) => {
           return (
             <div
-              key={index}
+              key={track._id}
               className={styles.track_list_row}
-              onClick={updatePlayer}
+              onClick={() => updatePlayer(track, index)}
             >
               <div className={styles.track_info}>
-                <p>{index + 1}</p>
+                <p>
+                  {track._id === currentTrack._id ? (
+                    <GraphicEqIcon />
+                  ) : (
+                    index + 1
+                  )}
+                </p>
                 <p className={styles.track_name}>{track.title}</p>
               </div>
               <div className={styles.buttons_container}>
