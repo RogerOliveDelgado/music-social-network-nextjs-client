@@ -17,5 +17,12 @@ export default {
     search: 'What do you want to listen to?',
     playlist: 'Playlist',
     app_name: 'Spotify',
+    tracks: 'Tracks',
+  },
+  headers: {
+    headerFavorites: 'Your favorites',
+    headerAlbum: 'Album',
+    headerArtist: 'Artist',
+    headerLibrary: 'Library',
   },
 };
