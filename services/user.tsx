@@ -1,8 +1,8 @@
-import { useCookies } from "react-cookie";
-
-export const logIn = async (
+export const signUp = async (
+  username: String,
   email: String,
   password: String,
+  likedMusic: string[],
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) => {
   e.preventDefault();
