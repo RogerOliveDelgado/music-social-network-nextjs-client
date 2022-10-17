@@ -1,0 +1,30 @@
+.library_header {
+  display: flex;
+  gap: 0.5rem;
+  /* margin-top: 0.5rem; */
+  justify-content: flex-end;
+  z-index: 3;
+  position: fixed;
+  width: 90%;
+  padding: 0.5rem;
+}
+
+.library_content {
+  margin-top: 6rem;
+}
+
+.library_header_bg {
+  background-color: var(--black);
+  height: 5%;
+  border-radius: 5px;
+}
+
+.active_view {
+  font-weight: 600;
+  font-style: bold;
+  background-color: #1b1d1f;
+}
+
+.inactive_view {
+  background-color: var(--grey);
+}
