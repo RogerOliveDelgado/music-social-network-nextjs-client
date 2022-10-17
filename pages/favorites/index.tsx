@@ -11,7 +11,7 @@ const Favorites = (props: Props) => {
   const { t } = useI18N();
   //Data para maquetar, hacer la query correcta para las liked tracks del user
   const { data: tracks, isLoading, isError } = useGetArtistsQuery(undefined);
-  console.log(tracks.data[0].tracks);
+
   return (
     <>
       <Head>
@@ -23,11 +23,16 @@ const Favorites = (props: Props) => {
       </Head>
       <Layout>
         <Banner user={'alejo61094'} total={21} />
-        <TrackList
-          name="Liked Songs"
-          tracks={tracks.data[0].tracks}
-          heightValue={35}
-        />
+        {!isLoading ? (
+          <TrackList
+            name="Liked Songs"
+            tracks={tracks.data[0].tracks}
+            heightValue={35}
+          />
+        ) : (
+          //TODO hacer un componente de loading
+          <h1>Loading...</h1>
+        )}
       </Layout>
     </>
   );
