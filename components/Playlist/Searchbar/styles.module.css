@@ -1,10 +1,10 @@
 .container {
-    border-top: 1px solid var(--lightest_blue);
-    margin-bottom: 3rem;
+  border-top: 1px solid var(--lightest_blue);
+  margin-bottom: 3rem;
 }
 
-.title{
-    margin-top: 2rem;
+.title {
+  margin-top: 2rem;
 }
 
 /* From uiverse.io by @satyamchaudharydev */
@@ -29,7 +29,7 @@
   position: relative;
   isolation: isolate;
   height: 2.5rem;
-  margin-left: .1rem;
+  margin-left: 0.1rem;
 }
 /* a fancy bg for showing background and border when focus. */
 .fancy_bg {
@@ -91,6 +91,7 @@
   margin-inline: min(2em, calc(var(--inline-padding-of-input) + var(--gap)));
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 .input:focus {
@@ -100,10 +101,14 @@
 .input::placeholder {
   color: var(--text-color);
 }
+
+.input:focus::placeholder {
+  color: white;
+}
 /* input background change in focus */
 .input:focus ~ .fancy_bg {
   border: 1px solid var(--darker_blue);
-  background: var(--focus-input-bg-color);
+  background: var(--lightGrey);
 }
 /* search icon color change in focus */
 .input:focus ~ .search {
