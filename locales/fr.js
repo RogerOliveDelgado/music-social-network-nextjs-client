@@ -13,6 +13,9 @@ export default {
   additional: {
     albums: 'Albums',
     artists: 'Artistes',
+    all: 'Tout',
     search: 'Que souhaitez-vous écouter ?',
+    playlist: 'Playlist',
+    app_name: 'Spotify',
   },
 };

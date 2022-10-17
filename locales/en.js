@@ -13,6 +13,9 @@ export default {
   additional: {
     albums: 'Albums',
     artists: 'Artists',
+    all: 'All',
     search: 'What do you want to listen to?',
+    playlist: 'Playlist',
+    app_name: 'Spotify',
   },
 };
