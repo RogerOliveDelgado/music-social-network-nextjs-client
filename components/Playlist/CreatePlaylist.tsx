@@ -152,7 +152,9 @@ function CreatePlaylist() {
                   className={styles.input}
                   type="file"
                   accept="image/png, image/jpeg"
-                  onChange={(e) => setPlaylistImage(e.target.files[0])}
+                  onChange={(e) =>
+                    !e.target.files ? null : setPlaylistImage(e.target.files[0])
+                  }
                 />
               </div>
               <div className={styles.modal_data}>

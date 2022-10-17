@@ -12,7 +12,7 @@ function Searchbar() {
                 className={styles.input}
                 type="text"
                 required
-                placeholder="Search twitter"
+                placeholder="Search for songs to add to your playlist..."
                 id="search"
               />
               <div className={styles.fancy_bg}></div>
