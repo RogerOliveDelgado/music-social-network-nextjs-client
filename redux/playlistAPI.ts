@@ -22,7 +22,13 @@ export const playlistAPI = createApi({
       }),
     }),
     getPlaylistDetails: builder.query({
-      query: (playlistID) => `/playlist/${playlistID}`,
+      query: (playlistID) => ({
+        url: `/playlist/${playlistID}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
 });

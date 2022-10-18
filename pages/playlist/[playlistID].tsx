@@ -27,9 +27,9 @@ const Playlist = (props: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <CreatePlaylist />
+        <CreatePlaylist title={playlist?.data?.title} playlistId={true} />
         <Searchbar />
-        <TabPanel data={playlist?.data} />
+        <TabPanel data={playlist?.data?.tracks} />
       </Layout>
     </>
   );
