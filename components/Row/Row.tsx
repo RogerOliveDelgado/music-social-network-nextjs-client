@@ -1,6 +1,7 @@
 import AlbumCard from '../AlbumCard/AlbumCard';
 import { Artist } from '../../interfaces/artistResponse';
 import { Album } from '../../interfaces/albumResponse';
+import { Playlist } from '../../interfaces/playlistResponse';
 
 import styles from './styles.module.css';
 
@@ -14,7 +15,7 @@ const Row = ({ title, data, children }: any) => {
       </div>
       <div className={styles.horizontal_scroll}>
         {!children &&
-          data.slice(0, 11).map((item: Album | Artist) => {
+          data.slice(0, 11).map((item: Album | Artist | Playlist) => {
             return <AlbumCard key={item._id} item={item} />;
           })}
         {children}

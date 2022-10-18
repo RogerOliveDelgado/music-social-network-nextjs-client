@@ -56,10 +56,10 @@ function CreatePlaylist() {
         body: JSON.stringify({
           title: playlistName,
           description: playlistDescription,
-          image: playlistImage?.name,
+          image: `/${playlistImage?.name}`,
         }),
       });
-
+console.log(response)
       if (response.status === 400) {
         const result = await response.json();
         toast.error("Oops, something went wrong");
@@ -77,6 +77,7 @@ function CreatePlaylist() {
       console.error(error);
     }
   };
+
 
   return (
     <>
