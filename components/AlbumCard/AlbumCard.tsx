@@ -1,20 +1,23 @@
-import Image from 'next/image';
-import IconButton from '@mui/material/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { useRouter } from 'next/router';
+import Image from "next/image";
+import IconButton from "@mui/material/IconButton";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useRouter } from "next/router";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 type Props = {};
 
 const AlbumCard = ({ item }: any) => {
-  const { _id, title, image, name } = item;
+  const { _id, title, image, name, isPublic } = item;
+  console.log(isPublic);
 
   const router = useRouter();
 
   const handleNavigation = () => {
     if (name) {
       router.push(`/artist/${_id}`);
+    } else if (isPublic || !isPublic) {
+      router.push(`/playlist/${_id}`);
     } else {
       router.push(`/album/${_id}`);
     }
