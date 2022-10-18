@@ -13,6 +13,16 @@ export default {
   additional: {
     albums: 'Álbumes',
     artists: 'Artistas',
+    all: 'Todo',
     search: '¿Qué quieres escuchar?',
+    playlist: 'Listas de Reproducción',
+    app_name: 'Spotify',
+    tracks: 'Canciones',
+  },
+  headers: {
+    headerFavorites: 'Tus favoritos',
+    headerAlbum: 'Album',
+    headerArtist: 'Artista',
+    headerLibrary: 'Biblioteca',
   },
 };

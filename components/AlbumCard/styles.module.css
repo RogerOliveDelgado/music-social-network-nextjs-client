@@ -40,6 +40,7 @@
   flex: 1;
   position: relative;
   align-items: flex-end;
+  width: inherit;
 }
 
 .card_info {
@@ -122,7 +123,7 @@
     width: 8rem;
   }
   .album_name {
-    font-size: 1.3rem;
+    font-size: 1rem;
     width: 90%;
   }
   .album_artist {

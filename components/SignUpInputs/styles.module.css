@@ -6,7 +6,71 @@
   outline: none;
 }
 
+.none {
+  border: none;
+}
+
 .form_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.formFailed {
+  width: 25rem;
+  height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--lightest_blue);
+  border-radius: 0.5rem;
+}
+
+.sectionInputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 12rem;
+  width: 100%;
+}
+
+.sectionInputs > input {
+  width: 95%;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--lightGrey);
+  font-size: 1.2rem;
+  outline: none;
+  color: black;
+}
+
+.sectionInputs > input::placeholder {
+  color: var(--lightGrey);
+}
+
+.label {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.googleLogin {
+  width: 15rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--darker_blue);
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  color: white;
+  border: none;
+  border-radius: 3rem;
+}
+
+.section_div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,13 +85,16 @@
 
 .no_hide {
   height: 100%;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
 .hide {
   display: none;
+}
+
+.pHint {
+  color: var(--lightest_blue);
+  font-weight: bold;
+  padding-left: 1rem;
 }
 
 @media only screen and (max-width: 500px) {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SignUpFailed from "../../components/SignUpInputs/SignUpFailed";
 
 import styles from "./styles.module.css";
 
@@ -7,24 +8,52 @@ import CheckIcon from "@mui/icons-material/Check";
 
 type Props = {
   signUpCompleted: boolean;
+  signUpFailed: boolean;
+  signUp: Function;
+  getUserName: Function;
+  getEmail: Function;
+  getPassword: Function;
+  username: string;
+  email: string;
+  password: string;
+  failedMsg: string;
+  setCookie: Function;
+  setSignUpFailed: Function;
+  setFailedMsg: Function;
 };
 
 const musicGenre = [
-  "clásica",
-  "Blues",
-  "Jazz",
-  "Soul",
-  "R&B: Rhythm and Blues ",
-  "Rock and Roll",
+  "latin hip hop",
+  "reggaeton",
+  "trap latino",
+  "rap",
+  "latin rock",
+  "urbano espanol",
+  "r&b argentino",
+  "pop",
+  "rap espanol",
+  "latin pop",
+  "pop soul",
+  "spanish pop rock",
   "rock",
-  "Metal",
-  "Disco",
-  "Pop",
-  "Reggaeton",
-  "Techno",
+  "classic rock",
 ];
 
-const MusicPreferences = ({ signUpCompleted }: Props) => {
+const MusicPreferences = ({
+  getUserName,
+  getEmail,
+  getPassword,
+  signUpCompleted,
+  signUpFailed,
+  signUp,
+  username,
+  email,
+  password,
+  failedMsg,
+  setCookie,
+  setSignUpFailed,
+  setFailedMsg,
+}: Props) => {
   const [likedMusic, setLikedMusic] = useState<string[]>([]);
 
   const getLikedMusic = (genre: string) => {
@@ -43,7 +72,7 @@ const MusicPreferences = ({ signUpCompleted }: Props) => {
 
   return (
     <>
-      {signUpCompleted === true && (
+      {signUpCompleted === true && signUpFailed === false ? (
         <div className={styles.divGenre}>
           <div className={styles.genresDiv}>
             {musicGenre.map((genre) => {
@@ -75,11 +104,31 @@ const MusicPreferences = ({ signUpCompleted }: Props) => {
             >
               <ClearIcon sx={{ color: "red" }} /> Clear
             </button>
-            <button className={styles.submitFormButton}>
+            <button
+              className={styles.submitFormButton}
+              onClick={(e) => {
+                signUp(username, email, password, likedMusic, e);
+              }}
+            >
               <CheckIcon sx={{ color: "green" }} /> Confirm
             </button>
           </div>
         </div>
+      ) : (
+        <SignUpFailed
+          getUserName={getUserName}
+          getEmail={getEmail}
+          getPassword={getPassword}
+          signUpFailed={signUpFailed}
+          username={username}
+          email={email}
+          password={password}
+          likedMusic={likedMusic}
+          failedMsg={failedMsg}
+          setCookie={setCookie}
+          setSignUpFailed={setSignUpFailed}
+          setFailedMsg={setFailedMsg}
+        />
       )}
     </>
   );
