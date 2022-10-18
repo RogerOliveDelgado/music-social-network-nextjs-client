@@ -90,8 +90,8 @@ body {
 } */
 
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-button {
   width: 35px;

@@ -4,6 +4,7 @@ import { useI18N } from '../../context/i18';
 import Banner from '../../components/Banner/Banner';
 import TrackList from '../../components/TrackList/TrackList';
 import { useGetArtistsQuery } from '../../redux/artistAPI';
+import styles from './styles.module.css';
 
 type Props = {};
 
@@ -22,17 +23,19 @@ const Favorites = (props: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Banner user={'alejo61094'} total={21} />
-        {!isLoading ? (
-          <TrackList
-            name="Liked Songs"
-            tracks={tracks.data[0].tracks}
-            heightValue={35}
-          />
-        ) : (
-          //TODO hacer un componente de loading
-          <h1>Loading...</h1>
-        )}
+        <div className={styles.container}>
+          <Banner user={'alejo61094'} total={21} />
+          {!isLoading ? (
+            <TrackList
+              name="Liked Songs"
+              tracks={tracks.data[0].tracks}
+              heightValue={35}
+            />
+          ) : (
+            //TODO hacer un componente de loading
+            <h1>Loading...</h1>
+          )}
+        </div>
       </Layout>
     </>
   );

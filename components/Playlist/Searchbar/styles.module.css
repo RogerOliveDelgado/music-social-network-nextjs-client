@@ -1,6 +1,7 @@
 .container {
   border-top: 1px solid var(--lightest_blue);
   margin-bottom: 3rem;
+  margin-left: 6rem;
 }
 
 .title {

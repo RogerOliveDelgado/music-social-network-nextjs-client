@@ -7,7 +7,6 @@
 .main {
   display: flex;
   flex-direction: column;
-  margin-left: 6rem;
   margin-right: 1rem;
   width: auto;
   height: 100%;
