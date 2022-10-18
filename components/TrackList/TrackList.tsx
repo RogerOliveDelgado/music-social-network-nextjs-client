@@ -40,9 +40,7 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
     dispatch(setCurrentTrack(tracks[index]));
   };
 
-  console.log(tracks);
   useEffect(()=>{
-    // if(isReady){
       //tenemos las tracks del artista
       //Obtenemos el array likedSongs del usuario loggeado
       //Almacenamos en un array(estado) las Tracks que se encuentran   
@@ -61,7 +59,6 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
         setUserLikedSongs(array);   
       }
       getUser(); 
-    // }
   },[])
   
   console.log(userLikedSongs);
@@ -92,7 +89,6 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
         body: JSON.stringify({ _id: songId })
       })
       const data = await response.json();
-      console.log(data.data.data);
       //Ahora tenemos que obtener los datos de este user para poder setear las canciones favoritas de nuevo
 
       if(data.ok){
@@ -103,7 +99,7 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
             }
           })
           const user = await userResponse.json();
-          console.log(user);
+
           let arrayFavouritesSongs: string[] = [];
           user.data.likedSongs.map((song:any) => {
             arrayFavouritesSongs.push(song._id)

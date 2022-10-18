@@ -1,0 +1,16 @@
+.follow_button {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  background-color: #d55156;
+  opacity: 50%;
+  justify-self: flex-end;
+}
+
+.follow_button_added {
+  border-radius: 10px;
+  height: 3rem;
+  width: 9rem;
+  background-color: #da292f;
+  justify-self: flex-end;
+}

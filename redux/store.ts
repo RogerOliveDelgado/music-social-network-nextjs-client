@@ -5,6 +5,7 @@ import { currentTrackSlice } from './features/player/currentTracks';
 import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
 import { albumAPI } from './albumAPI';
 import { artistAPI } from './artistAPI';
+import { userAPI } from './userAPI'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     currentTrack: currentTrackSlice.reducer,
     [albumAPI.reducerPath]: albumAPI.reducer,
     [artistAPI.reducerPath]: artistAPI.reducer,
+    [userAPI.reducerPath]: userAPI.reducer,
   },
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
