@@ -5,18 +5,40 @@ import AlbumIcon from '@mui/icons-material/Album';
 import { Track } from '../../interfaces/artistResponse';
 import { millisToMinutes } from '../../utils/converter';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import {
+  setCurrentIndex,
+  currentTrack as setCurrentTrack,
+} from '../../redux/features/player/currentTracks';
+import { RootState } from '../../redux/store';
+
+import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+
+import styles from './styles.module.css';
 
 type Props = {
   name: string;
   tracks: Track[];
+  heightValue?: number;
 };
 
-const TrackList = ({ name, tracks }: Props) => {
+const TrackList = ({ name, tracks, heightValue }: Props) => {
   const id = '634d389b4de99c82919f02b7';
   const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M'
   const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
+
+  const dispatch = useDispatch();
+  const { currentTrack } = useSelector(
+    (state: RootState) => state.currentTrack
+  );
+
+  const updatePlayer = (track: Track, index: number) => {
+    dispatch(updateTrackList(tracks));
+    dispatch(setCurrentIndex(index));
+    dispatch(setCurrentTrack(tracks[index]));
+  };
 
   console.log(tracks);
   useEffect(()=>{
@@ -94,7 +116,7 @@ const TrackList = ({ name, tracks }: Props) => {
   }
 
   return (
-    <div>
+    <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
         <p>{name || 'Album name'}</p>
@@ -103,8 +125,19 @@ const TrackList = ({ name, tracks }: Props) => {
         {tracks?.map((track, index) => {
           return (
             <div key={index} className={styles.track_list_row}>
+            <div
+              key={track._id}
+              className={styles.track_list_row}
+              onClick={() => updatePlayer(track, index)}
+            >
               <div className={styles.track_info}>
-                <p>{index + 1}</p>
+                <p>
+                  {track._id === currentTrack._id ? (
+                    <GraphicEqIcon />
+                  ) : (
+                    index + 1
+                  )}
+                </p>
                 <p className={styles.track_name}>{track.title}</p>
               </div>
               <div className={styles.buttons_container}>
@@ -120,6 +153,7 @@ const TrackList = ({ name, tracks }: Props) => {
                   {millisToMinutes(track.duration)}
                 </p>
               </div>
+            </div>
             </div>
           );
         })}

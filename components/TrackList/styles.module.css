@@ -6,13 +6,14 @@
 
 .track_list_row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
   border-bottom: 2px solid #acacac;
 }
 .track_list_row:hover {
   cursor: pointer;
   background: #d5c8c8;
+  color: #4e4949;
 }
 
 .track_info {

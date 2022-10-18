@@ -13,28 +13,35 @@ const SignUpComponents = (props: Props) => {
   const [password, setPassword] = useState(String);
 
   const [signUpCompleted, setSignUpCompleted] = useState(false);
+  const [signUpFailed, setSignUpFailed] = useState(Boolean);
 
-  const getUserName = (e: any) => {
+  const getUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
-  const getEmail = (e: any) => {
+  const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const getPassword = (e: any) => {
+  const getPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const changeInputUserName = (e: any) => {
+  const changeInputUserName = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setHideUserNameInput(true);
     setHideEmailInput(false);
   };
-  const changeInputEmail = (e: any) => {
+  const changeInputEmail = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setHideEmailInput(true);
     setHidePasswordInput(false);
   };
-  const changeInputPassword = (e: any) => {
+  const changeInputPassword = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setHidePasswordInput(true);
 
@@ -47,6 +54,11 @@ const SignUpComponents = (props: Props) => {
 
   return (
     <SignUpInputs
+      username={username}
+      email={email}
+      password={password}
+      signUpFailed={signUpFailed}
+      setSignUpFailed={setSignUpFailed}
       hideUserNameInput={hideUserNameInput}
       hideEmailInput={hideEmailInput}
       hidePasswordInput={hidePasswordInput}

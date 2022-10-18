@@ -1,11 +1,15 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext } from "react";
 
-import es from '../locales/es';
-import en from '../locales/en';
-import fr from '../locales/fr';
-import { useRouter } from 'next/router';
+import es from "../locales/es";
+import en from "../locales/en";
+import fr from "../locales/fr";
+import { useRouter } from "next/router";
 
-const I18NContext = createContext({});
+interface ContextProps {
+  t: any;
+}
+
+const I18NContext = createContext<ContextProps>({} as ContextProps);
 
 type Props = {
   children: React.ReactNode;
@@ -25,7 +29,7 @@ export const I18NProvider = ({ children }: Props) => {
 export function useI18N() {
   const context = useContext(I18NContext);
   if (context === undefined) {
-    throw new Error('useI18N must be used within a I18NProvider');
+    throw new Error("useI18N must be used within a I18NProvider");
   }
   return context;
 }
