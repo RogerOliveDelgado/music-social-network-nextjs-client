@@ -28,7 +28,8 @@ const Home = (props: Props) => {
 
   isAuthenticated === null ? (
     router.push("/")
-  ) : (
+  ) : 
+  (
     <>
       <Head>
         <title>{t("home").home}</title>

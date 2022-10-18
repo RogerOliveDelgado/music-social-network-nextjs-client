@@ -30,7 +30,8 @@ const ArtistDetails = (props: Props) => {
 
   isAuthenticated === null ? (
     router.push("/")
-  ) : (
+  ) : 
+  (
     <>
       <Head>
         <title>Artist Details</title>
