@@ -6,14 +6,12 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import styles from "./styles.module.css";
 import { TextareaAutosize } from "@mui/base";
 import toast, { Toaster } from "react-hot-toast";
-import { style } from "@mui/system";
 
-function CreatePlaylist() {
+function CreatePlaylist(props: any) {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
 
@@ -22,7 +20,7 @@ function CreatePlaylist() {
   const [playlistImage, setPlaylistImage] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [playlistName, setPlaylistName] = useState("");
-  const [title, setTitle] = useState("My playlist");
+  const [title, setTitle] = useState("New playlist");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [description, setDescription] = useState("");
 
@@ -59,7 +57,6 @@ function CreatePlaylist() {
           image: `/${playlistImage?.name}`,
         }),
       });
-console.log(response)
       if (response.status === 400) {
         const result = await response.json();
         toast.error("Oops, something went wrong");
@@ -77,7 +74,6 @@ console.log(response)
       console.error(error);
     }
   };
-
 
   return (
     <>
@@ -105,7 +101,14 @@ console.log(response)
           </span>
         </div>
         <div className={styles.playlist_info}>
-          <span className={styles.playlist_name}>{title}</span>
+          {/* <span className={styles.playlist_name}>{
+            playlistCreated ? title : title === "My playlist" ? props.title : title
+          }</span> */}
+          {props.playlistId ? (
+            <span className={styles.playlist_name}>{props.title}</span>
+          ) : (
+            <span className={styles.playlist_name}>{title}</span>
+          )}
           <span>{description}</span>
           <span>User name</span>
         </div>

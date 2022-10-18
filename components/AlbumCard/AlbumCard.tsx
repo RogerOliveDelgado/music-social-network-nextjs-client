@@ -10,8 +10,6 @@ type Props = {};
 const AlbumCard = ({ item }: any) => {
   const { _id, title, image, name, popularity, isPublic } = item;
 
-  console.log(popularity);
-
   const router = useRouter();
 
   const handleNavigation = () => {
