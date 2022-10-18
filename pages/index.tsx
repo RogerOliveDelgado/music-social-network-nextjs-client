@@ -10,6 +10,7 @@ import { useI18N } from "../context/i18";
 
 import styles from "../pages/home/styles.module.css";
 import Head from "next/head";
+import { useGetPlaylistQuery } from "../redux/playlistAPI";
 
 const Home = () => {
   const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined);
@@ -18,6 +19,13 @@ const Home = () => {
     isLoading: isLoadingArtist,
     error: artistsError,
   } = useGetArtistsQuery(undefined);
+
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+  } = useGetPlaylistQuery(undefined);
+
   const { t } = useI18N();
   return (
     <>
@@ -39,6 +47,11 @@ const Home = () => {
             <RowSkeleton />
           ) : (
             <Row title={t("additional").artists} data={artists?.data} />
+          )}
+          {isLoadingPlaylist ? (
+            <RowSkeleton />
+          ) : (
+            <Row title={t("additional").playlist} data={playlists?.data} />
           )}
         </div>
       </Layout>

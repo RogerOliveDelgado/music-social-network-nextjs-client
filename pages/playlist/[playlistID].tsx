@@ -1,12 +1,12 @@
-import Layout from "../components/Layout/Layout";
+import Layout from "../../components/Layout/Layout";
 
 import styles from "./styles.module.css";
 import Head from "next/head";
-import TabPanel from "../components/TabPanel/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
-import { useGetPlaylistQuery } from "../redux/playlistAPI";
-import CreatePlaylist from "../components/Playlist/CreatePlaylist";
-import Searchbar from "../components/Playlist/Searchbar/Searchbar";
+import { useGetPlaylistDetailsQuery } from "../../redux/playlistAPI";
+import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
+import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
 
 type Props = {};
 
@@ -17,8 +17,7 @@ const Playlist = (props: Props) => {
     data: playlist,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined);
-
+  } = useGetPlaylistDetailsQuery(query.playlistID);
 
   return (
     <>

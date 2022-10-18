@@ -1,10 +1,11 @@
 import styles from './styles.module.css';
 import { Album } from '../../interfaces/albumResponse';
 import { Artist } from '../../interfaces/artistResponse';
+import { Playlist } from '../../interfaces/playlistResponse';
 import AlbumCard from '../AlbumCard/AlbumCard';
 
 type Props = {
-  data: Album[] | Artist[];
+  data: Album[] | Artist[] | Playlist[];
 };
 
 const GridLayout = ({ data }: Props) => {
