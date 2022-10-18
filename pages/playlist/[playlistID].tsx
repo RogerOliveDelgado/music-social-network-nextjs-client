@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useGetPlaylistDetailsQuery } from "../../redux/playlistAPI";
 import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
 import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
+import TrackList from "../../components/TrackList/TrackList";
 
 type Props = {};
 
@@ -19,6 +20,7 @@ const Playlist = (props: Props) => {
     error: playlistError,
   } = useGetPlaylistDetailsQuery(query.playlistID);
 
+
   return (
     <>
       <Head>
@@ -27,9 +29,17 @@ const Playlist = (props: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <CreatePlaylist title={playlist?.data?.title} playlistId={true} />
+        <CreatePlaylist
+          playlistId={true}
+          title={playlist?.data?.title}
+          image={playlist?.data?.image}
+          description={playlist?.data?.description}
+        />
         <Searchbar />
-        <TabPanel data={playlist?.data?.tracks} />
+        <TrackList
+          name={playlist?.data?.title}
+          tracks={playlist?.data?.tracks}
+        />
       </Layout>
     </>
   );
