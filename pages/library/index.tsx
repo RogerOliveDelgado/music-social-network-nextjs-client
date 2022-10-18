@@ -101,7 +101,7 @@ const Library = (props: Props) => {
               {isLoading ? (
                 <RowSkeleton />
               ) : (
-                <Row title={t("additional").artists} data={albums?.data} />
+                <Row title={t("additional").artists} data={artists?.data} />
               )}
               {isLoading ? (
                 <RowSkeleton />

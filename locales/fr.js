@@ -13,6 +13,7 @@ export default {
   additional: {
     albums: 'Albums',
     artists: 'Artistes',
+    playlist: 'Playlists',
     all: 'Tout',
     search: 'Que souhaitez-vous écouter ?',
     playlist: 'Playlist',

@@ -8,15 +8,16 @@ import styles from "./styles.module.css";
 type Props = {};
 
 const AlbumCard = ({ item }: any) => {
-  const { _id, title, image, name, isPublic } = item;
-  console.log(isPublic);
+  const { _id, title, image, name, popularity, isPublic } = item;
+
+  console.log(popularity);
 
   const router = useRouter();
 
   const handleNavigation = () => {
     if (name) {
       router.push(`/artist/${_id}`);
-    } else if (isPublic || !isPublic) {
+    } else if (isPublic !== undefined) {
       router.push(`/playlist/${_id}`);
     } else {
       router.push(`/album/${_id}`);

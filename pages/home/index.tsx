@@ -5,6 +5,7 @@ import Row from '../../components/Row/Row';
 import { getGreetings } from '../../utils/getGreetings';
 import { useGetAlbumsQuery } from '../../redux/albumAPI';
 import { useGetArtistsQuery } from '../../redux/artistAPI';
+import { useGetPlaylistQuery } from '../../redux/playlistAPI';
 import RowSkeleton from '../../components/RowSkeleton/RowSkeleton';
 import { useI18N } from '../../context/i18';
 
@@ -20,6 +21,14 @@ const Home = (props: Props) => {
     isLoading: isLoadingArtist,
     error: artistsError,
   } = useGetArtistsQuery(undefined);
+
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+  } = useGetPlaylistQuery(undefined);
+
+
   const { t } = useI18N();
 
   return (
@@ -42,6 +51,11 @@ const Home = (props: Props) => {
             <RowSkeleton />
           ) : (
             <Row title={t('additional').artists} data={artists?.data} />
+          )}
+          {isLoadingPlaylist ? (
+            <RowSkeleton />
+          ) : (
+            <Row title={t('additional').playlist} data={playlists?.data} />
           )}
         </div>
       </Layout>
