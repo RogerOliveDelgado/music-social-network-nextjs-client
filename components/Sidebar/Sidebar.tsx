@@ -95,7 +95,7 @@ function Sidebar(props: ButtonProps) {
         >
           <List>
             {[
-              { text: `${t("home").home}`, url: "/home" },
+              { text: `${t("home").home}`, url: "/es" },
               { text: `${t("home").library}`, url: "/library" },
               { text: `${t("home").playlist}`, url: "/playlist" },
               { text: `${t("home").liked}`, url: "/favorites" },

@@ -1,22 +1,33 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
-export default function middleware(req: NextRequest) {
+import { jwtVerify } from "jose";
+
+export default async function middleware(req: NextRequest) {
   const userToken = req.cookies.get("userToken");
 
-  const url = req.url;
+  // console.log(req.geo?.country); así podemos ver el país del usuario
 
-  if (
-    url.includes("/es/home") ||
-    url.includes("/es/album") ||
-    url.includes("/es/artist") ||
-    url.includes("/es/library") ||
-    url.includes("/es/playlist")
-  ) {
-    if (userToken === undefined) {
-      return NextResponse.redirect("http://localhost:3000/es");
-    }
+  // console.log(url)
+
+  if (userToken === undefined) {
+    console.log("undefined");
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  return NextResponse.next();
+  try {
+    const { payload } = await jwtVerify(
+      userToken,
+      new TextEncoder().encode(
+        "a041e6a6da2622fb599da9592cea604bd08ef5fcf361c6f51a8410a5748cdb0cd5a1bcb71d8cf16097e90e56465032e81acf863a888217600a9c5797315c16bb"
+      )
+    );
+    return NextResponse.next();
+  } catch (error) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 }
+
+export const config = {
+  matcher: ["/", "/favorites", "/artist", "/album", "/playlist", "/library"],
+};

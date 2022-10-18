@@ -51,7 +51,7 @@ const LoginInputs = (props: Props) => {
       if (response.ok) {
         const result = await response.json();
         setCookie("userToken", result.data, { path: "/" });
-        toast.promise(router.push("/home"), {
+        toast.promise(router.push("/es"), {
           loading: "Goooing...",
           success: <b></b>,
           error: <b></b>,
