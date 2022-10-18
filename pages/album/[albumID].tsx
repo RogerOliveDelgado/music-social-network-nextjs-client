@@ -15,28 +15,53 @@ import { Album } from '../../interfaces/ServerResponse';
 import FollowButton from '../../components/FollowButton/FollowButton';
 import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 type Props = {};
+
+// export async function getStaticPaths() {
+
+//   const response = await fetch('http://localhost:4002/album')
+//   const data = await response.json()
+
+//   const paths = data.data.map((album: Album) => {
+//     return {params: {albumID : album._id} }
+//   })
+
+//   return {
+//     paths: paths,
+//     fallback: false, // can also be true or 'blocking'
+//   };
+// }
+
+// export async function getStaticProps(context: any) {
+  
+//   const albumID = context.params.albumID
+
+//   console.log('dasmdkmasdasd', context, '---------------------')
+//   return {
+//     // Passed to the page component as props
+//     props: { post: {} },
+//   }
+// }
 
 const AlbumDetails = (props: Props) => {
 
   const {query} = useRouter()
   const albumID = query.albumID?.toString() as string
+
   const userID = '63496653b32bbbe6521bec29'
   let isFollowed = undefined
-  
+
   const {
     data: album ,
     isLoading,
-    error,
-    isFetching,
   } = useGetAlbumDetailsQuery(albumID);
   
   const {
     data: user,
-    isSuccess
+    isSuccess,
   } = useGetUserQuery(userID)
-
 
   if (isSuccess) {
     isFollowed = user.data.albums.some((album: Album) => album._id === albumID)
@@ -70,7 +95,7 @@ const AlbumDetails = (props: Props) => {
                 Bombay Bicycle Club
               </h2>
               <Tooltip title="Add this album to your library.">
-                {!isLoading ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
+                {isSuccess && albumID ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
                 <SkelettonButton/>}
               </Tooltip>
             </div>

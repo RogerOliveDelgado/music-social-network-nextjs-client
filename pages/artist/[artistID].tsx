@@ -25,6 +25,8 @@ const ArtistDetails = (props: Props) => {
   const userID = '63496653b32bbbe6521bec29'
   let isFollowed = undefined
 
+  console.log(artistID)
+
   const {
     data: artist,
     isLoading,
@@ -71,7 +73,7 @@ const ArtistDetails = (props: Props) => {
                 })}
               </div>
               <Tooltip title="Add the artist to your library.">
-              {!isLoading ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
+              {isSuccess && artistID ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
                 <SkelettonButton/>}
               </Tooltip>
             </div>

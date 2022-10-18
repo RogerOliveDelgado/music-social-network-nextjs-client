@@ -15,8 +15,9 @@ type Props = {
 
 const FollowButton = ({ isFollowed, id, type }: Props) => {
     
-  const [follow, setFollow] = useState(isFollowed)
   const [addItem] = useAddItemToLibraryMutation()
+  const [follow, setFollow] = useState(isFollowed)
+  
 
   const handleClick = async() => {
       const response = await addItem({
@@ -24,7 +25,7 @@ const FollowButton = ({ isFollowed, id, type }: Props) => {
         id: id
       })
       if(response?.error) return
-      if(response?.data) setFollow(state => !state)
+      if(response?.data) setFollow((state: boolean) => !state)
   }
 
   return (
@@ -35,7 +36,7 @@ const FollowButton = ({ isFollowed, id, type }: Props) => {
     startIcon={<FavoriteBorderIcon />}
     onClick={handleClick}
   >
-  Follow
+  {follow ? 'Followed' : 'Follow'}
   </Button>
   );
 };
