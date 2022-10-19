@@ -44,6 +44,7 @@ const ArtistDetails = (props: Props) => {
               width={200}
               height={200}
               layout="fixed"
+              priority
             />
             <div className={styles.artist_information}>
               <p className={styles.type}>Artist</p>

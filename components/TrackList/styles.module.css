@@ -7,11 +7,12 @@
 .track_list_row {
   display: flex;
   justify-content: space-evenly;
+
   width: 100%;
   border-bottom: 2px solid #acacac;
 }
 .track_list_row:hover {
-  cursor: pointer;
+  /* cursor: pointer; */
   background: #d5c8c8;
   color: #4e4949;
 }
@@ -25,6 +26,7 @@
 .buttons_container {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .track_list_header {
@@ -39,6 +41,34 @@
 }
 .track_name {
   font-weight: 600;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.track_name::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #4e4949;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.track_name:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.drag_icon:hover {
+  cursor: grab;
+}
+.drag_icon:active {
+  cursor: grabbing;
 }
 
 @media screen and (max-width: 900px) {
