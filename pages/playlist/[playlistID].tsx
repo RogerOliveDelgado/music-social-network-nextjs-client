@@ -20,6 +20,7 @@ const Playlist = (props: Props) => {
     error: playlistError,
   } = useGetPlaylistDetailsQuery(query.playlistID);
 
+  const tracksExist = playlist?.data?.tracks?.length > 0;
 
   return (
     <>
@@ -35,11 +36,27 @@ const Playlist = (props: Props) => {
           image={playlist?.data?.image}
           description={playlist?.data?.description}
         />
-        <Searchbar />
-        <TrackList
-          name={playlist?.data?.title}
-          tracks={playlist?.data?.tracks}
-        />
+        {tracksExist ? (
+          <>
+            <div className={styles.playlist_tracks}>
+              <TrackList
+                name={playlist?.data?.title}
+                tracks={playlist?.data?.tracks}
+              />
+            </div>
+            <Searchbar />
+          </>
+        ) : (
+          <>
+            <Searchbar />
+            <div className={styles.playlist_tracks}>
+              <TrackList
+                name={playlist?.data?.title}
+                tracks={playlist?.data?.tracks}
+              />
+            </div>
+          </>
+        )}
       </Layout>
     </>
   );
