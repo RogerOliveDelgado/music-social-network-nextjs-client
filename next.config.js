@@ -8,6 +8,7 @@ const nextConfig = {
       'upload.wikimedia.org',
       'via.placeholder.com',
       'i.scdn.co',
+      'res.cloudinary.com'
     ],
   },
   i18n: {
