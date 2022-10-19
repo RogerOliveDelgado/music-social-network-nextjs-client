@@ -11,8 +11,13 @@ import {
   currentTrack as setCurrentTrack,
 } from '../../redux/features/player/currentTracks';
 import { RootState } from '../../redux/store';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+
+import { Reorder, AnimatePresence, useDragControls } from 'framer-motion';
 
 import styles from './styles.module.css';
 
@@ -23,15 +28,41 @@ type Props = {
 };
 
 const TrackList = ({ name, tracks, heightValue }: Props) => {
+  const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
+  const [inPlayList, setInPlayList] = useState<boolean>(false);
+  const dragControls = useDragControls();
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
   );
 
+  useEffect(() => {
+    if (router.pathname.includes('playlist')) {
+      setInPlayList(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    inPlayList && setOrderTracks(tracks);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tracks]);
+
+  useEffect(() => {
+    inPlayList && onReOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderTracks]);
+
   const updatePlayer = (track: Track, index: number) => {
-    dispatch(updateTrackList(tracks));
+    dispatch(updateTrackList(orderTracks));
     dispatch(setCurrentIndex(index));
-    dispatch(setCurrentTrack(tracks[index]));
+    dispatch(setCurrentTrack(orderTracks[index]));
+  };
+
+  const onReOrder = () => {
+    dispatch(updateTrackList(orderTracks));
   };
 
   return (
@@ -40,41 +71,64 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
         <AlbumIcon />
         <p>{name || 'Album name'}</p>
       </div>
-      <div className={styles.tracks_list}>
-        {tracks?.map((track, index) => {
-          return (
-            <div
-              key={track._id}
-              className={styles.track_list_row}
-              onClick={() => updatePlayer(track, index)}
-            >
-              <div className={styles.track_info}>
-                <p>
-                  {track._id === currentTrack._id ? (
-                    <GraphicEqIcon />
-                  ) : (
-                    index + 1
-                  )}
-                </p>
-                <p className={styles.track_name}>{track.title}</p>
-              </div>
-              <div className={styles.buttons_container}>
-                <IconButton color="inherit" component="label">
-                  <input hidden />
-                  <AddCircleOutlineIcon />
-                </IconButton>
-                <IconButton color="inherit" component="label">
-                  <input hidden />
-                  <FavoriteBorderIcon />
-                </IconButton>
-                <p className={styles.track_duration}>
-                  {millisToMinutes(track.duration)}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {tracks ? (
+        <Reorder.Group
+          className={styles.tracks_list}
+          axis="y"
+          values={tracks}
+          onReorder={setOrderTracks}
+        >
+          <AnimatePresence>
+            {(inPlayList ? orderTracks : tracks)?.map((track, index) => {
+              return (
+                <Reorder.Item
+                  value={track}
+                  key={track._id}
+                  className={styles.track_list_row}
+                  dragControls={dragControls}
+                >
+                  <div className={styles.track_info}>
+                    <p>
+                      {track._id === currentTrack._id ? (
+                        <GraphicEqIcon />
+                      ) : (
+                        index + 1
+                      )}
+                    </p>
+                    <p
+                      className={styles.track_name}
+                      onClick={() => updatePlayer(track, index)}
+                    >
+                      {track.title}
+                    </p>
+                  </div>
+                  <div className={styles.buttons_container}>
+                    <IconButton color="inherit" component="label">
+                      <input hidden />
+                      <AddCircleOutlineIcon />
+                    </IconButton>
+                    <IconButton color="inherit" component="label">
+                      <input hidden />
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                    <p className={styles.track_duration}>
+                      {millisToMinutes(track.duration)}
+                    </p>
+                    {inPlayList && (
+                      <DragIndicatorIcon
+                        className={styles.drag_icon}
+                        onPointerDown={(e) => dragControls.start(e)}
+                      />
+                    )}
+                  </div>
+                </Reorder.Item>
+              );
+            })}
+          </AnimatePresence>
+        </Reorder.Group>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
   );
 };
