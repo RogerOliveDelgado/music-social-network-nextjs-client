@@ -9,6 +9,7 @@ import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
 import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
 import TrackList from "../../components/TrackList/TrackList";
 import { useI18N } from "../../context/i18";
+import DeleteButton from "../../components/Playlist/DeleteButton/DeleteButton";
 
 const Playlist = () => {
   const { query } = useRouter();
@@ -39,6 +40,7 @@ const Playlist = () => {
           image={playlist?.data?.image}
           description={playlist?.data?.description}
         />
+        <DeleteButton />
         {tracksExist ? (
           <>
             <div className={styles.playlist_tracks}>
