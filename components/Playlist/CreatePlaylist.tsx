@@ -10,8 +10,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import styles from "./styles.module.css";
 import { TextareaAutosize } from "@mui/base";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 function CreatePlaylist(props: any) {
+  const router = useRouter();
+  const playlistId = router.query.playlistID;
+
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
 
@@ -34,7 +38,7 @@ function CreatePlaylist(props: any) {
     setOpen(false);
   };
 
-  const handleSaveChanges = async (
+  const createPlaylist = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     playlistName: string,
     playlistDescription: string,
@@ -69,6 +73,55 @@ function CreatePlaylist(props: any) {
         setImage(playlistImage);
         setOpen(false);
         toast.success("Playlist created!");
+        router.push(`/playlist/${result.data._id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const editPlaylist = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    playlistName: string,
+    playlistDescription: string,
+    playlistImage: File | null
+  ) => {
+    e.preventDefault();
+    setPlaylistImage(playlistImage);
+    setPlaylistName(playlistName);
+    setPlaylistDescription(playlistDescription);
+    try {
+      const response = await fetch(
+        `http://localhost:4002/playlist/${playlistId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: playlistName == "" ? props.title : playlistName,
+            description:
+              playlistDescription == ""
+                ? props.description
+                : playlistDescription,
+            image:
+              playlistImage == null ? props.image : `/${playlistImage?.name}`,
+          }),
+        }
+      );
+      if (response.status === 400) {
+        const result = await response.json();
+        toast.error("Oops, something went wrong");
+      }
+
+      if (response.ok) {
+        const result = await response.json();
+        setTitle(playlistName);
+        setDescription(playlistDescription);
+        setImage(playlistImage);
+        setOpen(false);
+        toast.success("Playlist information edited succesfully!");
       }
     } catch (error) {
       console.error(error);
@@ -79,7 +132,13 @@ function CreatePlaylist(props: any) {
     <>
       <div className={styles.container}>
         <div className={styles.image_container}>
-          {image !== null && image !== undefined ? (
+          {props.playlistId ? (
+            <img
+              className={styles.image_container}
+              src={props.image}
+              alt="playlist"
+            />
+          ) : image !== null && image !== undefined ? (
             <img
               className={styles.image_container}
               src={URL.createObjectURL(new Blob([image]))}
@@ -91,6 +150,7 @@ function CreatePlaylist(props: any) {
           ) : (
             <MusicNoteIcon />
           )}
+
           <span
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
@@ -101,14 +161,17 @@ function CreatePlaylist(props: any) {
           </span>
         </div>
         <div className={styles.playlist_info}>
-          {/* <span className={styles.playlist_name}>{
-            playlistCreated ? title : title === "My playlist" ? props.title : title
-          }</span> */}
           {props.playlistId ? (
             <span className={styles.playlist_name}>{props.title}</span>
           ) : (
             <span className={styles.playlist_name}>{title}</span>
           )}
+          {props.playlistId ? (
+            <span>{props.description}</span>
+          ) : (
+            <span>{description}</span>
+          )}
+
           <span>{description}</span>
           <span>User name</span>
         </div>
@@ -133,7 +196,13 @@ function CreatePlaylist(props: any) {
                 onMouseOver={() => setModalHover(true)}
                 onMouseLeave={() => setModalHover(false)}
               >
-                {playlistImage !== null && playlistImage !== undefined ? (
+                {props.playlistId ? (
+                  <img
+                    className={styles.modal_image_container}
+                    src={props.image}
+                    alt="playlist"
+                  />
+                ) : playlistImage !== null && playlistImage !== undefined ? (
                   <img
                     className={styles.modal_image_container}
                     src={URL.createObjectURL(new Blob([playlistImage]))}
@@ -144,10 +213,13 @@ function CreatePlaylist(props: any) {
                     <span>Select an image</span>
                   </>
                 )}
+
                 <label htmlFor="image" className={styles.input_label}>
-                  {modalHover &&
-                  playlistImage !== null &&
-                  playlistImage !== undefined ? (
+                  {props.playlistId && modalHover ? (
+                    <EditIcon className={styles.edit_icon} />
+                  ) : modalHover &&
+                    playlistImage !== null &&
+                    playlistImage !== undefined ? (
                     <EditIcon className={styles.edit_icon} />
                   ) : null}
                 </label>
@@ -164,7 +236,7 @@ function CreatePlaylist(props: any) {
               <div className={styles.modal_data}>
                 <TextField
                   autoFocus
-                  value={playlistName}
+                  defaultValue={props.playlistId ? props.title : playlistName}
                   placeholder="Playlist name"
                   margin="dense"
                   id="name"
@@ -177,8 +249,10 @@ function CreatePlaylist(props: any) {
                   required
                   aria-label="minimum height"
                   minRows={3}
-                  value={playlistDescription}
-                  placeholder="Add an optional description"
+                  defaultValue={
+                    props.playlistId ? props.description : playlistDescription
+                  }
+                  placeholder="Add a description to your playlist"
                   style={{
                     width: 200,
                     height: 100,
@@ -192,13 +266,22 @@ function CreatePlaylist(props: any) {
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
               <Button
-                onClick={(e) =>
-                  handleSaveChanges(
-                    e,
-                    playlistName,
-                    playlistDescription,
-                    playlistImage
-                  )
+                onClick={
+                  props.playlistId
+                    ? (e) =>
+                        editPlaylist(
+                          e,
+                          playlistName,
+                          playlistDescription,
+                          playlistImage
+                        )
+                    : (e) =>
+                        createPlaylist(
+                          e,
+                          playlistName,
+                          playlistDescription,
+                          playlistImage
+                        )
                 }
               >
                 Save Changes
