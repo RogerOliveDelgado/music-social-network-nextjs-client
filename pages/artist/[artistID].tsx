@@ -10,6 +10,7 @@ import TabPanel from '../../components/TabPanel/TabPanel';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
+import { numberWithCommas } from '../../utils/converter';
 
 import styles from './styles.module.css';
 import { useI18N } from '../../context/i18';
@@ -25,6 +26,7 @@ const ArtistDetails = (props: Props) => {
     error,
   } = useGetArtistDetailsQuery(query.artistID);
   const { t } = useI18N();
+
   return (
     <>
       <Head>
@@ -70,7 +72,10 @@ const ArtistDetails = (props: Props) => {
               </Tooltip>
             </div>
             <div className={styles.play_button_container}>
-              <p className={styles.discography_info}>15 albums - 1080 tracks</p>
+              <p className={styles.discography_info}>
+                {!isLoading &&
+                  `${numberWithCommas(artist?.data?.followers)} Followers`}
+              </p>
               <Button
                 className={styles.play_button}
                 variant="contained"
@@ -82,7 +87,7 @@ const ArtistDetails = (props: Props) => {
             </div>
           </div>
           <div className={styles.artist_discography_info}>
-            <TabPanel data={artist?.data.tracks} />
+            <TabPanel data={artist?.data.tracks} artist={artist?.data?.name} />
           </div>
         </div>
       </Layout>
