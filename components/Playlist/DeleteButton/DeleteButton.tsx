@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
-
+import Swal from "sweetalert2";
 import styles from "./styles.module.css";
 
 function DeleteButton() {
@@ -11,32 +11,40 @@ function DeleteButton() {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
 
   const deletePlaylist = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:4002/playlist/${playlistId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 400) {
-        const result = await response.json();
-        toast.error("Oops, something went wrong");
-      }
+    Swal.fire({
+      title: "Do you want to delete the playlist?",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(
+            `http://localhost:4002/playlist/${playlistId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.status === 400) {
+            const result = await response.json();
+            toast.error("Oops, something went wrong");
+          }
 
-      if (response.ok) {
-        const result = await response.json();
-        toast.success("Playlist deleted succesfully!");
-        setTimeout(() => {
-          router.push(`/playlist`);
-        }, 1500);
+          if (response.ok) {
+            const result = await response.json();
+            toast.success("Playlist deleted succesfully!");
+            setTimeout(() => {
+              router.push(`/`);
+            }, 2500);
+          }
+        } catch (error) {
+          console.error(error);
+        }
       }
-    } catch (error) {
-      console.error(error);
-    }
+    });
   };
 
   return (
@@ -57,8 +65,8 @@ function DeleteButton() {
           ></path>
         </svg>
         <span className={styles.tooltiptext}>Delete playlist</span>
-        <Toaster />
       </button>
+      <Toaster />
     </>
   );
 }

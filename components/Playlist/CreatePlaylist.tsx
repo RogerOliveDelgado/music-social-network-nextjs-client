@@ -73,7 +73,9 @@ function CreatePlaylist(props: any) {
         setImage(playlistImage);
         setOpen(false);
         toast.success("Playlist created!");
-        router.push(`/playlist/${result.data._id}`);
+        setTimeout(() => {
+          router.push(`/playlist/${result.data._id}`);
+        }, 2500);
       }
     } catch (error) {
       console.error(error);
