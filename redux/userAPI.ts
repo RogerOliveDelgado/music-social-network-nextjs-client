@@ -4,11 +4,12 @@ const API =
   process.env.REACT_APP_API_URL ||
   'http://localhost:4001';
 
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzQ5NjY1M2IzMmJiYmU2NTIxYmVjMjkiLCJ1c2VybmFtZSI6IlJvZ2VyIiwiaWF0IjoxNjY1NzU0NzA3LCJleHAiOjE2NjYxODY3MDd9.72ZanxJI8Z6QAvrIsFVibK-hIS-cfu-BRLi1t2i1jhE'
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUwMGM1OWIxMWYxN2Y3YWUwNGE4OWMiLCJ1c2VybmFtZSI6InJvZ2VsaXRvIiwiaWF0IjoxNjY2MTkwNDI1LCJleHAiOjE2NjY2MjI0MjV9.HywxZ6WF907ygn1Ss_cXiPKLtAIC_sFAF5d8bCYYMHE'
 
 export const userAPI = createApi({
   reducerPath: 'userAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
+  keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (id) => ({

@@ -22,25 +22,21 @@ const ArtistDetails = (props: Props) => {
 
   const { query } = useRouter();
   const artistID = query.artistID?.toString() as string
-  const userID = '63496653b32bbbe6521bec29'
+  const userID = '63500c59b11f17f7ae04a89c'
   let isFollowed = undefined
 
-  console.log(artistID)
-
   const {
-    data: artist,
-    isLoading,
-    error,
+    data: dataArtist,
   } = useGetArtistDetailsQuery(artistID);
 
   const {
     data: user,
-    isSuccess
+    isSuccess: isSuccessUser
   } = useGetUserQuery(userID)
 
-  if (isSuccess) {
+  if (isSuccessUser) {
     isFollowed = user.data.artists.some((item: Artist) => (item._id === artistID))
-  }  
+  }
 
   return (
     <>
@@ -54,17 +50,17 @@ const ArtistDetails = (props: Props) => {
           <div className={styles.artist_details}>
             <Image
               className={styles.artist_image}
-              src={artist?.data.image}
-              alt={artist?.data.name}
+              src={dataArtist?.data.image}
+              alt={dataArtist?.data.name}
               width={200}
               height={200}
               layout="fixed"
             />
             <div className={styles.artist_information}>
               <p className={styles.type}>Artist</p>
-              <h1 className={styles.artist_name}>{artist?.data.name}</h1>
+              <h1 className={styles.artist_name}>{dataArtist?.data.name}</h1>
               <div className={styles.artist_genres}>
-                {artist?.data.genres.map((genre: string, index: number) => {
+                {dataArtist?.data.genres.map((genre: string, index: number) => {
                   return (
                     <p key={index} className={styles.genre}>
                       {genre}
@@ -73,7 +69,7 @@ const ArtistDetails = (props: Props) => {
                 })}
               </div>
               <Tooltip title="Add the artist to your library.">
-              {isSuccess && artistID ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
+              {isSuccessUser && artistID ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
                 <SkelettonButton/>}
               </Tooltip>
             </div>
@@ -90,7 +86,7 @@ const ArtistDetails = (props: Props) => {
             </div>
           </div>
           <div className={styles.artist_discography_info}>
-            <TabPanel data={artist?.data.tracks} />
+            <TabPanel data={dataArtist?.data.tracks} />
           </div>
         </div>
       </Layout>

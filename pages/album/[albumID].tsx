@@ -16,55 +16,37 @@ import FollowButton from '../../components/FollowButton/FollowButton';
 import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
 
 type Props = {};
-
-// export async function getStaticPaths() {
-
-//   const response = await fetch('http://localhost:4002/album')
-//   const data = await response.json()
-
-//   const paths = data.data.map((album: Album) => {
-//     return {params: {albumID : album._id} }
-//   })
-
-//   return {
-//     paths: paths,
-//     fallback: false, // can also be true or 'blocking'
-//   };
-// }
-
-// export async function getStaticProps(context: any) {
-  
-//   const albumID = context.params.albumID
-
-//   console.log('dasmdkmasdasd', context, '---------------------')
-//   return {
-//     // Passed to the page component as props
-//     props: { post: {} },
-//   }
-// }
 
 const AlbumDetails = (props: Props) => {
 
   const {query} = useRouter()
   const albumID = query.albumID?.toString() as string
 
-  const userID = '63496653b32bbbe6521bec29'
+  const userID = '63500c59b11f17f7ae04a89c'
   let isFollowed = undefined
 
   const {
-    data: album ,
-    isLoading,
+    data: dataAlbum ,
+    isLoading: isLoadingAlbum,
+    isSuccess: isSuccessAlbum
   } = useGetAlbumDetailsQuery(albumID);
-  
+
   const {
-    data: user,
-    isSuccess,
+    data: dataArtist ,
+    isLoading: isLoadingArtist,
+    isSuccess: isSuccessArtist,
+  } = useGetArtistDetailsQuery(dataAlbum?.data.artist._id)
+
+  const {
+    data: dataUser,
+    isSuccess: isSuccessUser,
   } = useGetUserQuery(userID)
 
-  if (isSuccess) {
-    isFollowed = user.data.albums.some((album: Album) => album._id === albumID)
+  if (isSuccessUser) {
+    isFollowed = dataUser.data.albums.some((album: Album) => album._id === albumID)
   }
 
   return (
@@ -79,8 +61,8 @@ const AlbumDetails = (props: Props) => {
           <div className={styles.album_details}>
             <Image
               className={styles.album_image}
-              src={album?.data.image}
-              alt={album?.data.title}
+              src={dataAlbum?.data.image}
+              alt={dataAlbum?.data.title}
               width={200}
               height={200}
               layout="fixed"
@@ -89,13 +71,13 @@ const AlbumDetails = (props: Props) => {
               <p className={styles.albums_ratings}>
                 Album <Rating name="simple-controlled" value={4} />
               </p>
-              <h1 className={styles.album_name}>So Long, See You Tomorrow</h1>
+              <h1 className={styles.album_name}>{dataAlbum?.data.title}</h1>
               <h2 className={styles.album_artist}>
                 <InterpreterModeIcon />
-                Bombay Bicycle Club
+                {dataArtist?.data.name}
               </h2>
               <Tooltip title="Add this album to your library.">
-                {isSuccess && albumID ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
+                {isSuccessUser && albumID ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
                 <SkelettonButton/>}
               </Tooltip>
             </div>
@@ -124,7 +106,7 @@ const AlbumDetails = (props: Props) => {
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              <TrackList name="TrackList"/>
+              {isSuccessArtist ? <TrackList name="TrackList" tracks={dataAlbum?.data.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
             </div>
           </div>
         </div>
