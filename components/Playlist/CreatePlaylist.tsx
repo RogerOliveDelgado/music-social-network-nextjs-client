@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import { TextareaAutosize } from "@mui/base";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
+import DeleteButton from "./DeleteButton/DeleteButton";
 
 function CreatePlaylist(props: any) {
   const router = useRouter();
@@ -135,18 +136,23 @@ function CreatePlaylist(props: any) {
       <div className={styles.container}>
         <div className={styles.image_container}>
           {props.playlistId ? (
-            <img
-              className={styles.image_container}
-              src={props.image}
-              alt="playlist"
-            />
+            <picture>
+              <img
+                className={styles.image_container}
+                src={props.image}
+                alt="playlist"
+              />
+            </picture>
           ) : image !== null && image !== undefined ? (
-            <img
-              className={styles.image_container}
-              src={URL.createObjectURL(new Blob([image]))}
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-            />
+            <picture>
+              <img
+                alt="playlist"
+                className={styles.image_container}
+                src={URL.createObjectURL(new Blob([image]))}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+              />
+            </picture>
           ) : hover ? (
             <EditIcon className={styles.edit_icon} />
           ) : (
@@ -175,7 +181,6 @@ function CreatePlaylist(props: any) {
           )}
 
           <span>{description}</span>
-          <span>User name</span>
         </div>
       </div>
       <form autoComplete="off">
@@ -199,16 +204,21 @@ function CreatePlaylist(props: any) {
                 onMouseLeave={() => setModalHover(false)}
               >
                 {props.playlistId ? (
-                  <img
-                    className={styles.modal_image_container}
-                    src={props.image}
-                    alt="playlist"
-                  />
+                  <picture>
+                    <img
+                      className={styles.modal_image_container}
+                      src={props.image}
+                      alt="playlist"
+                    />
+                  </picture>
                 ) : playlistImage !== null && playlistImage !== undefined ? (
-                  <img
-                    className={styles.modal_image_container}
-                    src={URL.createObjectURL(new Blob([playlistImage]))}
-                  />
+                  <picture>
+                    <img
+                      alt="playlist"
+                      className={styles.modal_image_container}
+                      src={URL.createObjectURL(new Blob([playlistImage]))}
+                    />
+                  </picture>
                 ) : (
                   <>
                     <EditIcon className={styles.edit_icon} />
@@ -293,6 +303,7 @@ function CreatePlaylist(props: any) {
         </Dialog>
         <Toaster />
       </form>
+      {playlistId && <DeleteButton />}
     </>
   );
 }

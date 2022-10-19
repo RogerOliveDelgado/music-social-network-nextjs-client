@@ -40,7 +40,6 @@ const Playlist = () => {
           image={playlist?.data?.image}
           description={playlist?.data?.description}
         />
-        <DeleteButton />
         {tracksExist ? (
           <>
             <div className={styles.playlist_tracks}>
