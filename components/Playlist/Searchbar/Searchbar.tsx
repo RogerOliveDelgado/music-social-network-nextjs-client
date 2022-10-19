@@ -1,11 +1,15 @@
 import React from "react";
 import styles from "./styles.module.css";
 
-function Searchbar() {
+function Searchbar({
+  handleChange,
+}: {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
   return (
     <>
       <div className={styles.container}>
-        <h2 className={styles.title}>Lets find something for your playlist</h2>
+        <h2 className={styles.title}>Let&apos;s find something to add to your playlist</h2>
         <form className={styles.form} autoComplete="off">
           <label htmlFor="search" className={styles.label}>
             <input
@@ -14,6 +18,7 @@ function Searchbar() {
               required
               placeholder="Search for songs to add to your playlist..."
               id="search"
+              onChange={(e) => handleChange(e)}
             />
             <div className={styles.fancy_bg}></div>
             <div className={styles.search}>

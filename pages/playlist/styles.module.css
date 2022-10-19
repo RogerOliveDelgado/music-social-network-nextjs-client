@@ -1,3 +1,12 @@
 .playlist_tracks {
   margin-left: 5rem;
 }
+
+.search_results {
+  margin-left: 5.5rem;
+}
+
+.no_results {
+  display: flex;
+  justify-content: center;
+}
