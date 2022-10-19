@@ -25,12 +25,16 @@
   margin-bottom: 2rem;
   margin-left: 5rem;
   width: 3rem;
-  border-radius: 1.25em;
+  background-color: var(--grey);
+  border: none;
 }
 
-.tooltip:hover {
+.tooltip > svg {
   cursor: pointer;
+  background-color: var(--black);
+  border-radius: 50%;
 }
+
 
 .tooltip .tooltiptext {
   visibility: hidden;

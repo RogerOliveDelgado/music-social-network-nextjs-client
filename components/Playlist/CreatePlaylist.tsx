@@ -178,7 +178,7 @@ function CreatePlaylist(props: any) {
           <span>User name</span>
         </div>
       </div>
-      <form>
+      <form autoComplete="off">
         <Dialog open={open} onClose={handleClose}>
           <div className={styles.modal}>
             <DialogTitle
