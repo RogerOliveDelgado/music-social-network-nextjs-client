@@ -11,9 +11,10 @@ type Props = {
 const GridLayout = ({ data }: Props) => {
   return (
     <div className={styles.grid_container}>
-      {data.map((item) => {
-        return <AlbumCard key={item._id} item={item} />;
-      })}
+      {data &&
+        data?.map((item) => {
+          return <AlbumCard key={item._id} item={item} />;
+        })}
     </div>
   );
 };

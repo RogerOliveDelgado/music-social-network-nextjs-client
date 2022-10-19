@@ -28,7 +28,7 @@ const Favorites = (props: Props) => {
           {!isLoading ? (
             <TrackList
               name="Liked Songs"
-              tracks={tracks.data[0].tracks}
+              tracks={tracks?.data[0].tracks}
               heightValue={35}
             />
           ) : (

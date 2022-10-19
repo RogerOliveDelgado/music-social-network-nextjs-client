@@ -15,6 +15,7 @@ const Row = ({ title, data, children }: any) => {
       </div>
       <div className={styles.horizontal_scroll}>
         {!children &&
+          data &&
           data.slice(0, 11).map((item: Album | Artist | Playlist) => {
             return <AlbumCard key={item._id} item={item} />;
           })}
