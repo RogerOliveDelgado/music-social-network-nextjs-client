@@ -18,7 +18,9 @@ const Playlist = () => {
     data: playlist,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistDetailsQuery(query.playlistID);
+  } = useGetPlaylistDetailsQuery(query.playlistID, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const tracksExist = playlist?.data?.tracks?.length > 0;
 

@@ -25,7 +25,9 @@ const AlbumDetails = (props: Props) => {
     isLoading,
     error,
     isFetching,
-  } = useGetAlbumDetailsQuery(id);
+  } = useGetAlbumDetailsQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const { t } = useI18N();
   return (
     <>

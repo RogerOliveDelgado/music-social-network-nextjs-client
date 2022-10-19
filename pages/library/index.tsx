@@ -25,17 +25,23 @@ const Library = (props: Props) => {
     all: true,
   });
   const store = useSelector((state: RootState) => state);
-  const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined);
+  const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const {
     data: artists,
     isLoading: isLoadingArtist,
     error: artistsError,
-  } = useGetArtistsQuery(undefined);
+  } = useGetArtistsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const {
     data: playlist,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined);
+  } = useGetPlaylistQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const { t } = useI18N();
 
   const handleView = (view: string) => {

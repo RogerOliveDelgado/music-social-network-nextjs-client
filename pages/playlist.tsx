@@ -18,7 +18,9 @@ const Playlist = () => {
     data: playlist,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined);
+  } = useGetPlaylistQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
 
   return (

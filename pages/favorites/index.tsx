@@ -11,7 +11,9 @@ type Props = {};
 const Favorites = (props: Props) => {
   const { t } = useI18N();
   //Data para maquetar, hacer la query correcta para las liked tracks del user
-  const { data: tracks, isLoading, isError } = useGetArtistsQuery(undefined);
+  const { data: tracks, isLoading, isError } = useGetArtistsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
     <>

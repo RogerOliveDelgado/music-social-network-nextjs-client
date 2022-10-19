@@ -23,7 +23,9 @@ const ArtistDetails = (props: Props) => {
     data: artist,
     isLoading,
     error,
-  } = useGetArtistDetailsQuery(query.artistID);
+  } = useGetArtistDetailsQuery(query.artistID, {
+    refetchOnMountOrArgChange: true,
+  });
   const { t } = useI18N();
   return (
     <>

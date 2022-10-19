@@ -13,18 +13,24 @@ import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistAPI";
 
 const Home = () => {
-  const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined);
+  const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const {
     data: artists,
     isLoading: isLoadingArtist,
     error: artistsError,
-  } = useGetArtistsQuery(undefined);
+  } = useGetArtistsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const {
     data: playlists,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined);
+  } = useGetPlaylistQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const { t } = useI18N();
   return (
