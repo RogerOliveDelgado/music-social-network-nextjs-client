@@ -6,6 +6,7 @@ import { Track } from '../../../interfaces/artistResponse';
 interface CurrentTrack {
   currentTrack: Track;
   index: number;
+  artistName: string;
 }
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
     __v: 0,
   },
   index: 0,
+  artistName: '',
 } as CurrentTrack;
 
 export const currentTrackSlice = createSlice({
@@ -42,6 +44,9 @@ export const currentTrackSlice = createSlice({
     setCurrentIndex: (state: CurrentTrack, action: PayloadAction<number>) => {
       state.index = action.payload;
     },
+    setArtistName: (state: CurrentTrack, action: PayloadAction<string>) => {
+      state.artistName = action.payload;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   decrementIndex,
   resetIndex,
   setCurrentIndex,
+  setArtistName,
 } = currentTrackSlice.actions;
 
 export const selectCurrentTrack = (state: RootState) => state.currentTrack;

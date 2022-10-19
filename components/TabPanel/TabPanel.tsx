@@ -6,12 +6,13 @@ import { Track } from '../../interfaces/artistResponse';
 
 interface TabPanelProps {
   data: Track[];
+  artist: string;
 }
 interface TabsInterface {
   [tab: string]: boolean;
 }
 
-const TabPanel = ({ data }: TabPanelProps) => {
+const TabPanel = ({ data, artist }: TabPanelProps) => {
   const [tabs, setTabs] = useState<TabsInterface>({
     general: true,
   });
@@ -54,7 +55,7 @@ const TabPanel = ({ data }: TabPanelProps) => {
       <div className={styles.tabs_content}>
         {tabs?.general && (
           <div className={styles.trackList_container}>
-            <TrackList name={`Top Tracks`} tracks={data} />
+            <TrackList name={`Top Tracks`} tracks={data} artist={artist} />
           </div>
         )}
         {tabs?.tracks && (

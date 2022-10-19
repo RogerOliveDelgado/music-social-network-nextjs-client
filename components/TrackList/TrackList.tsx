@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
 import {
   setCurrentIndex,
+  setArtistName,
   currentTrack as setCurrentTrack,
 } from '../../redux/features/player/currentTracks';
 import { RootState } from '../../redux/store';
@@ -25,9 +26,10 @@ type Props = {
   name: string;
   tracks: Track[];
   heightValue?: number;
+  artist?: string;
 };
 
-const TrackList = ({ name, tracks, heightValue }: Props) => {
+const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   const dragControls = useDragControls();
@@ -56,9 +58,17 @@ const TrackList = ({ name, tracks, heightValue }: Props) => {
   }, [orderTracks]);
 
   const updatePlayer = (track: Track, index: number) => {
-    dispatch(updateTrackList(orderTracks));
-    dispatch(setCurrentIndex(index));
-    dispatch(setCurrentTrack(orderTracks[index]));
+    if (inPlayList) {
+      dispatch(updateTrackList(orderTracks));
+      dispatch(setCurrentIndex(index));
+      dispatch(setCurrentTrack(orderTracks[index]));
+      dispatch(setArtistName(artist));
+    } else {
+      dispatch(updateTrackList(tracks));
+      dispatch(setCurrentIndex(index));
+      dispatch(setCurrentTrack(tracks[index]));
+      dispatch(setArtistName(artist));
+    }
   };
 
   const onReOrder = () => {
