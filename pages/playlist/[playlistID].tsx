@@ -10,6 +10,7 @@ import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
 import TrackList from "../../components/TrackList/TrackList";
 import { useI18N } from "../../context/i18";
 import DeleteButton from "../../components/Playlist/DeleteButton/DeleteButton";
+import { useGetTracksQuery } from "../../redux/trackAPI";
 
 const Playlist = () => {
   const { query } = useRouter();
@@ -23,6 +24,14 @@ const Playlist = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  const {
+    data: tracks,
+    isLoading: isLoadingTracks,
+    error: tracksError,
+  } = useGetTracksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  
   const tracksExist = playlist?.data?.tracks?.length > 0;
 
   return (
