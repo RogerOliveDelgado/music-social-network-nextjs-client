@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -90,7 +90,6 @@ function CreatePlaylist(props: any) {
     playlistImage: File | null
   ) => {
     e.preventDefault();
-    console.log(metaDataplayListImage)
     setPlaylistImage(playlistImage);
     setPlaylistName(playlistName);
     setPlaylistDescription(playlistDescription);
@@ -109,8 +108,7 @@ function CreatePlaylist(props: any) {
               playlistDescription == ""
                 ? props.description
                 : playlistDescription,
-            image:
-              playlistImage == null ? props.image : metaDataplayListImage,
+            image: playlistImage == null ? props.image : metaDataplayListImage,
           }),
         }
       );
@@ -123,9 +121,9 @@ function CreatePlaylist(props: any) {
         const result = await response.json();
 
         props.setImagePlayList(result.data.image);
-        props.setTitle(result.data.title)
-        props.setDescription(result.data.description)
-        props.setChange(!props.change)
+        props.setTitle(result.data.title);
+        props.setDescription(result.data.description);
+        props.setChange(!props.change);
         setOpen(false);
         toast.success("Playlist information edited succesfully!");
       }
@@ -134,25 +132,23 @@ function CreatePlaylist(props: any) {
     }
   };
 
-  const handleImage = ({target}:ChangeEvent<HTMLInputElement>) => {
+  const handleImage = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const file = target.files[0];
-    console.log("Cambiando imagen");
-    
+
     // Encode the file using the FileReader API
     const reader = new FileReader();
     reader.onloadend = () => {
-        // Use a regex to remove data url part
-        const base64String = reader?.result?.replace('data:', '')
-            .replace(/^.+,/, '');
+      // Use a regex to remove data url part
+      const base64String = reader?.result
+        ?.replace("data:", "")
+        .replace(/^.+,/, "");
 
-        console.log(base64String);
-        setMetaDataPlayListImage(base64String)
-        // Logs wL2dvYWwgbW9yZ...
+      setMetaDataPlayListImage(base64String);
+      // Logs wL2dvYWwgbW9yZ...
     };
     reader.readAsDataURL(file);
-    setPlaylistImage(file)
-  }
-  console.log(playlistImage)
+    setPlaylistImage(file);
+  };
   return (
     <>
       <div className={styles.container}>
@@ -229,7 +225,11 @@ function CreatePlaylist(props: any) {
                 {props.playlistId ? (
                   <img
                     className={styles.modal_image_container}
-                    src={playlistImage == null ? props.image : URL.createObjectURL(new Blob([playlistImage]))}
+                    src={
+                      playlistImage == null
+                        ? props.image
+                        : URL.createObjectURL(new Blob([playlistImage]))
+                    }
                     alt="playlist"
                   />
                 ) : playlistImage !== null && playlistImage !== undefined ? (
@@ -261,9 +261,7 @@ function CreatePlaylist(props: any) {
                   className={styles.input}
                   type="file"
                   accept="image/png, image/jpeg"
-                  onChange={(e) =>
-                    !e.target.files ? null : handleImage(e)
-                  }
+                  onChange={(e) => (!e.target.files ? null : handleImage(e))}
                   //setPlaylistImage(e.target.files[0])
                 />
               </div>

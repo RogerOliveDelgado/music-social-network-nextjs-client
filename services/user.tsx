@@ -20,7 +20,6 @@ export const createUser = async (
         genres: likedMusic,
       }),
     });
-
     if (response.status === 400) {
       const result = await response.json();
 
@@ -29,7 +28,7 @@ export const createUser = async (
 
     if (response.ok) {
       const result = await response.json();
-      setCookie("userToken", result.data, { path: "/" });
+      setCookie("userToken", result.data.token, { path: "/" });
       return result;
     }
   } catch (error) {

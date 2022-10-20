@@ -8,7 +8,7 @@ function DeleteButton() {
   const router = useRouter();
   const playlistId = router.query.playlistID;
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU";
 
   const deletePlaylist = async () => {
     Swal.fire({

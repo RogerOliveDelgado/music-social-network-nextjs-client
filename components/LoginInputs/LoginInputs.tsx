@@ -44,13 +44,12 @@ const LoginInputs = (props: Props) => {
 
       if (response.status === 400) {
         const result = await response.json();
-        console.log("aqui", result);
         toast.error("Oops, something went wrong!");
       }
 
       if (response.ok) {
         const result = await response.json();
-        setCookie("userToken", result.data, { path: "/" });
+        setCookie("userToken", result.data.token, { path: "/" });
         toast.promise(router.push("/es"), {
           loading: "Goooing...",
           success: <b></b>,
