@@ -32,7 +32,6 @@ const Playlist = () => {
       </Head>
       <Layout>
         <CreatePlaylist />
-        <Searchbar />
         <TabPanel data={playlist?.data} />
       </Layout>
     </>

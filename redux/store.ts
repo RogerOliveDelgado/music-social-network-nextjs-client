@@ -1,11 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { trackListSlice } from './features/player/musicPlayerSlice';
-import { currentTrackSlice } from './features/player/currentTracks';
+import { configureStore } from "@reduxjs/toolkit";
+import { trackListSlice } from "./features/player/musicPlayerSlice";
+import { currentTrackSlice } from "./features/player/currentTracks";
 
-import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
-import { albumAPI } from './albumAPI';
-import { artistAPI } from './artistAPI';
-import { playlistAPI } from './playlistAPI';
+import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
+import { albumAPI } from "./albumAPI";
+import { artistAPI } from "./artistAPI";
+import { playlistAPI } from "./playlistAPI";
+import { trackAPI } from "./trackAPI";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [albumAPI.reducerPath]: albumAPI.reducer,
     [artistAPI.reducerPath]: artistAPI.reducer,
     [playlistAPI.reducerPath]: playlistAPI.reducer,
+    [trackAPI.reducerPath]: trackAPI.reducer,
   },
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
