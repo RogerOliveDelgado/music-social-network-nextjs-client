@@ -11,9 +11,16 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
 import { numberWithCommas } from '../../utils/converter';
+import {
+  setCurrentIndex,
+  setArtistName,
+  currentTrack as setCurrentTrack,
+} from '../../redux/features/player/currentTracks';
+import { useDispatch } from 'react-redux';
 
 import styles from './styles.module.css';
 import { useI18N } from '../../context/i18';
+import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
 
 type Props = {};
 
@@ -28,6 +35,16 @@ const ArtistDetails = (props: Props) => {
     refetchOnMountOrArgChange: true,
   });
   const { t } = useI18N();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const playArtistTracks = () => {
+    console.log(artist?.data.tracks);
+    dispatch(updateTrackList(artist?.data.tracks));
+    dispatch(setCurrentIndex(0));
+    dispatch(setCurrentTrack(artist?.data.tracks[0]));
+    dispatch(setArtistName(artist.data.name!));
+  };
 
   return (
     <>
@@ -83,6 +100,7 @@ const ArtistDetails = (props: Props) => {
                 variant="contained"
                 color="inherit"
                 startIcon={<PlayArrowIcon />}
+                onClick={playArtistTracks}
               >
                 Play
               </Button>

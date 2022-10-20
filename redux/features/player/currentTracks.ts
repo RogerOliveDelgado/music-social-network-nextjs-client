@@ -6,7 +6,7 @@ import { Track } from '../../../interfaces/artistResponse';
 interface CurrentTrack {
   currentTrack: Track;
   index: number;
-  artistName: string;
+  artistName: string | undefined;
 }
 
 const initialState = {

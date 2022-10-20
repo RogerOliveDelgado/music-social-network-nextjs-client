@@ -6,6 +6,7 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
 import { albumAPI } from './albumAPI';
 import { artistAPI } from './artistAPI';
 import { playlistAPI } from './playlistAPI';
+import { searchAPI } from './searchAPI';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [albumAPI.reducerPath]: albumAPI.reducer,
     [artistAPI.reducerPath]: artistAPI.reducer,
     [playlistAPI.reducerPath]: playlistAPI.reducer,
+    [searchAPI.reducerPath]: searchAPI.reducer,
   },
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
