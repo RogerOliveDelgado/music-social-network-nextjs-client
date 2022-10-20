@@ -10,6 +10,7 @@ import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
 import TrackList from "../../components/TrackList/TrackList";
 import { useI18N } from "../../context/i18";
 import { useEffect, useState } from "react";
+import { useDebounce } from "usehooks-ts";
 
 const Playlist = (tracks: any) => {
   tracks = tracks.tracks;
@@ -27,18 +28,19 @@ const Playlist = (tracks: any) => {
 
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
+  const debouncedValue = useDebounce<string>(search, 300);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setSearch(e.target.value);
-      setResults(
-        tracks.filter((track: any) =>
-          track.title
-            .toLowerCase()
-            .replace(/\s/g, "")
-            .includes(search.toLowerCase().replace(/\s/g, ""))
-        )
-      );
+      // setResults(
+      //   tracks.filter((track: any) =>
+      //     track.title
+      //       .toLowerCase()
+      //       .replace(/\s/g, "")
+      //       .includes(search.toLowerCase().replace(/\s/g, ""))
+      //   )
+      // );
     } else {
       setSearch("");
       setResults([]);
@@ -46,19 +48,31 @@ const Playlist = (tracks: any) => {
   };
 
   useEffect(() => {
-    if (search.length > 0) {
+    // if (search.length > 0) {
+    //   const results = tracks.filter((track: any) =>
+    //     track.title
+    //       .toLowerCase()
+    //       .replace(/\s/g, "")
+    //       .includes(search.toLowerCase().replace(/\s/g, ""))
+    //   );
+    //   setResults(results);
+    // } else {
+    //   setSearch("");
+    //   setResults([]);
+    // }
+    if (debouncedValue) {
       const results = tracks.filter((track: any) =>
         track.title
           .toLowerCase()
           .replace(/\s/g, "")
-          .includes(search.toLowerCase().replace(/\s/g, ""))
+          .includes(debouncedValue.toLowerCase().replace(/\s/g, ""))
       );
       setResults(results);
     } else {
       setSearch("");
       setResults([]);
     }
-  }, [search]);
+  }, [debouncedValue]);
 
   const tracksExistInPlaylist = playlist?.data?.tracks?.length > 0;
   const [imagePlayList, setImagePlayList] = useState<string>(
