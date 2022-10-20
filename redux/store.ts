@@ -1,12 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { trackListSlice } from "./features/player/musicPlayerSlice";
-import { currentTrackSlice } from "./features/player/currentTracks";
+import { configureStore } from '@reduxjs/toolkit';
+import { trackListSlice } from './features/player/musicPlayerSlice';
+import { currentTrackSlice } from './features/player/currentTracks';
 
-import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
-import { albumAPI } from "./albumAPI";
-import { artistAPI } from "./artistAPI";
-import { playlistAPI } from "./playlistAPI";
-import { trackAPI } from "./trackAPI";
+import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
+import { albumAPI } from './albumAPI';
+import { artistAPI } from './artistAPI';
+import { playlistAPI } from './playlistAPI';
+import { trackAPI } from './trackAPI';
+
+import { searchAPI } from './searchAPI';
 
 export const store = configureStore({
   reducer: {
@@ -16,11 +18,16 @@ export const store = configureStore({
     [artistAPI.reducerPath]: artistAPI.reducer,
     [playlistAPI.reducerPath]: playlistAPI.reducer,
     [trackAPI.reducerPath]: trackAPI.reducer,
+    [searchAPI.reducerPath]: searchAPI.reducer,
   },
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(albumAPI.middleware, artistAPI.middleware, playlistAPI.middleware),
+    getDefaultMiddleware().concat(
+      albumAPI.middleware,
+      artistAPI.middleware,
+      playlistAPI.middleware
+    ),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

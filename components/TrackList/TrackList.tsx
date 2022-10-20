@@ -86,12 +86,12 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
       dispatch(updateTrackList(orderTracks));
       dispatch(setCurrentIndex(index));
       dispatch(setCurrentTrack(orderTracks[index]));
-      dispatch(setArtistName(artist));
+      dispatch(setArtistName(artist!));
     } else {
       dispatch(updateTrackList(tracks));
       dispatch(setCurrentIndex(index));
       dispatch(setCurrentTrack(tracks[index]));
-      dispatch(setArtistName(artist));
+      dispatch(setArtistName(artist!));
     }
   };
 
