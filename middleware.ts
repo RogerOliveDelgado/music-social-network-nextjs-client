@@ -6,12 +6,8 @@ import { jwtVerify } from "jose";
 export default async function middleware(req: NextRequest) {
   const userToken = req.cookies.get("userToken");
 
-  // console.log(req.geo?.country); así podemos ver el país del usuario
-
-  // console.log(url)
 
   if (userToken === undefined) {
-    console.log("undefined");
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
