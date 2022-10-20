@@ -14,17 +14,22 @@ interface LibraryQuery {
   id: string
 }
 
+interface Response<T>{
+  ok: boolean
+  data: T
+}
+
 export const albumAPI = createApi({
   reducerPath: 'albumAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   endpoints: (builder) => ({
-    getAlbums: builder.query<Album[], any>({
+    getAlbums: builder.query<Response<Album[]>, any>({
       query: () => '/album',
     }),
-    getAlbumDetails: builder.query<Album, string>({
+    getAlbumDetails: builder.query<Response<Album>, string>({
       query: (albumID) => `/album/${albumID}`,
     }),
-    addItemToLibrary: builder.mutation<Item, LibraryQuery>({
+    addItemToLibrary: builder.mutation<Response<Item>, LibraryQuery>({
       query: ({name, id}) => ({
         url: `/${name}/library`,
         method: 'PUT',

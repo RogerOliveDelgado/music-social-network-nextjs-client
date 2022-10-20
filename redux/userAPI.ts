@@ -7,12 +7,17 @@ const API =
 
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUwMGM1OWIxMWYxN2Y3YWUwNGE4OWMiLCJ1c2VybmFtZSI6InJvZ2VsaXRvIiwiaWF0IjoxNjY2MTkwNDI1LCJleHAiOjE2NjY2MjI0MjV9.HywxZ6WF907ygn1Ss_cXiPKLtAIC_sFAF5d8bCYYMHE'
 
+interface Response<T>{
+  ok: boolean
+  data: T
+}
+
 export const userAPI = createApi({
   reducerPath: 'userAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
-    getUser: builder.query<User, string>({
+    getUser: builder.query<Response<User>, string>({
       query: (id) => ({
         url:`/user/${id}`,
         method: 'GET',

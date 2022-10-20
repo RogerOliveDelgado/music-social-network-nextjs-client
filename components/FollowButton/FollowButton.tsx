@@ -2,11 +2,8 @@ import styles from "./styles.module.css";
 import { Button } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useAddItemToLibraryMutation } from "../../redux/albumAPI";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Artist, Album, Track } from '../../interfaces/ServerResponse';
-import { useGetUserQuery } from "../../redux/userAPI";
-
-type Item =  Artist | Album | Track
 
 type Props = {
     isFollowed: boolean
@@ -17,23 +14,17 @@ type Props = {
 const FollowButton = ({ isFollowed, id, type }: Props) => {
     
   const [addItem] = useAddItemToLibraryMutation()
-  const [follow, setFollow] = useState(undefined)
+  const [follow, setFollow] = useState(isFollowed)
   
-  const userID = '63500c59b11f17f7ae04a89c'
-
-  const {
-      data: user,
-      isSuccess: isSuccessUser,
-  } = useGetUserQuery(userID)
-    
-
   const handleClick = async() => {
       const response = await addItem({
         name: type,
         id: id
       })
       if(response?.error) return
-      if(response?.data) setFollow((state: boolean) => !state)
+      if(response?.data) {
+        setFollow((state: boolean) => !state)
+      }
   }
 
   return (

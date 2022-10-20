@@ -6,22 +6,44 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tooltip from '@mui/material/Tooltip';
 import FollowButton from '../../components/FollowButton/FollowButton';
 import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
-import { Album } from '../../interfaces/ServerResponse';
+import { Album, Track, Artist, User } from '../../interfaces/ServerResponse';
 import { useGetUserQuery } from '../../redux/userAPI';
 
 import styles from './styles.module.css'
 
 type Props = {
     album: Album
-    artist: Artist
     rating: number
 }
 
 const AlbumHeader = ({album, rating}:Props) => {
 
-      if (isSuccessUser) {
-        isFollowed = user.albums.some((album: Album) => album._id === albumID)
-      }
+  const userID = '63500c59b11f17f7ae04a89c'
+  let isFollowed = undefined
+
+  let user = {
+    _id:        '',
+    username:   '',
+    email:      '',
+    phone:      '',
+    image:      '',
+    playlists:  [] as Track[],
+    artists:    [] as Artist[],
+    albums:     [] as Album[],
+    likedSongs: [] as Track[],
+    createdAt:  '',
+    updatedAt:  ''
+  }
+
+  const {
+      data: dataUser,
+      isSuccess: isSuccessUser,
+  } = useGetUserQuery(userID)
+
+  if (isSuccessUser) {
+    user = dataUser.data
+    isFollowed = user.albums.some((albumX: Album) => albumX._id === album._id)
+  }
 
     return (
         <>
@@ -37,13 +59,13 @@ const AlbumHeader = ({album, rating}:Props) => {
               <p className={styles.albums_ratings}>
                 Album <Rating name="simple-controlled" value={rating} />
               </p>
-              <h1 className={styles.album_name}>{dataAlbum?.data.title}</h1>
+              <h1 className={styles.album_name}>{album.title}</h1>
               <h2 className={styles.album_artist}>
                 <InterpreterModeIcon />
-                {dataArtist?.data.name}
+                {album.artist.name}
               </h2>
               <Tooltip title="Add this album to your library.">
-                {isSuccessUser && albumID ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
+                { isSuccessUser ? <FollowButton isFollowed={isFollowed} id={album._id} type='album'/> :
                 <SkelettonButton/>}
               </Tooltip>
             </div>
@@ -56,7 +78,7 @@ const AlbumHeader = ({album, rating}:Props) => {
               >
                 Play
               </Button>
-        </div>
+          </div>
         </>
     )
 }

@@ -3,12 +3,11 @@ import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
 import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
-import {useGetUserQuery} from '../../redux/userAPI'
-import { Album } from '../../interfaces/ServerResponse';
+import { Album, Artist, Track } from '../../interfaces/ServerResponse';
 import { useRouter } from 'next/router';
-import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
 import { getRating } from '../../utils/utils';
 import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
+import AlbumHeaderSkeletton from '../../components/AlbumHeaderSkeletton/AlbumHeaderSkeletton';
 
 type Props = {};
 
@@ -18,21 +17,27 @@ const AlbumDetails = (props: Props) => {
   const albumID = query.albumID?.toString() as string
 
   let rating: number = 0
+ 
+  let album = {
+    _id: '',
+    image: '',
+    title: '',
+    releaseDate: '',
+    totalTracks: 0,
+    tracks: [] as Track[],
+    artist: {} as Artist,
+    createdAt: '',
+    updatedAt: ''
+  }
 
   const {
-    data: album ,
+    data: dataAlbum ,
     isSuccess: isSuccessAlbum
   } = useGetAlbumDetailsQuery(albumID);
 
-  const {
-    data: artist ,
-    isLoading: isLoadingArtist,
-    isSuccess: isSuccessArtist,
-  } = useGetArtistDetailsQuery(album.artist._id, {skip: !isSuccessAlbum})
-
-  
-  if (isSuccessArtist) {
-    rating = getRating(artist?.popularity)
+  if (isSuccessAlbum) {
+    album = dataAlbum.data
+    rating = getRating(album.artist.popularity)
   }
 
   return (
@@ -45,7 +50,7 @@ const AlbumDetails = (props: Props) => {
       <Layout>
         <div className={styles.album_details_container}>
           <div className={styles.album_details}>
-            {isSuccessAlbum && <AlbumHeader album={album} artist={artist} rating={rating} />}
+            {isSuccessAlbum && album ? <AlbumHeader album={album} rating={rating} /> : <AlbumHeaderSkeletton/> }
           </div>
           <div className={styles.album_tracks_info}>
             <div className={styles.album_extra_info}>
@@ -61,7 +66,7 @@ const AlbumDetails = (props: Props) => {
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              {isSuccessAlbum ? <TrackList name="TrackList" tracks={album.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
+              {isSuccessAlbum && album ? <TrackList name="TrackList" tracks={album.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
             </div>
           </div>
         </div>

@@ -23,40 +23,6 @@
   box-shadow: 0px 36px 0px -23px rgba(23, 10, 10, 0.1);
   border-radius: 5px;
 }
-.play_button {
-  border-radius: 10px;
-  height: 3rem;
-  width: 9rem;
-  justify-self: flex-end;
-  background-color: #d9353b;
-  color: #f3eeee;
-}
-
-.play_button:hover {
-  color: black;
-}
-.play_button_container {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-  margin-right: 2rem;
-}
-.follow_button {
-  border-radius: 10px;
-  height: 3rem;
-  width: 9rem;
-  background-color: #d55156;
-  opacity: 50%;
-  justify-self: flex-end;
-}
-
-.follow_button_added {
-  border-radius: 10px;
-  height: 3rem;
-  width: 9rem;
-  background-color: #da292f;
-  justify-self: flex-end;
-}
 
 .albums_ratings {
   display: flex;
