@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjI1NjQ2NSwiZXhwIjoxNjY2Njg4NDY1fQ.mEcTzjI1JAFro_f3OCP0qpI3TwSn_dhLVM1PpUK1CM8";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);

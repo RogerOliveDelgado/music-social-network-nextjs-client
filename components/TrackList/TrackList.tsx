@@ -32,12 +32,13 @@ type Props = {
 };
 
 const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
+  
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
-  const id = '634e553e380e05b2284977de';
-  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU'
-  const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
+  const id = '634d389b4de99c82919f02b7';
+  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjI1NjQ2NSwiZXhwIjoxNjY2Njg4NDY1fQ.mEcTzjI1JAFro_f3OCP0qpI3TwSn_dhLVM1PpUK1CM8'
+  const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
   const router = useRouter();
@@ -48,7 +49,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   );
 
   useEffect(() => {
-    if (router.pathname.includes('playlist')) {
+    if (router.pathname.includes('favorites')) {//playList
       setInPlayList(true);
     }
 
@@ -62,10 +63,11 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
       })
       const user = await response.json();
       let array: string[] = [];
-      user.data.likedSongs.map((song: any) => {
-        array.push(song._id);
+      user.data?.likedSongs.map((song: any) => {
+        array.push(song);
       })
-      setUserLikedSongs(array);   
+      setUserLikedSongs(array); 
+      setOrderTracks(array)  
     }
     getUser(); 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,15 +101,15 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     dispatch(updateTrackList(orderTracks));
   };
 
-  const addSong = (songId:string) => {
-    const putSongInUser = async(songId:string) => {
+  const addSong = (song:Track) => {
+    const putSongInUser = async(song:Track) => {
       const response = await fetch(`http://localhost:4002/track/library`,{
         method:'PUT',
         headers:{
           'Content-Type':'application/json; charset=utf-8',
           Authorization:`bearer ${TOKEN}`,
         },
-        body: JSON.stringify({ _id: songId })
+        body: JSON.stringify(song)
       })
       const data = await response.json();
       
@@ -121,17 +123,17 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
           })
           const user = await userResponse.json();
 
-          let arrayFavouritesSongs: string[] = [];
+          let arrayFavouritesSongs: Track[] = [];
           user.data.likedSongs.map((song:any) => {
-            arrayFavouritesSongs.push(song._id)
+            arrayFavouritesSongs.push(song)
           })
+          setOrderTracks(arrayFavouritesSongs)
           setUserLikedSongs(arrayFavouritesSongs);
         },500)        
       }
     }
-    putSongInUser(songId)
+    putSongInUser(song)
   }
-
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
@@ -146,7 +148,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
           onReorder={setOrderTracks}
         >
           <AnimatePresence>
-            {(inPlayList ? orderTracks : tracks)?.map((track, index) => {
+            {(inPlayList ? orderTracks : tracks)?.map((track, index) => {//userLikedSongs
               return (
                 <Reorder.Item
                   value={track}
@@ -176,7 +178,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
                     </IconButton>
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {userLikedSongs?.some(element => element === track._id) ? <FavoriteIcon onClick={() => {addSong(track._id)}}/> : <FavoriteBorderIcon onClick={() => {addSong(track._id)}}/>}
+                      {userLikedSongs?.some(element => element._id === track._id) ? <FavoriteIcon onClick={() => {addSong(track)}}/> : <FavoriteBorderIcon onClick={() => {addSong(track)}}/>}
                     </IconButton>
                     <p className={styles.track_duration}>
                       {millisToMinutes(track.duration)}
