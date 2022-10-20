@@ -25,5 +25,13 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/favorites", "/artist", "/album", "/playlist", "/library"],
+  matcher: [
+    "/",
+    "/favorites",
+    "/artist",
+    "/album",
+    "/playlist",
+    "/library",
+    "/search/:path*",
+  ],
 };

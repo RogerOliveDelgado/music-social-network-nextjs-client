@@ -1,9 +1,41 @@
-import * as React from 'react';
-import { useI18N } from '../../context/i18';
-import styles from './styles.module.css';
+import * as React from "react";
+import { useRouter } from "next/router";
+import { useI18N } from "../../context/i18";
+import styles from "./styles.module.css";
+import useDebounce from "../../hook/useDebounce";
+import { ChangeEvent, useEffect, useState } from "react";
+import searchCharacters from "../../services/search";
+import Link from "next/link";
 
 export default function SearchAppBar() {
+  const router = useRouter();
+
+  // console.log(router.replace());
+
   const { t } = useI18N();
+
+  const [value, setValue] = useState<string>("");
+
+  const debouncedValue = useDebounce<string>(value, 50);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    setValue(event.target.value);
+  };
+
+  useEffect(() => {
+    // Triggers when "debouncedValue" changes
+
+    if (debouncedValue) {
+      console.log(debouncedValue);
+      console.log(value);
+      // searchCharacters(debouncedValue).then((results) => {
+      router.replace(`/search/${debouncedValue}`);
+      // });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
+
   return (
     <div className={styles.searchbar}>
       <div className={styles.searchbar_wrapper}>
@@ -19,18 +51,39 @@ export default function SearchAppBar() {
 
         <div className={styles.searchbar_center}>
           <div className={styles.searchbar_input_spacer}></div>
-          <input
-            type="text"
-            className={styles.searchbar_input}
-            name="q"
-            autoCapitalize="off"
-            autoComplete="off"
-            title="Search"
-            role="combobox"
-            aria-controls="search-suggestions"
-            aria-expanded="false"
-            placeholder={t('additional').search}
-          />
+          {router.pathname === "/search" ||
+          router.pathname === "/search/[search]" ? (
+            <input
+              onChange={handleChange}
+              autoFocus
+              type="text"
+              className={styles.searchbar_input}
+              name="q"
+              autoCapitalize="off"
+              autoComplete="off"
+              title="Search"
+              role="combobox"
+              aria-controls="search-suggestions"
+              aria-expanded="false"
+              placeholder={t("additional").search}
+            />
+          ) : (
+            <Link href={"/search"}>
+              <input
+                onChange={handleChange}
+                type="text"
+                className={styles.searchbar_input}
+                name="q"
+                autoCapitalize="off"
+                autoComplete="off"
+                title="Search"
+                role="combobox"
+                aria-controls="search-suggestions"
+                aria-expanded="false"
+                placeholder={t("additional").search}
+              />
+            </Link>
+          )}
         </div>
 
         <div className={styles.searchbar_right}>

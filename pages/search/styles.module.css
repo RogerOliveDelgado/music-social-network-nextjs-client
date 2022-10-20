@@ -1,0 +1,82 @@
+.searchDiv {
+  display: flex;
+  flex-direction: column;
+  margin-left: 6rem;
+}
+
+.searchResults {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.artistDiv {
+  width: 12rem;
+  height: 12rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-radius: 0.3rem;
+}
+
+.artistsFinded,
+.albumsFinded,
+.tracksFinded {
+  width: 100%;
+}
+
+.sectionFinded {
+  display: flex;
+  overflow-x: auto;
+}
+
+.albumCard,
+.artistCard,
+.trackCard {
+  width: 11rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 1px solid var(--lightest_blue);
+  background-color: var(--lightGrey);
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.artistImageFinded,
+.albumImageFinded {
+  height: 175px;
+  width: 175px;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.artistImageFinded {
+  border-radius: 99rem;
+}
+
+.albumTitle,
+.artistTitle {
+  margin-bottom: 0.5rem;
+}
+
+.artistName {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-left: 0.6rem;
+  text-transform: capitalize;
+}
+
+.artistImage {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 0px;
+  left: 115px;
+  transform: rotate(25deg);
+}

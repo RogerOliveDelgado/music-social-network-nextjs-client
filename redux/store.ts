@@ -8,7 +8,8 @@ import { artistAPI } from "./artistAPI";
 import { playlistsAPI } from "./playlistsAPI";
 import { playlistDetailsAPI } from "./playlistDetailsAPI";
 import { trackAPI } from "./trackAPI";
-import { userAPI } from './userAPI'
+import { userAPI } from "./userAPI";
+import { searchAPI } from "./searchAPI";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     [trackAPI.reducerPath]: trackAPI.reducer,
     [playlistDetailsAPI.reducerPath]: playlistDetailsAPI.reducer,
     [playlistsAPI.reducerPath]: playlistsAPI.reducer,
+    [searchAPI.reducerPath]: searchAPI.reducer,
   },
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
