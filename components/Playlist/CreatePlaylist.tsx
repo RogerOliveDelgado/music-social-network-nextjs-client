@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRhZjMxNDQ1MmUwZmQxNDk0M2E5OTUiLCJ1c2VybmFtZSI6InZpY3RvcjIyIiwiaWF0IjoxNjY1ODU2MzEzLCJleHAiOjE2NjYyODgzMTN9.GCiZBqp1wuWDUEhpIZVM5lhtfL6sgKxAKKJ-E11izow";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -28,7 +28,7 @@ function CreatePlaylist(props: any) {
   const [title, setTitle] = useState("New playlist");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [description, setDescription] = useState("");
-
+  const [metaDataplayListImage, setMetaDataPlayListImage] = useState<string>();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -59,7 +59,7 @@ function CreatePlaylist(props: any) {
         body: JSON.stringify({
           title: playlistName,
           description: playlistDescription,
-          image: `/${playlistImage?.name}`,
+          image: metaDataplayListImage,
         }),
       });
       if (response.status === 400) {
@@ -90,6 +90,7 @@ function CreatePlaylist(props: any) {
     playlistImage: File | null
   ) => {
     e.preventDefault();
+    console.log(metaDataplayListImage)
     setPlaylistImage(playlistImage);
     setPlaylistName(playlistName);
     setPlaylistDescription(playlistDescription);
@@ -109,7 +110,7 @@ function CreatePlaylist(props: any) {
                 ? props.description
                 : playlistDescription,
             image:
-              playlistImage == null ? props.image : `/${playlistImage?.name}`,
+              playlistImage == null ? props.image : metaDataplayListImage,
           }),
         }
       );
@@ -120,9 +121,11 @@ function CreatePlaylist(props: any) {
 
       if (response.ok) {
         const result = await response.json();
-        setTitle(playlistName);
-        setDescription(playlistDescription);
-        setImage(playlistImage);
+
+        props.setImagePlayList(result.data.image);
+        props.setTitle(result.data.title)
+        props.setDescription(result.data.description)
+        props.setChange(!props.change)
         setOpen(false);
         toast.success("Playlist information edited succesfully!");
       }
@@ -131,6 +134,25 @@ function CreatePlaylist(props: any) {
     }
   };
 
+  const handleImage = ({target}:ChangeEvent<HTMLInputElement>) => {
+    const file = target.files[0];
+    console.log("Cambiando imagen");
+    
+    // Encode the file using the FileReader API
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        // Use a regex to remove data url part
+        const base64String = reader?.result?.replace('data:', '')
+            .replace(/^.+,/, '');
+
+        console.log(base64String);
+        setMetaDataPlayListImage(base64String)
+        // Logs wL2dvYWwgbW9yZ...
+    };
+    reader.readAsDataURL(file);
+    setPlaylistImage(file)
+  }
+  console.log(playlistImage)
   return (
     <>
       <div className={styles.container}>
@@ -180,7 +202,8 @@ function CreatePlaylist(props: any) {
             <span>{description}</span>
           )}
 
-          <span>{description}</span>
+          {/* <span>{description}</span> */}
+          <span>User name</span>
         </div>
       </div>
       <form autoComplete="off">
@@ -204,13 +227,11 @@ function CreatePlaylist(props: any) {
                 onMouseLeave={() => setModalHover(false)}
               >
                 {props.playlistId ? (
-                  <picture>
-                    <img
-                      className={styles.modal_image_container}
-                      src={props.image}
-                      alt="playlist"
-                    />
-                  </picture>
+                  <img
+                    className={styles.modal_image_container}
+                    src={playlistImage == null ? props.image : URL.createObjectURL(new Blob([playlistImage]))}
+                    alt="playlist"
+                  />
                 ) : playlistImage !== null && playlistImage !== undefined ? (
                   <picture>
                     <img
@@ -241,8 +262,9 @@ function CreatePlaylist(props: any) {
                   type="file"
                   accept="image/png, image/jpeg"
                   onChange={(e) =>
-                    !e.target.files ? null : setPlaylistImage(e.target.files[0])
+                    !e.target.files ? null : handleImage(e)
                   }
+                  //setPlaylistImage(e.target.files[0])
                 />
               </div>
               <div className={styles.modal_data}>

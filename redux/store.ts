@@ -20,7 +20,7 @@ export const store = configureStore({
   //Adding api middleware enables caching, invalidation, polling
   // and other features of `rtk-query`
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(albumAPI.middleware),
+    getDefaultMiddleware().concat(albumAPI.middleware, artistAPI.middleware, playlistAPI.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

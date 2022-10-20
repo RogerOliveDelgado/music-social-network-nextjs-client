@@ -1,5 +1,6 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import AlbumIcon from '@mui/icons-material/Album';
 import { Track } from '../../interfaces/artistResponse';
@@ -32,6 +33,11 @@ type Props = {
 const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
+  //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
+  const id = '634d389b4de99c82919f02b7';
+  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M'
+  const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
+
   const dragControls = useDragControls();
   const router = useRouter();
 
@@ -44,6 +50,24 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     if (router.pathname.includes('playlist')) {
       setInPlayList(true);
     }
+
+    //Get the users likedSongs array
+    //Save the founed array in the likedSongs state   
+    const getUser = async() => {
+      const response = await fetch(`http://localhost:4001/user/${id}`,{
+        headers:{
+          Authorization: `bearer ${TOKEN}`
+        }
+      })
+      const user = await response.json();
+      console.log(user);
+      let array: string[] = [];
+      user.data.likedSongs.map((song: any) => {
+        array.push(song._id);
+      })
+      setUserLikedSongs(array);   
+    }
+    getUser(); 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -74,6 +98,40 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const onReOrder = () => {
     dispatch(updateTrackList(orderTracks));
   };
+
+  const addSong = (songId:string) => {
+    console.log(songId, typeof songId);
+    const putSongInUser = async(songId:string) => {
+      const response = await fetch(`http://localhost:4002/track/library`,{
+        method:'PUT',
+        headers:{
+          'Content-Type':'application/json; charset=utf-8',
+          Authorization:`bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({ _id: songId })
+      })
+      const data = await response.json();
+      
+      //Get the user information to set again the likedSongs array with changes
+      if(data.ok){
+        setTimeout(async()=>{
+          const userResponse = await fetch(`http://localhost:4001/user/${id}`,{
+            headers:{
+              Authorization: `bearer ${TOKEN}`
+            }
+          })
+          const user = await userResponse.json();
+
+          let arrayFavouritesSongs: string[] = [];
+          user.data.likedSongs.map((song:any) => {
+            arrayFavouritesSongs.push(song._id)
+          })
+          setUserLikedSongs(arrayFavouritesSongs);
+        },500)        
+      }
+    }
+    putSongInUser(songId)
+  }
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
@@ -119,7 +177,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
                     </IconButton>
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      <FavoriteBorderIcon />
+                      {userLikedSongs?.some(element => element === track._id) ? <FavoriteIcon onClick={() => {addSong(track._id)}}/> : <FavoriteBorderIcon onClick={() => {addSong(track._id)}}/>}
                     </IconButton>
                     <p className={styles.track_duration}>
                       {millisToMinutes(track.duration)}
