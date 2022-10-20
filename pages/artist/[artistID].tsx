@@ -21,22 +21,28 @@ import { useDispatch } from 'react-redux';
 import styles from './styles.module.css';
 import { useI18N } from '../../context/i18';
 import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import { useGetUserQuery } from '../../redux/userAPI';
+import FollowButton from '../../components/FollowButton/FollowButton';
+import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
+import { Artist } from '../../interfaces/ServerResponse';
 
 type Props = {};
 
 const ArtistDetails = (props: Props) => {
+  
   const { query } = useRouter();
-
-  const {
-    data: artist,
-    isLoading,
-    error,
-  } = useGetArtistDetailsQuery(query.artistID, {
-    refetchOnMountOrArgChange: true,
-  });
+  const artistID = query.artistID?.toString() as string
+  const userID = '63513507c03b75bb075e5eb2'
+  let isFollowed = undefined
   const { t } = useI18N();
   const dispatch = useDispatch();
-  const router = useRouter();
+  
+  const  {
+    data: artist,
+    isLoading
+  } = useGetArtistDetailsQuery(artistID, {
+    refetchOnMountOrArgChange: true
+  });
 
   const playArtistTracks = () => {
     console.log(artist?.data.tracks);
@@ -45,6 +51,15 @@ const ArtistDetails = (props: Props) => {
     dispatch(setCurrentTrack(artist?.data.tracks[0]));
     dispatch(setArtistName(artist.data.name!));
   };
+
+  const {
+    data: user,
+    isSuccess: isSuccessUser
+  } = useGetUserQuery(userID)
+
+  if (isSuccessUser) {
+    isFollowed = user.data.artists.some((item: Artist) => (item._id === artistID))
+  }
 
   return (
     <>
@@ -80,14 +95,8 @@ const ArtistDetails = (props: Props) => {
                 })}
               </div>
               <Tooltip title="Add the artist to your library.">
-                <Button
-                  className={styles.follow_button}
-                  variant="contained"
-                  color="inherit"
-                  startIcon={<FavoriteBorderIcon />}
-                >
-                  Follow
-                </Button>
+              {isSuccessUser && artistID ? <FollowButton isFollowed={isFollowed} id={artistID} type='artist'/> :
+                <SkelettonButton/>}
               </Tooltip>
             </div>
             <div className={styles.play_button_container}>

@@ -19,7 +19,7 @@ interface View {
 }
 
 const Library = (props: Props) => {
-  const userId = "635113084c339166386622af";
+  const userId = "63513507c03b75bb075e5eb2";
 
   const [background, setBackground] = useState(false);
 
@@ -120,7 +120,7 @@ const Library = (props: Props) => {
               {isLoading ? (
                 <RowSkeleton />
               ) : (
-                <Row title={t("additional").playlist} data={playlist?.data} />
+                <Row title={t("additional").playlist} data={playlist?.data?.playlists} />
               )}
             </>
           ) : (
@@ -128,7 +128,7 @@ const Library = (props: Props) => {
           )}
           {filter?.albums ? <GridLayout data={albums?.data} /> : <></>}
           {filter?.artists ? <GridLayout data={artists?.data} /> : <></>}
-          {filter?.playlist ? <GridLayout data={playlist?.data} /> : <></>}
+          {filter?.playlist ? <GridLayout data={playlist?.data?.playlists} /> : <></>}
         </div>
       </Layout>
     </>

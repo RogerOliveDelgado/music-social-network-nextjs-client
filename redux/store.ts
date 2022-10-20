@@ -8,6 +8,7 @@ import { artistAPI } from "./artistAPI";
 import { playlistsAPI } from "./playlistsAPI";
 import { playlistDetailsAPI } from "./playlistDetailsAPI";
 import { trackAPI } from "./trackAPI";
+import { userAPI } from './userAPI'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     currentTrack: currentTrackSlice.reducer,
     [albumAPI.reducerPath]: albumAPI.reducer,
     [artistAPI.reducerPath]: artistAPI.reducer,
+    [userAPI.reducerPath]: userAPI.reducer,
     [trackAPI.reducerPath]: trackAPI.reducer,
     [playlistDetailsAPI.reducerPath]: playlistDetailsAPI.reducer,
     [playlistsAPI.reducerPath]: playlistsAPI.reducer,
@@ -26,7 +28,9 @@ export const store = configureStore({
       albumAPI.middleware,
       artistAPI.middleware,
       playlistsAPI.middleware,
-      playlistDetailsAPI.middleware
+      playlistDetailsAPI.middleware,
+      userAPI.middleware,
+      trackAPI.middleware
     ),
 });
 

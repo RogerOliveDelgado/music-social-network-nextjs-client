@@ -1,34 +1,52 @@
 import React from 'react';
-import Image from 'next/image';
-import Rating from '@mui/material/Rating';
-import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Button } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tooltip from '@mui/material/Tooltip';
 
 import Layout from '../../components/Layout/Layout';
 import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
 import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
-
+import { Album, Artist, Track } from '../../interfaces/ServerResponse';
 import { useRouter } from 'next/router';
+import { getRating } from '../../utils/utils';
+import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
+import AlbumHeaderSkeletton from '../../components/AlbumHeaderSkeletton/AlbumHeaderSkeletton';
+
 import { useI18N } from '../../context/i18';
 
 type Props = {};
 
 const AlbumDetails = (props: Props) => {
-  const id = '1atjqOZTCdrjxjMyCPZc2g';
-  const {
-    data: album,
-    isLoading,
-    error,
-    isFetching,
-  } = useGetAlbumDetailsQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
+  
   const { t } = useI18N();
+
+  const {query} = useRouter()
+  const albumID = query.albumID?.toString() as string
+
+  let rating: number = 0
+ 
+  let album = {
+    _id: '',
+    image: '',
+    title: '',
+    releaseDate: '',
+    totalTracks: 0,
+    tracks: [] as Track[],
+    artist: {} as Artist,
+    createdAt: '',
+    updatedAt: ''
+  }
+
+  const {
+    data: dataAlbum ,
+    isSuccess: isSuccessAlbum
+  } = useGetAlbumDetailsQuery(albumID,{
+    refetchOnMountOrArgChange: true});
+
+  if (isSuccessAlbum) {
+    album = dataAlbum.data
+    rating = getRating(album.artist.popularity)
+  }
+
   return (
     <>
       <Head>
@@ -41,44 +59,7 @@ const AlbumDetails = (props: Props) => {
       <Layout>
         <div className={styles.album_details_container}>
           <div className={styles.album_details}>
-            <Image
-              className={styles.album_image}
-              src="https://upload.wikimedia.org/wikipedia/en/8/8a/BombayBicycleClubSongalbumcover.jpg"
-              alt={'bombay'}
-              width={200}
-              height={200}
-              layout="fixed"
-            />
-            <div className={styles.album_details_text}>
-              <p className={styles.albums_ratings}>
-                Album <Rating name="simple-controlled" value={4} />
-              </p>
-              <h1 className={styles.album_name}>So Long, See You Tomorrow</h1>
-              <h2 className={styles.album_artist}>
-                <InterpreterModeIcon />
-                Bombay Bicycle Club
-              </h2>
-              <Tooltip title="Add this album to your library.">
-                <Button
-                  className={styles.follow_button}
-                  variant="contained"
-                  color="inherit"
-                  startIcon={<FavoriteBorderIcon />}
-                >
-                  Follow
-                </Button>
-              </Tooltip>
-            </div>
-            <div className={styles.play_button_container}>
-              <Button
-                className={styles.play_button}
-                variant="contained"
-                color="inherit"
-                startIcon={<PlayArrowIcon />}
-              >
-                Play
-              </Button>
-            </div>
+            {isSuccessAlbum && album ? <AlbumHeader album={album} rating={rating} /> : <AlbumHeaderSkeletton/> }
           </div>
           <div className={styles.album_tracks_info}>
             <div className={styles.album_extra_info}>
@@ -94,7 +75,7 @@ const AlbumDetails = (props: Props) => {
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              <TrackList name={'TrackList'} />
+              {isSuccessAlbum && album ? <TrackList name="TrackList" tracks={album.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
             </div>
           </div>
         </div>

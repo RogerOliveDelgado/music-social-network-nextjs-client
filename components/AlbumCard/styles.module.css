@@ -49,28 +49,6 @@
   width: 100%;
 }
 
-.album_name,
-.album_artist {
-  margin: 0.5rem;
-  overflow: hidden;
-  width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  color: inherit;
-  text-decoration: underline 0.15em rgba(255, 255, 255, 0);
-  transition: text-decoration-color 300ms;
-}
-.album_name {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.album_name:hover,
-.album_artist:hover {
-  text-decoration-color: rgba(255, 255, 255, 1);
-}
-
 .play_button {
   display: none;
   position: absolute;
