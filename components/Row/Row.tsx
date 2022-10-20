@@ -1,6 +1,6 @@
 import AlbumCard from '../AlbumCard/AlbumCard';
-import { Artist } from '../../interfaces/artistResponse';
-import { Album } from '../../interfaces/albumResponse';
+import { Artist } from '../../interfaces/ServerResponse';
+import { Album } from '../../interfaces/ServerResponse';
 import { Playlist } from '../../interfaces/playlistResponse';
 
 import styles from './styles.module.css';
