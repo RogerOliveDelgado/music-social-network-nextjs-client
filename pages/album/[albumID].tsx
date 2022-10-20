@@ -1,10 +1,3 @@
-import Image from 'next/image';
-import Rating from '@mui/material/Rating';
-import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
-import { Button } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tooltip from '@mui/material/Tooltip';
-
 import Layout from '../../components/Layout/Layout';
 import TrackList from '../../components/TrackList/TrackList';
 import styles from './styles.module.css';
@@ -12,11 +5,10 @@ import Head from 'next/head';
 import { useGetAlbumDetailsQuery } from '../../redux/albumAPI';
 import {useGetUserQuery} from '../../redux/userAPI'
 import { Album } from '../../interfaces/ServerResponse';
-import FollowButton from '../../components/FollowButton/FollowButton';
-import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { useGetArtistDetailsQuery } from '../../redux/artistAPI';
+import { getRating } from '../../utils/utils';
+import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
 
 type Props = {};
 
@@ -25,28 +17,22 @@ const AlbumDetails = (props: Props) => {
   const {query} = useRouter()
   const albumID = query.albumID?.toString() as string
 
-  const userID = '63500c59b11f17f7ae04a89c'
-  let isFollowed = undefined
+  let rating: number = 0
 
   const {
-    data: dataAlbum ,
-    isLoading: isLoadingAlbum,
+    data: album ,
     isSuccess: isSuccessAlbum
   } = useGetAlbumDetailsQuery(albumID);
 
   const {
-    data: dataArtist ,
+    data: artist ,
     isLoading: isLoadingArtist,
     isSuccess: isSuccessArtist,
-  } = useGetArtistDetailsQuery(dataAlbum?.data.artist._id)
+  } = useGetArtistDetailsQuery(album.artist._id, {skip: !isSuccessAlbum})
 
-  const {
-    data: dataUser,
-    isSuccess: isSuccessUser,
-  } = useGetUserQuery(userID)
-
-  if (isSuccessUser) {
-    isFollowed = dataUser.data.albums.some((album: Album) => album._id === albumID)
+  
+  if (isSuccessArtist) {
+    rating = getRating(artist?.popularity)
   }
 
   return (
@@ -59,38 +45,7 @@ const AlbumDetails = (props: Props) => {
       <Layout>
         <div className={styles.album_details_container}>
           <div className={styles.album_details}>
-            <Image
-              className={styles.album_image}
-              src={dataAlbum?.data.image}
-              alt={dataAlbum?.data.title}
-              width={200}
-              height={200}
-              layout="fixed"
-            />
-            <div className={styles.album_details_text}>
-              <p className={styles.albums_ratings}>
-                Album <Rating name="simple-controlled" value={4} />
-              </p>
-              <h1 className={styles.album_name}>{dataAlbum?.data.title}</h1>
-              <h2 className={styles.album_artist}>
-                <InterpreterModeIcon />
-                {dataArtist?.data.name}
-              </h2>
-              <Tooltip title="Add this album to your library.">
-                {isSuccessUser && albumID ? <FollowButton isFollowed={isFollowed} id={albumID} type='album'/> :
-                <SkelettonButton/>}
-              </Tooltip>
-            </div>
-            <div className={styles.play_button_container}>
-              <Button
-                className={styles.play_button}
-                variant="contained"
-                color="inherit"
-                startIcon={<PlayArrowIcon />}
-              >
-                Play
-              </Button>
-            </div>
+            {isSuccessAlbum && <AlbumHeader album={album} artist={artist} rating={rating} />}
           </div>
           <div className={styles.album_tracks_info}>
             <div className={styles.album_extra_info}>
@@ -106,7 +61,7 @@ const AlbumDetails = (props: Props) => {
             </div>
             <div className={styles.album_tracklist}>
               <h2>Tracklist</h2>
-              {isSuccessArtist ? <TrackList name="TrackList" tracks={dataAlbum?.data.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
+              {isSuccessAlbum ? <TrackList name="TrackList" tracks={album.tracks}/> : <TrackList name="TrackList" tracks={[]}/>}
             </div>
           </div>
         </div>

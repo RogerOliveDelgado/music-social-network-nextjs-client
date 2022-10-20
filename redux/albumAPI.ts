@@ -18,10 +18,10 @@ export const albumAPI = createApi({
   reducerPath: 'albumAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   endpoints: (builder) => ({
-    getAlbums: builder.query({
+    getAlbums: builder.query<Album[], any>({
       query: () => '/album',
     }),
-    getAlbumDetails: builder.query({
+    getAlbumDetails: builder.query<Album, string>({
       query: (albumID) => `/album/${albumID}`,
     }),
     addItemToLibrary: builder.mutation<Item, LibraryQuery>({

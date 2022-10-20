@@ -4,6 +4,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useAddItemToLibraryMutation } from "../../redux/albumAPI";
 import { useState } from 'react';
 import { Artist, Album, Track } from '../../interfaces/ServerResponse';
+import { useGetUserQuery } from "../../redux/userAPI";
 
 type Item =  Artist | Album | Track
 
@@ -16,8 +17,15 @@ type Props = {
 const FollowButton = ({ isFollowed, id, type }: Props) => {
     
   const [addItem] = useAddItemToLibraryMutation()
-  const [follow, setFollow] = useState(isFollowed)
+  const [follow, setFollow] = useState(undefined)
   
+  const userID = '63500c59b11f17f7ae04a89c'
+
+  const {
+      data: user,
+      isSuccess: isSuccessUser,
+  } = useGetUserQuery(userID)
+    
 
   const handleClick = async() => {
       const response = await addItem({

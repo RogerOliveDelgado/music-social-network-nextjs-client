@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { User } from '../interfaces/ServerResponse';
 
 const API =
   process.env.REACT_APP_API_URL ||
@@ -11,7 +12,7 @@ export const userAPI = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
-    getUser: builder.query({
+    getUser: builder.query<User, string>({
       query: (id) => ({
         url:`/user/${id}`,
         method: 'GET',

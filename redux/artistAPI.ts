@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Artist } from '../interfaces/ServerResponse';
 
 const API =
   process.env.REACT_APP_API_URL ||
@@ -10,10 +11,10 @@ export const artistAPI = createApi({
   reducerPath: 'artistAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   endpoints: (builder) => ({
-    getArtists: builder.query({
+    getArtists: builder.query<Artist[], unknown>({
       query: () => '/artist',
     }),
-    getArtistDetails: builder.query({
+    getArtistDetails: builder.query<Artist, string>({
       query: (artistID) => `/artist/${artistID}`,
     })
   }),
