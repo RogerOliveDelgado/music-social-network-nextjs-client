@@ -11,7 +11,7 @@ import { useI18N } from "../../context/i18";
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useGetArtistsQuery } from "../../redux/artistAPI";
-import { useGetPlaylistQuery } from "../../redux/playlistAPI";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
 
 type Props = {};
 interface View {
@@ -19,13 +19,19 @@ interface View {
 }
 
 const Library = (props: Props) => {
+  const userId = "635113084c339166386622af";
+
   const [background, setBackground] = useState(false);
 
   const [filter, setFilter] = useState<View>({
     all: true,
   });
   const store = useSelector((state: RootState) => state);
-  const { data: albums, isLoading, error } = useGetAlbumsQuery(undefined, {
+  const {
+    data: albums,
+    isLoading,
+    error,
+  } = useGetAlbumsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
   const {
@@ -35,13 +41,15 @@ const Library = (props: Props) => {
   } = useGetArtistsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+
   const {
     data: playlist,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined, {
+  } = useGetPlaylistQuery(userId, {
     refetchOnMountOrArgChange: true,
   });
+
   const { t } = useI18N();
 
   const handleView = (view: string) => {

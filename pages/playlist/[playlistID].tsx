@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import Head from "next/head";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
-import { useGetPlaylistDetailsQuery } from "../../redux/playlistAPI";
+import { useGetPlaylistDetailsQuery } from "../../redux/playlistDetailsAPI";
 import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
 import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
 import TrackList from "../../components/TrackList/TrackList";
@@ -61,35 +61,41 @@ const Playlist = (tracks: any) => {
   }, [search]);
 
   const tracksExistInPlaylist = playlist?.data?.tracks?.length > 0;
-  const [imagePlayList, setImagePlayList] = useState<string>(playlist?.data?.image);
+  const [imagePlayList, setImagePlayList] = useState<string>(
+    playlist?.data?.image
+  );
   const [title, setTitle] = useState<string>(playlist?.data?.title);
   const [description, setDescription] = useState(playlist?.data?.description);
-  const [change, setChange] = useState<boolean>(false)
+  const [change, setChange] = useState<boolean>(false);
 
   const tracksExist = playlist?.data?.tracks?.length > 0;
-  
-  useEffect(()=>{
-    setTitle(playlist?.data?.title)
-    setDescription(playlist?.data?.description)
-    setImagePlayList(playlist?.data?.image)
-  },[playlist, change])
 
-  useEffect(() => {    
-    const getupdatedData = async() =>{
-      const response = await fetch(`http://localhost:4002/playlist/${query.playlistID}`,{
-        method:'GET',
-        headers:{
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M'
+  useEffect(() => {
+    setTitle(playlist?.data?.title);
+    setDescription(playlist?.data?.description);
+    setImagePlayList(playlist?.data?.image);
+  }, [playlist, change]);
+
+  useEffect(() => {
+    const getupdatedData = async () => {
+      const response = await fetch(
+        `http://localhost:4002/playlist/${query.playlistID}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M",
+          },
         }
-      })
+      );
       const data = await response.json();
-      setImagePlayList(data?.data?.image)
-      setDescription(data?.data?.description)
-      setTitle(data?.data?.title)
-    }
-    getupdatedData()
-  },[change])
-  
+      setImagePlayList(data?.data?.image);
+      setDescription(data?.data?.description);
+      setTitle(data?.data?.title);
+    };
+    getupdatedData();
+  }, [change]);
+
   return (
     <>
       <Head>
