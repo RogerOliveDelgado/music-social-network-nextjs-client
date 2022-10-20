@@ -36,7 +36,8 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
   const id = '634e553e380e05b2284977de';
-  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU'
+  const TOKEN =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU';
   const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
 
   const dragControls = useDragControls();
@@ -53,21 +54,21 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     }
 
     //Get the users likedSongs array
-    //Save the founed array in the likedSongs state   
-    const getUser = async() => {
-      const response = await fetch(`http://localhost:4001/user/${id}`,{
-        headers:{
-          Authorization: `bearer ${TOKEN}`
-        }
-      })
+    //Save the founed array in the likedSongs state
+    const getUser = async () => {
+      const response = await fetch(`http://localhost:4001/user/${id}`, {
+        headers: {
+          Authorization: `bearer ${TOKEN}`,
+        },
+      });
       const user = await response.json();
       let array: string[] = [];
       user.data.likedSongs.map((song: any) => {
         array.push(song._id);
-      })
-      setUserLikedSongs(array);   
-    }
-    getUser(); 
+      });
+      setUserLikedSongs(array);
+    };
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,38 +100,38 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     dispatch(updateTrackList(orderTracks));
   };
 
-  const addSong = (songId:string) => {
-    const putSongInUser = async(songId:string) => {
-      const response = await fetch(`http://localhost:4002/track/library`,{
-        method:'PUT',
-        headers:{
-          'Content-Type':'application/json; charset=utf-8',
-          Authorization:`bearer ${TOKEN}`,
+  const addSong = (songId: string) => {
+    const putSongInUser = async (songId: string) => {
+      const response = await fetch(`http://localhost:4002/track/library`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `bearer ${TOKEN}`,
         },
-        body: JSON.stringify({ _id: songId })
-      })
+        body: JSON.stringify({ _id: songId }),
+      });
       const data = await response.json();
-      
+
       //Get the user information to set again the likedSongs array with changes
-      if(data.ok){
-        setTimeout(async()=>{
-          const userResponse = await fetch(`http://localhost:4001/user/${id}`,{
-            headers:{
-              Authorization: `bearer ${TOKEN}`
-            }
-          })
+      if (data.ok) {
+        setTimeout(async () => {
+          const userResponse = await fetch(`http://localhost:4001/user/${id}`, {
+            headers: {
+              Authorization: `bearer ${TOKEN}`,
+            },
+          });
           const user = await userResponse.json();
 
           let arrayFavouritesSongs: string[] = [];
-          user.data.likedSongs.map((song:any) => {
-            arrayFavouritesSongs.push(song._id)
-          })
+          user.data.likedSongs.map((song: any) => {
+            arrayFavouritesSongs.push(song._id);
+          });
           setUserLikedSongs(arrayFavouritesSongs);
-        },500)        
+        }, 500);
       }
-    }
-    putSongInUser(songId)
-  }
+    };
+    putSongInUser(songId);
+  };
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
@@ -176,7 +177,21 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
                     </IconButton>
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {userLikedSongs?.some(element => element === track._id) ? <FavoriteIcon onClick={() => {addSong(track._id)}}/> : <FavoriteBorderIcon onClick={() => {addSong(track._id)}}/>}
+                      {userLikedSongs?.some(
+                        (element) => element === track._id
+                      ) ? (
+                        <FavoriteIcon
+                          onClick={() => {
+                            addSong(track._id);
+                          }}
+                        />
+                      ) : (
+                        <FavoriteBorderIcon
+                          onClick={() => {
+                            addSong(track._id);
+                          }}
+                        />
+                      )}
                     </IconButton>
                     <p className={styles.track_duration}>
                       {millisToMinutes(track.duration)}

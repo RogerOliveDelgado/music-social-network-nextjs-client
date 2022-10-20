@@ -1,0 +1,20 @@
+.chat_container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 6rem;
+  padding: 1rem;
+  height: 95%;
+}
+.main_content {
+  display: flex;
+  width: 90%;
+  height: 85%;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  .main_content {
+    border: none;
+  }
+}
