@@ -31,7 +31,9 @@
   overflow-x: auto;
 }
 
-.albumCard {
+.albumCard,
+.artistCard,
+.trackCard {
   width: 11rem;
   display: flex;
   flex-direction: column;
@@ -43,6 +45,7 @@
   margin-right: 0.5rem;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 .artistImageFinded,

@@ -8,6 +8,7 @@ import { Track } from "../../interfaces/tracks";
 import { useGetSearchQuery } from "../../redux/searchAPI";
 
 import styles from "./styles.module.css";
+import Link from "next/link";
 
 type Props = {};
 
@@ -35,23 +36,27 @@ const Search = (props: Props) => {
                   .slice(0, 20)
                   .map((album: Album, index: number) => {
                     return (
-                      <div key={index} className={styles.albumCard}>
-                        <picture>
-                          <img
-                            src={album.artist.image}
-                            alt={album.title}
-                            className={styles.albumImageFinded}
-                          ></img>
-                        </picture>
-                        <span className={styles.albumTitle}>{album.title}</span>
-                        <div>
-                          <span>
-                            {album.releaseDate.split("T")[0].split("-")[0]}
+                      <Link key={index} href={`/album/${album._id}`}>
+                        <div className={styles.albumCard}>
+                          <picture>
+                            <img
+                              src={album.artist.image}
+                              alt={album.title}
+                              className={styles.albumImageFinded}
+                            ></img>
+                          </picture>
+                          <span className={styles.albumTitle}>
+                            {album.title}
                           </span>
-                          <span> • </span>
-                          <span>Album</span>
+                          <div>
+                            <span>
+                              {album.releaseDate.split("T")[0].split("-")[0]}
+                            </span>
+                            <span> • </span>
+                            <span>Album</span>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
               </section>
@@ -63,19 +68,21 @@ const Search = (props: Props) => {
                   .slice(0, 20)
                   .map((artist: Artist, index: number) => {
                     return (
-                      <div key={index} className={styles.albumCard}>
-                        <picture>
-                          <img
-                            src={artist.image}
-                            alt={artist.name}
-                            className={styles.artistImageFinded}
-                          ></img>
-                        </picture>
-                        <span className={styles.artistTitle}>
-                          {artist.name}
-                        </span>
-                        <span>Artist</span>
-                      </div>
+                      <Link key={index} href={`/artist/${artist._id}`}>
+                        <div className={styles.artistCard}>
+                          <picture>
+                            <img
+                              src={artist.image}
+                              alt={artist.name}
+                              className={styles.artistImageFinded}
+                            ></img>
+                          </picture>
+                          <span className={styles.artistTitle}>
+                            {artist.name}
+                          </span>
+                          <span>Artist</span>
+                        </div>
+                      </Link>
                     );
                   })}
               </section>
@@ -87,7 +94,7 @@ const Search = (props: Props) => {
                   .slice(0, 20)
                   .map((track: Track, index: number) => {
                     return (
-                      <div key={index} className={styles.albumCard}>
+                      <div key={index} className={styles.trackCard}>
                         <picture>
                           <img
                             src={track.album.image}
