@@ -6,7 +6,7 @@ const API =
   "http://localhost:4002";
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUxMDdjZDY2YWM4M2RiNWIwMDNlNWQiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1NDc5NywiZXhwIjoxNjY2Njg2Nzk3fQ.hjYAmvSLm1yXNJpmCK3bFwOvj9OfQpmvOvEwleFSpzg";
 
 export const playlistAPI = createApi({
   reducerPath: "playlistAPI",

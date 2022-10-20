@@ -36,7 +36,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
   const id = '634e553e380e05b2284977de';
-  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU'
+  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUxMDdjZDY2YWM4M2RiNWIwMDNlNWQiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1NDc5NywiZXhwIjoxNjY2Njg2Nzk3fQ.hjYAmvSLm1yXNJpmCK3bFwOvj9OfQpmvOvEwleFSpzg'
   const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
 
   const dragControls = useDragControls();
