@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import useDebounce from "../../hook/useDebounce";
-import { Artist } from "../../interfaces/artistResponse";
-import { Album } from "../../interfaces/albumResponse";
+import { Artist } from "../../interfaces/ServerResponse";
+import { Album } from "../../interfaces/ServerResponse";
 import { Track } from "../../interfaces/tracks";
 import { useGetSearchQuery } from "../../redux/searchAPI";
 
@@ -20,8 +20,6 @@ const Search = (props: Props) => {
     isLoading,
     error,
   } = useGetSearchQuery(router.query.search);
-
-  console.log(search?.data);
 
   return (
     <Layout>

@@ -10,8 +10,6 @@ import Link from "next/link";
 export default function SearchAppBar() {
   const router = useRouter();
 
-  // console.log(router.replace());
-
   const { t } = useI18N();
 
   const [value, setValue] = useState<string>("");
@@ -19,7 +17,6 @@ export default function SearchAppBar() {
   const debouncedValue = useDebounce<string>(value, 50);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     setValue(event.target.value);
   };
 
@@ -27,8 +24,6 @@ export default function SearchAppBar() {
     // Triggers when "debouncedValue" changes
 
     if (debouncedValue) {
-      console.log(debouncedValue);
-      console.log(value);
       // searchCharacters(debouncedValue).then((results) => {
       router.replace(`/search/${debouncedValue}`);
       // });

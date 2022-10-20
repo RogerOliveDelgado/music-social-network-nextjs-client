@@ -8,8 +8,6 @@ import styles from "./styles.module.css";
 type Props = {};
 
 const Row = ({ title, data, children }: any) => {
-  console.log(data);
-
   return (
     <div className={styles.row_container}>
       <div className={styles.row_header}>
