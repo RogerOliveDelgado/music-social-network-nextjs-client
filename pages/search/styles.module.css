@@ -18,6 +18,7 @@
   margin-bottom: 1.5rem;
   overflow: hidden;
   border-radius: 0.3rem;
+  cursor: pointer;
 }
 
 .artistsFinded,
@@ -31,13 +32,16 @@
   overflow-x: auto;
 }
 
+.sectionFinded:last-child {
+  margin-bottom: 2rem;
+}
+
 .albumCard,
 .artistCard,
 .trackCard {
   width: 11rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   border: 1px solid var(--lightest_blue);
   background-color: var(--lightGrey);
   padding: 0.5rem;
@@ -46,6 +50,10 @@
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   cursor: pointer;
+}
+
+.trackCard {
+  cursor: auto;
 }
 
 .artistImageFinded,
@@ -79,4 +87,30 @@
   top: 0px;
   left: 115px;
   transform: rotate(25deg);
+}
+
+.playButton {
+  color: var(--darker_blue);
+  background-color: transparent;
+  border: none;
+  position: relative;
+  transition: all 300ms;
+  top: 0px;
+  left: 100px;
+  z-index: -1;
+}
+
+.playButton:hover {
+  color: var(--darkest_blue);
+  cursor: pointer;
+}
+
+.trackCard:hover .playButton {
+  top: -75px;
+  z-index: 0;
+}
+
+.nothing {
+  font-size: 2rem;
+  color: var(--lightest_blue);
 }
