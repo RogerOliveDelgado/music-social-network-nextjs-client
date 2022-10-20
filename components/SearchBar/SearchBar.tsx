@@ -14,7 +14,10 @@ export default function SearchAppBar() {
 
   const [value, setValue] = useState<string>("");
 
-  const debouncedValue = useDebounce<string>(value, 50);
+  const debouncedValue = useDebounce<string>(
+    value,
+    router.pathname === "/search" ? 1000 : 50
+  );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
