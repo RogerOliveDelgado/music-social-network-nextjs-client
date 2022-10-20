@@ -1,28 +1,28 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import IconButton from '@mui/material/IconButton';
-import AlbumIcon from '@mui/icons-material/Album';
-import { Track } from '../../interfaces/artistResponse';
-import { millisToMinutes } from '../../utils/converter';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import IconButton from "@mui/material/IconButton";
+import AlbumIcon from "@mui/icons-material/Album";
+import { Track } from "../../interfaces/artistResponse";
+import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { updateTrackList } from "../../redux/features/player/musicPlayerSlice";
 import {
   setCurrentIndex,
   setArtistName,
   currentTrack as setCurrentTrack,
-} from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+} from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import GraphicEqIcon from "@mui/icons-material/GraphicEq";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-import { Reorder, AnimatePresence, useDragControls } from 'framer-motion';
+import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 type Props = {
   name: string;
@@ -35,8 +35,9 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
-  const id = '634e553e380e05b2284977de';
-  const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTUzZTM4MGUwNWIyMjg0OTc3ZGUiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1MjA0MCwiZXhwIjoxNjY2Njg0MDQwfQ.D6L79-Qy6usEzJfNoyCYBBfjBEEQlTXabkYlBSdU8jU'
+  const id = "635113084c339166386622af";
+  const TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUxMTMwODRjMzM5MTY2Mzg2NjIyYWYiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI1Nzk3OCwiZXhwIjoxNjY2Njg5OTc4fQ.0F9vRGv4iLLluH7cK4oo9ud468Sksk8orHSNicNjRvA";
   const [userLikedSongs, setUserLikedSongs] = useState<string[]>([]);
 
   const dragControls = useDragControls();
@@ -48,26 +49,26 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   );
 
   useEffect(() => {
-    if (router.pathname.includes('playlist')) {
+    if (router.pathname.includes("playlist")) {
       setInPlayList(true);
     }
 
     //Get the users likedSongs array
-    //Save the founed array in the likedSongs state   
-    const getUser = async() => {
-      const response = await fetch(`http://localhost:4001/user/${id}`,{
-        headers:{
-          Authorization: `bearer ${TOKEN}`
-        }
-      })
+    //Save the founed array in the likedSongs state
+    const getUser = async () => {
+      const response = await fetch(`http://localhost:4001/user/${id}`, {
+        headers: {
+          Authorization: `bearer ${TOKEN}`,
+        },
+      });
       const user = await response.json();
       let array: string[] = [];
-      user.data.likedSongs.map((song: any) => {
+      user?.data?.likedSongs?.map((song: any) => {
         array.push(song._id);
-      })
-      setUserLikedSongs(array);   
-    }
-    getUser(); 
+      });
+      setUserLikedSongs(array);
+    };
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,44 +100,44 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     dispatch(updateTrackList(orderTracks));
   };
 
-  const addSong = (songId:string) => {
-    const putSongInUser = async(songId:string) => {
-      const response = await fetch(`http://localhost:4002/track/library`,{
-        method:'PUT',
-        headers:{
-          'Content-Type':'application/json; charset=utf-8',
-          Authorization:`bearer ${TOKEN}`,
+  const addSong = (songId: string) => {
+    const putSongInUser = async (songId: string) => {
+      const response = await fetch(`http://localhost:4002/track/library`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `bearer ${TOKEN}`,
         },
-        body: JSON.stringify({ _id: songId })
-      })
+        body: JSON.stringify({ _id: songId }),
+      });
       const data = await response.json();
-      
+
       //Get the user information to set again the likedSongs array with changes
-      if(data.ok){
-        setTimeout(async()=>{
-          const userResponse = await fetch(`http://localhost:4001/user/${id}`,{
-            headers:{
-              Authorization: `bearer ${TOKEN}`
-            }
-          })
+      if (data.ok) {
+        setTimeout(async () => {
+          const userResponse = await fetch(`http://localhost:4001/user/${id}`, {
+            headers: {
+              Authorization: `bearer ${TOKEN}`,
+            },
+          });
           const user = await userResponse.json();
 
           let arrayFavouritesSongs: string[] = [];
-          user.data.likedSongs.map((song:any) => {
-            arrayFavouritesSongs.push(song._id)
-          })
+          user.data.likedSongs.map((song: any) => {
+            arrayFavouritesSongs.push(song._id);
+          });
           setUserLikedSongs(arrayFavouritesSongs);
-        },500)        
+        }, 500);
       }
-    }
-    putSongInUser(songId)
-  }
+    };
+    putSongInUser(songId);
+  };
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
-        <p>{name || 'Album name'}</p>
+        <p>{name || "Album name"}</p>
       </div>
       {tracks ? (
         <Reorder.Group
@@ -176,7 +177,21 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
                     </IconButton>
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {userLikedSongs?.some(element => element === track._id) ? <FavoriteIcon onClick={() => {addSong(track._id)}}/> : <FavoriteBorderIcon onClick={() => {addSong(track._id)}}/>}
+                      {userLikedSongs?.some(
+                        (element) => element === track._id
+                      ) ? (
+                        <FavoriteIcon
+                          onClick={() => {
+                            addSong(track._id);
+                          }}
+                        />
+                      ) : (
+                        <FavoriteBorderIcon
+                          onClick={() => {
+                            addSong(track._id);
+                          }}
+                        />
+                      )}
                     </IconButton>
                     <p className={styles.track_duration}>
                       {millisToMinutes(track.duration)}
