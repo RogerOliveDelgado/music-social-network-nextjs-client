@@ -1,9 +1,9 @@
 export interface Response {
-  data: Data[];
+  data: Track[];
   ok: boolean;
 }
 
-export interface Data {
+export interface Track {
   __v: number;
   _id: string;
   album: Album;

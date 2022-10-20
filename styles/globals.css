@@ -109,15 +109,15 @@ body {
   background: var(--darker_blue);
 }
 ::-webkit-scrollbar-track {
-  background: #666666;
+  background: #66666600;
   border: 0px none #ffffff;
   border-radius: 1px;
 }
 ::-webkit-scrollbar-track:hover {
-  background: #666666;
+  background: #66666600;
 }
 ::-webkit-scrollbar-track:active {
-  background: #333333;
+  background: #33333300;
 }
 ::-webkit-scrollbar-corner {
   background: transparent;

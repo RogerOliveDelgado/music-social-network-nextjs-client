@@ -4,15 +4,16 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
-      'en.wikipedia.org',
-      'upload.wikimedia.org',
-      'via.placeholder.com',
-      'i.scdn.co',
+      "en.wikipedia.org",
+      "upload.wikimedia.org",
+      "via.placeholder.com",
+      "i.scdn.co",
+      "res.cloudinary.com",
     ],
   },
   i18n: {
-    locales: ['en', 'es', 'fr'],
-    defaultLocale: 'en',
+    locales: ["en", "es", "fr"],
+    defaultLocale: "en",
   },
 };
 

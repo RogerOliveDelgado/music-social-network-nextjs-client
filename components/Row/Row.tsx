@@ -1,9 +1,9 @@
-import AlbumCard from '../AlbumCard/AlbumCard';
-import { Artist } from '../../interfaces/artistResponse';
-import { Album } from '../../interfaces/albumResponse';
-import { Playlist } from '../../interfaces/playlistResponse';
+import AlbumCard from "../AlbumCard/AlbumCard";
+import { Artist } from "../../interfaces/artistResponse";
+import { Album } from "../../interfaces/albumResponse";
+import { Playlist } from "../../interfaces/playlistResponse";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 type Props = {};
 
