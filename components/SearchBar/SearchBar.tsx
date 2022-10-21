@@ -6,7 +6,6 @@ import useDebounce from "../../hook/useDebounce";
 import { ChangeEvent, useEffect, useState } from "react";
 import searchCharacters from "../../services/search";
 import Link from "next/link";
-import VoiceRecognitionDialog from "../Dialog/VoiceRecognitionDialog";
 
 export default function SearchAppBar() {
   const router = useRouter();
@@ -88,8 +87,6 @@ export default function SearchAppBar() {
             </Link>
           )}
         </div>
-
-        <VoiceRecognitionDialog setValue={setValue} />
       </div>
     </div>
   );
