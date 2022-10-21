@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import GoogleIcon from "@mui/icons-material/Google";
 import toast, { Toaster } from "react-hot-toast";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import styles from "./styles.module.css";
 import { createUser } from "../../services/user";
@@ -44,6 +47,10 @@ const SignUpFailed = ({
     /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/;
   const validPassword = passwordExpression.test(password);
 
+  const [seePassword, setSeePassword] = useState<boolean>();
+  const showPassword = () => {
+    seePassword ? setSeePassword(false) : setSeePassword(true);
+  };
   const router = useRouter();
 
   const signUp = async (
@@ -118,14 +125,23 @@ const SignUpFailed = ({
           <label className={validEmail ? styles.hide : styles.label}>
             Email must be valid
           </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => {
-              getPassword(e);
-            }}
-            placeholder="Introduce your password"
-          />
+
+          <div className={styles.passwordDiv}>
+            <input
+              type={seePassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => {
+                getPassword(e);
+              }}
+              placeholder="Introduce your password"
+            />
+            {seePassword ? (
+              <VisibilityOffIcon onClick={showPassword} />
+            ) : (
+              <VisibilityIcon onClick={showPassword} />
+            )}
+          </div>
+
           <label className={validPassword ? styles.hide : styles.label}>
             Password must have a minimum of 8 characters, 1 upper case, 1 number
             and 1 special character

@@ -1,13 +1,38 @@
-import React from 'react';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
-import MusicVideoIcon from '@mui/icons-material/MusicVideo';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
+import * as React from "react";
 
-import styles from './styles.module.css';
+import TelegramIcon from "@mui/icons-material/Telegram";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
+import styles from "./styles.module.css";
+import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 function NavbarIcons() {
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+
+  const [username, setUsername] = React.useState<string>();
+
+  React.useEffect(() => {
+    setUsername(cookies.username);
+  }, [cookies.username]);
+
+  // console.log(cookies.username);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={styles.icons}>
       <div className={styles.separator}></div>
@@ -28,11 +53,36 @@ function NavbarIcons() {
       />
       <LanguageSelector />
       <div className={styles.separator}></div>
-      <AccountCircleIcon
-        sx={{
-          fontSize: 30,
+      <Button
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        {username}
+        <AccountCircleIcon
+          sx={{
+            fontSize: 30,
+          }}
+        />
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
         }}
-      />
+      >
+        <Link href={`/profile/${username}`}>
+          <MenuItem>Profile</MenuItem>
+        </Link>
+        <Link href={"/login"}>
+          <MenuItem>Logout</MenuItem>
+        </Link>
+      </Menu>
     </div>
   );
 }

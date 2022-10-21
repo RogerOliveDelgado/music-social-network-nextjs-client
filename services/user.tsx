@@ -29,6 +29,8 @@ export const createUser = async (
     if (response.ok) {
       const result = await response.json();
       setCookie("userToken", result.data.token, { path: "/" });
+      setCookie("username", result.data.username, { path: "/" });
+      setCookie("userID", result.data.id, { path: "/" });
       return result;
     }
   } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useCookies } from "react-cookie";
 
 import styles from "./styles.module.css";
@@ -14,7 +15,9 @@ const LoginInputs = (props: Props) => {
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
 
-  const [cookies, setCookie] = useCookies(["userToken"]);
+  const [seePassword, setSeePassword] = useState<boolean>();
+
+  const [cookies, setCookie] = useCookies(["userToken", "username", "userID"]);
 
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -22,6 +25,10 @@ const LoginInputs = (props: Props) => {
 
   const getPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const showPassword = () => {
+    seePassword ? setSeePassword(false) : setSeePassword(true);
   };
 
   const logIn = async (
@@ -49,7 +56,11 @@ const LoginInputs = (props: Props) => {
 
       if (response.ok) {
         const result = await response.json();
+
         setCookie("userToken", result.data.token, { path: "/" });
+        setCookie("username", result.data.username, { path: "/" });
+        setCookie("userID", result.data.id, { path: "/" });
+
         toast.promise(router.push("/es"), {
           loading: "Goooing...",
           success: <b></b>,
@@ -71,12 +82,17 @@ const LoginInputs = (props: Props) => {
       />
       <div className={` ${styles.loginDivInput}`}>
         <input
-          type="password"
+          type={seePassword ? "text" : "password"}
           onChange={getPassword}
           placeholder="Introduce your password"
           className={`${styles.loginInput} ${styles.noBorder}`}
         />
-        <VisibilityIcon />
+
+        {seePassword ? (
+          <VisibilityOffIcon onClick={showPassword} />
+        ) : (
+          <VisibilityIcon onClick={showPassword} />
+        )}
       </div>
 
       <Toaster />

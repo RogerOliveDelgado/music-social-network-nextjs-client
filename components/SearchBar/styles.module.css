@@ -92,15 +92,6 @@
   opacity: 1;
 }
 
-.searchbar_right {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: stretch;
-  flex-direction: row;
-  height: 2rem;
-  width: 2rem;
-}
-
 .searchbar_clear_icon {
   margin-right: 12px;
 }

@@ -140,7 +140,7 @@ const Playlist = (tracks: any) => {
           <>
             <Searchbar handleChange={handleChange} />
             {results.length && search !== " " ? (
-              <div className={styles.search_results}>
+              <div className={styles.search_results} onClick={refetch}>
                 <TrackList
                   name={`${results.length} results for "${search}"`}
                   tracks={results}
