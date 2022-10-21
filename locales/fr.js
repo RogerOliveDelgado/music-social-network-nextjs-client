@@ -19,11 +19,16 @@ export default {
     playlist: 'Playlist',
     app_name: 'Spotify',
     tracks: 'Chansons',
+    messages: 'Messages',
+    contacts: 'Contacts',
+    send: 'Envoyer',
+    message: 'Message à',
   },
   headers: {
     headerFavorites: 'Vos favoris',
     headerAlbum: 'Album',
     headerArtist: 'Artiste',
     headerLibrary: 'Bibliothèque',
+    headerChat: 'Chat',
   },
 };

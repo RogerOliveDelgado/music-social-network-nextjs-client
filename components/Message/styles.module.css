@@ -1,0 +1,26 @@
+.message_container {
+  display: flex;
+
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.message_container_user {
+  flex-direction: row-reverse;
+}
+
+.message_info {
+  align-items: flex-start;
+}
+.message_info_user {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.text {
+  background: rgb(155, 118, 118);
+  border-radius: 5px;
+  max-width: 90%;
+  overflow-wrap: break-word;
+  padding: 0.3rem;
+}

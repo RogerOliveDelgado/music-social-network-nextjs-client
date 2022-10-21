@@ -1,0 +1,68 @@
+.chat_room_container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  flex: 2;
+}
+
+.chat_room_header {
+  background: #fef9ef;
+  height: 7%;
+  display: flex;
+  padding: 0.5rem;
+  color: black;
+  align-items: center;
+}
+.chat_room_image {
+  margin-left: 1rem;
+  border-radius: 50%;
+}
+
+.contact_name {
+  font-weight: 600;
+  width: 50%;
+  font-size: 1.1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0.5rem 1rem;
+}
+
+.messages_container {
+  flex: 1;
+  padding: 1rem;
+  background: rgb(42, 41, 41);
+}
+.message_input {
+  display: flex;
+  border: 2px solid #fbecda;
+  background: #fef9ef;
+  height: 7%;
+}
+.message_form {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+}
+.input_message {
+  flex: 1;
+  width: 70%;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.input_message:focus {
+  outline: none;
+}
+
+.messages_container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  .chat_room_container {
+    display: none;
+  }
+}

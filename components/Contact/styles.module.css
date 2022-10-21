@@ -1,0 +1,33 @@
+.contact_container {
+  display: flex;
+  border: 2px solid #fbecda;
+  border-radius: 5px;
+  background: #fef9ef;
+  color: black;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  align-items: center;
+}
+.contact_container:hover {
+  /* border: 3px solid #c6bcaf; */
+  box-shadow: rgba(233, 218, 173, 0.4) 0px 0px 0px 2px,
+    rgba(227, 216, 166, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  cursor: pointer;
+}
+.contact_container_active {
+  background: #efd39b;
+}
+
+.contact_image {
+  border-radius: 50%;
+}
+
+.contact_name {
+  font-weight: 600;
+  width: 50%;
+  font-size: 1.1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

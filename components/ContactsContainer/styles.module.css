@@ -1,0 +1,25 @@
+.contacts_container {
+  width: 20rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.4rem;
+
+  border-radius: 5px;
+}
+
+.contacts_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  .contacts_container {
+    width: 100%;
+  }
+}
