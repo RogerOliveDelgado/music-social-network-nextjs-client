@@ -1,43 +1,45 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import IconButton from '@mui/material/IconButton';
-import AlbumIcon from '@mui/icons-material/Album';
-import { Track } from '../../interfaces/tracks';
-import { millisToMinutes } from '../../utils/converter';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import IconButton from "@mui/material/IconButton";
+import AlbumIcon from "@mui/icons-material/Album";
+import { Track } from "../../interfaces/tracks";
+import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { updateTrackList } from "../../redux/features/player/musicPlayerSlice";
 import {
   setCurrentIndex,
   setArtistName,
   currentTrack as setCurrentTrack,
-} from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+} from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import GraphicEqIcon from "@mui/icons-material/GraphicEq";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-import { Reorder, AnimatePresence, useDragControls } from 'framer-motion';
+import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
 
 type Props = {
   name: string;
   tracks: Track[];
   heightValue?: number;
   artist?: string;
+  refetch?: any;
 };
 
-const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
+const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
-  const id = "635113084c339166386622af";
+  const id = "6352bdddf65378d19833dc87";
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUxMTMwODRjMzM5MTY2Mzg2NjIyYWYiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI3NjYxMywiZXhwIjoxNjY2NzA4NjEzfQ.B9_2nkGwWER7bO7eDI4d4rkEgemZ6zAdJOpLnKFQKKk";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
   const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
@@ -49,7 +51,7 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   );
 
   useEffect(() => {
-    if (router.pathname.includes('favorites')) {
+    if (router.pathname.includes("favorites")) {
       //playList
       setInPlayList(true);
     }
@@ -105,9 +107,9 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
       const response = await fetch(`http://localhost:4002/track/library`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
+          "Content-Type": "application/json; charset=utf-8",
           Authorization: `bearer ${TOKEN}`,
         },
         body: JSON.stringify(song),
@@ -135,11 +137,37 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
     };
     putSongInUser(song);
   };
+
+  const playlistId = router.query.playlistID;
+
+  const addTrackToPlaylist = async (track: Track) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4002/playlist/tracks/${playlistId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `bearer ${TOKEN}`,
+          },
+          body: JSON.stringify({
+            tracks: track._id,
+          }),
+        }
+      );
+      // if (response.ok) {
+      //   toast.success("Track added to playlist");
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
-        <p>{name || 'Album name'}</p>
+        <p>{name || "Album name"}</p>
       </div>
       {tracks ? (
         <Reorder.Group
@@ -176,7 +204,10 @@ const TrackList = ({ name, tracks, heightValue, artist }: Props) => {
                   <div className={styles.buttons_container}>
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      <AddCircleOutlineIcon />
+                      <AddCircleOutlineIcon
+                        onClick={() => addTrackToPlaylist(track)}
+                      />
+                      <Toaster />
                     </IconButton>
                     <IconButton color="inherit" component="label">
                       <input hidden />

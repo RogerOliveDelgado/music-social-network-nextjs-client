@@ -31,7 +31,7 @@ type Props = {};
 const ArtistDetails = (props: Props) => {
   const { query } = useRouter();
   const artistID = query.artistID?.toString() as string;
-  const userID = "635113084c339166386622af";
+  const userID = "6352bdddf65378d19833dc87";
   let isFollowed = undefined;
   const { t } = useI18N();
   const dispatch = useDispatch();
