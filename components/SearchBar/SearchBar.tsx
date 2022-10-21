@@ -14,14 +14,13 @@ export default function SearchAppBar() {
 
   const [value, setValue] = useState<string>("");
 
-  const debouncedValue = useDebounce<string>(
-    value,
-    router.pathname === "/search" ? 1000 : 50
-  );
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
+  const debouncedValue = useDebounce<string>(
+    value,
+    router.pathname === "/search" ? 750 : 50
+  );
 
   useEffect(() => {
     // Triggers when "debouncedValue" changes

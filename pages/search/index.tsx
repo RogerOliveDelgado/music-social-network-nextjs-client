@@ -4,8 +4,9 @@ import { GetStaticProps } from "next";
 import Layout from "../../components/Layout/Layout";
 
 import styles from "./styles.module.css";
-import { Artist } from "../../interfaces/albumResponse";
+import { Artist } from "../../interfaces/ServerResponse";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   parsedArtist: Artist[];
@@ -45,20 +46,21 @@ const Search = ({ parsedArtist }: Props) => {
             } ${generateRandomNumbers().num3})`;
 
             return (
-              <div
-                key={artist._id}
-                className={styles.artistDiv}
-                style={{ backgroundColor: randomColor }}
-              >
-                <p className={styles.artistName}>{artist.name}</p>
-                <picture>
-                  <img
-                    src={artist.image}
-                    alt={artist.name}
-                    className={styles.artistImage}
-                  />
-                </picture>
-              </div>
+              <Link href={`/artist/${artist._id}`} key={artist._id}>
+                <div
+                  className={styles.artistDiv}
+                  style={{ backgroundColor: randomColor }}
+                >
+                  <p className={styles.artistName}>{artist.name}</p>
+                  <picture>
+                    <img
+                      src={artist.image}
+                      alt={artist.name}
+                      className={styles.artistImage}
+                    />
+                  </picture>
+                </div>
+              </Link>
             );
           })}
         </section>

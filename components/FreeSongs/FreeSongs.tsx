@@ -4,10 +4,10 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 import styles from "./styles.module.css";
 
-import { Data } from "../../interfaces/tracks";
+import { Track } from "../../interfaces/tracks";
 
 type Props = {
-  tracks: Data[];
+  tracks: Track[];
 };
 
 const FreeSongs = ({ tracks }: Props) => {
