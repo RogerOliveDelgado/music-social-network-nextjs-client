@@ -28,8 +28,12 @@ function CreatePlaylist(props: any) {
   const [title, setTitle] = useState("New playlist");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [description, setDescription] = useState("");
+  const [decodedImage, setDecodedImage] = useState<string>();
   const [metaDataplayListImage, setMetaDataPlayListImage] = useState<string>();
   const [open, setOpen] = React.useState(false);
+
+  const defaultImage =
+    "https://res.cloudinary.com/juancarlos/image/upload/v1666288177/x7uevsp4fltimqeyeanv.png";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,7 +53,9 @@ function CreatePlaylist(props: any) {
     setPlaylistImage(playlistImage);
     setPlaylistName(playlistName);
     setPlaylistDescription(playlistDescription);
+
     try {
+      metaDataplayListImage === undefined ? defaultImage : null;
       const response = await fetch("http://localhost:4002/playlist", {
         method: "POST",
         headers: {
@@ -59,11 +65,15 @@ function CreatePlaylist(props: any) {
         body: JSON.stringify({
           title: playlistName,
           description: playlistDescription,
-          image: metaDataplayListImage,
+          image:
+            metaDataplayListImage === undefined
+              ? defaultImage
+              : metaDataplayListImage,
         }),
       });
       if (response.status === 400) {
         const result = await response.json();
+        console.log(result);
         toast.error("Oops, something went wrong");
       }
 
@@ -114,12 +124,12 @@ function CreatePlaylist(props: any) {
       );
       if (response.status === 400) {
         const result = await response.json();
+        console.log(result);
         toast.error("Oops, something went wrong");
       }
 
       if (response.ok) {
         const result = await response.json();
-
         props.setImagePlayList(result.data.image);
         props.setTitle(result.data.title);
         props.setDescription(result.data.description);
@@ -134,21 +144,26 @@ function CreatePlaylist(props: any) {
 
   const handleImage = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const file = target.files[0];
-
     // Encode the file using the FileReader API
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // Use a regex to remove data url part
-      const base64String = reader?.result
-        ?.replace("data:", "")
-        .replace(/^.+,/, "");
-
-      setMetaDataPlayListImage(base64String);
-      // Logs wL2dvYWwgbW9yZ...
-    };
-    reader.readAsDataURL(file);
-    setPlaylistImage(file);
+    if (file.size < 10485760) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Use a regex to remove data url part
+        const base64String = reader?.result
+          ?.replace("data:", "")
+          .replace(/^.+,/, "");
+        setMetaDataPlayListImage(base64String);
+        // Logs wL2dvYWwgbW9yZ...
+      };
+      reader.readAsDataURL(file);
+      setPlaylistImage(file);
+    } else {
+      toast.error("File size is too big. Maximum size is 10MB");
+      setOpen(false);
+      return;
+    }
   };
+
   return (
     <>
       <div className={styles.container}>
@@ -174,7 +189,13 @@ function CreatePlaylist(props: any) {
           ) : hover ? (
             <EditIcon className={styles.edit_icon} />
           ) : (
-            <MusicNoteIcon />
+            <picture>
+              <img
+                alt="playlist"
+                className={styles.modal_image_container}
+                src="/images/default_playlist.png"
+              />
+            </picture>
           )}
 
           <span
@@ -223,15 +244,17 @@ function CreatePlaylist(props: any) {
                 onMouseLeave={() => setModalHover(false)}
               >
                 {props.playlistId ? (
-                  <img
-                    className={styles.modal_image_container}
-                    src={
-                      playlistImage == null
-                        ? props.image
-                        : URL.createObjectURL(new Blob([playlistImage]))
-                    }
-                    alt="playlist"
-                  />
+                  <picture>
+                    <img
+                      className={styles.modal_image_container}
+                      src={
+                        playlistImage == null
+                          ? props.image
+                          : URL.createObjectURL(new Blob([playlistImage]))
+                      }
+                      alt="playlist"
+                    />
+                  </picture>
                 ) : playlistImage !== null && playlistImage !== undefined ? (
                   <picture>
                     <img
@@ -242,7 +265,13 @@ function CreatePlaylist(props: any) {
                   </picture>
                 ) : (
                   <>
-                    <EditIcon className={styles.edit_icon} />
+                    <picture>
+                      <img
+                        alt="playlist"
+                        className={styles.modal_image_container}
+                        src="/images/default_playlist.png"
+                      />
+                    </picture>
                     <span>Select an image</span>
                   </>
                 )}

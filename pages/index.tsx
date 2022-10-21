@@ -38,7 +38,6 @@ const Home = () => {
     refetchOnMountOrArgChange: true,
   });
 
-
   const { t } = useI18N();
   return (
     <>
