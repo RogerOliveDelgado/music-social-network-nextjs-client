@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
-const BASE_URL = process.env.USERS_BACKEND_URL || ""
+const BASE_URL = process.env.USERS_BACKEND_URL || "http://localhost:4001"
 
 export default async function middleware(req: NextRequest) {
   const userToken = req.cookies.get("userToken");
