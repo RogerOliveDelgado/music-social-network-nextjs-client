@@ -33,14 +33,6 @@ const Playlist = (tracks: any) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
       setSearch(e.target.value);
-      // setResults(
-      //   tracks.filter((track: any) =>
-      //     track.title
-      //       .toLowerCase()
-      //       .replace(/\s/g, "")
-      //       .includes(search.toLowerCase().replace(/\s/g, ""))
-      //   )
-      // );
     } else {
       setSearch("");
       setResults([]);
@@ -48,18 +40,6 @@ const Playlist = (tracks: any) => {
   };
 
   useEffect(() => {
-    // if (search.length > 0) {
-    //   const results = tracks.filter((track: any) =>
-    //     track.title
-    //       .toLowerCase()
-    //       .replace(/\s/g, "")
-    //       .includes(search.toLowerCase().replace(/\s/g, ""))
-    //   );
-    //   setResults(results);
-    // } else {
-    //   setSearch("");
-    //   setResults([]);
-    // }
     if (debouncedValue) {
       const results = tracks.filter((track: any) =>
         track.title
@@ -81,6 +61,7 @@ const Playlist = (tracks: any) => {
   const [title, setTitle] = useState<string>(playlist?.data?.title);
   const [description, setDescription] = useState(playlist?.data?.description);
   const [change, setChange] = useState<boolean>(false);
+
 
   const tracksExist = playlist?.data?.tracks?.length > 0;
 

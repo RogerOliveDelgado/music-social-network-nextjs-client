@@ -18,7 +18,7 @@ type Props = {
 
 const AlbumHeader = ({album, rating}:Props) => {
 
-  const userID = "634d389b4de99c82919f02b7"
+  const userID = "635113084c339166386622af"
   let isFollowed = undefined
 
   let user = {

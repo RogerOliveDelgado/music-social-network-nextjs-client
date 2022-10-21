@@ -13,7 +13,7 @@ import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistsAPI";
 
 const Home = () => {
-  const userId = "634d389b4de99c82919f02b7";
+  const userId = "635113084c339166386622af";
 
   const {
     data: albums,
@@ -37,7 +37,6 @@ const Home = () => {
   } = useGetPlaylistQuery(userId, {
     refetchOnMountOrArgChange: true,
   });
-
 
   const { t } = useI18N();
   return (
