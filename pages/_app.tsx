@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { I18NProvider } from "../context/i18";
 import { CookiesProvider } from "react-cookie";
+import "regenerator-runtime/runtime";
 import "../styles/globals.css";
 
 type ComponentWithPageLayout = AppProps & {
