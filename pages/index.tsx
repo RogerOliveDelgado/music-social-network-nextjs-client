@@ -11,9 +11,12 @@ import { useI18N } from "../context/i18";
 import styles from "../pages/home/styles.module.css";
 import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistsAPI";
+import { useEffect, useState } from 'react';
 
 const Home = () => {
   const userId = "635113084c339166386622af";
+
+  const [token, setToken] = useState<string>('')
 
   const {
     data: albums,

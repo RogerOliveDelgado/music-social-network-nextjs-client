@@ -12,6 +12,8 @@ import AlbumHeader from '../../components/AlbumHeader/AlbumHeader';
 import AlbumHeaderSkeletton from '../../components/AlbumHeaderSkeletton/AlbumHeaderSkeletton';
 
 import { useI18N } from '../../context/i18';
+import { useCookies } from 'react-cookie';
+import useEffect from 'react';
 
 type Props = {};
 
