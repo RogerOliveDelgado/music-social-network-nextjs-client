@@ -11,9 +11,18 @@ import MenuItem from "@mui/material/MenuItem";
 
 import styles from "./styles.module.css";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 function NavbarIcons() {
-  const openUserMenu = () => {};
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+
+  const [username, setUsername] = React.useState<string>();
+
+  React.useEffect(() => {
+    setUsername(cookies.username);
+  }, [cookies.username]);
+
+  // console.log(cookies.username);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -51,6 +60,7 @@ function NavbarIcons() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
+        {username}
         <AccountCircleIcon
           sx={{
             fontSize: 30,
@@ -66,7 +76,7 @@ function NavbarIcons() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Link href={"/profile"}>
+        <Link href={`/profile/${username}`}>
           <MenuItem>Profile</MenuItem>
         </Link>
         <Link href={"/login"}>
