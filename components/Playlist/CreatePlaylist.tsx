@@ -17,8 +17,8 @@ function CreatePlaylist(props: any) {
   const router = useRouter();
   const playlistId = router.query.playlistID;
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUxMTMwODRjMzM5MTY2Mzg2NjIyYWYiLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjI3NjYxMywiZXhwIjoxNjY2NzA4NjEzfQ.B9_2nkGwWER7bO7eDI4d4rkEgemZ6zAdJOpLnKFQKKk";
+  const TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -28,12 +28,11 @@ function CreatePlaylist(props: any) {
   const [title, setTitle] = useState("New playlist");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const [description, setDescription] = useState("");
-  const [decodedImage, setDecodedImage] = useState<string>();
   const [metaDataplayListImage, setMetaDataPlayListImage] = useState<string>();
   const [open, setOpen] = React.useState(false);
 
   const defaultImage =
-    "https://res.cloudinary.com/juancarlos/image/upload/v1666288177/x7uevsp4fltimqeyeanv.png";
+    "https://res.cloudinary.com/juancarlos/image/upload/v1666367358/default_playlist_ue9ueo.png";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,7 +59,7 @@ function CreatePlaylist(props: any) {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${TOKEN}`,
         },
         body: JSON.stringify({
           title: playlistName,
@@ -86,7 +85,7 @@ function CreatePlaylist(props: any) {
         toast.success("Playlist created!");
         setTimeout(() => {
           router.push(`/playlist/${result.data._id}`);
-        }, 2500);
+        }, 1800);
       }
     } catch (error) {
       console.error(error);
@@ -110,7 +109,7 @@ function CreatePlaylist(props: any) {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json; charset=utf-8",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${TOKEN}`,
           },
           body: JSON.stringify({
             title: playlistName == "" ? props.title : playlistName,

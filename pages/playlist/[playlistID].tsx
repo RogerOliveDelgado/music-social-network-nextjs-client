@@ -2,7 +2,6 @@ import Layout from "../../components/Layout/Layout";
 
 import styles from "./styles.module.css";
 import Head from "next/head";
-import TabPanel from "../../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
 import { useGetPlaylistDetailsQuery } from "../../redux/playlistDetailsAPI";
 import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
@@ -11,8 +10,12 @@ import TrackList from "../../components/TrackList/TrackList";
 import { useI18N } from "../../context/i18";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
+import { Track } from "../../interfaces/tracks";
 
 const Playlist = (tracks: any) => {
+  const TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+
   tracks = tracks.tracks;
   const { query } = useRouter();
   const { t } = useI18N();
@@ -20,10 +23,11 @@ const Playlist = (tracks: any) => {
   const {
     data: playlist,
     isLoading: isLoadingPlaylist,
-    isSuccess,
+    refetch,
     error: playlistError,
   } = useGetPlaylistDetailsQuery(query.playlistID, {
     refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
   });
 
   const [results, setResults] = useState([]);
@@ -55,15 +59,13 @@ const Playlist = (tracks: any) => {
   }, [debouncedValue]);
 
   const tracksExistInPlaylist = playlist?.data?.tracks?.length > 0;
+
   const [imagePlayList, setImagePlayList] = useState<string>(
     playlist?.data?.image
   );
   const [title, setTitle] = useState<string>(playlist?.data?.title);
   const [description, setDescription] = useState(playlist?.data?.description);
   const [change, setChange] = useState<boolean>(false);
-
-
-  const tracksExist = playlist?.data?.tracks?.length > 0;
 
   useEffect(() => {
     setTitle(playlist?.data?.title);
@@ -78,8 +80,7 @@ const Playlist = (tracks: any) => {
         {
           method: "GET",
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRkMzg5YjRkZTk5YzgyOTE5ZjAyYjciLCJ1c2VybmFtZSI6ImNhcmxvcyIsImlhdCI6MTY2NjAxNTY2NywiZXhwIjoxNjY2NDQ3NjY3fQ.Ab1oBxGAQVaQIX5jnHxYWsETMUNn_Mp1OyA7gFCvN0M",
+            Authorization: `Bearer ${TOKEN}`,
           },
         }
       );
@@ -115,7 +116,7 @@ const Playlist = (tracks: any) => {
         />
         {tracksExistInPlaylist ? (
           <>
-            <div className={styles.playlist_tracks}>
+            <div className={styles.playlist_tracks} onClick={refetch}>
               <TrackList
                 name={playlist?.data?.title}
                 tracks={playlist?.data?.tracks}
@@ -123,7 +124,7 @@ const Playlist = (tracks: any) => {
             </div>
             <Searchbar handleChange={handleChange} />
             {results.length && search !== " " ? (
-              <div className={styles.search_results}>
+              <div className={styles.search_results} onClick={refetch}>
                 <TrackList
                   name={`${results.length} results for "${search}"`}
                   tracks={results}
