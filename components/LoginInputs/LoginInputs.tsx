@@ -17,7 +17,7 @@ const LoginInputs = (props: Props) => {
 
   const [seePassword, setSeePassword] = useState<boolean>();
 
-  const [cookies, setCookie] = useCookies(["userToken"]);
+  const [cookies, setCookie] = useCookies(["userToken", "username", "userID"]);
 
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -56,7 +56,11 @@ const LoginInputs = (props: Props) => {
 
       if (response.ok) {
         const result = await response.json();
+
         setCookie("userToken", result.data.token, { path: "/" });
+        setCookie("username", result.data.username, { path: "/" });
+        setCookie("userID", result.data.id, { path: "/" });
+
         toast.promise(router.push("/es"), {
           loading: "Goooing...",
           success: <b></b>,
