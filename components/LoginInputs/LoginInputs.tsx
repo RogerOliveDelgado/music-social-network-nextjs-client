@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useCookies } from "react-cookie";
 
 import styles from "./styles.module.css";
@@ -14,6 +15,8 @@ const LoginInputs = (props: Props) => {
   const [email, setEmail] = useState(String);
   const [password, setPassword] = useState(String);
 
+  const [seePassword, setSeePassword] = useState<boolean>();
+
   const [cookies, setCookie] = useCookies(["userToken"]);
 
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +25,10 @@ const LoginInputs = (props: Props) => {
 
   const getPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const showPassword = () => {
+    seePassword ? setSeePassword(false) : setSeePassword(true);
   };
 
   const logIn = async (
@@ -71,12 +78,17 @@ const LoginInputs = (props: Props) => {
       />
       <div className={` ${styles.loginDivInput}`}>
         <input
-          type="password"
+          type={seePassword ? "text" : "password"}
           onChange={getPassword}
           placeholder="Introduce your password"
           className={`${styles.loginInput} ${styles.noBorder}`}
         />
-        <VisibilityIcon />
+
+        {seePassword ? (
+          <VisibilityOffIcon onClick={showPassword} />
+        ) : (
+          <VisibilityIcon onClick={showPassword} />
+        )}
       </div>
 
       <Toaster />

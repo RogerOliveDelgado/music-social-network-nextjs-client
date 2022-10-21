@@ -46,6 +46,7 @@
   font-size: 1.2rem;
   outline: none;
   color: black;
+  margin-top: 0.5rem;
 }
 
 .sectionInputs > input::placeholder {
@@ -55,6 +56,7 @@
 .label {
   text-align: center;
   font-size: 0.8rem;
+  margin-bottom: 0.35rem;
 }
 
 .googleLogin {
@@ -95,6 +97,25 @@
   color: var(--lightest_blue);
   font-weight: bold;
   padding-left: 1rem;
+}
+
+.passwordDiv {
+  display: flex;
+  width: 97%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.passwordDiv > input {
+  width: 95%;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--lightGrey);
+  font-size: 1.2rem;
+  outline: none;
+  color: black;
+  margin-top: 0.5rem;
 }
 
 @media only screen and (max-width: 500px) {

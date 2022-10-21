@@ -6,6 +6,9 @@ import { motion } from "framer-motion";
 import MusicPreferences from "../MusicPreferences/MusicPreferences";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
 import toast, { Toaster } from "react-hot-toast";
 
 import styles from "./styles.module.css";
@@ -58,6 +61,11 @@ const SignUpInputs = ({
 
   const [failedMsg, setFailedMsg] = useState(String);
   const [cookies, setCookie] = useCookies(["userToken"]);
+
+  const [seePassword, setSeePassword] = useState<boolean>();
+  const showPassword = () => {
+    seePassword ? setSeePassword(false) : setSeePassword(true);
+  };
 
   //next router
   const router = useRouter();
@@ -177,13 +185,18 @@ const SignUpInputs = ({
         >
           <section className={styles.section_div}>
             <input
-              type="password"
+              type={seePassword ? "text" : "password"}
               onChange={(e) => {
                 getPassword(e);
               }}
               placeholder="Introduce your password"
               className={styles.inputs}
             />
+            {seePassword ? (
+              <VisibilityOffIcon onClick={showPassword} />
+            ) : (
+              <VisibilityIcon onClick={showPassword} />
+            )}
             <button
               onClick={(e) => {
                 changeInputPassword(e);
