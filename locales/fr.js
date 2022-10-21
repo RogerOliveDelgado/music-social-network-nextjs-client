@@ -30,5 +30,6 @@ export default {
     headerArtist: 'Artiste',
     headerLibrary: 'Bibliothèque',
     headerChat: 'Chat',
+    headerConfig: 'Paramètres',
   },
 };
