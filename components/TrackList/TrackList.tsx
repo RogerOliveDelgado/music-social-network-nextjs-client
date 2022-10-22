@@ -23,6 +23,9 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
+import BasicMenu from "../Menu/Menu";
+import Button from "@mui/material/Button";
+
 import styles from "./styles.module.css";
 
 type Props = {
@@ -163,6 +166,18 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
     }
   };
 
+  //Menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const isInPlaylistPath = router.pathname.includes("playlist");
+
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
@@ -202,13 +217,33 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                     </p>
                   </div>
                   <div className={styles.buttons_container}>
-                    <IconButton color="inherit" component="label">
-                      <input hidden />
-                      <AddCircleOutlineIcon
-                        onClick={() => addTrackToPlaylist(track)}
-                      />
-                      <Toaster />
-                    </IconButton>
+                    {isInPlaylistPath ? (
+                      <IconButton color="inherit" component="label">
+                        <input hidden />
+                        <AddCircleOutlineIcon
+                          onClick={() => addTrackToPlaylist(track)}
+                        />
+                      </IconButton>
+                    ) : (
+                      <>
+                        <Button
+                          color="inherit"
+                          id="basic-button"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={handleClick}
+                        >
+                          <input hidden />
+                          <AddCircleOutlineIcon />
+                        </Button>
+                        <BasicMenu
+                          anchorEl={anchorEl}
+                          open={open}
+                          handleClose={handleClose}
+                        />
+                      </>
+                    )}
                     <IconButton color="inherit" component="label">
                       <input hidden />
                       {/* {userLikedSongs?.some(
