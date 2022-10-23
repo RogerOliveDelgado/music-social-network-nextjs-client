@@ -12,9 +12,6 @@ type Props = {
 };
 
 const GridLayout = ({ data, noData }: Props) => {
-  const userId = "6352bdddf65378d19833dc87";
-
-  const { t } = useI18N();
 
   return (
     <>
