@@ -56,6 +56,12 @@ const Library = (props: Props) => {
     setFilter({ [view]: true });
   };
 
+  const isThereAnyArtist = artists?.data?.length > 0;
+  const isThereAnyAlbum = albums?.data?.length > 0;
+  const isThereAnyPlaylist = playlist?.data?.playlists?.length > 0;
+
+  console.log(isThereAnyAlbum);
+
   return (
     <>
       <Head>
@@ -119,16 +125,46 @@ const Library = (props: Props) => {
               )}
               {isLoading ? (
                 <RowSkeleton />
-              ) : (
-                <Row title={t("additional").playlist} data={playlist?.data?.playlists} />
-              )}
+              ) : isThereAnyPlaylist ? (
+                <Row
+                  title={t("additional").playlist}
+                  data={playlist?.data?.playlists}
+                />
+              ) : null}
             </>
           ) : (
             <></>
           )}
-          {filter?.albums ? <GridLayout data={albums?.data} /> : <></>}
-          {filter?.artists ? <GridLayout data={artists?.data} /> : <></>}
-          {filter?.playlist ? <GridLayout data={playlist?.data?.playlists} /> : <></>}
+          {filter?.albums && isThereAnyAlbum ? (
+            <GridLayout data={albums?.data} />
+          ) : (
+            filter?.albums &&
+            !isThereAnyAlbum && (
+              <>
+                <GridLayout noData={t("content").albums} />
+              </>
+            )
+          )}
+          {filter?.artists && isThereAnyArtist ? (
+            <GridLayout data={artists?.data} />
+          ) : (
+            filter?.artists &&
+            !isThereAnyArtist && (
+              <>
+                <GridLayout noData={t("content").artists} />
+              </>
+            )
+          )}
+          {filter?.playlist && isThereAnyPlaylist ? (
+            <GridLayout data={playlist?.data?.playlists} />
+          ) : (
+            filter?.playlist &&
+            !isThereAnyPlaylist && (
+              <>
+                <GridLayout noData={t("content").playlists} />
+              </>
+            )
+          )}
         </div>
       </Layout>
     </>

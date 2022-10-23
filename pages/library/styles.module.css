@@ -9,6 +9,12 @@
   padding: 0.5rem;
 }
 
+.row_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .library_content {
   margin-top: 6rem;
   margin-left: 6rem;
