@@ -1,13 +1,13 @@
-import Layout from "../components/Layout/Layout";
+import Layout from "../../components/Layout/Layout";
 
 import styles from "./styles.module.css";
 import Head from "next/head";
-import TabPanel from "../components/TabPanel/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
-import { useGetPlaylistQuery } from "../redux/playlistsAPI";
-import CreatePlaylist from "../components/Playlist/CreatePlaylist";
-import Searchbar from "../components/Playlist/Searchbar/Searchbar";
-import { useI18N } from "../context/i18";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
+import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
+import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
+import { useI18N } from "../../context/i18";
 
 const Playlist = () => {
   const { query } = useRouter();
