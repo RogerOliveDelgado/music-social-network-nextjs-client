@@ -2,7 +2,7 @@ export default {
   home: {
     home: 'Inicio',
     library: 'Tu libreria',
-    playlist: 'Crear playList',
+    playlist: 'Crear playlist',
     liked: 'Canciones favoritas',
   },
   greetings: {
