@@ -60,7 +60,6 @@ const Library = (props: Props) => {
   const isThereAnyAlbum = albums?.data?.length > 0;
   const isThereAnyPlaylist = playlist?.data?.playlists?.length > 0;
 
-  console.log(isThereAnyAlbum);
 
   return (
     <>

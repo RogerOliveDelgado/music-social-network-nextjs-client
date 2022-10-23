@@ -4,6 +4,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@mui/material/IconButton";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Track } from "../../interfaces/tracks";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +18,8 @@ import {
 import { RootState } from "../../redux/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
+
 import toast, { Toaster } from "react-hot-toast";
 
 import GraphicEqIcon from "@mui/icons-material/GraphicEq";
@@ -143,7 +147,10 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
 
   const playlistId = router.query.playlistID;
 
-  const addTrackToPlaylist = async (track: Track) => {
+  const addTrackToPlaylist = async (
+    playlistId: string | string[] | undefined,
+    track: Track
+  ) => {
     try {
       const response = await fetch(
         `http://localhost:4002/playlist/tracks/${playlistId}`,
@@ -158,22 +165,44 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
           }),
         }
       );
-      // if (response.ok) {
-      //   toast.success("Track added to playlist");
-      // }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+  } = useGetPlaylistQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const userPlaylists = playlists?.data?.playlists;
+
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [trackTitle, setTrackTitle] = useState<Track>({} as Track);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    track: Track
+  ) => {
     setAnchorEl(event.currentTarget);
+    setTrackTitle(track);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const manageClick = (playlistID: string, track: Track) => {
+    try {
+      addTrackToPlaylist(playlistID, track);
+      toast.success("Track added to playlist successfully");
+    } catch (error) {
+      console.log(error);
+    }
+    handleClose();
   };
 
   const isInPlaylistPath = router.pathname.includes("playlist");
@@ -221,7 +250,7 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                       <IconButton color="inherit" component="label">
                         <input hidden />
                         <AddCircleOutlineIcon
-                          onClick={() => addTrackToPlaylist(track)}
+                          onClick={() => addTrackToPlaylist(playlistId, track)}
                         />
                       </IconButton>
                     ) : (
@@ -232,35 +261,40 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                           aria-controls={open ? "basic-menu" : undefined}
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
-                          onClick={handleClick}
+                          onClick={(e) => handleClick(e, track)}
                         >
                           <input hidden />
                           <AddCircleOutlineIcon />
                         </Button>
-                        <BasicMenu
+                        <Menu
+                          id="basic-menu"
                           anchorEl={anchorEl}
                           open={open}
-                          handleClose={handleClose}
-                        />
+                          onClose={handleClose}
+                          MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                          }}
+                        >
+                          <h4>
+                            Select the playlist where you would like to add the
+                            track to:
+                          </h4>
+                          {userPlaylists?.map((playlist: any) => (
+                            <MenuItem
+                              key={playlist.title}
+                              onClick={() =>
+                                manageClick(playlist._id, trackTitle)
+                              }
+                            >
+                              {playlist.title}
+                            </MenuItem>
+                          ))}
+                        </Menu>
+                        <Toaster />
                       </>
                     )}
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {/* {userLikedSongs?.some(
-                        (element) => element === track._id
-                      ) ? (
-                        <FavoriteIcon
-                          onClick={() => {
-                            addSong(track._id);
-                          }}
-                        />
-                      ) : (
-                        <FavoriteBorderIcon
-                          onClick={() => {
-                            addSong(track._id);
-                          }}
-                        />
-                      )} */}
                       {userLikedSongs?.some(
                         (element) => element._id === track._id
                       ) ? (
