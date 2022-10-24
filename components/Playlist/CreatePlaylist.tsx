@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyNTQ1YzI4ZWUxOThhYjE0ZTc3NzIiLCJ1c2VybmFtZSI6Imp1bGlvNDQ0NiIsImlhdCI6MTY2NjYwNDIwNCwiZXhwIjoxNjY3MDM2MjA0fQ.H8dn76QqWYn9cLs_xC0TfAvW9IFHJHyYjlKZ5hWgKDA";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -85,7 +85,7 @@ function CreatePlaylist(props: any) {
         toast.success("Playlist created!");
         setTimeout(() => {
           router.push(`/playlist/${result.data._id}`);
-        }, 1800);
+        }, 1000);
       }
     } catch (error) {
       console.error(error);
@@ -223,7 +223,11 @@ function CreatePlaylist(props: any) {
         </div>
       </div>
       <form autoComplete="off">
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} sx={{
+          '& .css-1x51dt5-MuiInputBase-input-MuiInput-input': {
+            color: 'white'
+          },
+        }}>
           <div className={styles.modal}>
             <DialogTitle
               sx={{

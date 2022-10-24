@@ -44,6 +44,7 @@ const Home = () => {
   const isThereAnyPlaylist = playlists?.data?.playlists?.length > 0;
 
   const { t } = useI18N();
+
   return (
     <>
       <Head>

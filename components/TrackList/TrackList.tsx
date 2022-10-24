@@ -1,6 +1,7 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import IconButton from "@mui/material/IconButton";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Track } from "../../interfaces/tracks";
@@ -27,7 +28,6 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
-import BasicMenu from "../Menu/Menu";
 import Button from "@mui/material/Button";
 
 import styles from "./styles.module.css";
@@ -37,16 +37,22 @@ type Props = {
   tracks: Track[];
   heightValue?: number;
   artist?: string;
-  refetch?: any;
+  allowDelete?: boolean;
 };
 
-const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
+const TrackList = ({
+  name,
+  tracks,
+  heightValue,
+  artist,
+  allowDelete,
+}: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
   const id = "6352bdddf65378d19833dc87";
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyNTQ1YzI4ZWUxOThhYjE0ZTc3NzIiLCJ1c2VybmFtZSI6Imp1bGlvNDQ0NiIsImlhdCI6MTY2NjYwNDIwNCwiZXhwIjoxNjY3MDM2MjA0fQ.H8dn76QqWYn9cLs_xC0TfAvW9IFHJHyYjlKZ5hWgKDA";
   const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
@@ -205,6 +211,26 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
     handleClose();
   };
 
+  const deleteTrackFromPlaylist = async (track: Track) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4002/playlist/tracks/${playlistId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `bearer ${TOKEN}`,
+          },
+          body: JSON.stringify({
+            tracks: track._id,
+          }),
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const isInPlaylistPath = router.pathname.includes("playlist");
 
   return (
@@ -247,12 +273,26 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                   </div>
                   <div className={styles.buttons_container}>
                     {isInPlaylistPath ? (
-                      <IconButton color="inherit" component="label">
-                        <input hidden />
-                        <AddCircleOutlineIcon
+                      <>
+                        {allowDelete && (
+                          <IconButton
+                            color="inherit"
+                            component="label"
+                            onClick={() => deleteTrackFromPlaylist(track)}
+                          >
+                            <input hidden />
+                            <RemoveCircleOutlineIcon />
+                          </IconButton>
+                        )}
+                        <IconButton
+                          color="inherit"
+                          component="label"
                           onClick={() => addTrackToPlaylist(playlistId, track)}
-                        />
-                      </IconButton>
+                        >
+                          <input hidden />
+                          <AddCircleOutlineIcon />
+                        </IconButton>
+                      </>
                     ) : (
                       <>
                         <Button
@@ -327,7 +367,7 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
               >{`Add '${trackTitle.title}' to playlist:`}</h4>
               {userPlaylists?.map((playlist: any) => (
                 <MenuItem
-                  key={playlist.title}
+                  key={playlist._id}
                   onClick={() => manageClick(playlist._id, trackTitle)}
                   sx={{
                     padding: "0.5rem 1rem",

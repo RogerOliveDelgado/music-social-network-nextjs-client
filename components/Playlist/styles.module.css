@@ -86,7 +86,6 @@
 /*MODAL */
 
 .modal {
-  border: 3px solid var(--darker_blue);
   color: #fff;
   background-color: var(--grey);
 }
@@ -99,6 +98,7 @@
   align-items: center;
   padding: 1rem;
 }
+
 
 .modal_image_container {
   width: 15rem;
