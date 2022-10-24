@@ -32,7 +32,7 @@ function CreatePlaylist(props: any) {
   const [open, setOpen] = React.useState(false);
 
   const defaultImage =
-    "https://res.cloudinary.com/juancarlos/image/upload/v1666367358/default_playlist_ue9ueo.png";
+    "https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -166,7 +166,11 @@ function CreatePlaylist(props: any) {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.container_front}>
+        <div
+          className={styles.container_front}
+          onMouseOver={!playlistId ? () => setHover(true) : undefined}
+          onMouseLeave={!playlistId ? () => setHover(false) : undefined}
+        >
           <div
             className={styles.image_wrapper}
             onMouseOver={() => setHover(true)}

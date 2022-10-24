@@ -38,7 +38,7 @@ function DeleteButton() {
             toast.success("Playlist deleted succesfully!");
             setTimeout(() => {
               router.push(`/`);
-            }, 2500);
+            }, 1500);
           }
         } catch (error) {
           console.error(error);
