@@ -25,7 +25,6 @@ const UserConfig = (props: Props) => {
   const [MetaDataPlayListImage, setMetaDataPlayListImage] = useState<
     string | null
   >(null);
-
   const {
     data: user,
     isSuccess: isSuccessUser,
@@ -33,6 +32,7 @@ const UserConfig = (props: Props) => {
     isLoading,
   } = useGetUserQuery(userID);
   const { t } = useI18N();
+  console.log(user);
 
   const onLoad = (file) => {
     if (file.size < 10485760) {
@@ -67,17 +67,27 @@ const UserConfig = (props: Props) => {
           <h1>{t('headers').headerConfig}</h1>
           <div className={styles.form_container}>
             <div className={styles.image_container}>
-              <Image
-                src={
-                  previewImage
-                    ? URL.createObjectURL(new Blob([previewImage]))
-                    : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png'
-                }
-                alt="contact"
-                width={120}
-                height={120}
-                layout="fixed"
-              />
+              {isSuccessUser ? (
+                <Image
+                  src={user?.data?.image}
+                  alt="contact"
+                  width={120}
+                  height={120}
+                  layout="fixed"
+                />
+              ) : (
+                <Image
+                  src={
+                    previewImage
+                      ? URL.createObjectURL(new Blob([previewImage]))
+                      : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png'
+                  }
+                  alt="contact"
+                  width={120}
+                  height={120}
+                  layout="fixed"
+                />
+              )}
               <IconButton
                 className={styles.upload_button}
                 aria-label="upload picture"
@@ -100,17 +110,19 @@ const UserConfig = (props: Props) => {
               }
             }
             onSubmit={(values) => {
-              console.log(values);
-              console.log(MetaDataPlayListImage);
+              const image = MetaDataPlayListImage
+                ? MetaDataPlayListImage
+                : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png';
               updateUser(
                 userID,
                 values.username,
                 values.phone,
-                MetaDataPlayListImage!,
+                image,
                 cookies.userToken
-              ).then((res) => {
-                console.log(res);
-              });
+              );
+              // .then((res) => {
+              //   console.log(res);
+              // });
             }}
           >
             {({ handleSubmit, values, handleChange }) => (

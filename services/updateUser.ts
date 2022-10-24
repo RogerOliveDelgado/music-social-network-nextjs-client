@@ -1,5 +1,6 @@
 const BASE_URL =
-  process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || 'http://localhost:4001/user';
+  //   process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND ||
+  'http://localhost/users';
 
 export const updateUser = async (
   id: string,
@@ -9,10 +10,9 @@ export const updateUser = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const response = await fetch(`${BASE_URL}/user/${id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -21,9 +21,8 @@ export const updateUser = async (
         image: image,
       }),
     });
+    console.log(response);
     const data = await response.json();
     console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
