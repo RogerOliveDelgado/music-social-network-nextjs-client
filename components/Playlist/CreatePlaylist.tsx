@@ -166,7 +166,11 @@ function CreatePlaylist(props: any) {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.image_container}>
+        <div
+          className={styles.image_container}
+          onMouseOver={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
           {props.playlistId ? (
             <picture>
               <img
@@ -198,9 +202,7 @@ function CreatePlaylist(props: any) {
           )}
 
           <span
-            onMouseOver={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            className={styles.input_label}
+            className={hover ? styles.input_label : undefined}
             onClick={handleClickOpen}
           >
             {hover ? <EditIcon className={styles.edit_icon} /> : null}

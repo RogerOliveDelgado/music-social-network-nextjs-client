@@ -8,6 +8,7 @@
 }
 
 .image_container {
+  position: relative;
   width: 15rem;
   height: 15rem;
   display: flex;
@@ -18,15 +19,6 @@
   border: 0.1rem solid var(--black);
 }
 
-.image_container > img {
-  position: relative;
-}
-
-.image_container > span {
-  position: absolute;
-  width: 15rem;
-  height: 15rem;
-}
 
 .image_container > label {
   position: absolute;
@@ -44,11 +36,14 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  position: absolute;
+  width: 15rem;
+  height: 15rem;
 }
 
-.input_label > img {
+/* .input_label > img {
   position: relative;
-}
+} */
 
 .image_container > svg {
   width: 100%;
@@ -98,7 +93,6 @@
   align-items: center;
   padding: 1rem;
 }
-
 
 .modal_image_container {
   width: 15rem;
