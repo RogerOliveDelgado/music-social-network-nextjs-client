@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyNTQ1YzI4ZWUxOThhYjE0ZTc3NzIiLCJ1c2VybmFtZSI6Imp1bGlvNDQ0NiIsImlhdCI6MTY2NjYwNDIwNCwiZXhwIjoxNjY3MDM2MjA0fQ.H8dn76QqWYn9cLs_xC0TfAvW9IFHJHyYjlKZ5hWgKDA";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -223,11 +223,15 @@ function CreatePlaylist(props: any) {
         </div>
       </div>
       <form autoComplete="off">
-        <Dialog open={open} onClose={handleClose} sx={{
-          '& .css-1x51dt5-MuiInputBase-input-MuiInput-input': {
-            color: 'white'
-          },
-        }}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          sx={{
+            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+              color: "white",
+            },
+          }}
+        >
           <div className={styles.modal}>
             <DialogTitle
               sx={{
