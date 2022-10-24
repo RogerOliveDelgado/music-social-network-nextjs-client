@@ -188,13 +188,11 @@ function CreatePlaylist(props: any) {
                   src={URL.createObjectURL(new Blob([image]))}
                 />
               </picture>
-            ) : hover ? (
-              <EditIcon className={styles.edit_icon} />
             ) : (
               <picture>
                 <img
                   alt="playlist"
-                  className={styles.modal_image_container}
+                  className={styles.image_container}
                   src="/images/default_playlist.png"
                 />
               </picture>
