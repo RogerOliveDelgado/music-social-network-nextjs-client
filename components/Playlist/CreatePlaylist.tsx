@@ -355,7 +355,11 @@ function CreatePlaylist(props: any) {
         </Dialog>
         <Toaster />
       </form>
-      {playlistId && <DeleteButton />}
+      {playlistId && (
+        <div className={styles.delete_button}>
+          <DeleteButton />
+        </div>
+      )}
     </>
   );
 }

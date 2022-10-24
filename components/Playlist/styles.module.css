@@ -157,3 +157,11 @@
   height: 6rem;
   color: var(--darker_blue);
 }
+
+
+/* Delete button */
+.delete_button {
+  position: absolute;
+  top: 2.5rem;
+  left: .8rem;
+}
