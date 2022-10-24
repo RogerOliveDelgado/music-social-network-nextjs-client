@@ -6,7 +6,7 @@
   width: 175px;
   border-radius: 10px;
   padding: 0.7rem;
-  background: #1b1d1f;
+  background: var(--darker_black);
 }
 .card_container:hover {
   background: #2b2d2f;
