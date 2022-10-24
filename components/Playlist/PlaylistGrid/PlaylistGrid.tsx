@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { Playlist } from "../../../interfaces/playlistResponse";
 import { useGetPlaylistQuery } from "../../../redux/playlistsAPI";
@@ -14,6 +15,12 @@ function PlaylistGrid() {
     refetchOnMountOrArgChange: true,
   });
 
+  const router = useRouter();
+
+  const test = (playlistID: any) => {
+    router.push(`/playlist/${playlistID}`);
+  };
+
   return (
     <>
       <div className={styles.grid_container}>
@@ -25,7 +32,7 @@ function PlaylistGrid() {
             {playlists?.data?.playlists.map((playlist: Playlist) => (
               <>
                 <div
-                  // href={`/playlist`}
+                  onClick={() => test(playlist._id)}
                   className={styles.playlist_row}
                   key={playlist._id}
                 >
