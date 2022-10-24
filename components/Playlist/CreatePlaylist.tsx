@@ -166,62 +166,58 @@ function CreatePlaylist(props: any) {
   return (
     <>
       <div className={styles.container}>
-        <div
-          className={styles.image_container}
-          onMouseOver={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-        >
-          {props.playlistId ? (
-            <picture>
-              <img
-                className={styles.image_container}
-                src={props.image}
-                alt="playlist"
-              />
-            </picture>
-          ) : image !== null && image !== undefined ? (
-            <picture>
-              <img
-                alt="playlist"
-                className={styles.image_container}
-                src={URL.createObjectURL(new Blob([image]))}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-              />
-            </picture>
-          ) : hover ? (
-            <EditIcon className={styles.edit_icon} />
-          ) : (
-            <picture>
-              <img
-                alt="playlist"
-                className={styles.modal_image_container}
-                src="/images/default_playlist.png"
-              />
-            </picture>
-          )}
-
-          <span
-            className={hover ? styles.input_label : undefined}
-            onClick={handleClickOpen}
+        <div className={styles.container_front}>
+          <div
+            className={styles.image_wrapper}
+            onMouseOver={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
           >
-            {hover ? <EditIcon className={styles.edit_icon} /> : null}
-          </span>
-        </div>
-        <div className={styles.playlist_info}>
-          {props.playlistId ? (
-            <span className={styles.playlist_name}>{props.title}</span>
-          ) : (
-            <span className={styles.playlist_name}>{title}</span>
-          )}
-          {props.playlistId ? (
-            <span>{props.description}</span>
-          ) : (
-            <span>{description}</span>
-          )}
-
-          {/* <span>{description}</span> */}
-          <span>User name</span>
+            {props.playlistId ? (
+              <picture>
+                <img
+                  className={styles.image_container}
+                  src={props.image}
+                  alt="playlist"
+                />
+              </picture>
+            ) : image !== null && image !== undefined ? (
+              <picture>
+                <img
+                  alt="playlist"
+                  className={styles.image_container}
+                  src={URL.createObjectURL(new Blob([image]))}
+                />
+              </picture>
+            ) : hover ? (
+              <EditIcon className={styles.edit_icon} />
+            ) : (
+              <picture>
+                <img
+                  alt="playlist"
+                  className={styles.modal_image_container}
+                  src="/images/default_playlist.png"
+                />
+              </picture>
+            )}
+            <span
+              className={hover ? styles.input_label : undefined}
+              onClick={handleClickOpen}
+            >
+              {hover ? <EditIcon className={styles.edit_icon} /> : null}
+            </span>
+          </div>
+          <div className={styles.playlist_info}>
+            {props.playlistId ? (
+              <span className={styles.playlist_name}>{props.title}</span>
+            ) : (
+              <span className={styles.playlist_name}>{title}</span>
+            )}
+            {props.playlistId ? (
+              <span>{props.description}</span>
+            ) : (
+              <span>{description}</span>
+            )}
+          </div>
         </div>
       </div>
       <form autoComplete="off">
@@ -285,7 +281,7 @@ function CreatePlaylist(props: any) {
                   </>
                 )}
 
-                <label htmlFor="image" className={styles.input_label}>
+                <label htmlFor="image" className={styles.modal_input_label}>
                   {props.playlistId && modalHover ? (
                     <EditIcon className={styles.edit_icon} />
                   ) : modalHover &&
