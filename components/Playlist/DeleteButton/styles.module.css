@@ -11,21 +11,11 @@
   transition: all 0.2s linear;
 }
 
-/* .tooltip > button:hover {
-  box-shadow: 3.4px 2.5px 4.9px rgba(0, 0, 0, 0.025),
-    8.6px 6.3px 12.4px rgba(0, 0, 0, 0.035),
-    17.5px 12.8px 25.3px rgba(0, 0, 0, 0.045),
-    36.1px 26.3px 52.2px rgba(0, 0, 0, 0.055),
-    99px 72px 143px rgba(0, 0, 0, 0.08);
-} */
 
 .tooltip {
   position: relative;
   display: block;
   align-self: flex-start;
-  /* margin-bottom: 2rem;
-  margin-left: 5.6rem;
-  width: 3rem; */
   background-color: transparent;
   border: none;
 }
