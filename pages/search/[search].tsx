@@ -1,27 +1,32 @@
-import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import Layout from "../../components/Layout/Layout";
-import useDebounce from "../../hook/useDebounce";
-import { Artist } from "../../interfaces/ServerResponse";
-import { Album } from "../../interfaces/ServerResponse";
-import { Track } from "../../interfaces/tracks";
-import { useGetSearchQuery } from "../../redux/searchAPI";
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Layout from '../../components/Layout/Layout';
+import useDebounce from '../../hook/useDebounce';
+import { Artist } from '../../interfaces/ServerResponse';
+import { Album } from '../../interfaces/ServerResponse';
+import { Track } from '../../interfaces/tracks';
+import { useGetSearchQuery } from '../../redux/searchAPI';
 
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
-import styles from "./styles.module.css";
-import Link from "next/link";
+import styles from './styles.module.css';
+import Link from 'next/link';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
 const Search = (props: Props) => {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
   const {
     data: search,
     isLoading,
     error,
-  } = useGetSearchQuery(router.query.search);
+  } = useGetSearchQuery({
+    searchQuery: router.query.search,
+    token: cookies.userToken,
+  });
 
   return (
     <Layout>
@@ -51,7 +56,7 @@ const Search = (props: Props) => {
                             </span>
                             <div>
                               <span>
-                                {album.releaseDate.split("T")[0].split("-")[0]}
+                                {album.releaseDate.split('T')[0].split('-')[0]}
                               </span>
                               <span> • </span>
                               <span>Album</span>
@@ -122,7 +127,7 @@ const Search = (props: Props) => {
                           <div>
                             <span>Song</span>
                             <button className={styles.playButton}>
-                              <PlayCircleIcon sx={{ fontSize: "2rem" }} />
+                              <PlayCircleIcon sx={{ fontSize: '2rem' }} />
                             </button>
                           </div>
                         </div>

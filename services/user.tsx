@@ -1,3 +1,5 @@
+const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND;
+
 export const createUser = async (
   username: String,
   email: String,
@@ -8,10 +10,10 @@ export const createUser = async (
 ) => {
   e.preventDefault();
   try {
-    const response = await fetch("http://localhost:4001/signup", {
-      method: "POST",
+    const response = await fetch(`${BASE_URL_SPOTIFY}/signup`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
+        'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
         username: username,
@@ -28,9 +30,9 @@ export const createUser = async (
 
     if (response.ok) {
       const result = await response.json();
-      setCookie("userToken", result.data.token, { path: "/" });
-      setCookie("username", result.data.username, { path: "/" });
-      setCookie("userID", result.data.id, { path: "/" });
+      setCookie('userToken', result.data.token, { path: '/' });
+      setCookie('username', result.data.username, { path: '/' });
+      setCookie('userID', result.data.id, { path: '/' });
       return result;
     }
   } catch (error) {

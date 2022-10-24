@@ -1,41 +1,42 @@
-import React from "react";
-import { useRouter } from "next/router";
-import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
-import styles from "./styles.module.css";
+import React from 'react';
+import { useRouter } from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import styles from './styles.module.css';
 
 function DeleteButton() {
   const router = useRouter();
+  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
   const playlistId = router.query.playlistID;
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak';
 
   const deletePlaylist = async () => {
     Swal.fire({
-      title: "Do you want to delete the playlist?",
+      title: 'Do you want to delete the playlist?',
       showCancelButton: true,
-      confirmButtonText: "Delete",
+      confirmButtonText: 'Delete',
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await fetch(
-            `http://localhost:4002/playlist/${playlistId}`,
+            `${BASE_URL_SPOTIFY}/playlist/${playlistId}`,
             {
-              method: "DELETE",
+              method: 'DELETE',
               headers: {
-                "Content-Type": "application/json; charset=utf-8",
+                'Content-Type': 'application/json; charset=utf-8',
                 Authorization: `Bearer ${TOKEN}`,
               },
             }
           );
           if (response.status === 400) {
             const result = await response.json();
-            toast.error("Oops, something went wrong");
+            toast.error('Oops, something went wrong');
           }
 
           if (response.ok) {
             const result = await response.json();
-            toast.success("Playlist deleted succesfully!");
+            toast.success('Playlist deleted succesfully!');
             setTimeout(() => {
               router.push(`/`);
             }, 1500);

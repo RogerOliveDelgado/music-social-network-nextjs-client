@@ -1,38 +1,39 @@
-import React, { ChangeEvent, useState } from "react";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import EditIcon from "@mui/icons-material/Edit";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import styles from "./styles.module.css";
-import { TextareaAutosize } from "@mui/base";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/router";
-import DeleteButton from "./DeleteButton/DeleteButton";
+import React, { ChangeEvent, useState } from 'react';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import styles from './styles.module.css';
+import { TextareaAutosize } from '@mui/base';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router';
+import DeleteButton from './DeleteButton/DeleteButton';
 
 function CreatePlaylist(props: any) {
   const router = useRouter();
   const playlistId = router.query.playlistID;
+  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
 
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak';
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
   const [playlistImage, setPlaylistImage] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [playlistName, setPlaylistName] = useState("");
-  const [title, setTitle] = useState("New playlist");
-  const [playlistDescription, setPlaylistDescription] = useState("");
-  const [description, setDescription] = useState("");
+  const [playlistName, setPlaylistName] = useState('');
+  const [title, setTitle] = useState('New playlist');
+  const [playlistDescription, setPlaylistDescription] = useState('');
+  const [description, setDescription] = useState('');
   const [metaDataplayListImage, setMetaDataPlayListImage] = useState<string>();
   const [open, setOpen] = React.useState(false);
 
   const defaultImage =
-    "https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png";
+    'https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png';
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,10 +56,10 @@ function CreatePlaylist(props: any) {
 
     try {
       metaDataplayListImage === undefined ? defaultImage : null;
-      const response = await fetch("http://localhost:4002/playlist", {
-        method: "POST",
+      const response = await fetch(`${BASE_URL_SPOTIFY}/playlist`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json; charset=utf-8",
+          'Content-Type': 'application/json; charset=utf-8',
           Authorization: `Bearer ${TOKEN}`,
         },
         body: JSON.stringify({
@@ -73,7 +74,7 @@ function CreatePlaylist(props: any) {
       if (response.status === 400) {
         const result = await response.json();
         console.log(result);
-        toast.error("Oops, something went wrong");
+        toast.error('Oops, something went wrong');
       }
 
       if (response.ok) {
@@ -82,7 +83,7 @@ function CreatePlaylist(props: any) {
         setDescription(playlistDescription);
         setImage(playlistImage);
         setOpen(false);
-        toast.success("Playlist created!");
+        toast.success('Playlist created!');
         setTimeout(() => {
           router.push(`/playlist/${result.data._id}`);
         }, 1000);
@@ -104,17 +105,17 @@ function CreatePlaylist(props: any) {
     setPlaylistDescription(playlistDescription);
     try {
       const response = await fetch(
-        `http://localhost:4002/playlist/${playlistId}`,
+        `${BASE_URL_SPOTIFY}/playlist/${playlistId}`,
         {
-          method: "PATCH",
+          method: 'PATCH',
           headers: {
-            "Content-Type": "application/json; charset=utf-8",
+            'Content-Type': 'application/json; charset=utf-8',
             Authorization: `Bearer ${TOKEN}`,
           },
           body: JSON.stringify({
-            title: playlistName == "" ? props.title : playlistName,
+            title: playlistName == '' ? props.title : playlistName,
             description:
-              playlistDescription == ""
+              playlistDescription == ''
                 ? props.description
                 : playlistDescription,
             image: playlistImage == null ? props.image : metaDataplayListImage,
@@ -124,7 +125,7 @@ function CreatePlaylist(props: any) {
       if (response.status === 400) {
         const result = await response.json();
         console.log(result);
-        toast.error("Oops, something went wrong");
+        toast.error('Oops, something went wrong');
       }
 
       if (response.ok) {
@@ -134,7 +135,7 @@ function CreatePlaylist(props: any) {
         props.setDescription(result.data.description);
         props.setChange(!props.change);
         setOpen(false);
-        toast.success("Playlist information edited succesfully!");
+        toast.success('Playlist information edited succesfully!');
       }
     } catch (error) {
       console.error(error);
@@ -149,15 +150,15 @@ function CreatePlaylist(props: any) {
       reader.onloadend = () => {
         // Use a regex to remove data url part
         const base64String = reader?.result
-          ?.replace("data:", "")
-          .replace(/^.+,/, "");
+          ?.replace('data:', '')
+          .replace(/^.+,/, '');
         setMetaDataPlayListImage(base64String);
         // Logs wL2dvYWwgbW9yZ...
       };
       reader.readAsDataURL(file);
       setPlaylistImage(file);
     } else {
-      toast.error("File size is too big. Maximum size is 10MB");
+      toast.error('File size is too big. Maximum size is 10MB');
       setOpen(false);
       return;
     }
@@ -170,7 +171,7 @@ function CreatePlaylist(props: any) {
           className={styles.container_front}
           onMouseOver={!playlistId ? () => setHover(true) : undefined}
           onMouseLeave={!playlistId ? () => setHover(false) : undefined}
-          >
+        >
           {playlistId && <DeleteButton />}
           <div
             className={styles.image_wrapper}
@@ -228,22 +229,22 @@ function CreatePlaylist(props: any) {
           open={open}
           onClose={handleClose}
           sx={{
-            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
-              color: "white",
+            '& .css-1x51dt5-MuiInputBase-input-MuiInput-input': {
+              color: 'white',
             },
           }}
         >
           <div className={styles.modal}>
             <DialogTitle
               sx={{
-                color: "white",
+                color: 'white',
               }}
             >
               Edit Details
             </DialogTitle>
             <DialogContent
               sx={{
-                display: "flex",
+                display: 'flex',
               }}
             >
               <div
@@ -325,8 +326,8 @@ function CreatePlaylist(props: any) {
                   style={{
                     width: 200,
                     height: 100,
-                    backgroundColor: "#585c63",
-                    color: "white",
+                    backgroundColor: '#585c63',
+                    color: 'white',
                   }}
                   onChange={(e) => setPlaylistDescription(e.target.value)}
                 />

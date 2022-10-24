@@ -5,15 +5,32 @@ import Banner from '../../components/Banner/Banner';
 import TrackList from '../../components/TrackList/TrackList';
 import { useGetArtistsQuery } from '../../redux/artistAPI';
 import styles from './styles.module.css';
+import { useGetUserQuery } from '../../redux/userAPI';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
 const Favorites = (props: Props) => {
   const { t } = useI18N();
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+  ]);
   //Data para maquetar, hacer la query correcta para las liked tracks del user
-  const { data: tracks, isLoading, isError } = useGetArtistsQuery(undefined, {
+  const {
+    data: tracks,
+    isLoading,
+    isError,
+  } = useGetArtistsQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
+  const {
+    data: userData,
+    isLoading: isLoadingUser,
+    isError: isErrorUser,
+  } = useGetUserQuery({ id: cookies.userID, token: cookies.userToken }, {});
+
+  console.log(userData);
 
   return (
     <>
@@ -26,11 +43,14 @@ const Favorites = (props: Props) => {
       </Head>
       <Layout>
         <div className={styles.container}>
-          <Banner user={'alejo61094'} total={21} />
-          {!isLoading ? (
+          <Banner
+            user={userData?.data?.username}
+            total={userData?.data.likedSongs.length}
+          />
+          {!isLoadingUser ? (
             <TrackList
               name="Liked Songs"
-              tracks={tracks?.data[0].tracks}
+              tracks={userData?.data.likedSongs}
               heightValue={35}
             />
           ) : (
