@@ -18,7 +18,7 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
 
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
@@ -32,7 +32,7 @@ function CreatePlaylist(props: any) {
   const [open, setOpen] = React.useState(false);
 
   const defaultImage =
-    "https://res.cloudinary.com/juancarlos/image/upload/v1666367358/default_playlist_ue9ueo.png";
+    "https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -85,7 +85,7 @@ function CreatePlaylist(props: any) {
         toast.success("Playlist created!");
         setTimeout(() => {
           router.push(`/playlist/${result.data._id}`);
-        }, 1800);
+        }, 1000);
       }
     } catch (error) {
       console.error(error);
@@ -166,64 +166,73 @@ function CreatePlaylist(props: any) {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.image_container}>
-          {props.playlistId ? (
-            <picture>
-              <img
-                className={styles.image_container}
-                src={props.image}
-                alt="playlist"
-              />
-            </picture>
-          ) : image !== null && image !== undefined ? (
-            <picture>
-              <img
-                alt="playlist"
-                className={styles.image_container}
-                src={URL.createObjectURL(new Blob([image]))}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-              />
-            </picture>
-          ) : hover ? (
-            <EditIcon className={styles.edit_icon} />
-          ) : (
-            <picture>
-              <img
-                alt="playlist"
-                className={styles.modal_image_container}
-                src="/images/default_playlist.png"
-              />
-            </picture>
-          )}
-
-          <span
+        <div
+          className={styles.container_front}
+          onMouseOver={!playlistId ? () => setHover(true) : undefined}
+          onMouseLeave={!playlistId ? () => setHover(false) : undefined}
+          >
+          {playlistId && <DeleteButton />}
+          <div
+            className={styles.image_wrapper}
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
-            className={styles.input_label}
-            onClick={handleClickOpen}
           >
-            {hover ? <EditIcon className={styles.edit_icon} /> : null}
-          </span>
-        </div>
-        <div className={styles.playlist_info}>
-          {props.playlistId ? (
-            <span className={styles.playlist_name}>{props.title}</span>
-          ) : (
-            <span className={styles.playlist_name}>{title}</span>
-          )}
-          {props.playlistId ? (
-            <span>{props.description}</span>
-          ) : (
-            <span>{description}</span>
-          )}
-
-          {/* <span>{description}</span> */}
-          <span>User name</span>
+            {props.playlistId ? (
+              <picture>
+                <img
+                  className={styles.image_container}
+                  src={props.image}
+                  alt="playlist"
+                />
+              </picture>
+            ) : image !== null && image !== undefined ? (
+              <picture>
+                <img
+                  alt="playlist"
+                  className={styles.image_container}
+                  src={URL.createObjectURL(new Blob([image]))}
+                />
+              </picture>
+            ) : (
+              <picture>
+                <img
+                  alt="playlist"
+                  className={styles.image_container}
+                  src="/images/default_playlist.png"
+                />
+              </picture>
+            )}
+            <span
+              className={hover ? styles.input_label : undefined}
+              onClick={handleClickOpen}
+            >
+              {hover ? <EditIcon className={styles.edit_icon} /> : null}
+            </span>
+          </div>
+          <div className={styles.playlist_info}>
+            {props.playlistId ? (
+              <span className={styles.playlist_name}>{props.title}</span>
+            ) : (
+              <span className={styles.playlist_name}>{title}</span>
+            )}
+            {props.playlistId ? (
+              <span>{props.description}</span>
+            ) : (
+              <span>{description}</span>
+            )}
+          </div>
         </div>
       </div>
       <form autoComplete="off">
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          sx={{
+            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+              color: "white",
+            },
+          }}
+        >
           <div className={styles.modal}>
             <DialogTitle
               sx={{
@@ -275,7 +284,7 @@ function CreatePlaylist(props: any) {
                   </>
                 )}
 
-                <label htmlFor="image" className={styles.input_label}>
+                <label htmlFor="image" className={styles.modal_input_label}>
                   {props.playlistId && modalHover ? (
                     <EditIcon className={styles.edit_icon} />
                   ) : modalHover &&
@@ -351,7 +360,6 @@ function CreatePlaylist(props: any) {
         </Dialog>
         <Toaster />
       </form>
-      {playlistId && <DeleteButton />}
     </>
   );
 }

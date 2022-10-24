@@ -14,7 +14,7 @@ import { Track } from "../../interfaces/tracks";
 
 const Playlist = (tracks: any) => {
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
 
   tracks = tracks.tracks;
   const { query } = useRouter();
@@ -120,6 +120,7 @@ const Playlist = (tracks: any) => {
               <TrackList
                 name={playlist?.data?.title}
                 tracks={playlist?.data?.tracks}
+                allowDelete={true}
               />
             </div>
             <Searchbar handleChange={handleChange} />

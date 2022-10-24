@@ -1,37 +1,56 @@
 .container {
   display: flex;
-  margin: 2rem 0;
-  width: 100%;
-  border-radius: 0.5rem;
+  background-color: rgb(78, 84, 82);
+  align-items: center;
+  height: 30%;
+  border-radius: 10px;
+  background-image: url("/Images/Sound_Wave.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  animation: kenburns-top 10s linear infinite alternate;
+  margin: 2rem 0 1rem 6rem;
+  padding: 1rem 0;
+}
+
+.container_front {
+  display: flex;
+  align-items: center;
+  height: 100%;
   padding: 1rem;
-  margin-left: 5rem;
+  border-radius: 10px;
+  min-width: auto;
+  width: 100%;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    40deg,
+    rgba(2, 0, 36, 1) 14%,
+    rgba(9, 9, 121, 1) 50%,
+    rgba(0, 212, 255, 0) 60%
+  );
+}
+
+@keyframes kenburns-top {
+  0% {
+    background-position: 10% 20%;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 .image_container {
-  width: 15rem;
-  height: 15rem;
+  border-radius: 50%;
+  width: 10rem;
+  height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 0.5rem 0.1rem var(--black);
-  border-radius: 0.5rem;
-  border: 0.1rem solid var(--black);
 }
 
-.image_container > img {
+.image_wrapper {
   position: relative;
-}
-
-.image_container > span {
-  position: absolute;
-  width: 15rem;
-  height: 15rem;
-}
-
-.image_container > label {
-  position: absolute;
-  width: 15rem;
-  height: 15rem;
+  width: auto;
 }
 
 .input {
@@ -44,16 +63,11 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
-
-.input_label > img {
-  position: relative;
-}
-
-.image_container > svg {
-  width: 100%;
+  position: absolute;
+  width: 6rem;
   height: 6rem;
-  color: var(--darker_blue);
+  top: 1.9rem;
+  left: 2rem;
 }
 
 .input_label > svg {
@@ -67,7 +81,8 @@
   background-color: var(--black);
   border-radius: 50%;
   padding: 1rem;
-  width: 6rem !important;
+  width: 7rem !important;
+  height: 7rem !important;
 }
 
 .playlist_info {
@@ -86,7 +101,6 @@
 /*MODAL */
 
 .modal {
-  border: 3px solid var(--darker_blue);
   color: #fff;
   background-color: var(--grey);
 }
@@ -101,6 +115,7 @@
 }
 
 .modal_image_container {
+  position: relative;
   width: 15rem;
   height: 15rem;
   max-width: fit-content;
@@ -126,3 +141,22 @@
   height: 6rem;
   color: var(--darker_blue);
 }
+
+.modal_input_label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  width: 6rem;
+  height: 6rem;
+}
+
+.modal_input_label > svg {
+  width: 100%;
+  height: 6rem;
+  color: var(--darker_blue);
+}
+
+

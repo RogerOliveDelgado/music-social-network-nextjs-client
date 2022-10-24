@@ -1,9 +1,12 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import IconButton from "@mui/material/IconButton";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Track } from "../../interfaces/tracks";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
 import { useDispatch, useSelector } from "react-redux";
@@ -16,12 +19,16 @@ import {
 import { RootState } from "../../redux/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
+
 import toast, { Toaster } from "react-hot-toast";
 
 import GraphicEqIcon from "@mui/icons-material/GraphicEq";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
+
+import Button from "@mui/material/Button";
 
 import styles from "./styles.module.css";
 
@@ -30,16 +37,22 @@ type Props = {
   tracks: Track[];
   heightValue?: number;
   artist?: string;
-  refetch?: any;
+  allowDelete?: boolean;
 };
 
-const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
+const TrackList = ({
+  name,
+  tracks,
+  heightValue,
+  artist,
+  allowDelete,
+}: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
-  const id = "6352bdddf65378d19833dc87";
+  const id = "63566ec7f9d5803a4019ed57";
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyYmRkZGY2NTM3OGQxOTgzM2RjODciLCJ1c2VybmFtZSI6InZpY3RvciIsImlhdCI6MTY2NjM2Njk0MSwiZXhwIjoxNjY2Nzk4OTQxfQ.2KBuSla7WzmE8ou6BFIQLQ0U-mZnf7oh4i2XzE0za_c";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
   const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
@@ -140,7 +153,10 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
 
   const playlistId = router.query.playlistID;
 
-  const addTrackToPlaylist = async (track: Track) => {
+  const addTrackToPlaylist = async (
+    playlistId: string | string[] | undefined,
+    track: Track
+  ) => {
     try {
       const response = await fetch(
         `http://localhost:4002/playlist/tracks/${playlistId}`,
@@ -155,13 +171,67 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
           }),
         }
       );
-      // if (response.ok) {
-      //   toast.success("Track added to playlist");
-      // }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+  } = useGetPlaylistQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const userPlaylists = playlists?.data?.playlists;
+
+  //Menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [trackTitle, setTrackTitle] = useState<Track>({} as Track);
+  const open = Boolean(anchorEl);
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    track: Track
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setTrackTitle(track);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const manageClick = (playlistID: string, track: Track) => {
+    try {
+      addTrackToPlaylist(playlistID, track);
+      toast.success("Track added to playlist successfully");
+    } catch (error) {
+      console.log(error);
+    }
+    handleClose();
+  };
+
+  const deleteTrackFromPlaylist = async (track: Track) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4002/playlist/tracks/${playlistId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `bearer ${TOKEN}`,
+          },
+          body: JSON.stringify({
+            tracks: track._id,
+          }),
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const isInPlaylistPath = router.pathname.includes("playlist");
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
@@ -188,7 +258,7 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                 >
                   <div className={styles.track_info}>
                     <p>
-                      {track._id === currentTrack._id ? (
+                      {track._id === currentTrack?._id ? (
                         <GraphicEqIcon />
                       ) : (
                         index + 1
@@ -202,30 +272,44 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                     </p>
                   </div>
                   <div className={styles.buttons_container}>
+                    {isInPlaylistPath ? (
+                      <>
+                        {allowDelete && (
+                          <IconButton
+                            color="inherit"
+                            component="label"
+                            onClick={() => deleteTrackFromPlaylist(track)}
+                          >
+                            <input hidden />
+                            <RemoveCircleOutlineIcon />
+                          </IconButton>
+                        )}
+                        <IconButton
+                          color="inherit"
+                          component="label"
+                          onClick={() => addTrackToPlaylist(playlistId, track)}
+                        >
+                          <input hidden />
+                          <AddCircleOutlineIcon />
+                        </IconButton>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          color="inherit"
+                          id="basic-button"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={(e) => handleClick(e, track)}
+                        >
+                          <input hidden />
+                          <AddCircleOutlineIcon />
+                        </Button>
+                      </>
+                    )}
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      <AddCircleOutlineIcon
-                        onClick={() => addTrackToPlaylist(track)}
-                      />
-                      <Toaster />
-                    </IconButton>
-                    <IconButton color="inherit" component="label">
-                      <input hidden />
-                      {/* {userLikedSongs?.some(
-                        (element) => element === track._id
-                      ) ? (
-                        <FavoriteIcon
-                          onClick={() => {
-                            addSong(track._id);
-                          }}
-                        />
-                      ) : (
-                        <FavoriteBorderIcon
-                          onClick={() => {
-                            addSong(track._id);
-                          }}
-                        />
-                      )} */}
                       {userLikedSongs?.some(
                         (element) => element._id === track._id
                       ) ? (
@@ -255,6 +339,48 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                 </Reorder.Item>
               );
             })}
+            <Menu
+              id="account-menu"
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                },
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              sx={{
+                "& .MuiMenu-paper": {
+                  backgroundColor: "var(--black)",
+                  color: "white",
+                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+                },
+              }}
+            >
+              <h4
+                className={styles.menu_title}
+              >{`Add '${trackTitle.title}' to playlist:`}</h4>
+              {userPlaylists?.map((playlist: any) => (
+                <MenuItem
+                  key={playlist._id}
+                  onClick={() => manageClick(playlist._id, trackTitle)}
+                  sx={{
+                    padding: "0.5rem 1rem",
+                    "&:hover": {
+                      backgroundColor: "var(--grey)",
+                    },
+                  }}
+                >
+                  {playlist.title}
+                </MenuItem>
+              ))}
+            </Menu>
+            <Toaster />
           </AnimatePresence>
         </Reorder.Group>
       ) : (

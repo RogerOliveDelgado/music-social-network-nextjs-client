@@ -19,7 +19,7 @@ interface View {
 }
 
 const Library = (props: Props) => {
-  const userId = "6352bdddf65378d19833dc87";
+  const userId = "63566ec7f9d5803a4019ed57";
 
   const [background, setBackground] = useState(false);
 
@@ -55,6 +55,11 @@ const Library = (props: Props) => {
   const handleView = (view: string) => {
     setFilter({ [view]: true });
   };
+
+  const isThereAnyArtist = artists?.data?.length > 0;
+  const isThereAnyAlbum = albums?.data?.length > 0;
+  const isThereAnyPlaylist = playlist?.data?.playlists?.length > 0;
+
 
   return (
     <>
@@ -119,16 +124,46 @@ const Library = (props: Props) => {
               )}
               {isLoading ? (
                 <RowSkeleton />
-              ) : (
-                <Row title={t("additional").playlist} data={playlist?.data?.playlists} />
-              )}
+              ) : isThereAnyPlaylist ? (
+                <Row
+                  title={t("additional").playlist}
+                  data={playlist?.data?.playlists}
+                />
+              ) : null}
             </>
           ) : (
             <></>
           )}
-          {filter?.albums ? <GridLayout data={albums?.data} /> : <></>}
-          {filter?.artists ? <GridLayout data={artists?.data} /> : <></>}
-          {filter?.playlist ? <GridLayout data={playlist?.data?.playlists} /> : <></>}
+          {filter?.albums && isThereAnyAlbum ? (
+            <GridLayout data={albums?.data} />
+          ) : (
+            filter?.albums &&
+            !isThereAnyAlbum && (
+              <>
+                <GridLayout noData={t("content").albums} />
+              </>
+            )
+          )}
+          {filter?.artists && isThereAnyArtist ? (
+            <GridLayout data={artists?.data} />
+          ) : (
+            filter?.artists &&
+            !isThereAnyArtist && (
+              <>
+                <GridLayout noData={t("content").artists} />
+              </>
+            )
+          )}
+          {filter?.playlist && isThereAnyPlaylist ? (
+            <GridLayout data={playlist?.data?.playlists} />
+          ) : (
+            filter?.playlist &&
+            !isThereAnyPlaylist && (
+              <>
+                <GridLayout noData={t("content").playlists} />
+              </>
+            )
+          )}
         </div>
       </Layout>
     </>

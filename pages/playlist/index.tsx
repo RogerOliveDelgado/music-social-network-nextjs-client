@@ -1,23 +1,26 @@
-import Layout from "../components/Layout/Layout";
+import Layout from "../../components/Layout/Layout";
 
 import styles from "./styles.module.css";
 import Head from "next/head";
-import TabPanel from "../components/TabPanel/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { useRouter } from "next/router";
-import { useGetPlaylistQuery } from "../redux/playlistsAPI";
-import CreatePlaylist from "../components/Playlist/CreatePlaylist";
-import Searchbar from "../components/Playlist/Searchbar/Searchbar";
-import { useI18N } from "../context/i18";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
+import CreatePlaylist from "../../components/Playlist/CreatePlaylist";
+import Searchbar from "../../components/Playlist/Searchbar/Searchbar";
+import { useI18N } from "../../context/i18";
+import TrackList from "../../components/TrackList/TrackList";
+import PlaylistGrid from "../../components/Playlist/PlaylistGrid/PlaylistGrid";
 
 const Playlist = () => {
   const { query } = useRouter();
   const { t } = useI18N();
 
+  const id = "63566ec7f9d5803a4019ed57";
   const {
-    data: playlist,
+    data: playlists,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(undefined, {
+  } = useGetPlaylistQuery(id, {
     refetchOnMountOrArgChange: true,
   });
 
@@ -30,7 +33,7 @@ const Playlist = () => {
       </Head>
       <Layout>
         <CreatePlaylist />
-        <TabPanel data={playlist?.data} />
+        <PlaylistGrid />
       </Layout>
     </>
   );

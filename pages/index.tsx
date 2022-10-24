@@ -11,12 +11,12 @@ import { useI18N } from "../context/i18";
 import styles from "../pages/home/styles.module.css";
 import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistsAPI";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const Home = () => {
-  const userId = "6352bdddf65378d19833dc87";
+  const userId = "63566ec7f9d5803a4019ed57";
 
-  const [token, setToken] = useState<string>('')
+  const [token, setToken] = useState<string>("");
 
   const {
     data: albums,
@@ -41,7 +41,10 @@ const Home = () => {
     refetchOnMountOrArgChange: true,
   });
 
+  const isThereAnyPlaylist = playlists?.data?.playlists?.length > 0;
+
   const { t } = useI18N();
+
   return (
     <>
       <Head>
@@ -65,9 +68,12 @@ const Home = () => {
           )}
           {isLoadingPlaylist ? (
             <RowSkeleton />
-          ) : (
-            <Row title={t("additional").playlist} data={playlists?.data?.playlists} />
-          )}
+          ) : isThereAnyPlaylist ? (
+            <Row
+              title={t("additional").playlist}
+              data={playlists?.data?.playlists}
+            />
+          ) : null}
         </div>
       </Layout>
     </>
