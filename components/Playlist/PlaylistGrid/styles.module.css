@@ -1,0 +1,36 @@
+.grid_container {
+  margin-left: 6rem;
+}
+
+.playlists_header{
+    display: flex;
+    border: 2px solid #acacac;
+    padding-left: 0.7rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 0.7rem;
+    background: #acacac;
+    color: #4e4949;
+    border-radius: 5px;
+}
+
+.playlist_row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: .3rem 0;
+  border-bottom: 2px solid #acacac;
+}
+
+.playlist_row:hover {
+  background: var(--lightGrey);
+  cursor: pointer;
+}
+
+.playlist_image{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+}
