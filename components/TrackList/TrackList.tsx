@@ -232,7 +232,7 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                 >
                   <div className={styles.track_info}>
                     <p>
-                      {track._id === currentTrack._id ? (
+                      {track._id === currentTrack?._id ? (
                         <GraphicEqIcon />
                       ) : (
                         index + 1
@@ -266,31 +266,6 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                           <input hidden />
                           <AddCircleOutlineIcon />
                         </Button>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                          }}
-                        >
-                          <h4>
-                            Select the playlist where you would like to add the
-                            track to:
-                          </h4>
-                          {userPlaylists?.map((playlist: any) => (
-                            <MenuItem
-                              key={playlist.title}
-                              onClick={() =>
-                                manageClick(playlist._id, trackTitle)
-                              }
-                            >
-                              {playlist.title}
-                            </MenuItem>
-                          ))}
-                        </Menu>
-                        <Toaster />
                       </>
                     )}
                     <IconButton color="inherit" component="label">
@@ -324,6 +299,48 @@ const TrackList = ({ name, tracks, heightValue, artist, refetch }: Props) => {
                 </Reorder.Item>
               );
             })}
+            <Menu
+              id="account-menu"
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                },
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              sx={{
+                "& .MuiMenu-paper": {
+                  backgroundColor: "var(--black)",
+                  color: "white",
+                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+                },
+              }}
+            >
+              <h4
+                className={styles.menu_title}
+              >{`Add '${trackTitle.title}' to playlist:`}</h4>
+              {userPlaylists?.map((playlist: any) => (
+                <MenuItem
+                  key={playlist.title}
+                  onClick={() => manageClick(playlist._id, trackTitle)}
+                  sx={{
+                    padding: "0.5rem 1rem",
+                    "&:hover": {
+                      backgroundColor: "var(--grey)",
+                    },
+                  }}
+                >
+                  {playlist.title}
+                </MenuItem>
+              ))}
+            </Menu>
+            <Toaster />
           </AnimatePresence>
         </Reorder.Group>
       ) : (

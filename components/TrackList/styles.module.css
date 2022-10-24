@@ -71,6 +71,10 @@
   cursor: grabbing;
 }
 
+.menu_title{
+  padding: 0rem 2rem;
+}
+
 @media screen and (max-width: 900px) {
   .tracks_list {
     height: 90%;
