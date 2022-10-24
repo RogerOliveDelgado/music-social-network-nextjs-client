@@ -170,7 +170,8 @@ function CreatePlaylist(props: any) {
           className={styles.container_front}
           onMouseOver={!playlistId ? () => setHover(true) : undefined}
           onMouseLeave={!playlistId ? () => setHover(false) : undefined}
-        >
+          >
+          {playlistId && <DeleteButton />}
           <div
             className={styles.image_wrapper}
             onMouseOver={() => setHover(true)}
@@ -359,11 +360,6 @@ function CreatePlaylist(props: any) {
         </Dialog>
         <Toaster />
       </form>
-      {playlistId && (
-        <div className={styles.delete_button}>
-          <DeleteButton />
-        </div>
-      )}
     </>
   );
 }

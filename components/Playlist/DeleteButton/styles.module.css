@@ -22,9 +22,10 @@
 .tooltip {
   position: relative;
   display: block;
-  margin-bottom: 2rem;
-  margin-left: 5rem;
-  width: 3rem;
+  align-self: flex-start;
+  /* margin-bottom: 2rem;
+  margin-left: 5.6rem;
+  width: 3rem; */
   background-color: transparent;
   border: none;
 }
