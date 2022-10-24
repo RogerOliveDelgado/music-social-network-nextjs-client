@@ -278,19 +278,19 @@ const TrackList = ({
                           <IconButton
                             color="inherit"
                             component="label"
-                            onClick={() => deleteTrackFromPlaylist(track)}
+                            
                           >
                             <input hidden />
-                            <RemoveCircleOutlineIcon />
+                            <RemoveCircleOutlineIcon onClick={() => deleteTrackFromPlaylist(track)}/>
                           </IconButton>
                         )}
                         <IconButton
                           color="inherit"
                           component="label"
-                          onClick={() => addTrackToPlaylist(playlistId, track)}
+                         
                         >
                           <input hidden />
-                          <AddCircleOutlineIcon />
+                          <AddCircleOutlineIcon  onClick={() => addTrackToPlaylist(playlistId, track)}/>
                         </IconButton>
                       </>
                     ) : (
