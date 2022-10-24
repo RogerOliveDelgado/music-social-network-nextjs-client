@@ -7,6 +7,8 @@
   align-items: flex-end;
   gap: 0.6rem;
   margin-bottom: 2rem;
+
+  width: fit-content;
 }
 
 .change_button {
@@ -53,4 +55,14 @@
 .input-group:hover .input {
   outline: none;
   border-color: #b9b9bb;
+}
+
+.upload_button {
+  color: white;
+  border: 1px solid white;
+}
+.upload_button:hover {
+  background: #1bb16b;
+  color: black;
+  border: 1px solid white;
 }
