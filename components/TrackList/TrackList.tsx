@@ -25,11 +25,11 @@ import toast, { Toaster } from "react-hot-toast";
 
 import GraphicEqIcon from "@mui/icons-material/GraphicEq";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import Tooltip from '@mui/material/Tooltip';
 
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
 import Button from "@mui/material/Button";
+import Tooltip from '@mui/material/Tooltip';
 
 import styles from "./styles.module.css";
 
@@ -233,6 +233,7 @@ const TrackList = ({
   };
 
   const isInPlaylistPath = router.pathname.includes("playlist");
+
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
