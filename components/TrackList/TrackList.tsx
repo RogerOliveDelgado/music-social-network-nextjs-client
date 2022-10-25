@@ -50,9 +50,9 @@ const TrackList = ({
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
-  const id = "63566ec7f9d5803a4019ed57";
+  const id = "634e53190dfcdc5f721f20e6";
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTMxOTBkZmNkYzVmNzIxZjIwZTYiLCJ1c2VybmFtZSI6InJvZ2VyIiwiaWF0IjoxNjY2NjIyMzM2LCJleHAiOjE2NjY2ODIzMzZ9.I_w4cptJu_hz3BdxSHBoZnsjp99zLDwuCglAi36XlBE";
   const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
@@ -72,7 +72,7 @@ const TrackList = ({
     //Get the users likedSongs array
     //Save the founed array in the likedSongs state
     const getUser = async () => {
-      const response = await fetch(`http://localhost:4001/user/${id}`, {
+      const response = await fetch(`${process.env.USERS_BACKEND_URL}/user/${id}`, {
         headers: {
           Authorization: `bearer ${TOKEN}`,
         },
@@ -132,7 +132,7 @@ const TrackList = ({
       //Get the user information to set again the likedSongs array with changes
       if (data.ok) {
         setTimeout(async () => {
-          const userResponse = await fetch(`http://localhost:4001/user/${id}`, {
+          const userResponse = await fetch(`${process.env.USERS_BACKEND_URL}/user/${id}`, {
             headers: {
               Authorization: `bearer ${TOKEN}`,
             },

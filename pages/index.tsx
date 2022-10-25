@@ -14,9 +14,7 @@ import { useGetPlaylistQuery } from "../redux/playlistsAPI";
 import { useEffect, useState } from "react";
 
 const Home = () => {
-  const userId = "63566ec7f9d5803a4019ed57";
-
-  const [token, setToken] = useState<string>("");
+  const userId = "634e53190dfcdc5f721f20e6";
 
   const {
     data: albums,

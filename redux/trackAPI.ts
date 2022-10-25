@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const API =
-  process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "http://localhost:4002";
+  process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "http://localhost/spotify";
 
 export const trackAPI = createApi({
   reducerPath: "trackAPI",

@@ -30,6 +30,7 @@ export default {
     headerArtist: "Artiste",
     headerLibrary: "Bibliothèque",
     headerChat: "Chat",
+    headerConfig: 'Paramètres',
   },
   content: {
     artists: "Il n'y a pas d'artiste disponible.",

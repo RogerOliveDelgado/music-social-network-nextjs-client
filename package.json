@@ -16,6 +16,7 @@
     "@speechly/speech-recognition-polyfill": "^1.2.0",
     "@tanstack/react-query": "^4.10.1",
     "cookie-cutter": "^0.2.0",
+    "formik": "^2.2.9",
     "framer-motion": "^7.5.2",
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
