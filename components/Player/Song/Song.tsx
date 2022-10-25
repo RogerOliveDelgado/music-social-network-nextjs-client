@@ -14,7 +14,7 @@ function Song() {
   const { artistName } = useSelector((state: RootState) => state.currentTrack);
 
   const album = useSelector(
-    (state: RootState) => state.currentTrack.currentTrack.album
+    (state: RootState) => state.currentTrack.currentTrack?.album
   );
 
   const albumImage = album?.image;

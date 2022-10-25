@@ -34,6 +34,8 @@ const PlayerWeb = () => {
     (state: RootState) => state.currentTrack.index
   );
 
+  const trackIsPlaying = tracks[0]._id;
+
   const handleClickNext = () => {
     setTrackIndex((prevState) =>
       prevState < tracks.length - 1 ? prevState + 1 : 0
@@ -64,7 +66,7 @@ const PlayerWeb = () => {
     <>
       {router.pathname !== '/signup' ? (
         <div className={styles.container}>
-          <Song />
+          {trackIsPlaying && <Song />}
           {isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
