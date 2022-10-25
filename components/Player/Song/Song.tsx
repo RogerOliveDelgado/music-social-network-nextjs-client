@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Image from 'next/image';
-import styles from './styles.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import useWidth from '../../../hook/useWidth';
+import React, { useEffect, useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Image from "next/image";
+import styles from "./styles.module.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import useWidth from "../../../hook/useWidth";
 
 function Song() {
   const { currentTrack } = useSelector(
@@ -13,15 +13,21 @@ function Song() {
   );
   const { artistName } = useSelector((state: RootState) => state.currentTrack);
 
+  const album = useSelector(
+    (state: RootState) => state.currentTrack.currentTrack.album
+  );
+
+  const albumImage = album?.image;
+
   const width = useWidth();
 
   useEffect(() => {
-    const container = document.getElementById('container_song')?.offsetWidth;
+    const container = document.getElementById("container_song")?.offsetWidth;
 
-    const titleSong = document.getElementById('title_song');
+    const titleSong = document.getElementById("title_song");
     const titleSongWidth = titleSong?.offsetWidth;
 
-    const artistSong = document.getElementById('artist_song');
+    const artistSong = document.getElementById("artist_song");
     const artistSongWidth = artistSong?.offsetWidth;
 
     if (
@@ -53,7 +59,11 @@ function Song() {
     <div className={styles.wrapper}>
       <div className={styles.image_container}>
         <Image
-          src="https://i.scdn.co/image/ab67616d00004851f4483d4440a89a2cab3b5141"
+          src={
+            albumImage !== undefined
+              ? albumImage
+              : "/images/default_playlist.png"
+          }
           alt="Picture of the author"
           width="52px"
           height="52px"
