@@ -7,34 +7,49 @@ import Head from 'next/head';
 import { useI18N } from '../../context/i18';
 
 import { ReactEventHandler, useEffect, useRef, useState } from 'react'
-import {io} from 'socket.io-client'
+import {Socket, io} from 'socket.io-client'
+import { Playlist } from '../../interfaces/playlistResponse';
+import { Album } from '../../interfaces/albumResponse';
+import { Artist } from '../../interfaces/artistResponse';
+import { Data } from '../../interfaces/tracks';
 
 type Props = {};
 
 let socketId;
 //Array wich contains the connected users, each time a user make login into chat app, this array will be updated
-let usuarios = [];
+let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
 //Initialize the socket 
-const socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
+const socket: Socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
 
   //States to manage the renders of each component
-  const [input, setInput] = useState<string>("");
-  const [messages, setMessages] = useState<string[]>(["hola"])
-  const [users, setUsers] = useState([]);
+  const [input, setInput] = useState<string>("");  const [messages, setMessages] = useState<string[]>(["hola"])
+  const [users, setUsers] = useState<{
+    _id:string,
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    genres: string[];
+    phone: string;
+    playlists: Partial<Playlist>[];
+    albums: Partial<Album>[];
+    artists: Partial<Artist>[];
+    likedSongs: Partial<Data>[];
+  }[]>([]);
   const [currentRoom, setCurrentRoom] = useState<string>("Julio");//Nombre de la persona con la que se habla
-  const [id1, setid1] = useState<string>();
-  const [id2, setid2] = useState<string>();
-  const [inputUser,setInputUser] = useState("");
+  const [id1, setid1] = useState<string | undefined>();
+  const [id2, setid2] = useState<string | undefined>();
+  // const [inputUser,setInputUser] = useState("");
   const [userName, setUserName] = useState<string>("")
   const [dataMessages, setDataMessages] = useState<{msg:string, from:string}>({msg:"", from:""})
   const [typing, setTyping] = useState<string>("");
   const [dataTyping, setDataTyping] = useState<string>("");
   const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
-  const [connectedUsers, setConnectedUsers] = useState<{idSocket:string, id:string, usuario:string}[]>([])
+  const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
 
    //Take all the exists users on dataBase
    useEffect(() => {
@@ -194,87 +209,87 @@ const Chat = (props: Props) => {
   // useEffect(scrollToBottom, [messages]);
 
   //set the input message value
-  const handleInput = (value:string) => {    
-    if(window.location.host == "localhost:3000"){
-      console.log("Escribiendo");
+  // const handleInput = (value:string) => {    
+  //   if(window.location.host == "localhost:3000"){
+  //     console.log("Escribiendo");
       
-      setInput(value);
-      if(value == ""){
-        socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-      }else{
-      socket.emit(`typing`, {msg:`${userName} is typing`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-      }
+  //     setInput(value);
+  //     if(value == ""){
+  //       socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //     }else{
+  //     socket.emit(`typing`, {msg:`${userName} is typing`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //     }
       
-    }else{
-      setInput(value);
-      socket.emit(`typing`, {msg:`${userName} is typing`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-    }
-  }
+  //   }else{
+  //     setInput(value);
+  //     socket.emit(`typing`, {msg:`${userName} is typing`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //   }
+  // }
 
   //send the message
-  const submitMessage = async() => {
-    console.log(window.location.host);
-    if(input != ""){
-    if(window.location.host == "localhost:3000"){
-      // const id = id1;
-      // console.log("sender",id1);
-      // console.log("receiver", id2);      
-      // console.log("name", currentRoom); 
+  // const submitMessage = async() => {
+  //   console.log(window.location.host);
+  //   if(input != ""){
+  //   if(window.location.host == "localhost:3000"){
+  //     // const id = id1;
+  //     // console.log("sender",id1);
+  //     // console.log("receiver", id2);      
+  //     // console.log("name", currentRoom); 
 
-      socket.emit(`send-Message`, {msg:`${userName}:${input}`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-      socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-      // console.log(data);
-      console.log(pendingMessages);
-      const response = await fetch("http://localhost:5001/messages",{
-        method:'POST',
-        headers:{
-          // "Access-Control-Allow-Origin":'*',
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({sender: id1, receiver: id2, msgs:`${userName}:${input}`, name:currentRoom, users: connectedUsers})
-      })
-    const dataResponse = await response.json()
-    console.log("MSG",dataResponse);
+  //     socket.emit(`send-Message`, {msg:`${userName}:${input}`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //     socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //     // console.log(data);
+  //     console.log(pendingMessages);
+  //     const response = await fetch("http://localhost:5001/messages",{
+  //       method:'POST',
+  //       headers:{
+  //         // "Access-Control-Allow-Origin":'*',
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({sender: id1, receiver: id2, msgs:`${userName}:${input}`, name:currentRoom, users: connectedUsers})
+  //     })
+  //   const dataResponse = await response.json()
+  //   console.log("MSG",dataResponse);
       
-    }else{
-      // const id = id2;
-      // console.log(id2);
-      console.log(pendingMessages);
-      socket.emit(`send-Message`, {msg:`${userName}:${input}`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-      socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
-    }
-    }
-    console.log(pendingMessages);
-    // console.log(socket.id);
-    setInput("");
-  }
+  //   }else{
+  //     // const id = id2;
+  //     // console.log(id2);
+  //     console.log(pendingMessages);
+  //     socket.emit(`send-Message`, {msg:`${userName}:${input}`, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //     socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})
+  //   }
+  //   }
+  //   console.log(pendingMessages);
+  //   // console.log(socket.id);
+  //   setInput("");
+  // }
 
   //Charge the messages of currentRoom when the user moves between users
-  const handleUser = async(value:any, userId:string) => {
-    socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})//set to '' message typing
-    setInputUser(value);
-    deletePendingMessage(id2)//userId
-    setid2(userId)
-    setCurrentRoom(value)
+  // const handleUser = async(value:any, userId:string) => {
+  //   socket.emit(`typing`, {msg:``, to:`${id2}`, sender:`${id1}`, socket:socket.id})//set to '' message typing
+  //   setInputUser(value);
+  //   deletePendingMessage(id2)//userId
+  //   setid2(userId)
+  //   setCurrentRoom(value)
     
       
-    setMessages([])
-    //recogemos los mensajes cada vez que cambiamos de chat
-    const response = await fetch("http://localhost:5001/getMessages",{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({sender:id1,receiver:userId})
-    })
-    const msgs = await response.json();
-    console.log(msgs.msgs)
-    if(msgs.msgs == undefined){
-      setMessages([""]);
-    }else{
-      setMessages(msgs.msgs)
-    }
-  }
+  //   setMessages([])
+  //   //recogemos los mensajes cada vez que cambiamos de chat
+  //   const response = await fetch("http://localhost:5001/getMessages",{
+  //     method:'POST',
+  //     headers:{
+  //       'Content-Type':'application/json'
+  //     },
+  //     body:JSON.stringify({sender:id1,receiver:userId})
+  //   })
+  //   const msgs = await response.json();
+  //   console.log(msgs.msgs)
+  //   if(msgs.msgs == undefined){
+  //     setMessages([""]);
+  //   }else{
+  //     setMessages(msgs.msgs)
+  //   }
+  // }
 
   //Delete messages no read when the user goes to that room
   const deletePendingMessage = (userId:string | undefined) => {
@@ -305,10 +320,11 @@ const Chat = (props: Props) => {
       </Head>
       <Layout>
         <div className={styles.chat_container}>
+          <h2>Soy {userName} </h2>
           <h1> {t('additional').messages}</h1>
           <div className={styles.main_content}>
-            <ChatRoom messages={messages} setMessages={setMessages}/>
-            <ContactsContainer />
+            <ChatRoom messages={messages} setMessages={setMessages} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers}/>
+            <ContactsContainer users={users} usersConnected={connectedUsers} deletePendingMessage={deletePendingMessage} socket={socket} id1={id1} id2={id2} setid2={setid2} setCurrentRoom={setCurrentRoom} setMessages={setMessages}/>
           </div>
         </div>
       </Layout>
