@@ -34,7 +34,7 @@ const PlayerWeb = () => {
     (state: RootState) => state.currentTrack.index
   );
 
-  const trackIsPlaying = tracks[0]._id;
+  const trackIsPlaying = tracks[0]?._id;
 
   const handleClickNext = () => {
     setTrackIndex((prevState) =>
