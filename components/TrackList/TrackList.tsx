@@ -275,23 +275,23 @@ const TrackList = ({
                     {isInPlaylistPath ? (
                       <>
                         {allowDelete && (
-                          <IconButton
-                            color="inherit"
-                            component="label"
-                            
-                          >
+                          <IconButton color="inherit" component="label">
                             <input hidden />
-                            <RemoveCircleOutlineIcon onClick={() => deleteTrackFromPlaylist(track)}/>
+                            <RemoveCircleOutlineIcon
+                              onClick={() => deleteTrackFromPlaylist(track)}
+                            />
                           </IconButton>
                         )}
-                        <IconButton
-                          color="inherit"
-                          component="label"
-                         
-                        >
-                          <input hidden />
-                          <AddCircleOutlineIcon  onClick={() => addTrackToPlaylist(playlistId, track)}/>
-                        </IconButton>
+                        {!allowDelete && (
+                          <IconButton color="inherit" component="label">
+                            <input hidden />
+                            <AddCircleOutlineIcon
+                              onClick={() =>
+                                addTrackToPlaylist(playlistId, track)
+                              }
+                            />
+                          </IconButton>
+                        )}
                       </>
                     ) : (
                       <>
