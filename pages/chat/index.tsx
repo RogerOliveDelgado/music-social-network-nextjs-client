@@ -6,6 +6,8 @@ import styles from './styles.module.css';
 import Head from 'next/head';
 import { useI18N } from '../../context/i18';
 
+
+
 type Props = {};
 
 const Chat = (props: Props) => {
