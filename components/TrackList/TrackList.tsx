@@ -25,6 +25,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import GraphicEqIcon from "@mui/icons-material/GraphicEq";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import Tooltip from '@mui/material/Tooltip';
 
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
@@ -275,37 +276,43 @@ const TrackList = ({
                     {isInPlaylistPath ? (
                       <>
                         {allowDelete && (
-                          <IconButton color="inherit" component="label">
-                            <input hidden />
-                            <RemoveCircleOutlineIcon
-                              onClick={() => deleteTrackFromPlaylist(track)}
-                            />
-                          </IconButton>
+                          <Tooltip title='Remove track from playlist'>
+                            <IconButton color="inherit" component="label">
+                              <input hidden />
+                              <RemoveCircleOutlineIcon
+                                onClick={() => deleteTrackFromPlaylist(track)}
+                              />
+                            </IconButton>
+                          </Tooltip>
                         )}
                         {!allowDelete && (
-                          <IconButton color="inherit" component="label">
-                            <input hidden />
-                            <AddCircleOutlineIcon
-                              onClick={() =>
-                                addTrackToPlaylist(playlistId, track)
-                              }
-                            />
-                          </IconButton>
+                          <Tooltip title='Add track to playlist'>
+                            <IconButton color="inherit" component="label">
+                              <input hidden />
+                              <AddCircleOutlineIcon
+                                onClick={() =>
+                                  addTrackToPlaylist(playlistId, track)
+                                }
+                              />
+                            </IconButton>
+                          </Tooltip>
                         )}
                       </>
                     ) : (
                       <>
-                        <Button
-                          color="inherit"
-                          id="basic-button"
-                          aria-controls={open ? "basic-menu" : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          onClick={(e) => handleClick(e, track)}
-                        >
-                          <input hidden />
-                          <AddCircleOutlineIcon />
-                        </Button>
+                        <Tooltip title='Add track to playlist'>
+                          <Button
+                            color="inherit"
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => handleClick(e, track)}
+                          >
+                            <input hidden />
+                            <AddCircleOutlineIcon />
+                          </Button>
+                        </Tooltip>
                       </>
                     )}
                     <IconButton color="inherit" component="label">
@@ -313,17 +320,21 @@ const TrackList = ({
                       {userLikedSongs?.some(
                         (element) => element._id === track._id
                       ) ? (
-                        <FavoriteIcon
-                          onClick={() => {
-                            addSong(track);
-                          }}
-                        />
+                        <Tooltip title='Add to favorites'>
+                          <FavoriteIcon
+                            onClick={() => {
+                              addSong(track);
+                            }}
+                          />
+                        </Tooltip>
                       ) : (
-                        <FavoriteBorderIcon
-                          onClick={() => {
-                            addSong(track);
-                          }}
-                        />
+                        <Tooltip title='Add to favorites'>
+                          <FavoriteBorderIcon
+                            onClick={() => {
+                              addSong(track);
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </IconButton>
                     <p className={styles.track_duration}>
@@ -364,7 +375,7 @@ const TrackList = ({
             >
               <h4
                 className={styles.menu_title}
-              >{`Add '${trackTitle.title}' to playlist:`}</h4>
+              >{`Select a playlist to add track '${trackTitle.title}':`}</h4>
               {userPlaylists?.map((playlist: any) => (
                 <MenuItem
                   key={playlist._id}
