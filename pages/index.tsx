@@ -45,6 +45,8 @@ const Home = () => {
 
   const { t } = useI18N();
 
+  console.log(playlists)
+
   return (
     <>
       <Head>
