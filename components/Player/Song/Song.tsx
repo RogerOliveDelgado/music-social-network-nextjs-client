@@ -8,12 +8,15 @@ import useWidth from "../../../hook/useWidth";
 import { useGetPlaylistQuery } from "../../../redux/playlistsAPI";
 
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { Track } from "../../../interfaces/tracks";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import toast, { Toaster } from "react-hot-toast";
+
+
 
 function Song() {
   const id = "63566ec7f9d5803a4019ed57";
@@ -23,11 +26,13 @@ function Song() {
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
   );
+
   const { artistName } = useSelector((state: RootState) => state.currentTrack);
 
   const album = useSelector(
     (state: RootState) => state.currentTrack.currentTrack?.album
   );
+
 
   const albumImage = album?.image;
 
@@ -67,6 +72,65 @@ function Song() {
     }
   }, [width, currentTrack]);
 
+  //Add to favorites
+  const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
+
+  useEffect(() => {
+    //Get the users likedSongs array
+    //Save the founed array in the likedSongs state
+    const getUser = async () => {
+      const response = await fetch(`http://localhost:4001/user/${id}`, {
+        headers: {
+          Authorization: `bearer ${TOKEN}`,
+        },
+      });
+      const user = await response.json();
+      let array: string[] = [];
+      user.data?.likedSongs.map((song: any) => {
+        array.push(song);
+      });
+      setUserLikedSongs(array);
+      // setOrderTracks(array);
+    };
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const addSong = (song: Track) => {
+    const putSongInUser = async (song: Track) => {
+      const response = await fetch(`http://localhost:4002/track/library`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `bearer ${TOKEN}`,
+        },
+        body: JSON.stringify(song),
+      });
+      const data = await response.json();
+
+      //Get the user information to set again the likedSongs array with changes
+      if (data.ok) {
+        setTimeout(async () => {
+          const userResponse = await fetch(`http://localhost:4001/user/${id}`, {
+            headers: {
+              Authorization: `bearer ${TOKEN}`,
+            },
+          });
+          const user = await userResponse.json();
+
+          let arrayFavouritesSongs: Track[] = [];
+          user.data.likedSongs.map((song: any) => {
+            arrayFavouritesSongs.push(song);
+          });
+          // setOrderTracks(arrayFavouritesSongs);
+          setUserLikedSongs(arrayFavouritesSongs);
+        }, 500);
+      }
+    };
+    putSongInUser(song);
+  };
+
+  //Add track to playlist
   const {
     data: playlists,
     isLoading: isLoadingPlaylist,
@@ -85,7 +149,6 @@ function Song() {
     event: React.MouseEvent<HTMLButtonElement>,
     track: Track
   ) => {
-    console.log(track);
     setAnchorEl(event.currentTarget);
     setTrackTitle(track);
   };
@@ -125,6 +188,7 @@ function Song() {
     handleClose();
   };
 
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.image_container}>
@@ -140,11 +204,27 @@ function Song() {
         />
       </div>
       <div id="container_song" className={styles.song_container}>
-        <span id="title_song">{currentTrack?.title}</span>
+        <span id="title_song">{currentTrack.title}</span>
         <span id="artist_song">{artistName}</span>
       </div>
       <div className={styles.icons}>
-        <FavoriteIcon />
+        {userLikedSongs?.some((element) => element._id === currentTrack._id) ? (
+          <Tooltip title="Add to favorites">
+            <FavoriteIcon
+              onClick={() => {
+                addSong(currentTrack);
+              }}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip title="Add to favorites">
+            <FavoriteBorderIcon
+              onClick={() => {
+                addSong(currentTrack);
+              }}
+            />
+          </Tooltip>
+        )}
         <Tooltip title="Add track to playlist">
           <Button
             color="inherit"

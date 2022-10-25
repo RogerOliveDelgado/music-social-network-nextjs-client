@@ -64,6 +64,7 @@ const TrackList = ({
     (state: RootState) => state.currentTrack
   );
 
+
   useEffect(() => {
     if (router.pathname.includes("favorites")) {
       //playList
@@ -95,10 +96,10 @@ const TrackList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks]);
 
-  useEffect(() => {
-    inPlayList && onReOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderTracks]);
+  // useEffect(() => {
+  //   inPlayList && onReOrder();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [orderTracks]);
 
   const updatePlayer = (track: Track, index: number) => {
     if (inPlayList) {
