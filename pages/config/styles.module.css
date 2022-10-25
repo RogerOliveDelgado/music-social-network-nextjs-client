@@ -23,21 +23,8 @@
 .config_form {
   display: flex;
   flex-direction: column;
+  width: 16rem;
   gap: 1rem;
-}
-
-.input {
-  width: 60%;
-  height: 44px;
-  background-color: #05060f0a;
-  border-radius: 0.5rem;
-  padding: 0 1rem;
-  border: 2px solid transparent;
-  font-size: 1rem;
-  color: white;
-  transition: border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
-    color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
-    background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
 }
 
 .label {
@@ -65,4 +52,33 @@
   background: #1bb16b;
   color: black;
   border: 1px solid white;
+}
+
+.input {
+  width: 90%;
+  height: 44px;
+  background-color: #05060f0a;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  color: white;
+  transition: border-color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
+    color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s,
+    background 0.2s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
+}
+
+.main_content {
+  display: flex;
+  /* width: 60%; */
+  gap: 10rem;
+}
+
+@media screen and (max-width: 900px) {
+  .config_image {
+    display: none !important;
+  }
+  .input {
+    width: 15rem;
+  }
 }

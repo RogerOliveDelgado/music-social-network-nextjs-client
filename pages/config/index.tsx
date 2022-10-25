@@ -103,86 +103,96 @@ const UserConfig = (props: Props) => {
             </div>
           </div>
 
-          <Formik
-            enableReinitialize={true}
-            initialValues={
-              isSuccessUser && {
-                username: user?.data?.username,
-                phone: user?.data?.phone,
-                email: user?.data?.email,
-                token: cookies.userToken,
+          <div className={styles.main_content}>
+            <Formik
+              enableReinitialize={true}
+              initialValues={
+                isSuccessUser && {
+                  username: user?.data?.username,
+                  phone: user?.data?.phone,
+                  email: user?.data?.email,
+                  token: cookies.userToken,
+                }
               }
-            }
-            onSubmit={(values) => {
-              const image = MetaDataPlayListImage
-                ? MetaDataPlayListImage
-                : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png';
-              editUser({
-                id: cookies.userID,
-                username: values.username,
-                phone: values.phone,
-                image: image,
-              });
-              // .then((res) => {
-              //   console.log(res);
-              // });
-            }}
-          >
-            {({ handleSubmit, values, handleChange }) => (
-              <form
-                action=""
-                className={styles.config_form}
-                onSubmit={handleSubmit}
-              >
-                <div className={styles.input_group}>
-                  <label className={styles.label}>Username</label>
-                  <input
-                    autoComplete="off"
-                    name="username"
-                    id="username"
-                    className={styles.input}
-                    type="text"
-                    value={values?.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.input_group}>
-                  <label className={styles.label}>Phone</label>
-                  <input
-                    autoComplete="off"
-                    name="phone"
-                    id="phone"
-                    className={styles.input}
-                    type="tel"
-                    pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
-                    value={values?.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.input_group}>
-                  <label className={styles.label}>Email address</label>
-                  <input
-                    autoComplete="off"
-                    name="email"
-                    id="email"
-                    className={styles.input}
-                    type="email"
-                    disabled
-                    value={values?.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  className={styles.change_button}
-                  sx={{ width: '20%' }}
+              onSubmit={(values) => {
+                const image = MetaDataPlayListImage
+                  ? MetaDataPlayListImage
+                  : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png';
+                editUser({
+                  id: cookies.userID,
+                  username: values.username,
+                  phone: values.phone,
+                  image: image,
+                });
+                // .then((res) => {
+                //   console.log(res);
+                // });
+              }}
+            >
+              {({ handleSubmit, values, handleChange }) => (
+                <form
+                  action=""
+                  className={styles.config_form}
+                  onSubmit={handleSubmit}
                 >
-                  Save
-                </Button>
-              </form>
-            )}
-          </Formik>
+                  <div className={styles.input_group}>
+                    <label className={styles.label}>Username</label>
+                    <input
+                      autoComplete="off"
+                      name="username"
+                      id="username"
+                      className={styles.input}
+                      type="text"
+                      value={values?.username}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className={styles.input_group}>
+                    <label className={styles.label}>Phone</label>
+                    <input
+                      autoComplete="off"
+                      name="phone"
+                      id="phone"
+                      className={styles.input}
+                      type="tel"
+                      pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
+                      value={values?.phone}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className={styles.input_group}>
+                    <label className={styles.label}>Email address</label>
+                    <input
+                      autoComplete="off"
+                      name="email"
+                      id="email"
+                      className={styles.input}
+                      type="email"
+                      disabled
+                      value={values?.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    className={styles.change_button}
+                    sx={{ width: '20%' }}
+                  >
+                    Save
+                  </Button>
+                </form>
+              )}
+            </Formik>
+            <Image
+              className={styles.config_image}
+              src="/Images/config_image.png"
+              alt="contact"
+              width={320}
+              height={320}
+              layout="intrinsic"
+            />
+          </div>
         </div>
       </Layout>
     </>

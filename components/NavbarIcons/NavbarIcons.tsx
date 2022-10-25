@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import MusicVideoIcon from '@mui/icons-material/MusicVideo';
@@ -10,13 +10,12 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import styles from "./styles.module.css";
-import Link from "next/link";
-import { useCookies } from "react-cookie";
-
+import styles from './styles.module.css';
+import Link from 'next/link';
+import { useCookies } from 'react-cookie';
 
 function NavbarIcons() {
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['username']);
 
   const [username, setUsername] = React.useState<string>();
 
