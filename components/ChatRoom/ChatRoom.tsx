@@ -9,7 +9,10 @@ import styles from './styles.module.css';
 import { useEffect, useRef } from 'react';
 import { useI18N } from '../../context/i18';
 
-type Props = {};
+type Props = {
+  messages: string[],
+  setMessages: Function
+};
 
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
@@ -19,6 +22,18 @@ const ChatRoom = (props: Props) => {
     chat && chat.current.scrollTo(0, chat.current.scrollHeight, 'smooth');
     // chat && console.log(chat);
   }, []);
+
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if(messagesEndRef.current != null)
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block:'end' });
+    
+      const field = document.getElementById("fieldset");
+      field && (field.scrollTop = field.scrollHeight);
+  };
+
+  useEffect(scrollToBottom, [messages]);
 
   return (
     <div className={styles.chat_room_container}>
