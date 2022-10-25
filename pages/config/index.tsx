@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Button from '@mui/material/Button';
 import toast, { Toaster } from 'react-hot-toast';
 
-import { useGetUserQuery } from '../../redux/userAPI';
+import { useGetUserQuery, useEditUserMutation } from '../../redux/userAPI';
 import { useI18N } from '../../context/i18';
 import { User } from '../../interfaces/ServerResponse';
 import { Formik } from 'formik';
@@ -19,7 +19,8 @@ import { updateUser } from '../../services/updateUser';
 type Props = {};
 
 const UserConfig = (props: Props) => {
-  const userID = '6352545c28ee198ab14e7772';
+  const userID = '634e53190dfcdc5f721f20e6';
+  const [editUser] = useEditUserMutation()
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [MetaDataPlayListImage, setMetaDataPlayListImage] = useState<
@@ -32,7 +33,7 @@ const UserConfig = (props: Props) => {
     isLoading,
   } = useGetUserQuery(userID);
   const { t } = useI18N();
-  console.log(user);
+  console.log(user, 'user');
 
   const onLoad = (file) => {
     if (file.size < 10485760) {
@@ -113,12 +114,11 @@ const UserConfig = (props: Props) => {
               const image = MetaDataPlayListImage
                 ? MetaDataPlayListImage
                 : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png';
-              updateUser(
-                userID,
-                values.username,
-                values.phone,
-                image,
-                cookies.userToken
+              editUser(
+                {id: userID,
+                username: values.username,
+                phone: values.phone,
+                image: image}
               );
               // .then((res) => {
               //   console.log(res);

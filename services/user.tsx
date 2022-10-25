@@ -8,7 +8,7 @@ export const createUser = async (
 ) => {
   e.preventDefault();
   try {
-    const response = await fetch("http://localhost:4001/signup", {
+    const response = await fetch(`${process.env.USERS_BACKEND_URL}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

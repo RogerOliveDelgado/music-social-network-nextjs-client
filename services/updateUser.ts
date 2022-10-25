@@ -11,10 +11,11 @@ export const updateUser = async (
 ) => {
   try {
     const response = await fetch(`${BASE_URL}/user/${id}`, {
-      method: 'PATCH',
-      headers: {
+      mode: 'cors',
+      method: 'PUT',
+      headers: new Headers({
         Authorization: `Bearer ${token}`,
-      },
+      }),
       body: JSON.stringify({
         username: username,
         phone: phone,

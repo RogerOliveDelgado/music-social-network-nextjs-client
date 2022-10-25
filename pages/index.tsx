@@ -13,7 +13,7 @@ import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistsAPI";
 
 const Home = () => {
-  const userId = "635113084c339166386622af";
+  const userId = "634e53190dfcdc5f721f20e6";
 
   const {
     data: albums,

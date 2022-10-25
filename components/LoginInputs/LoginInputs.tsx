@@ -38,7 +38,7 @@ const LoginInputs = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4001/signin', {
+      const response = await fetch(`http://localhost/users/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
