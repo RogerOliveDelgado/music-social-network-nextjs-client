@@ -6,7 +6,7 @@ const API =
   'http://localhost/users';
 
 const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTMxOTBkZmNkYzVmNzIxZjIwZTYiLCJ1c2VybmFtZSI6InJvZ2VyIiwiaWF0IjoxNjY2NjIyMzM2LCJleHAiOjE2NjY2ODIzMzZ9.I_w4cptJu_hz3BdxSHBoZnsjp99zLDwuCglAi36XlBE';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyNTQ1YzI4ZWUxOThhYjE0ZTc3NzIiLCJ1c2VybmFtZSI6Imp1bGlvNjIiLCJpYXQiOjE2NjY2ODcxNzcsImV4cCI6MTY2NzExOTE3N30.WFNaCh_FBxOvNBY0E9Jo2XuUxUj00ubYeQIs7Cm6dJA';
 
 interface Response<T> {
   ok: boolean;
@@ -14,10 +14,11 @@ interface Response<T> {
 }
 
 interface CloudinaryQuery {
-  id: string
-  username: string
-  phone: string
-  image: string
+  id: string;
+  username: string;
+  phone: string;
+  image: string;
+  token: string;
 }
 
 export const userAPI = createApi({
@@ -33,17 +34,17 @@ export const userAPI = createApi({
       }),
     }),
     editUser: builder.mutation<Response<User>, CloudinaryQuery>({
-      query: ({username, phone, image, id}) => ({
+      query: ({ username, phone, image, id, token }) => ({
         url: `/user/${id}`,
         method: 'PUT',
-        headers: {Authorization: `bearer ${TOKEN}`},
+        headers: { Authorization: `bearer ${token}` },
         body: {
-          username:username,
+          username: username,
           phone: phone,
-          image: image
-        }
-      })
-    })
+          image: image,
+        },
+      }),
+    }),
   }),
 });
 

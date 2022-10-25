@@ -19,9 +19,11 @@ import { updateUser } from '../../services/updateUser';
 type Props = {};
 
 const UserConfig = (props: Props) => {
-  const userID = '634e53190dfcdc5f721f20e6';
-  const [editUser] = useEditUserMutation()
-  const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
+  const [editUser] = useEditUserMutation();
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userToken',
+    'userID',
+  ]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [MetaDataPlayListImage, setMetaDataPlayListImage] = useState<
     string | null
@@ -31,9 +33,9 @@ const UserConfig = (props: Props) => {
     isSuccess: isSuccessUser,
     refetch,
     isLoading,
-  } = useGetUserQuery(userID);
+  } = useGetUserQuery(cookies.userID);
   const { t } = useI18N();
-  console.log(user, 'user');
+  console.log(cookies.userToken, 'user');
 
   const onLoad = (file) => {
     if (file.size < 10485760) {
@@ -105,21 +107,22 @@ const UserConfig = (props: Props) => {
             enableReinitialize={true}
             initialValues={
               isSuccessUser && {
-                username: user.data.username,
-                phone: user.data.phone,
-                email: user.data.email,
+                username: user?.data?.username,
+                phone: user?.data?.phone,
+                email: user?.data?.email,
+                token: cookies.userToken,
               }
             }
             onSubmit={(values) => {
               const image = MetaDataPlayListImage
                 ? MetaDataPlayListImage
                 : 'https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png';
-              editUser(
-                {id: userID,
+              editUser({
+                id: cookies.userID,
                 username: values.username,
                 phone: values.phone,
-                image: image}
-              );
+                image: image,
+              });
               // .then((res) => {
               //   console.log(res);
               // });
