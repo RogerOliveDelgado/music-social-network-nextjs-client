@@ -12,8 +12,8 @@ export const playlistsAPI = createApi({
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getPlaylist: builder.query({
-      query: ({ userId, token }) => ({
-        url: `/user/${userId}`,
+      query: ({ userID, token }) => ({
+        url: `/user/${userID}`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
