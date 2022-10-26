@@ -1,7 +1,32 @@
 /* SIDEBAR */
 
 .sidebar {
-    position: absolute;
-    height: 100%;
-    z-index: 100;
+  position: absolute;
+  height: 100%;
+  z-index: 100;
+}
+
+.sectionUploadSong {
+  width: 30rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.songUploadDiv {
+  border: 1px solid #ccc;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.uploadbuttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 7.3rem;
+  align-items: center;
 }

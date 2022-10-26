@@ -4,6 +4,7 @@ export interface Response {
 }
 
 export interface Track {
+  image?: string;
   __v: number;
   _id: string;
   album: Album;

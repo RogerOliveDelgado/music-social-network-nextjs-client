@@ -110,7 +110,7 @@ const Search = (props: Props) => {
                         <div key={index} className={styles.trackCard}>
                           <picture>
                             <img
-                              src={track.album.image}
+                              src={track.album?.image || track.image}
                               alt={track.title}
                               className={styles.albumImageFinded}
                             />
