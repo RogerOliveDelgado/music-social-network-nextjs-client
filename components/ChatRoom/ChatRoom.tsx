@@ -26,7 +26,8 @@ type Props = {
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
-
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njc5NTQwNSwiZXhwIjoxNjY3MjI3NDA1fQ.1D_cKUwpwPuy-jS2Bs0AwmiXNSQLnB4SdzRqIWKlQSw";
   useEffect(() => {
     chat && chat.current.scrollTo(0, chat.current.scrollHeight, 'smooth');
     // chat && console.log(chat);
@@ -75,22 +76,17 @@ const ChatRoom = (props: Props) => {
         props.socket.emit(`send-Message`, {msg:`${props.currentRoom}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
         // console.log(data);
-        const response = await fetch("http://localhost:5001/messages",{
+        const response = await fetch("http://localhost:4001/chat/messages",{
           method:'POST',
           headers:{
             // "Access-Control-Allow-Origin":'*',
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({sender: props.id1, receiver: props.id2, msgs:`${props.currentRoom}:${props.input}`, name:props.currentRoom, users: props.usersConnected})
+          body: JSON.stringify({to: props.id2, messages:`${props.currentRoom}:${props.input}`,users: props.usersConnected})
         })
       const dataResponse = await response.json()
-      console.log("MSG",dataResponse);
-        
-      }else{
-        // const id = id2;
-        // console.log(id2);
-        props.socket.emit(`send-Message`, {msg:`${props.currentRoom}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
-        props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
+      console.log("MSG",dataResponse);        
       }
     }
     // console.log(socket.id);

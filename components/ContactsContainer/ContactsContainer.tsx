@@ -36,7 +36,8 @@ type Props = {
 const ContactsContainer = (props: Props) => {
   const [activeContact, setActiveContact] = useState(0);
   const { t } = useI18N();
-
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njc5NTQwNSwiZXhwIjoxNjY3MjI3NDA1fQ.1D_cKUwpwPuy-jS2Bs0AwmiXNSQLnB4SdzRqIWKlQSw";
   const actvateRoom = (id: number) => {
     setActiveContact(id);
   };
@@ -51,12 +52,13 @@ const ContactsContainer = (props: Props) => {
       
     props.setMessages([])
     //recogemos los mensajes cada vez que cambiamos de chat
-    const response = await fetch("http://localhost:5001/getMessages",{
+    const response = await fetch("http://localhost:4001/chat/getMessages",{
       method:'POST',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json', 
+        Authoritation:`Bearer ${token}`,
       },
-      body:JSON.stringify({sender:props.id1,receiver:userId})
+      body:JSON.stringify({toUserId:userId})
     })
     const msgs = await response.json();
     console.log(msgs.msgs)

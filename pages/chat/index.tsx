@@ -25,6 +25,8 @@ const socket: Socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
 const Chat = (props: Props) => {
   const { t } = useI18N();
 
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njc5NTQwNSwiZXhwIjoxNjY3MjI3NDA1fQ.1D_cKUwpwPuy-jS2Bs0AwmiXNSQLnB4SdzRqIWKlQSw";
   //States to manage the renders of each component
   const [input, setInput] = useState<string>("");  const [messages, setMessages] = useState<string[]>(["hola"])
   const [users, setUsers] = useState<{
@@ -54,25 +56,13 @@ const Chat = (props: Props) => {
    //Take all the exists users on dataBase
    useEffect(() => {
     const getUsers = async() => {
-      const response = await fetch('http://localhost:5001/users');
+      const response = await fetch('http://localhost:4001/user');
       const data1 = await response.json();
       setUsers(data1.msg)  
-      if(window.location.host == "localhost:3000"){
-        console.log(data1.msg[0].name);//Nombre del usuario(tu nombre)
       setUserName("Juan Carlos")//Here we will set the name of user account
-      setid1("633ee940468b79f49c802296")//Here we set the id of user account
-      setid2("633ee8ec468b79f49c802292")//This line is in line 62, here this line should be deleted
+      setid1("6359478dcc3b4a9e3d470f67")//Here we set the id of user account
+      // setid2("633ee8ec468b79f49c802292")//This line is in line 62, here this line should be deleted
       setCurrentRoom("Alicia")
-      
-      }
-      //this if bellow will be deleted is only for test
-      if(window.location.host == "localhost:3001"){
-        setUserName("Alicia")
-        setUsers(data1.msg)  
-        setid1("633ee8ec468b79f49c802292")
-        setid2("633ee940468b79f49c802296")//Prueba
-        setCurrentRoom("Juan Carlos")
-      }
     }
     getUsers();
   },[])
@@ -81,8 +71,6 @@ const Chat = (props: Props) => {
   useEffect(() => {
     if(window.location.host == 'localhost:3000'){
       socket.emit('update_list', { id: `${id1}`, usuario: 'Juan Carlos', action: 'login' });
-    }else{
-      socket.emit('update_list', { id: `${id1}`, usuario: 'Alicia', action: 'login' });
     }
     socket.on('session_update', function(data, socket){
       socketId = socket;
@@ -94,12 +82,12 @@ const Chat = (props: Props) => {
     });
     socket.emit("connected", id1)
     const currentRoom = async () => {
-    const responseCurrentRoom = await fetch("http://localhost:5001/currentRoom",{
+    const responseCurrentRoom = await fetch("http://localhost:4001/chat/currentRoom",{
         method:'POST',
         headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({user:window.location.host == "localhost:3000" ? id1 : id2})
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`,
+        }
       });
       const room = await responseCurrentRoom.json();
       
@@ -111,12 +99,12 @@ const Chat = (props: Props) => {
       if(window.location.host == "localhost:3001"){
         setCurrentRoom("Juan Carlos")
       }
-      const response1 = await fetch('http://localhost:5001/pendingMessages',{
+      const response1 = await fetch('http://localhost:4001/chat/pendingMessages',{
         method:'POST',
         headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({user:id1, receiver:id2})
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`,
+        }
       })
       const pending = await response1.json();
       console.log("PENDING MESSAGES",pending)//pending.msg.chats
@@ -135,12 +123,13 @@ const Chat = (props: Props) => {
       console.log("id1",id1);
       console.log("id2",id2);
       if(currentRoom != undefined){
-      const responseOfCurrentRoom = await fetch("http://localhost:5001/getMessages",{
+      const responseOfCurrentRoom = await fetch("http://localhost:4001/chat/getMessages",{
         method:'POST',
         headers:{
-          'Content-Type':'application/json'
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({sender:window.location.host == "localhost:3000" ? id1 : id2, receiver:window.location.host == "localhost:3000" ?id2:id1})
+        body: JSON.stringify({toUserId:id2})
       })
       const dataMessages = await responseOfCurrentRoom.json();
       console.log("ROGER", dataMessages.msgs)
@@ -297,12 +286,13 @@ const Chat = (props: Props) => {
     setPendingMessages(messagesAllreadyPending);
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {
-    const response = await fetch('http://localhost:5001/deletePendingMessages',{
+    const response = await fetch('http://localhost:4001/chat/deletePendingMessages',{
       method:'POST',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        Authorization: `Bearer ${token}`
       },
-      body:JSON.stringify({user:id1, receiver:id2})
+      body: JSON.stringify({toUserId:id2})
     })
     const data = await response.json();
     console.log("DELETING",data)
