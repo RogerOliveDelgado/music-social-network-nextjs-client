@@ -80,7 +80,7 @@ const TrackList = ({
     //Get the users likedSongs array
     //Save the founed array in the likedSongs state
     const getUser = async () => {
-      const response = await fetch(`${BASE_URL_USERS}/user/${cookies.userID}`, {
+      const response = await fetch(`/BASE_URL_USERS/user/${cookies.userID}`, {
         headers: {
           Authorization: `bearer ${cookies.userToken}`,
         },

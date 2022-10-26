@@ -18,7 +18,7 @@ const LoginInputs = (props: Props) => {
 
   const [seePassword, setSeePassword] = useState<boolean>();
 
-  const [cookies, setCookie] = useCookies(['userToken', 'username', 'userID']);
+  const [cookies, setCookie] = useCookies(['userToken', 'username', 'userID', 'refreshToken']);
 
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -39,7 +39,7 @@ const LoginInputs = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL_USERS}/signin`, {
+      const response = await fetch("/signIn", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -57,8 +57,9 @@ const LoginInputs = (props: Props) => {
 
       if (response.ok) {
         const result = await response.json();
-
+        
         setCookie('userToken', result.data.token, { path: '/' });
+        setCookie('refreshToken', result.data.refreshToken, { path: '/' });
         setCookie('username', result.data.username, { path: '/' });
         setCookie('userID', result.data.id, { path: '/' });
 
