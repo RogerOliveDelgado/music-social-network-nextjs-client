@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Image from "next/image";
 import { ButtonProps } from "./Button";
 import styles from "./styles.module.css";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,9 +8,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useRouter } from "next/router";
 
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -20,9 +19,26 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import UploadIcon from "@mui/icons-material/Upload";
 import { useI18N } from "../../context/i18";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
+import toast, { Toaster } from "react-hot-toast";
+import { useCookies } from "react-cookie";
+
 const drawerWidth = "15rem";
+
+export interface DialogTitleProps {
+  id: string;
+  children?: React.ReactNode;
+  onClose: () => void;
+}
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -62,12 +78,37 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
 function Sidebar(props: ButtonProps) {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openSongModal, setOpenSongModal] = React.useState(false);
+
+  const [songName, setSongName] = React.useState<string>(String || undefined);
+  const [songFile, setSongFile] = React.useState<File | null>({} as File);
+
+  const [metaDataSongFile, setMetaDataSongFile] = React.useState<string>();
+
+  const [cookies, setCookie, removeCookie] = useCookies(["userToken"]);
+
+  const token = cookies.userToken;
+
   const router = useRouter();
 
   const { t } = useI18N();
+
+  const uploadSongModal = (text: string) => {
+    if (text === t("home").upload) {
+      setOpenSongModal(true);
+    }
+  };
 
   const handleNavigation = (path: string) => {
     if (path !== "undefined") {
@@ -82,6 +123,99 @@ function Sidebar(props: ButtonProps) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // Open modal upload song shit
+
+  const handleClose = () => {
+    setOpenSongModal(false);
+  };
+
+  const getSongName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSongName(e.target.value);
+  };
+
+  const getSongFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSongFile(e.target.files![0]);
+  };
+
+  const fetchingData = async () => {
+    const response = await fetch("http://localhost:4002/track", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title: songName,
+        trackAudio: metaDataSongFile,
+      }),
+    });
+
+    const data = await response.json();
+  };
+
+  useEffect(() => {
+    fetchingData();
+  }, [metaDataSongFile]);
+
+  const uploadSong = async () => {
+    // if (songName.length !== 0 && songFile!.length !== 0) {
+
+    if (songName.length !== 0 && songFile!.size > 0) {
+      // console.log("entro");
+
+      if (songFile!.size < 10485760) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          // Use a regex to remove data url part
+          const base64String = reader?.result
+            ?.replace("data:", "")
+            .replace(/^.+,/, "");
+          setMetaDataSongFile(base64String);
+          // Logs wL2dvYWwgbW9yZ...
+        };
+
+        reader.readAsDataURL(songFile);
+        // console.log(songFile);
+        // console.log(setMetaDataSongFile);
+        handleClose();
+
+        // setSongName("");
+        setSongFile({} as File);
+        toast.success("File upload successfully");
+      } else {
+        toast.error("File size is too big. Maximum size is 10MB");
+        return;
+      }
+    } else {
+      toast.error("Song name and song file cannot be empty");
+    }
+  };
+
+  //Function that open upload song modal
+  function BootstrapDialogTitle(props: DialogTitleProps) {
+    const { children, onClose, ...other } = props;
+
+    return (
+      <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+        {children}
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </DialogTitle>
+    );
+  }
 
   return (
     <>
@@ -99,11 +233,15 @@ function Sidebar(props: ButtonProps) {
               { text: `${t("home").library}`, url: "/library" },
               { text: `${t("home").playlist}`, url: "/playlist" },
               { text: `${t("home").liked}`, url: "/favorites" },
+              { text: `${t("home").upload}` },
             ].map((item, index) => (
               <ListItem
                 key={item.text}
                 disablePadding
-                onClick={() => handleNavigation(`${item.url}`)}
+                onClick={() => {
+                  handleNavigation(`${item.url}`);
+                  uploadSongModal(item.text);
+                }}
                 sx={{
                   display: "block",
                   fontWeight: 400,
@@ -132,6 +270,7 @@ function Sidebar(props: ButtonProps) {
                     {index === 1 && <LibraryMusicIcon />}
                     {index === 2 && <AddBoxIcon />}
                     {index === 3 && <FavoriteIcon />}
+                    {index === 4 && <UploadIcon />}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
@@ -182,7 +321,63 @@ function Sidebar(props: ButtonProps) {
             />
           )}
         </IconButton>
+
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={openSongModal}
+        >
+          <BootstrapDialogTitle
+            id="customized-dialog-title"
+            onClose={handleClose}
+          >
+            Upload your song
+          </BootstrapDialogTitle>
+          <DialogContent>
+            <form className={styles.sectionUploadSong}>
+              <TextField
+                id="name"
+                margin="dense"
+                label="Song name"
+                type="email"
+                onChange={getSongName}
+                fullWidth
+                variant="standard"
+              />
+              <div className={styles.songUploadDiv}>
+                <div>
+                  <span>Upload .mp3 file: </span>
+                  <span style={{ color: "blue" }}>{songFile?.name}</span>
+                </div>
+                <div>
+                  <input
+                    accept="audio/*"
+                    style={{ display: "none" }}
+                    id="raised-button-file"
+                    type="file"
+                    onChange={getSongFile}
+                  />
+                  <label htmlFor="raised-button-file">
+                    <Button
+                      variant="contained"
+                      component="span"
+                      className={styles.uploadbuttonContainer}
+                    >
+                      <AddIcon />
+                      Upload
+                    </Button>
+                  </label>
+                </div>
+              </div>
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={uploadSong}>Upload song</Button>
+          </DialogActions>
+        </BootstrapDialog>
       </div>
+
+      <Toaster />
     </>
   );
 }

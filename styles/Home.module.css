@@ -53,10 +53,16 @@
     height: 15rem;
     width: 23rem;
   }
+  .loginForm {
+    width: 90%;
+  }
 }
 
 @media only screen and (max-width: 400px) {
   .logIn_signUp_Div {
     width: 21rem;
+  }
+  .loginForm {
+    width: 90%;
   }
 }

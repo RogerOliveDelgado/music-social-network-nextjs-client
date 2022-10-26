@@ -2,8 +2,9 @@ export default {
   home: {
     home: "Inicio",
     library: "Tu libreria",
-    playlist: "Crear playlist",
+    playlist: "Crear playList",
     liked: "Canciones favoritas",
+    upload: "Subir cancion",
   },
   greetings: {
     morning: "Buenos días",
@@ -30,13 +31,11 @@ export default {
     headerArtist: "Artista",
     headerLibrary: "Biblioteca",
     headerChat: "Mensajes",
-    headerConfig: 'Configuración',
+    headerConfig: "Configuración",
   },
   content: {
-    artists:
-      "No hay ningún artista disponible.",
-    albums:
-      "No hay álbums disponibles.",
+    artists: "No hay ningún artista disponible.",
+    albums: "No hay álbums disponibles.",
     playlists:
       "Aún no hay listas de reproducción disponibles. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
   },
