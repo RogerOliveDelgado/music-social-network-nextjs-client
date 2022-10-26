@@ -4,6 +4,7 @@ export default {
     library: "Bibliothèque",
     playlist: "Créer une playlist",
     liked: "Titre likés",
+    upload: "télécharger la chanson",
   },
   greetings: {
     morning: "Bonjour",
@@ -30,12 +31,17 @@ export default {
     headerArtist: "Artiste",
     headerLibrary: "Bibliothèque",
     headerChat: "Chat",
-    headerConfig: 'Paramètres',
+    headerConfig: "Paramètres",
   },
   content: {
     artists: "Il n'y a pas d'artiste disponible.",
     albums: "Il n'y a pas d'album disponible.",
     playlists:
       "Il n'y a pas encore de listes de lecture disponibles. Vous pouvez en ajouter en cliquant sur le menu de gauche.",
+    search: "Explorer tout",
+    searchFor: "Recherche",
+    notFound: "Rien trouvé pour",
+    profile: "Profil",
+    logout: "Se déconnecter",
   },
 };

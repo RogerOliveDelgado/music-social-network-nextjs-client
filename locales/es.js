@@ -38,5 +38,10 @@ export default {
     albums: "No hay álbums disponibles.",
     playlists:
       "Aún no hay listas de reproducción disponibles. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
+    search: "Explorar todo",
+    searchFor: "Busquedas para",
+    notFound: "No se encontró nada para",
+    profile: "Perfil",
+    logout: "Desconectar",
   },
 };

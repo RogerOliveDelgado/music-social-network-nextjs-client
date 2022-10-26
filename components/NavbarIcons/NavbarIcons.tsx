@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
-import MusicVideoIcon from '@mui/icons-material/MusicVideo';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+import MusicVideoIcon from "@mui/icons-material/MusicVideo";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import { useRouter } from "next/router";
 
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
-import styles from './styles.module.css';
-import Link from 'next/link';
-import { useCookies } from 'react-cookie';
+import styles from "./styles.module.css";
+import Link from "next/link";
+import { useCookies } from "react-cookie";
+import { useI18N } from "../../context/i18";
 
 function NavbarIcons() {
-  const [cookies, setCookie, removeCookie] = useCookies(['username']);
+  const { t } = useI18N();
+
+  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
 
   const [username, setUsername] = React.useState<string>();
 
@@ -51,17 +54,17 @@ function NavbarIcons() {
       <TelegramIcon
         sx={{
           fontSize: 30,
-          cursor: 'pointer',
+          cursor: "pointer",
         }}
-        onClick={() => router.push('/chat')}
+        onClick={() => router.push("/chat")}
       />
       <LanguageSelector />
       <div className={styles.separator}></div>
       <Button
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         {username}
@@ -77,14 +80,14 @@ function NavbarIcons() {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
       >
-        <Link href={'/config'}>
-          <MenuItem>Profile</MenuItem>
+        <Link href={"/config"}>
+          <MenuItem>{t("content").profile}</MenuItem>
         </Link>
-        <Link href={'/login'}>
-          <MenuItem>Logout</MenuItem>
+        <Link href={"/login"}>
+          <MenuItem>{t("content").logout}</MenuItem>
         </Link>
       </Menu>
     </div>

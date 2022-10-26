@@ -7,6 +7,7 @@ import styles from "./styles.module.css";
 import { Artist } from "../../interfaces/ServerResponse";
 import Image from "next/image";
 import Link from "next/link";
+import { useI18N } from "../../context/i18";
 
 type Props = {
   parsedArtist: Artist[];
@@ -27,6 +28,8 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Search = ({ parsedArtist }: Props) => {
+  const { t } = useI18N();
+
   const generateRandomNumbers = () => {
     const num1 = Math.floor(Math.random() * 255);
     const num2 = Math.floor(Math.random() * 255);
@@ -38,7 +41,7 @@ const Search = ({ parsedArtist }: Props) => {
   return (
     <Layout>
       <div className={styles.searchDiv}>
-        <h3>Explorar todo</h3>
+        <h3>{t("content").search}</h3>
         <section className={styles.searchResults}>
           {parsedArtist.map((artist) => {
             const randomColor = `rgb(${generateRandomNumbers().num1} ${

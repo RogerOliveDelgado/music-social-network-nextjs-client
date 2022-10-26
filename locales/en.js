@@ -4,6 +4,7 @@ export default {
     library: "Your library",
     playlist: "Create playlist",
     liked: "Liked songs",
+    upload: "Upload songs",
   },
   greetings: {
     morning: "Good morning",
@@ -30,12 +31,17 @@ export default {
     headerArtist: "Artist",
     headerLibrary: "Library",
     headerChat: "Chat",
-    headerConfig: 'Configuration',
+    headerConfig: "Configuration",
   },
   content: {
     artists: "There aren't any artists available.",
     albums: "There aren't any albums available.",
     playlists:
       "There aren't any playlists available yet. You can add some by clicking on the left side menu.",
+    search: "Explore all",
+    searchFor: "Search for",
+    notFound: "Nothing found for",
+    profile: "Profile",
+    logout: "Log Out",
   },
 };

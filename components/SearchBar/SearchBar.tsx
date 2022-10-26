@@ -33,10 +33,6 @@ export default function SearchAppBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
-  const voiceRecognition = () => {
-    console.log("hola");
-  };
-
   return (
     <div className={styles.searchbar}>
       <div className={styles.searchbar_wrapper}>

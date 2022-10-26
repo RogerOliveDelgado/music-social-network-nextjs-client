@@ -11,11 +11,14 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 import styles from "./styles.module.css";
 import Link from "next/link";
+import { useI18N } from "../../context/i18";
 
 type Props = {};
 
 const Search = (props: Props) => {
   const router = useRouter();
+
+  const { t } = useI18N();
 
   const {
     data: search,
@@ -26,11 +29,11 @@ const Search = (props: Props) => {
   return (
     <Layout>
       <div className={styles.searchDiv}>
-        <h2>Busquedas para: {router.query.search}</h2>
+        <h2>{t("content").searchFor + ": " + router.query.search}</h2>
         {!isLoading ? (
           <section className={styles.searchResults}>
             <div className={styles.albumsFinded}>
-              <h3>Albums</h3>
+              <h3>{t("additional").albums}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.albums.length > 0 ? (
                   search?.data.albums
@@ -62,13 +65,13 @@ const Search = (props: Props) => {
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    No se encontró nada para &quot;{router.query.search}&quot;.
+                    {t("content").notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
             </div>
             <div className={styles.artistsFinded}>
-              <h3>Artists</h3>
+              <h3>{t("additional").artists}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.artists.length > 0 ? (
                   search?.data.artists
@@ -94,13 +97,13 @@ const Search = (props: Props) => {
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    No se encontró nada para &quot;{router.query.search}&quot;.
+                    {t("content").notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
             </div>
             <div className={styles.tracksFinded}>
-              <h3>Tracks</h3>
+              <h3>{t("additional").tracks}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.tracks.length > 0 ? (
                   search?.data.tracks
@@ -130,7 +133,7 @@ const Search = (props: Props) => {
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    No se encontró nada para &quot;{router.query.search}&quot;.
+                    {t("content").notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
