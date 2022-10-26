@@ -16,12 +16,11 @@ import { RootState } from '../../redux/store';
 
 import Song from './Song/Song';
 import styles from './styles.module.css';
+const AudioPlayer = dynamic(() => import('react-h5-audio-player'), {
+  ssr: false,
+});
 
 const PlayerWeb = () => {
-  const AudioPlayer = dynamic(() => import('react-h5-audio-player'), {
-    ssr: false,
-  });
-
   const router = useRouter();
   const isLargeScreen = useMediaQuery({
     query: '(min-width: 735px)',
