@@ -163,6 +163,8 @@ function CreatePlaylist(props: any) {
     }
   };
 
+  console.log("test")
+
   return (
     <>
       <div className={styles.container}>
