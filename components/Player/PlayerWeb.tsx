@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useMediaQuery } from "react-responsive";
 import "react-h5-audio-player/lib/styles.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "react-h5-audio-player/lib/styles.css";
 import { useRouter } from "next/router";
@@ -62,6 +62,10 @@ const PlayerWeb = () => {
       dispatch(resetIndex());
     }
   };
+
+  useEffect(() => {
+    console.log(currentTrack);
+  }, [currentTrack]);
 
   return (
     <>

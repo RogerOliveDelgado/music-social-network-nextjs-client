@@ -11,7 +11,12 @@ import styles from "./styles.module.css";
 import { TextareaAutosize } from "@mui/base";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import DeleteButton from "./DeleteButton/DeleteButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Tooltip } from "@mui/material";
+import Swal from "sweetalert2";
+import { useMediaQuery } from "react-responsive";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
 
 function CreatePlaylist(props: any) {
   const router = useRouter();
@@ -163,7 +168,46 @@ function CreatePlaylist(props: any) {
     }
   };
 
-  console.log("test")
+  const deletePlaylist = async () => {
+    Swal.fire({
+      title: "Do you want to delete the playlist?",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(
+            `http://localhost:4002/playlist/${playlistId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                Authorization: `Bearer ${TOKEN}`,
+              },
+            }
+          );
+          if (response.status === 400) {
+            const result = await response.json();
+            toast.error("Oops, something went wrong");
+          }
+
+          if (response.ok) {
+            const result = await response.json();
+            toast.success("Playlist deleted succesfully!");
+            setTimeout(() => {
+              router.push(`/`);
+            }, 1500);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  };
+
+  const isLargeScreen = useMediaQuery({
+    query: "(min-width: 670px)",
+  });
 
   return (
     <>
@@ -172,8 +216,20 @@ function CreatePlaylist(props: any) {
           className={styles.container_front}
           onMouseOver={!playlistId ? () => setHover(true) : undefined}
           onMouseLeave={!playlistId ? () => setHover(false) : undefined}
+        >
+          <div
+            className={playlistId ? styles.icons_wrapper : styles.unique_icon}
           >
-          {playlistId && <DeleteButton />}
+            <Tooltip title="Edit playlist">
+              <EditIcon onClick={handleClickOpen} />
+            </Tooltip>
+            {playlistId && (
+              <Tooltip title="Delete playlist">
+                <DeleteForeverIcon onClick={() => deletePlaylist()} />
+              </Tooltip>
+            )}
+          </div>
+
           <div
             className={styles.image_wrapper}
             onMouseOver={() => setHover(true)}
@@ -204,12 +260,6 @@ function CreatePlaylist(props: any) {
                 />
               </picture>
             )}
-            <span
-              className={hover ? styles.input_label : undefined}
-              onClick={handleClickOpen}
-            >
-              {hover ? <EditIcon className={styles.edit_icon} /> : null}
-            </span>
           </div>
           <div className={styles.playlist_info}>
             {props.playlistId ? (
@@ -245,7 +295,7 @@ function CreatePlaylist(props: any) {
             </DialogTitle>
             <DialogContent
               sx={{
-                display: "flex",
+                display: isLargeScreen ? "flex" : "block",
               }}
             >
               <div
@@ -319,6 +369,7 @@ function CreatePlaylist(props: any) {
                 <TextareaAutosize
                   required
                   aria-label="minimum height"
+                  maxLength={100}
                   minRows={3}
                   defaultValue={
                     props.playlistId ? props.description : playlistDescription
@@ -327,15 +378,31 @@ function CreatePlaylist(props: any) {
                   style={{
                     width: 200,
                     height: 100,
-                    backgroundColor: "#585c63",
+                    backgroundColor: "var(--lightGrey)",
                     color: "white",
+                    fontFamily:
+                      "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
                   }}
                   onChange={(e) => setPlaylistDescription(e.target.value)}
                 />
               </div>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
+              <Button
+                variant="outlined"
+                startIcon={<CloseIcon sx={
+                  {
+                    color: "red"
+                  }
+                } />}
+                color="error"
+                onClick={handleClose}
+                sx={{
+                  color: "white",
+                }}
+              >
+                Cancel
+              </Button>
               <Button
                 onClick={
                   props.playlistId
@@ -354,6 +421,8 @@ function CreatePlaylist(props: any) {
                           playlistImage
                         )
                 }
+                variant="contained"
+                endIcon={<CheckIcon />}
               >
                 Save Changes
               </Button>
