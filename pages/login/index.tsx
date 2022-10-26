@@ -55,6 +55,7 @@ const Login = ({ parsedTracks }: parsedTracks) => {
             <section className={styles.signUpSection}>
               <span>
                 Don<span>&#39;</span>t have an account?
+                
               </span>
               <Link href={"/signup"}>
                 <a className={styles.colorLink}>Sign Up</a>
