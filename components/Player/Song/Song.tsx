@@ -16,8 +16,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import toast, { Toaster } from "react-hot-toast";
 
-
-
 function Song() {
   const id = "63566ec7f9d5803a4019ed57";
   const TOKEN =
@@ -32,7 +30,6 @@ function Song() {
   const album = useSelector(
     (state: RootState) => state.currentTrack.currentTrack?.album
   );
-
 
   const albumImage = album?.image;
 
@@ -73,28 +70,14 @@ function Song() {
   }, [width, currentTrack]);
 
   //Add to favorites
-  const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
-
-  useEffect(() => {
-    //Get the users likedSongs array
-    //Save the founed array in the likedSongs state
-    const getUser = async () => {
-      const response = await fetch(`http://localhost:4001/user/${id}`, {
-        headers: {
-          Authorization: `bearer ${TOKEN}`,
-        },
-      });
-      const user = await response.json();
-      let array: string[] = [];
-      user.data?.likedSongs.map((song: any) => {
-        array.push(song);
-      });
-      setUserLikedSongs(array);
-      // setOrderTracks(array);
-    };
-    getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+    refetch,
+  } = useGetPlaylistQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
@@ -117,29 +100,19 @@ function Song() {
             },
           });
           const user = await userResponse.json();
-
-          let arrayFavouritesSongs: Track[] = [];
-          user.data.likedSongs.map((song: any) => {
-            arrayFavouritesSongs.push(song);
-          });
-          // setOrderTracks(arrayFavouritesSongs);
-          setUserLikedSongs(arrayFavouritesSongs);
+          refetch();
         }, 500);
       }
     };
     putSongInUser(song);
   };
 
-  //Add track to playlist
-  const {
-    data: playlists,
-    isLoading: isLoadingPlaylist,
-    error: playlistError,
-  } = useGetPlaylistQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
-
   const userPlaylists = playlists?.data?.playlists;
+  const likedSongs = playlists?.data?.likedSongs;
+
+  useEffect(() => {
+    refetch();
+  }, [playlists]);
 
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -156,6 +129,7 @@ function Song() {
     setAnchorEl(null);
   };
 
+  //Add track to playlist
   const addTrackToPlaylist = async (
     playlistId: string | string[] | undefined,
     track: Track
@@ -188,7 +162,6 @@ function Song() {
     handleClose();
   };
 
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.image_container}>
@@ -204,11 +177,13 @@ function Song() {
         />
       </div>
       <div id="container_song" className={styles.song_container}>
-        <span id="title_song">{currentTrack.title}</span>
+        <span id="title_song">{currentTrack?.title}</span>
         <span id="artist_song">{artistName}</span>
       </div>
       <div className={styles.icons}>
-        {userLikedSongs?.some((element) => element._id === currentTrack._id) ? (
+        {likedSongs?.some(
+          (element: Track) => element._id === currentTrack?._id
+        ) ? (
           <Tooltip title="Add to favorites">
             <FavoriteIcon
               onClick={() => {

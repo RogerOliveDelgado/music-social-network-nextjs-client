@@ -1,24 +1,33 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout/Layout";
 import { useI18N } from "../../context/i18";
 import Banner from "../../components/Banner/Banner";
 import TrackList from "../../components/TrackList/TrackList";
 import { useGetArtistsQuery } from "../../redux/artistAPI";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
 import styles from "./styles.module.css";
 
 type Props = {};
 
 const Favorites = (props: Props) => {
+  const id = "63566ec7f9d5803a4019ed57";
+  const TOKEN =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjY4NDk0MSwiZXhwIjoxNjY3MTE2OTQxfQ.pWj9iehT_syyoNjAzOpZ4oSN3opBC11UYG-0Ptreaqk";
+
   const { t } = useI18N();
-  //Data para maquetar, hacer la query correcta para las liked tracks del user
+
   const {
-    data: tracks,
-    isLoading,
-    isError,
-  } = useGetArtistsQuery(undefined, {
+    data: playlists,
+    isLoading: isLoadingPlaylists,
+    isError: isErrorPlaylists,
+    refetch,
+  } = useGetPlaylistQuery(id, {
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
   });
+
+
 
 
   return (
@@ -33,10 +42,10 @@ const Favorites = (props: Props) => {
       <Layout>
         <div className={styles.container}>
           <Banner user={"alejo61094"} total={21} />
-          {!isLoading ? (
+          {!isLoadingPlaylists ? (
             <TrackList
               name="Liked Songs"
-              tracks={tracks?.data[0].tracks}
+              tracks={playlists?.data?.likedSongs}
               heightValue={35}
             />
           ) : (

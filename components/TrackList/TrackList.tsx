@@ -29,7 +29,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
 import Button from "@mui/material/Button";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 import styles from "./styles.module.css";
 
@@ -64,42 +64,10 @@ const TrackList = ({
     (state: RootState) => state.currentTrack
   );
 
-
-  useEffect(() => {
-    if (router.pathname.includes("favorites")) {
-      //playList
-      setInPlayList(true);
-    }
-
-    //Get the users likedSongs array
-    //Save the founed array in the likedSongs state
-    const getUser = async () => {
-      const response = await fetch(`http://localhost:4001/user/${id}`, {
-        headers: {
-          Authorization: `bearer ${TOKEN}`,
-        },
-      });
-      const user = await response.json();
-      let array: string[] = [];
-      user.data?.likedSongs.map((song: any) => {
-        array.push(song);
-      });
-      setUserLikedSongs(array);
-      setOrderTracks(array);
-    };
-    getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     inPlayList && setOrderTracks(tracks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks]);
-
-  // useEffect(() => {
-  //   inPlayList && onReOrder();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [orderTracks]);
 
   const updatePlayer = (track: Track, index: number) => {
     if (inPlayList) {
@@ -118,6 +86,15 @@ const TrackList = ({
   const onReOrder = () => {
     dispatch(updateTrackList(orderTracks));
   };
+
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+    refetch,
+  } = useGetPlaylistQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
@@ -140,18 +117,19 @@ const TrackList = ({
             },
           });
           const user = await userResponse.json();
-
-          let arrayFavouritesSongs: Track[] = [];
-          user.data.likedSongs.map((song: any) => {
-            arrayFavouritesSongs.push(song);
-          });
-          setOrderTracks(arrayFavouritesSongs);
-          setUserLikedSongs(arrayFavouritesSongs);
+          refetch();
         }, 500);
       }
     };
     putSongInUser(song);
   };
+
+  const userPlaylists = playlists?.data?.playlists;
+  const likedSongs = playlists?.data?.likedSongs;
+
+  useEffect(() => {
+    refetch();
+  }, [playlists]);
 
   const playlistId = router.query.playlistID;
 
@@ -177,16 +155,6 @@ const TrackList = ({
       console.log(error);
     }
   };
-
-  const {
-    data: playlists,
-    isLoading: isLoadingPlaylist,
-    error: playlistError,
-  } = useGetPlaylistQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
-
-  const userPlaylists = playlists?.data?.playlists;
 
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -255,7 +223,7 @@ const TrackList = ({
               return (
                 <Reorder.Item
                   value={track}
-                  key={track._id}
+                  key={track?._id}
                   className={styles.track_list_row}
                   dragControls={dragControls}
                 >
@@ -278,7 +246,7 @@ const TrackList = ({
                     {isInPlaylistPath ? (
                       <>
                         {allowDelete && (
-                          <Tooltip title='Remove track from playlist'>
+                          <Tooltip title="Remove track from playlist">
                             <IconButton color="inherit" component="label">
                               <input hidden />
                               <RemoveCircleOutlineIcon
@@ -288,7 +256,7 @@ const TrackList = ({
                           </Tooltip>
                         )}
                         {!allowDelete && (
-                          <Tooltip title='Add track to playlist'>
+                          <Tooltip title="Add track to playlist">
                             <IconButton color="inherit" component="label">
                               <input hidden />
                               <AddCircleOutlineIcon
@@ -302,7 +270,7 @@ const TrackList = ({
                       </>
                     ) : (
                       <>
-                        <Tooltip title='Add track to playlist'>
+                        <Tooltip title="Add track to playlist">
                           <Button
                             color="inherit"
                             id="basic-button"
@@ -319,10 +287,10 @@ const TrackList = ({
                     )}
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {userLikedSongs?.some(
-                        (element) => element._id === track._id
+                      {likedSongs?.some(
+                        (element: Track) => element._id === track._id
                       ) ? (
-                        <Tooltip title='Add to favorites'>
+                        <Tooltip title="Add to favorites">
                           <FavoriteIcon
                             onClick={() => {
                               addSong(track);
@@ -330,7 +298,7 @@ const TrackList = ({
                           />
                         </Tooltip>
                       ) : (
-                        <Tooltip title='Add to favorites'>
+                        <Tooltip title="Add to favorites">
                           <FavoriteBorderIcon
                             onClick={() => {
                               addSong(track);
