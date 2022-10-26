@@ -1,0 +1,49 @@
+.trackCard {
+  width: 11rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lightest_blue);
+  background-color: var(--lightGrey);
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.trackCard {
+  cursor: auto;
+}
+
+.trackCard:hover .playButton {
+  top: -75px;
+  z-index: 0;
+}
+
+.albumImageFinded {
+  height: 175px;
+  width: 175px;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.artistTitle {
+  margin-bottom: 0.5rem;
+}
+
+.playButton {
+  color: var(--darker_blue);
+  background-color: transparent;
+  border: none;
+  position: relative;
+  transition: all 300ms;
+  top: 0px;
+  left: 100px;
+  z-index: -1;
+}
+
+.playButton:hover {
+  color: var(--darkest_blue);
+  cursor: pointer;
+}

@@ -1,17 +1,18 @@
-import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import Layout from "../../components/Layout/Layout";
-import useDebounce from "../../hook/useDebounce";
-import { Artist } from "../../interfaces/ServerResponse";
-import { Album } from "../../interfaces/ServerResponse";
-import { Track } from "../../interfaces/tracks";
-import { useGetSearchQuery } from "../../redux/searchAPI";
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Layout from '../../components/Layout/Layout';
+import useDebounce from '../../hook/useDebounce';
+import { Artist } from '../../interfaces/ServerResponse';
+import { Album } from '../../interfaces/ServerResponse';
+import { Track } from '../../interfaces/tracks';
+import { useGetSearchQuery } from '../../redux/searchAPI';
 
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
-import styles from "./styles.module.css";
-import Link from "next/link";
-import { useI18N } from "../../context/i18";
+import styles from './styles.module.css';
+import Link from 'next/link';
+import TrackCard from '../../components/TrackCard/TrackCard';
+import { useI18N } from '../../context/i18';
 
 type Props = {};
 
@@ -29,11 +30,11 @@ const Search = (props: Props) => {
   return (
     <Layout>
       <div className={styles.searchDiv}>
-        <h2>{t("content").searchFor + ": " + router.query.search}</h2>
+        <h2>{t('content').searchFor + ': ' + router.query.search}</h2>
         {!isLoading ? (
           <section className={styles.searchResults}>
             <div className={styles.albumsFinded}>
-              <h3>{t("additional").albums}</h3>
+              <h3>{t('additional').albums}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.albums.length > 0 ? (
                   search?.data.albums
@@ -54,7 +55,7 @@ const Search = (props: Props) => {
                             </span>
                             <div>
                               <span>
-                                {album.releaseDate.split("T")[0].split("-")[0]}
+                                {album.releaseDate.split('T')[0].split('-')[0]}
                               </span>
                               <span> • </span>
                               <span>Album</span>
@@ -65,13 +66,13 @@ const Search = (props: Props) => {
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    {t("content").notFound} &quot;{router.query.search}&quot;.
+                    {t('content').notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
             </div>
             <div className={styles.artistsFinded}>
-              <h3>{t("additional").artists}</h3>
+              <h3>{t('additional').artists}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.artists.length > 0 ? (
                   search?.data.artists
@@ -97,43 +98,44 @@ const Search = (props: Props) => {
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    {t("content").notFound} &quot;{router.query.search}&quot;.
+                    {t('content').notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
             </div>
             <div className={styles.tracksFinded}>
-              <h3>{t("additional").tracks}</h3>
+              <h3>{t('additional').tracks}</h3>
               <section className={styles.sectionFinded}>
                 {search?.data.tracks.length > 0 ? (
                   search?.data.tracks
                     .slice(0, 20)
                     .map((track: Track, index: number) => {
                       return (
-                        <div key={index} className={styles.trackCard}>
-                          <picture>
-                            <img
-                              src={track.album?.image || track.image}
-                              alt={track.title}
-                              className={styles.albumImageFinded}
-                            />
-                          </picture>
-                          <span className={styles.artistTitle}>
-                            {track.title}
-                          </span>
+                        <TrackCard key={index} track={track} />
+                        //   <div key={index} className={styles.trackCard}>
+                        //     <picture>
+                        //       <img
+                        //         src={track.album?.image || track.image}
+                        //         alt={track.title}
+                        //         className={styles.albumImageFinded}
+                        //       />
+                        //     </picture>
+                        //     <span className={styles.artistTitle}>
+                        //       {track.title}
+                        //     </span>
 
-                          <div>
-                            <span>Song</span>
-                            <button className={styles.playButton}>
-                              <PlayCircleIcon sx={{ fontSize: "2rem" }} />
-                            </button>
-                          </div>
-                        </div>
+                        //     <div>
+                        //       <span>Song</span>
+                        //       <button className={styles.playButton}>
+                        //         <PlayCircleIcon sx={{ fontSize: '2rem' }} />
+                        //       </button>
+                        //     </div>
+                        //   </div>
                       );
                     })
                 ) : (
                   <span className={styles.nothing}>
-                    {t("content").notFound} &quot;{router.query.search}&quot;.
+                    {t('content').notFound} &quot;{router.query.search}&quot;.
                   </span>
                 )}
               </section>
