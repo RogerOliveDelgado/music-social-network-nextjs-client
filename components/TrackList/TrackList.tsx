@@ -1,38 +1,39 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import IconButton from '@mui/material/IconButton';
-import AlbumIcon from '@mui/icons-material/Album';
-import { Track } from '../../interfaces/tracks';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { millisToMinutes } from '../../utils/converter';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import IconButton from "@mui/material/IconButton";
+import AlbumIcon from "@mui/icons-material/Album";
+import { Track } from "../../interfaces/tracks";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { updateTrackList } from "../../redux/features/player/musicPlayerSlice";
 import {
   setCurrentIndex,
   setArtistName,
   currentTrack as setCurrentTrack,
-} from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useGetPlaylistQuery } from '../../redux/playlistsAPI';
+} from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import GraphicEqIcon from "@mui/icons-material/GraphicEq";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-import { Reorder, AnimatePresence, useDragControls } from 'framer-motion';
+import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
-import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
-import { useCookies } from 'react-cookie';
+import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
+import { useCookies } from "react-cookie";
 
-import styles from './styles.module.css';
+import styles from "./styles.module.css";
+import { useGetPlaylistDetailsQuery } from "../../redux/playlistDetailsAPI";
 
 type Props = {
   name: string;
@@ -52,9 +53,10 @@ const TrackList = ({
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
+    "userID",
+    "userToken",
   ]);
+
   const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
   const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND;
 
@@ -92,9 +94,9 @@ const TrackList = ({
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
       const response = await fetch(`${BASE_URL_SPOTIFY}/track/library`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
+          "Content-Type": "application/json; charset=utf-8",
           Authorization: `bearer ${cookies.userToken}`,
         },
         body: JSON.stringify(song),
@@ -128,9 +130,9 @@ const TrackList = ({
       const response = await fetch(
         `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json; charset=utf-8',
+            "Content-Type": "application/json; charset=utf-8",
             Authorization: `bearer ${cookies.userToken}`,
           },
           body: JSON.stringify({
@@ -155,9 +157,7 @@ const TrackList = ({
     }
   );
 
-  useEffect(() => {
-    refetch();
-  }, [playlists]);
+
 
   const playlistId = router.query.playlistID;
   const userPlaylists = playlists?.data?.playlists;
@@ -181,7 +181,7 @@ const TrackList = ({
   const manageClick = (playlistID: string, track: Track) => {
     try {
       addTrackToPlaylist(playlistID, track);
-      toast.success('Track added to playlist successfully');
+      toast.success("Track added to playlist successfully");
     } catch (error) {
       console.log(error);
     }
@@ -193,9 +193,9 @@ const TrackList = ({
       const response = await fetch(
         `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
         {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
-            'Content-Type': 'application/json; charset=utf-8',
+            "Content-Type": "application/json; charset=utf-8",
             Authorization: `bearer ${cookies.userToken}`,
           },
           body: JSON.stringify({
@@ -208,13 +208,13 @@ const TrackList = ({
     }
   };
 
-  const isInPlaylistPath = router.pathname.includes('playlist');
+  const isInPlaylistPath = router.pathname.includes("playlist");
 
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
-        <p>{name || 'Album name'}</p>
+        <p>{name || "Album name"}</p>
       </div>
       {tracks ? (
         <Reorder.Group
@@ -280,9 +280,9 @@ const TrackList = ({
                           <Button
                             color="inherit"
                             id="basic-button"
-                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-controls={open ? "basic-menu" : undefined}
                             aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
+                            aria-expanded={open ? "true" : undefined}
                             onClick={(e) => handleClick(e, track)}
                           >
                             <input hidden />
@@ -331,21 +331,21 @@ const TrackList = ({
               PaperProps={{
                 elevation: 0,
                 sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
                 },
               }}
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               sx={{
-                '& .MuiMenu-paper': {
-                  backgroundColor: 'var(--black)',
-                  color: 'white',
-                  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
+                "& .MuiMenu-paper": {
+                  backgroundColor: "var(--black)",
+                  color: "white",
+                  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
                 },
               }}
             >
@@ -357,9 +357,9 @@ const TrackList = ({
                   key={playlist._id}
                   onClick={() => manageClick(playlist._id, trackTitle)}
                   sx={{
-                    padding: '0.5rem 1rem',
-                    '&:hover': {
-                      backgroundColor: 'var(--grey)',
+                    padding: "0.5rem 1rem",
+                    "&:hover": {
+                      backgroundColor: "var(--grey)",
                     },
                   }}
                 >

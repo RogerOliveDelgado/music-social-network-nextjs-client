@@ -15,11 +15,20 @@ import { Track } from "../../../interfaces/tracks";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import toast, { Toaster } from "react-hot-toast";
+import { useCookies } from "react-cookie";
+import { useGetPlaylistDetailsQuery } from "../../../redux/playlistDetailsAPI";
+import { useRouter } from "next/router";
 
 function Song() {
-  const id = "63566ec7f9d5803a4019ed57";
-  const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjY4NDk0MSwiZXhwIjoxNjY3MTE2OTQxfQ.pWj9iehT_syyoNjAzOpZ4oSN3opBC11UYG-0Ptreaqk";
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userID",
+    "userToken",
+  ]);
+  const TOKEN = cookies.userToken;
+  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
+  const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND;
+
+  const { query } = useRouter();
 
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
@@ -75,9 +84,20 @@ function Song() {
     isLoading: isLoadingPlaylist,
     error: playlistError,
     refetch,
-  } = useGetPlaylistQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
+  } = useGetPlaylistQuery(
+    { userID: cookies.userID, token: cookies.userToken },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const { refetch: refetchPlaylists } =
+    useGetPlaylistDetailsQuery(
+      { playlistID: query?.playlistID, token: cookies.userToken },
+      {
+        refetchOnMountOrArgChange: true,
+      }
+    );
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
@@ -94,13 +114,17 @@ function Song() {
       //Get the user information to set again the likedSongs array with changes
       if (data.ok) {
         setTimeout(async () => {
-          const userResponse = await fetch(`http://localhost:4001/user/${id}`, {
-            headers: {
-              Authorization: `bearer ${TOKEN}`,
-            },
-          });
+          const userResponse = await fetch(
+            `http://localhost:4001/user/${cookies.userID}`,
+            {
+              headers: {
+                Authorization: `bearer ${TOKEN}`,
+              },
+            }
+          );
           const user = await userResponse.json();
           refetch();
+          refetchPlaylists();
         }, 500);
       }
     };
@@ -110,9 +134,6 @@ function Song() {
   const userPlaylists = playlists?.data?.playlists;
   const likedSongs = playlists?.data?.likedSongs;
 
-  useEffect(() => {
-    refetch();
-  }, [playlists]);
 
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -156,6 +177,8 @@ function Song() {
     try {
       addTrackToPlaylist(playlistID, track);
       toast.success("Track added to playlist successfully");
+      refetch();
+      refetchPlaylists();
     } catch (error) {
       console.log(error);
     }
