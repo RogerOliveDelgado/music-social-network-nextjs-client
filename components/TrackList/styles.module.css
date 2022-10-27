@@ -1,5 +1,6 @@
 .tracks_list {
   height: 70%;
+  margin-right: 2rem;
   overflow: hidden;
   overflow-y: auto;
 }
@@ -47,7 +48,7 @@
 }
 
 .track_name::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -71,7 +72,7 @@
   cursor: grabbing;
 }
 
-.menu_title{
+.menu_title {
   padding: 0rem 2rem;
 }
 

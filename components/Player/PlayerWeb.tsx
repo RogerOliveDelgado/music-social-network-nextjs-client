@@ -1,18 +1,18 @@
-import dynamic from 'next/dynamic';
-import { useMediaQuery } from 'react-responsive';
-import 'react-h5-audio-player/lib/styles.css';
+import dynamic from "next/dynamic";
+import { useMediaQuery } from "react-responsive";
+import "react-h5-audio-player/lib/styles.css";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import 'react-h5-audio-player/lib/styles.css';
-import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import "react-h5-audio-player/lib/styles.css";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 import {
   currentTrack as setCurrentTrack,
   incrementIndex,
   resetIndex,
-} from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
+} from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
 
 import Song from './Song/Song';
 import styles from './styles.module.css';
@@ -23,7 +23,7 @@ const AudioPlayer = dynamic(() => import('react-h5-audio-player'), {
 const PlayerWeb = () => {
   const router = useRouter();
   const isLargeScreen = useMediaQuery({
-    query: '(min-width: 735px)',
+    query: "(min-width: 735px)",
   });
 
   const dispatch = useDispatch();
@@ -32,6 +32,9 @@ const PlayerWeb = () => {
   const currentIndex = useSelector(
     (state: RootState) => state.currentTrack.index
   );
+
+  const trackIsPlaying = tracks[0]?._id;
+  const songTitle = tracks[0]?.title;
 
   const handleClickNext = () => {
     setTrackIndex((prevState) =>
@@ -59,11 +62,15 @@ const PlayerWeb = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(currentTrack);
+  }, [currentTrack]);
+
   return (
     <>
-      {router.pathname !== '/signup' ? (
+      {router.pathname !== "/signup" ? (
         <div className={styles.container}>
-          <Song />
+          {trackIsPlaying && <Song />}
           {isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
@@ -73,6 +80,7 @@ const PlayerWeb = () => {
               onEnded={handleEnd}
               autoPlay={true}
               autoPlayAfterSrcChange={true}
+              volume={0.3}
             />
           )}
           {!isLargeScreen && (
@@ -88,6 +96,7 @@ const PlayerWeb = () => {
               showDownloadProgress={false}
               showFilledProgress={false}
               showFilledVolume={false}
+              volume={0.3}
             />
           )}
         </div>

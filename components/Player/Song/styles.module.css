@@ -45,6 +45,10 @@
   cursor: pointer;
 }
 
+.menu_title{
+  padding: 0rem 2rem;
+}
+
 @keyframes moving {
   from {
     transform: translateX(15px);

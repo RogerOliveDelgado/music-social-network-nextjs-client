@@ -6,7 +6,7 @@ const API =
   'http://localhost/users';
 
 const TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzUyNTQ1YzI4ZWUxOThhYjE0ZTc3NzIiLCJ1c2VybmFtZSI6Imp1bGlvNjIiLCJpYXQiOjE2NjY2ODcxNzcsImV4cCI6MTY2NzExOTE3N30.WFNaCh_FBxOvNBY0E9Jo2XuUxUj00ubYeQIs7Cm6dJA';
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjY4NDk0MSwiZXhwIjoxNjY3MTE2OTQxfQ.pWj9iehT_syyoNjAzOpZ4oSN3opBC11UYG-0Ptreaqk";
 
 interface Response<T> {
   ok: boolean;

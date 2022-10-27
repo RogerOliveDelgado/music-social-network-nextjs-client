@@ -29,6 +29,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 
 import styles from "./styles.module.css";
 
@@ -52,7 +53,7 @@ const TrackList = ({
   //data user hardcoded, these data has being modified with the id and token information, to get it we have to take it from cookies(JULIO)
   const id = "634e53190dfcdc5f721f20e6";
   const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzRlNTMxOTBkZmNkYzVmNzIxZjIwZTYiLCJ1c2VybmFtZSI6InJvZ2VyIiwiaWF0IjoxNjY2NjIyMzM2LCJleHAiOjE2NjY2ODIzMzZ9.I_w4cptJu_hz3BdxSHBoZnsjp99zLDwuCglAi36XlBE";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjY4NDk0MSwiZXhwIjoxNjY3MTE2OTQxfQ.pWj9iehT_syyoNjAzOpZ4oSN3opBC11UYG-0Ptreaqk";
   const [userLikedSongs, setUserLikedSongs] = useState<Track[]>([]);
 
   const dragControls = useDragControls();
@@ -64,40 +65,9 @@ const TrackList = ({
   );
 
   useEffect(() => {
-    if (router.pathname.includes("favorites")) {
-      //playList
-      setInPlayList(true);
-    }
-
-    //Get the users likedSongs array
-    //Save the founed array in the likedSongs state
-    const getUser = async () => {
-      const response = await fetch(`${process.env.USERS_BACKEND_URL}/user/${id}`, {
-        headers: {
-          Authorization: `bearer ${TOKEN}`,
-        },
-      });
-      const user = await response.json();
-      let array: string[] = [];
-      user.data?.likedSongs.map((song: any) => {
-        array.push(song);
-      });
-      setUserLikedSongs(array);
-      setOrderTracks(array);
-    };
-    getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     inPlayList && setOrderTracks(tracks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks]);
-
-  useEffect(() => {
-    inPlayList && onReOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderTracks]);
 
   const updatePlayer = (track: Track, index: number) => {
     if (inPlayList) {
@@ -116,6 +86,15 @@ const TrackList = ({
   const onReOrder = () => {
     dispatch(updateTrackList(orderTracks));
   };
+
+  const {
+    data: playlists,
+    isLoading: isLoadingPlaylist,
+    error: playlistError,
+    refetch,
+  } = useGetPlaylistQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
@@ -138,18 +117,19 @@ const TrackList = ({
             },
           });
           const user = await userResponse.json();
-
-          let arrayFavouritesSongs: Track[] = [];
-          user.data.likedSongs.map((song: any) => {
-            arrayFavouritesSongs.push(song);
-          });
-          setOrderTracks(arrayFavouritesSongs);
-          setUserLikedSongs(arrayFavouritesSongs);
+          refetch();
         }, 500);
       }
     };
     putSongInUser(song);
   };
+
+  const userPlaylists = playlists?.data?.playlists;
+  const likedSongs = playlists?.data?.likedSongs;
+
+  useEffect(() => {
+    refetch();
+  }, [playlists]);
 
   const playlistId = router.query.playlistID;
 
@@ -175,16 +155,6 @@ const TrackList = ({
       console.log(error);
     }
   };
-
-  const {
-    data: playlists,
-    isLoading: isLoadingPlaylist,
-    error: playlistError,
-  } = useGetPlaylistQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
-
-  const userPlaylists = playlists?.data?.playlists;
 
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -233,6 +203,7 @@ const TrackList = ({
 
   const isInPlaylistPath = router.pathname.includes("playlist");
 
+
   return (
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
@@ -252,7 +223,7 @@ const TrackList = ({
               return (
                 <Reorder.Item
                   value={track}
-                  key={track._id}
+                  key={track?._id}
                   className={styles.track_list_row}
                   dragControls={dragControls}
                 >
@@ -275,55 +246,65 @@ const TrackList = ({
                     {isInPlaylistPath ? (
                       <>
                         {allowDelete && (
-                          <IconButton
-                            color="inherit"
-                            component="label"
-                            
-                          >
-                            <input hidden />
-                            <RemoveCircleOutlineIcon onClick={() => deleteTrackFromPlaylist(track)}/>
-                          </IconButton>
+                          <Tooltip title="Remove track from playlist">
+                            <IconButton color="inherit" component="label">
+                              <input hidden />
+                              <RemoveCircleOutlineIcon
+                                onClick={() => deleteTrackFromPlaylist(track)}
+                              />
+                            </IconButton>
+                          </Tooltip>
                         )}
-                        <IconButton
-                          color="inherit"
-                          component="label"
-                         
-                        >
-                          <input hidden />
-                          <AddCircleOutlineIcon  onClick={() => addTrackToPlaylist(playlistId, track)}/>
-                        </IconButton>
+                        {!allowDelete && (
+                          <Tooltip title="Add track to playlist">
+                            <IconButton color="inherit" component="label">
+                              <input hidden />
+                              <AddCircleOutlineIcon
+                                onClick={() =>
+                                  addTrackToPlaylist(playlistId, track)
+                                }
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       </>
                     ) : (
                       <>
-                        <Button
-                          color="inherit"
-                          id="basic-button"
-                          aria-controls={open ? "basic-menu" : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          onClick={(e) => handleClick(e, track)}
-                        >
-                          <input hidden />
-                          <AddCircleOutlineIcon />
-                        </Button>
+                        <Tooltip title="Add track to playlist">
+                          <Button
+                            color="inherit"
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={(e) => handleClick(e, track)}
+                          >
+                            <input hidden />
+                            <AddCircleOutlineIcon />
+                          </Button>
+                        </Tooltip>
                       </>
                     )}
                     <IconButton color="inherit" component="label">
                       <input hidden />
-                      {userLikedSongs?.some(
-                        (element) => element._id === track._id
+                      {likedSongs?.some(
+                        (element: Track) => element._id === track._id
                       ) ? (
-                        <FavoriteIcon
-                          onClick={() => {
-                            addSong(track);
-                          }}
-                        />
+                        <Tooltip title="Add to favorites">
+                          <FavoriteIcon
+                            onClick={() => {
+                              addSong(track);
+                            }}
+                          />
+                        </Tooltip>
                       ) : (
-                        <FavoriteBorderIcon
-                          onClick={() => {
-                            addSong(track);
-                          }}
-                        />
+                        <Tooltip title="Add to favorites">
+                          <FavoriteBorderIcon
+                            onClick={() => {
+                              addSong(track);
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </IconButton>
                     <p className={styles.track_duration}>
@@ -364,7 +345,7 @@ const TrackList = ({
             >
               <h4
                 className={styles.menu_title}
-              >{`Add '${trackTitle.title}' to playlist:`}</h4>
+              >{`Select a playlist to add track '${trackTitle.title}':`}</h4>
               {userPlaylists?.map((playlist: any) => (
                 <MenuItem
                   key={playlist._id}
