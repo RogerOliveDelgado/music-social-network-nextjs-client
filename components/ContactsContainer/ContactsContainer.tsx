@@ -37,7 +37,7 @@ const ContactsContainer = (props: Props) => {
   const [activeContact, setActiveContact] = useState(0);
   const { t } = useI18N();
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njc5NTQwNSwiZXhwIjoxNjY3MjI3NDA1fQ.1D_cKUwpwPuy-jS2Bs0AwmiXNSQLnB4SdzRqIWKlQSw";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
   const actvateRoom = (id: number) => {
     setActiveContact(id);
   };
@@ -68,7 +68,8 @@ const ContactsContainer = (props: Props) => {
       props.setMessages(msgs.msgs)
     }
   }
-
+  console.log(props.users);
+  
   return (
     <div className={styles.contacts_container}>
       <h2>{t('additional').contacts}</h2>

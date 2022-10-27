@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18N } from '../../context/i18';
 
 import {Socket} from 'socket.io-client'
+import { off } from 'process';
 
 type Props = {
   messages: string[],
@@ -20,14 +21,16 @@ type Props = {
   id1: string | undefined,
   id2: string | undefined,
   socket: Socket,
-  usersConnected:{id:string, socketId:string, usuario: string}[]
+  usersConnected:{id:string, socketId:string, usuario: string}[],
+  pendingMessages:{id:string, numberMessages:number}[],
+  userName: string
 };
 
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njc5NTQwNSwiZXhwIjoxNjY3MjI3NDA1fQ.1D_cKUwpwPuy-jS2Bs0AwmiXNSQLnB4SdzRqIWKlQSw";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
   useEffect(() => {
     chat && chat.current.scrollTo(0, chat.current.scrollHeight, 'smooth');
     // chat && console.log(chat);
@@ -73,7 +76,7 @@ const ChatRoom = (props: Props) => {
         // console.log("receiver", id2);      
         // console.log("name", currentRoom); 
 
-        props.socket.emit(`send-Message`, {msg:`${props.currentRoom}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
+        props.socket.emit(`send-Message`, {msg:`${props.userName}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//props.currentRoom por userName
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
         // console.log(data);
         const response = await fetch("http://localhost:4001/chat/messages",{
@@ -83,7 +86,7 @@ const ChatRoom = (props: Props) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({to: props.id2, messages:`${props.currentRoom}:${props.input}`,users: props.usersConnected})
+          body: JSON.stringify({toUser: props.id2, messages:`${props.currentRoom}:${props.input}`,users: props.usersConnected})
         })
       const dataResponse = await response.json()
       console.log("MSG",dataResponse);        
@@ -92,7 +95,7 @@ const ChatRoom = (props: Props) => {
     // console.log(socket.id);
     props.setInput("");
   }
-
+  console.log("MENSAJES",props.messages)
   return (
     <div className={styles.chat_room_container}>
       <div className={styles.chat_room_header}>
@@ -112,13 +115,20 @@ const ChatRoom = (props: Props) => {
       <div className={styles.messages_container} ref={chat}>
         {/* Here make an map to print each message */}
         {
-          props.messages.map((message, index) => {
+          props.messages && props.messages.map((message, index) => {
+            let userMessages:{id:string, numberMessages:number} | undefined = props.pendingMessages.find(chat => chat.id == props.id2)
             return(
-              <Message
-                key={index}
-                image={'/Images/contact_default_male.png'}
-                text={message}
-              />
+              <>
+                {
+                ((props.messages.length ) - index == userMessages?.numberMessages) && <div><span>{userMessages?.numberMessages} messages no read</span></div>
+                }
+                <Message
+                  key={index}
+                  image={'/Images/contact_default_male.png'}
+                  text={message}
+                />
+              </>
+              
             )
           })
         }
@@ -134,7 +144,7 @@ const ChatRoom = (props: Props) => {
             onChange={(e)=>handleInput(e.target.value)}
             placeholder={`${t('additional').message} Roger Olvié`}
           />
-          <Button variant="contained" size="small" endIcon={<SendIcon onClick={submitMessage}/>} >
+          <Button variant="contained" size="small" endIcon={<SendIcon />} onClick={submitMessage}>
             {t('additional').send}
           </Button>
         </form>
