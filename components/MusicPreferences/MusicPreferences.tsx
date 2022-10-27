@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import SignUpFailed from "../../components/SignUpInputs/SignUpFailed";
+import React, { useState } from 'react';
+import SignUpFailed from '../../components/SignUpInputs/SignUpFailed';
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
-import ClearIcon from "@mui/icons-material/Clear";
-import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
+import MusicGenre from '../MusicGenre/MusicGenre';
 
 type Props = {
   signUpCompleted: boolean;
@@ -23,20 +25,20 @@ type Props = {
 };
 
 const musicGenre = [
-  "latin hip hop",
-  "reggaeton",
-  "trap latino",
-  "rap",
-  "latin rock",
-  "urbano espanol",
-  "r&b argentino",
-  "pop",
-  "rap espanol",
-  "latin pop",
-  "pop soul",
-  "spanish pop rock",
-  "rock",
-  "classic rock",
+  { genreName: 'Latin Hip Hop', cover: '/Genres/latin_hip_hop.jpeg' },
+  { genreName: 'Reggaeton', cover: '/Genres/reggeton.jpeg' },
+  { genreName: 'Trap Latino', cover: '/Genres/trap_latino.jpeg' },
+  { genreName: 'Rap', cover: '/Genres/rap.jpeg' },
+  { genreName: 'Latin Rock', cover: '/Genres/latin_rock.jpeg' },
+  { genreName: 'Urbano Espanol', cover: '/Genres/urbano_espanol.jpeg' },
+  { genreName: 'R&B Argentino', cover: '/Genres/rb_argentino.webp' },
+  { genreName: 'Pop', cover: '/Genres/pop.jpeg' },
+  { genreName: 'Rap Español', cover: '/Genres/rap_espanol.jpeg' },
+  { genreName: 'Latin Pop', cover: '/Genres/latin_pop.webp' },
+  { genreName: 'Pop Soul', cover: '/Genres/pop_soul.jpeg' },
+  { genreName: 'Spanish Pop Rock', cover: '/Genres/spanish_pop_rock.jpeg' },
+  { genreName: 'Rock', cover: '/Genres/rock.jpeg' },
+  { genreName: 'Classic Rock', cover: '/Genres/classic_rock.jpeg' },
 ];
 
 const MusicPreferences = ({
@@ -58,9 +60,9 @@ const MusicPreferences = ({
 
   const getLikedMusic = (genre: string) => {
     const exist = likedMusic.find((newGenre) => newGenre === genre);
-
+    console.log(likedMusic.find((item) => item === genre));
     if (exist) {
-      setLikedMusic((prevGenre) => [...prevGenre]);
+      setLikedMusic((prevGenre) => prevGenre.filter((item) => item !== genre));
     } else {
       setLikedMusic((prevGenre) => [...prevGenre, genre]);
     }
@@ -77,23 +79,15 @@ const MusicPreferences = ({
           <div className={styles.genresDiv}>
             {musicGenre.map((genre) => {
               return (
-                <div
-                  key={genre}
-                  onClick={() => {
-                    getLikedMusic(genre);
-                  }}
-                  className={styles.genreDiv}
-                >
-                  <p
-                    className={
-                      likedMusic.find((newGenre) => newGenre === genre)
-                        ? `${styles.selected} ${styles.genreName}`
-                        : `${styles.no_selected} ${styles.genreName}`
-                    }
-                  >
-                    {genre}
-                  </p>
-                </div>
+                <MusicGenre
+                  key={genre.genreName}
+                  genre={genre.genreName}
+                  image={genre.cover}
+                  selected={likedMusic.find(
+                    (newGenre) => newGenre === genre.genreName
+                  )}
+                  selectGenre={getLikedMusic}
+                />
               );
             })}
           </div>
@@ -102,7 +96,7 @@ const MusicPreferences = ({
               onClick={clearLikedMusicArray}
               className={styles.restartGenreButton}
             >
-              <ClearIcon sx={{ color: "red" }} /> Clear
+              <ClearIcon sx={{ color: 'red' }} /> Clear
             </button>
             <button
               className={styles.submitFormButton}
@@ -110,7 +104,7 @@ const MusicPreferences = ({
                 signUp(username, email, password, likedMusic, e);
               }}
             >
-              <CheckIcon sx={{ color: "green" }} /> Confirm
+              <AudiotrackIcon sx={{ color: 'white' }} /> Confirm
             </button>
           </div>
         </div>

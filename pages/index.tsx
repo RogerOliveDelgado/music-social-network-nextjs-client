@@ -13,6 +13,7 @@ import Head from 'next/head';
 import { useGetPlaylistQuery } from '../redux/playlistsAPI';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import MusicGenre from '../components/MusicGenre/MusicGenre';
 
 const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -60,7 +61,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div className={styles.home_container}>
+        <div className={styles['home_container']}>
           <h1 className={styles.greetings}>{getGreetings()}</h1>
           {/* <Row title="Trending Now" /> */}
           {isLoading ? (
