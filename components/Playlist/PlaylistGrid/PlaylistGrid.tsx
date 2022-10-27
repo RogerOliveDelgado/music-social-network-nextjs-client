@@ -1,19 +1,27 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
-import { Playlist } from "../../../interfaces/playlistResponse";
-import { useGetPlaylistQuery } from "../../../redux/playlistsAPI";
-import styles from "./styles.module.css";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { Playlist } from '../../../interfaces/playlistResponse';
+import { useGetPlaylistQuery } from '../../../redux/playlistsAPI';
+import { useCookies } from 'react-cookie';
+import styles from './styles.module.css';
 
 function PlaylistGrid() {
-  const id = "63566ec7f9d5803a4019ed57";
+  const id = '63566ec7f9d5803a4019ed57';
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+  ]);
   const {
     data: playlists,
     isLoading: isLoadingPlaylist,
     error: playlistError,
-  } = useGetPlaylistQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
+  } = useGetPlaylistQuery(
+    { userID: cookies.userID, token: cookies.userToken },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const router = useRouter();
 

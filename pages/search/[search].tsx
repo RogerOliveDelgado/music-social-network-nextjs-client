@@ -13,11 +13,13 @@ import styles from './styles.module.css';
 import Link from 'next/link';
 import TrackCard from '../../components/TrackCard/TrackCard';
 import { useI18N } from '../../context/i18';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
 const Search = (props: Props) => {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
   const { t } = useI18N();
 
@@ -25,7 +27,10 @@ const Search = (props: Props) => {
     data: search,
     isLoading,
     error,
-  } = useGetSearchQuery(router.query.search);
+  } = useGetSearchQuery({
+    searchQuery: router.query.search,
+    token: cookies.userToken,
+  });
 
   return (
     <Layout>

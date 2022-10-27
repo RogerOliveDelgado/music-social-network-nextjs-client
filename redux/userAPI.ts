@@ -1,17 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { User } from "../interfaces/ServerResponse";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { User } from '../interfaces/ServerResponse';
+import { useCookies } from 'react-cookie';
 
 const API =
-  // process.env.REACT_APP_API_URL ||
-  'http://localhost/users';
-
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjY4NDk0MSwiZXhwIjoxNjY3MTE2OTQxfQ.pWj9iehT_syyoNjAzOpZ4oSN3opBC11UYG-0Ptreaqk";
+  process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || 'http://localhost/users';
 
 interface Response<T> {
   ok: boolean;
   data: T;
 }
+// const [cookies, setCookie, removeCookie] = useCookies(['username']);
 
 interface CloudinaryQuery {
   id: string;
@@ -22,15 +20,15 @@ interface CloudinaryQuery {
 }
 
 export const userAPI = createApi({
-  reducerPath: "userAPI",
+  reducerPath: 'userAPI',
   baseQuery: fetchBaseQuery({ baseUrl: API }),
   keepUnusedDataFor: 0,
   endpoints: (builder) => ({
-    getUser: builder.query<Response<User>, string>({
-      query: (id) => ({
+    getUser: builder.query<Response<User>, { id: string; token: string }>({
+      query: ({ id, token }) => ({
         url: `/user/${id}`,
         method: 'GET',
-        headers: { Authorization: `Bearer ${TOKEN}` },
+        headers: { Authorization: `bearer ${token}` },
       }),
     }),
     editUser: builder.mutation<Response<User>, CloudinaryQuery>({

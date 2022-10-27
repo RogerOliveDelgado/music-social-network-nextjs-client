@@ -1,10 +1,10 @@
-import styles from "./styles.module.css";
-import { Album } from "../../interfaces/albumResponse";
-import { Artist } from "../../interfaces/artistResponse";
-import { Playlist } from "../../interfaces/playlistResponse";
-import AlbumCard from "../AlbumCard/AlbumCard";
-import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
-import { useI18N } from "../../context/i18";
+import styles from './styles.module.css';
+import { Album } from '../../interfaces/albumResponse';
+import { Artist } from '../../interfaces/artistResponse';
+import { Playlist } from '../../interfaces/playlistResponse';
+import AlbumCard from '../AlbumCard/AlbumCard';
+
+import { useI18N } from '../../context/i18';
 
 type Props = {
   data?: Album[] | Artist[] | Playlist[];
@@ -12,7 +12,6 @@ type Props = {
 };
 
 const GridLayout = ({ data, noData }: Props) => {
-
   return (
     <>
       {data ? (

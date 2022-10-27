@@ -32,6 +32,9 @@ const PlayerWeb = () => {
   const currentIndex = useSelector(
     (state: RootState) => state.currentTrack.index
   );
+  const currentTrackAudio = useSelector(
+    (state: RootState) => state.currentTrack.currentTrack.trackAudio
+  );
 
   const trackIsPlaying = tracks[0]?._id;
   const songTitle = tracks[0]?.title;
@@ -74,7 +77,8 @@ const PlayerWeb = () => {
           {isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
-              src={tracks[currentIndex]?.trackAudio}
+              // src={tracks[currentIndex]?.trackAudio}
+              src={currentTrackAudio}
               showSkipControls
               onClickNext={handleClickNext}
               onEnded={handleEnd}
@@ -86,7 +90,7 @@ const PlayerWeb = () => {
           {!isLargeScreen && (
             <AudioPlayer
               layout="stacked-reverse"
-              src={tracks[currentIndex]?.trackAudio}
+              src={currentTrackAudio}
               onClickNext={handleClickNext}
               autoPlay={true}
               autoPlayAfterSrcChange={true}
