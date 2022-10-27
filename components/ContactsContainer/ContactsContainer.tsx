@@ -30,7 +30,8 @@ type Props = {
   setid2: React.Dispatch<React.SetStateAction<string | undefined>>,
   setCurrentRoom: React.Dispatch<React.SetStateAction<string>>,
   setMessages: React.Dispatch<React.SetStateAction<string[]>>,
-  deletePendingMessage: Function
+  deletePendingMessage: Function,
+  pendingMessages:{id:string, numberMessages:number}[]
 };
 
 const ContactsContainer = (props: Props) => {
@@ -78,27 +79,23 @@ const ContactsContainer = (props: Props) => {
         {
           props.users.map((user, index) => {
             if(user._id != props.id1){
-              // let userMessages:{id:string, numberMessages:number} | undefined = pendingMessages.find(chat => chat.id == user._id)
-
-            return (
-              <>
-              <Contact
-                key={index}
-                name={`${user.username}`}
-                active={props.usersConnected.find(userConn => userConn.name == user.username) ? true : false}
-                image="/Images/contact_default_male.png"
-                setCurrentRoom={props.setCurrentRoom}
-                setid2={props.setid2}
-                handleUser={handleUser}
-                user={user}
-              />
-              {/* {userMessages != undefined && 
-                <span>{userMessages?.numberMessages}</span>
-                // <div style={{width:'0.5rem', height:'0.5rem', borderRadius:'50%', backgroundColor:'red'}}></div>
-                } */}
+              return (
+                <>
+                  <Contact
+                    key={index}
+                    name={`${user.username}`}
+                    active={props.usersConnected.find(userConn => userConn.usuario == user.username) ? true : false}
+                    image="/Images/contact_default_male.png"
+                    setCurrentRoom={props.setCurrentRoom}
+                    setid2={props.setid2}
+                    handleUser={handleUser}
+                    user={user}
+                    id1={props.id1}
+                    pendingMessages={props.pendingMessages}
+                  />
                 </>
-            )
-            }
+              )
+              }
           })
         }
       </div>

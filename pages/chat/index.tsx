@@ -70,10 +70,11 @@ const Chat = (props: Props) => {
       const data1 = await response.json();
       console.log(data1)
       setUsers(data1.data)  
-      setUserName("Juan Carlos")//Here we will set the name of user account
+      setUserName("juanky")//Here we will set the name of user account
       setid1("6359478dcc3b4a9e3d470f67")//Here we set the id of user account
+      // socket.emit("connected", "6359478dcc3b4a9e3d470f67")
       // setid2("633ee8ec468b79f49c802292")//This line is in line 62, here this line should be deleted
-      setCurrentRoom("Alicia")
+      setCurrentRoom("alicia")
     }
     getUsers();
   },[])
@@ -334,8 +335,8 @@ const Chat = (props: Props) => {
           <h2>Soy {userName} </h2>
           <h1> {t('additional').messages}</h1>
           <div className={styles.main_content}>
-            <ChatRoom messages={messages} setMessages={setMessages} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers} pendingMessages={pendingMessages} userName={userName}/>
-            <ContactsContainer users={users} usersConnected={connectedUsers} deletePendingMessage={deletePendingMessage} socket={socket} id1={id1} id2={id2} setid2={setid2} setCurrentRoom={setCurrentRoom} setMessages={setMessages}/>
+            <ChatRoom messages={messages} setMessages={setMessages} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers} pendingMessages={pendingMessages} userName={userName} typing={typing}/>
+            <ContactsContainer users={users} usersConnected={connectedUsers} deletePendingMessage={deletePendingMessage} socket={socket} id1={id1} id2={id2} setid2={setid2} setCurrentRoom={setCurrentRoom} setMessages={setMessages} pendingMessages={pendingMessages}/>
           </div>
         </div>
       </Layout>

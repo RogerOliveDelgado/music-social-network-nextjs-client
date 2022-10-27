@@ -25,10 +25,16 @@ type Props = {
     artists: Partial<Artist>[];
     likedSongs: Partial<Data>[];
   },
-  handleUser: Function
+  handleUser: Function,
+  id1:string | undefined,
+  pendingMessages:{id:string, numberMessages:number}[]
 };
 
 const Contact = (props: Props) => {
+  let userMessages:{id:string, numberMessages:number} | undefined
+  if(props.user._id != props.id1){
+    userMessages= props.pendingMessages.find(chat => chat.id == props.user._id)
+  }
   return (
     <div
       className={`${styles.contact_container} ${
@@ -46,7 +52,11 @@ const Contact = (props: Props) => {
         />
       </div>
       <p className={styles.contact_name}>{props.name}</p>
-      <p>2:30PM</p>
+      {
+        userMessages == undefined ? <span></span> : <span style={{width:'2rem', height:'2rem', borderRadius:'50%', backgroundColor:'green'}}>{userMessages?.numberMessages}</span>
+        // <div style={{width:'0.5rem', height:'0.5rem', borderRadius:'50%', backgroundColor:'red'}}></div>
+      }
+
     </div>
   );
 };

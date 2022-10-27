@@ -24,11 +24,13 @@ type Props = {
   usersConnected:{id:string, socketId:string, usuario: string}[],
   pendingMessages:{id:string, numberMessages:number}[],
   userName: string
+  typing: string
 };
 
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
+  const  [_document, set_document] = useState(null);
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
   useEffect(() => {
@@ -45,12 +47,12 @@ const ChatRoom = (props: Props) => {
       if(value == ""){
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
       }else{
-        props.socket.emit(`typing`, {msg:`${props.currentRoom} is typing`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//currentRoom por userName
+        props.socket.emit(`typing`, {msg:`${props.userName} is typing`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//currentRoom por userName
       }
       
     }else{
       props.setInput(value);
-      props.socket.emit(`typing`, {msg:`${props.currentRoom} is typing`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//currentRoom por userName
+      props.socket.emit(`typing`, {msg:`${props.userName} is typing`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//currentRoom por userName
     }
   }
 
@@ -95,9 +97,11 @@ const ChatRoom = (props: Props) => {
     // console.log(socket.id);
     props.setInput("");
   }
+
   console.log("MENSAJES",props.messages)
   return (
     <div className={styles.chat_room_container}>
+      <p>{props.currentRoom} {props.typing}</p>
       <div className={styles.chat_room_header}>
         <IconButton aria-label="back">
           <ArrowBackIcon />
@@ -110,9 +114,9 @@ const ChatRoom = (props: Props) => {
           width={50}
           layout="fixed"
         />
-        <p className={styles.contact_name}>{props.currentRoom != "" ? props.currentRoom : "Abre un chat"}</p>
+        <p className={styles.contact_name}>{props.currentRoom != "" ? props.currentRoom : "Abre un chat"} {props.typing.split(" is ")[0] === props.currentRoom && props.typing}</p>
       </div>
-      <div className={styles.messages_container} ref={chat}>
+      <div className={styles.messages_container} ref={chat} id="fieldset">
         {/* Here make an map to print each message */}
         {
           props.messages && props.messages.map((message, index) => {
@@ -126,6 +130,7 @@ const ChatRoom = (props: Props) => {
                   key={index}
                   image={'/Images/contact_default_male.png'}
                   text={message}
+                  currentRoom={props.currentRoom}
                 />
               </>
               
@@ -134,7 +139,7 @@ const ChatRoom = (props: Props) => {
         }
       </div>
       <div className={styles.message_input}>
-        <form className={styles.message_form}>
+        <form className={styles.message_form} autoComplete="off">
           <input
             className={styles.input_message}
             value={props.input}
@@ -142,7 +147,7 @@ const ChatRoom = (props: Props) => {
             name="input"
             id="input_text"
             onChange={(e)=>handleInput(e.target.value)}
-            placeholder={`${t('additional').message} Roger Olvié`}
+            placeholder={`${t('additional').message} ${props.currentRoom}`}
           />
           <Button variant="contained" size="small" endIcon={<SendIcon />} onClick={submitMessage}>
             {t('additional').send}

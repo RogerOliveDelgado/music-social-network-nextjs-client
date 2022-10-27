@@ -6,12 +6,14 @@ type Props = {
   image: string;
   text: string;
   user?: boolean;
+  currentRoom: string;
 };
 
-const Message = ({ image, text, user }: Props) => {
+const Message = ({ image, text, user, currentRoom }: Props) => {
+  console.log(currentRoom)
   return (
     <div
-      className={`${styles.message_container} ${
+      className={`${currentRoom != text.split(':')[0] ? styles.message_container_right : styles.message_container_left} ${
         user && styles.message_container_user
       }`}
     >
@@ -19,7 +21,7 @@ const Message = ({ image, text, user }: Props) => {
       <div
         className={`${styles.message_info} ${user && styles.message_info_user}`}
       >
-        <p className={styles.text}>{text}</p>
+        <p className={styles.text}>{text.split(':')[1]}</p>
       </div>
     </div>
   );
