@@ -5,6 +5,7 @@ export default {
     playlist: "Create playlist",
     liked: "Liked songs",
     upload: "Upload songs",
+    search: "Search",
   },
   greetings: {
     morning: "Good morning",

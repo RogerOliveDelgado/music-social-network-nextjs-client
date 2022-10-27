@@ -5,6 +5,7 @@ export default {
     playlist: "Crear playList",
     liked: "Canciones favoritas",
     upload: "Subir cancion",
+    search: "Busqueda",
   },
   greetings: {
     morning: "Buenos días",

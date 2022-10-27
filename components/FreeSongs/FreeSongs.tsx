@@ -1,21 +1,21 @@
-import Image from 'next/image';
-import React from 'react';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import Image from "next/image";
+import React from "react";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
-import styles from './styles.module.css';
-import { useGetArtistDataMutation } from '../../redux/artistAPI';
+import styles from "./styles.module.css";
+import { useGetArtistDataMutation } from "../../redux/artistAPI";
 
-import { Track } from '../../interfaces/tracks';
+import { Track } from "../../interfaces/tracks";
 import {
   NewTrack,
   updateSingleSong,
-} from '../../redux/features/player/musicPlayerSlice';
-import { useDispatch } from 'react-redux';
+} from "../../redux/features/player/musicPlayerSlice";
+import { useDispatch } from "react-redux";
 
 import {
   currentTrack as setCurrentTrack,
   setArtistName,
-} from '../../redux/features/player/currentTracks';
+} from "../../redux/features/player/currentTracks";
 
 type Props = {
   tracks: Track[];
@@ -26,7 +26,7 @@ const FreeSongs = ({ tracks }: Props) => {
   const [getArtistData] = useGetArtistDataMutation();
 
   const handlePlay = async (track: NewTrack) => {
-    console.log(track.album.artist);
+    // console.log(track.album.artist);
     dispatch(updateSingleSong(track));
     dispatch(setCurrentTrack(track));
     const response = await getArtistData(
@@ -54,7 +54,7 @@ const FreeSongs = ({ tracks }: Props) => {
             className={styles.playButton}
             onClick={() => handlePlay(track as unknown as NewTrack)}
           >
-            <PlayCircleIcon sx={{ fontSize: '2rem' }} />
+            <PlayCircleIcon sx={{ fontSize: "2rem" }} />
           </button>
         </div>
       ))}
