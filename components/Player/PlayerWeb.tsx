@@ -1,18 +1,18 @@
-import dynamic from "next/dynamic";
-import { useMediaQuery } from "react-responsive";
-import "react-h5-audio-player/lib/styles.css";
+import dynamic from 'next/dynamic';
+import { useMediaQuery } from 'react-responsive';
+import 'react-h5-audio-player/lib/styles.css';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import "react-h5-audio-player/lib/styles.css";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import 'react-h5-audio-player/lib/styles.css';
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   currentTrack as setCurrentTrack,
   incrementIndex,
   resetIndex,
-} from "../../redux/features/player/currentTracks";
-import { RootState } from "../../redux/store";
+} from '../../redux/features/player/currentTracks';
+import { RootState } from '../../redux/store';
 
 import Song from './Song/Song';
 import styles from './styles.module.css';
@@ -23,7 +23,7 @@ const AudioPlayer = dynamic(() => import('react-h5-audio-player'), {
 const PlayerWeb = () => {
   const router = useRouter();
   const isLargeScreen = useMediaQuery({
-    query: "(min-width: 735px)",
+    query: '(min-width: 735px)',
   });
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const PlayerWeb = () => {
     (state: RootState) => state.currentTrack.index
   );
   const currentTrackAudio = useSelector(
-    (state: RootState) => state.currentTrack.currentTrack.trackAudio
+    (state: RootState) => state.currentTrack.currentTrack?.trackAudio
   );
 
   const trackIsPlaying = tracks[0]?._id;
@@ -43,7 +43,7 @@ const PlayerWeb = () => {
     setTrackIndex((prevState) =>
       prevState < tracks.length - 1 ? prevState + 1 : 0
     );
-    if (currentTrack < tracks.length - 1) {
+    if (currentIndex < tracks.length - 1) {
       dispatch(incrementIndex());
       dispatch(setCurrentTrack(tracks[currentIndex + 1]));
     } else {
@@ -56,7 +56,7 @@ const PlayerWeb = () => {
     setTrackIndex((prevState) =>
       prevState < tracks.length - 1 ? prevState + 1 : 0
     );
-    if (currentTrack < tracks.length - 1) {
+    if (currentIndex < tracks.length - 1) {
       dispatch(incrementIndex());
       dispatch(setCurrentTrack(tracks[currentIndex + 1]));
     } else {
@@ -71,7 +71,7 @@ const PlayerWeb = () => {
 
   return (
     <>
-      {router.pathname !== "/signup" ? (
+      {router.pathname !== '/signup' ? (
         <div className={styles.container}>
           {trackIsPlaying && <Song />}
           {isLargeScreen && (
