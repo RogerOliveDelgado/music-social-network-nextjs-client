@@ -26,7 +26,7 @@ const Banner = ({ user, total }: Props) => {
           <h1 className={styles.banner_text}>{t('headers').headerFavorites}</h1>
           <h4 className={styles.banner_user_details}>
             {/* <InterpreterModeIcon /> */}
-            {user} - {total} {t('additional').tracks}
+            {user && `${user} - ${total} ${t('additional').tracks}`}
           </h4>
         </div>
       </div>
