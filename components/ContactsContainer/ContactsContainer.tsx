@@ -48,7 +48,7 @@ const ContactsContainer = (props: Props) => {
     props.deletePendingMessage(props.id2)//userId
     props.setid2(userId)
     props.setCurrentRoom(value)
-    
+    console.log("CAMBIO USER", userId)
       
     props.setMessages([])
     //recogemos los mensajes cada vez que cambiamos de chat
@@ -56,16 +56,16 @@ const ContactsContainer = (props: Props) => {
       method:'POST',
       headers:{
         'Content-Type':'application/json', 
-        Authoritation:`Bearer ${token}`,
+        Authorization:`Bearer ${token}`,
       },
       body:JSON.stringify({toUserId:userId})
     })
     const msgs = await response.json();
-    console.log(msgs.msgs)
-    if(msgs.msgs == undefined){
+    console.log(msgs)
+    if(msgs.data == undefined){
       props.setMessages([""]);
     }else{
-      props.setMessages(msgs.msgs)
+      props.setMessages(msgs.data)
     }
   }
   console.log(props.users);
@@ -77,7 +77,11 @@ const ContactsContainer = (props: Props) => {
         {/* Make a map to print all the users */}
         {
           props.users.map((user, index) => {
+            if(user._id != props.id1){
+              // let userMessages:{id:string, numberMessages:number} | undefined = pendingMessages.find(chat => chat.id == user._id)
+
             return (
+              <>
               <Contact
                 key={index}
                 name={`${user.username}`}
@@ -88,7 +92,13 @@ const ContactsContainer = (props: Props) => {
                 handleUser={handleUser}
                 user={user}
               />
+              {/* {userMessages != undefined && 
+                <span>{userMessages?.numberMessages}</span>
+                // <div style={{width:'0.5rem', height:'0.5rem', borderRadius:'50%', backgroundColor:'red'}}></div>
+                } */}
+                </>
             )
+            }
           })
         }
       </div>

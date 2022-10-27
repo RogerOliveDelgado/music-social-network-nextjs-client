@@ -6,6 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 
 import styles from './styles.module.css';
+import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
 
 function NavbarIcons() {
   return (
@@ -20,11 +21,12 @@ function NavbarIcons() {
         sx={{
           fontSize: 30,
         }}
+        onClick={disconnectUserFromChat}
       />
       <TelegramIcon
         sx={{
           fontSize: 30,
-        }}
+        }}        
       />
       <LanguageSelector />
       <div className={styles.separator}></div>

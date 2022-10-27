@@ -13,6 +13,8 @@ import { Album } from '../../interfaces/albumResponse';
 import { Artist } from '../../interfaces/artistResponse';
 import { Data } from '../../interfaces/tracks';
 
+import {socketService} from '../../socket/socket'
+
 type Props = {};
 
 let socketId;
@@ -20,7 +22,8 @@ let socketId;
 let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
 //Initialize the socket 
-const socket: Socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
+// const socket: Socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
+const socket: Socket = socketService;
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
@@ -30,6 +33,7 @@ const Chat = (props: Props) => {
   //States to manage the renders of each component
   const [input, setInput] = useState<string>("");  
   const [messages, setMessages] = useState<string[]>([""])
+  const [socketUp, setSocketUp] = useState<Socket>(socket);
   const [users, setUsers] = useState<{
     _id:string,
     username: string;
@@ -89,6 +93,7 @@ const Chat = (props: Props) => {
       console.log(usuarios);
       setConnectedUsers(usuarios)
     });
+    console.log("*******************",usuarios);
     socket.emit("connected", id1)
     const currentRoom = async () => {
     const responseCurrentRoom = await fetch("http://localhost:4001/chat/currentRoom",{
@@ -125,7 +130,7 @@ const Chat = (props: Props) => {
       setPendingMessages(arrayPendingMessages);
     }
     currentRoom();
-  },[id1])
+  },[id1, socketUp])
 
   //Charge the messages of the current room, after set de id2 and current room
   useEffect(() => {
