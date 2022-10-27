@@ -1,5 +1,8 @@
 .divGenre {
   height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .genresDiv {
@@ -7,6 +10,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 1rem;
+  margin-top: 4rem;
   border-bottom: 1px solid #ccc;
 }
 
@@ -68,12 +72,15 @@
   transform: scale(1.25);
 }
 
-@media only screen and (max-width: 700px) {
-  .genreDiv {
+@media only screen and (max-width: 1000px) {
+  /* .genreDiv {
     height: 10rem;
     width: 20rem;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
+  } */
+  .divGenre {
+    display: block;
   }
 }
