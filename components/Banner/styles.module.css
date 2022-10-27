@@ -3,7 +3,7 @@
   background-color: rgb(78, 84, 82);
   align-items: center;
   margin-top: 0.8rem;
-  height: 30%;
+  height: 14rem;
   border-radius: 10px;
   background-image: url('/Images/albumGrid.png');
   background-position: center;
@@ -56,6 +56,6 @@
     );
   }
   .banner_container {
-    height: 20%;
+    height: 10rem;
   }
 }
