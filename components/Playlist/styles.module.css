@@ -151,7 +151,6 @@
 .modal_image_container {
   position: relative;
   width: 15rem;
-  height: 15rem;
   max-width: fit-content;
   max-height: fit-content;
   display: flex;

@@ -65,9 +65,7 @@ const PlayerWeb = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(currentTrack);
-  }, [currentTrack]);
+
 
   return (
     <>
