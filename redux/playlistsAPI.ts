@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const userAPI =
-  process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || 'http://localhost:4001';
+  process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || 'http://localhost:4001';
 
 export const playlistsAPI = createApi({
   reducerPath: 'playlistsAPI',

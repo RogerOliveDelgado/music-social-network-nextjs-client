@@ -1,38 +1,38 @@
-import React, { useEffect } from "react";
-import { ButtonProps } from "./Button";
-import styles from "./styles.module.css";
-import HomeIcon from "@mui/icons-material/Home";
-import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useRouter } from "next/router";
+import React, { useEffect } from 'react';
+import { ButtonProps } from './Button';
+import styles from './styles.module.css';
+import HomeIcon from '@mui/icons-material/Home';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useRouter } from 'next/router';
 
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 
-import MuiDrawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import UploadIcon from "@mui/icons-material/Upload";
-import { useI18N } from "../../context/i18";
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import UploadIcon from '@mui/icons-material/Upload';
+import { useI18N } from '../../context/i18';
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import toast, { Toaster } from "react-hot-toast";
-import { useCookies } from "react-cookie";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import toast, { Toaster } from 'react-hot-toast';
+import { useCookies } from 'react-cookie';
 
-const drawerWidth = "15rem";
+const drawerWidth = '15rem';
 
 export interface DialogTitleProps {
   id: string;
@@ -42,52 +42,53 @@ export interface DialogTitleProps {
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create("width", {
+  transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: "hidden",
+  overflowX: 'hidden',
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create("width", {
+  transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: "hidden",
+  overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
   ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
   }),
 }));
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
+  '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
   },
-  "& .MuiDialogActions-root": {
+  '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
 }));
 
 function Sidebar(props: ButtonProps) {
+  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
   const [open, setOpen] = React.useState(false);
   const [openSongModal, setOpenSongModal] = React.useState(false);
 
@@ -96,7 +97,7 @@ function Sidebar(props: ButtonProps) {
 
   const [metaDataSongFile, setMetaDataSongFile] = React.useState<string>();
 
-  const [cookies, setCookie, removeCookie] = useCookies(["userToken"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
   const token = cookies.userToken;
 
@@ -105,13 +106,13 @@ function Sidebar(props: ButtonProps) {
   const { t } = useI18N();
 
   const uploadSongModal = (text: string) => {
-    if (text === t("home").upload) {
+    if (text === t('home').upload) {
       setOpenSongModal(true);
     }
   };
 
   const handleNavigation = (path: string) => {
-    if (path !== "undefined") {
+    if (path !== 'undefined') {
       router.push(path);
     }
   };
@@ -139,10 +140,10 @@ function Sidebar(props: ButtonProps) {
   };
 
   const fetchingData = async () => {
-    const response = await fetch("http://localhost:4002/track", {
-      method: "POST",
+    const response = await fetch(`${BASE_URL_SPOTIFY}/track`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -155,7 +156,8 @@ function Sidebar(props: ButtonProps) {
   };
 
   useEffect(() => {
-    fetchingData();
+    // fetchingData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaDataSongFile]);
 
   const uploadSong = async () => {
@@ -169,8 +171,8 @@ function Sidebar(props: ButtonProps) {
         reader.onloadend = () => {
           // Use a regex to remove data url part
           const base64String = reader?.result
-            ?.replace("data:", "")
-            .replace(/^.+,/, "");
+            ?.replace('data:', '')
+            .replace(/^.+,/, '');
           setMetaDataSongFile(base64String);
           // Logs wL2dvYWwgbW9yZ...
         };
@@ -182,13 +184,13 @@ function Sidebar(props: ButtonProps) {
 
         // setSongName("");
         setSongFile({} as File);
-        toast.success("File upload successfully");
+        toast.success('File upload successfully');
       } else {
-        toast.error("File size is too big. Maximum size is 10MB");
+        toast.error('File size is too big. Maximum size is 10MB');
         return;
       }
     } else {
-      toast.error("Song name and song file cannot be empty");
+      toast.error('Song name and song file cannot be empty');
     }
   };
 
@@ -204,7 +206,7 @@ function Sidebar(props: ButtonProps) {
             aria-label="close"
             onClick={onClose}
             sx={{
-              position: "absolute",
+              position: 'absolute',
               right: 8,
               top: 8,
               color: (theme) => theme.palette.grey[500],
@@ -224,16 +226,16 @@ function Sidebar(props: ButtonProps) {
           variant="permanent"
           open={open}
           sx={{
-            height: "100%",
+            height: '100%',
           }}
         >
           <List>
             {[
-              { text: `${t("home").home}`, url: "/es" },
-              { text: `${t("home").library}`, url: "/library" },
-              { text: `${t("home").playlist}`, url: "/playlist" },
-              { text: `${t("home").liked}`, url: "/favorites" },
-              { text: `${t("home").upload}` },
+              { text: `${t('home').home}`, url: '/es' },
+              { text: `${t('home').library}`, url: '/library' },
+              { text: `${t('home').playlist}`, url: '/playlist' },
+              { text: `${t('home').liked}`, url: '/favorites' },
+              { text: `${t('home').upload}` },
             ].map((item, index) => (
               <ListItem
                 key={item.text}
@@ -243,27 +245,27 @@ function Sidebar(props: ButtonProps) {
                   uploadSongModal(item.text);
                 }}
                 sx={{
-                  display: "block",
+                  display: 'block',
                   fontWeight: 400,
-                  lineHeight: "21px",
-                  color: "white",
-                  backgroundColor: "inherit",
-                  width: "100%",
+                  lineHeight: '21px',
+                  color: 'white',
+                  backgroundColor: 'inherit',
+                  width: '100%',
                 }}
               >
                 <ListItemButton
                   sx={{
                     minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
+                    justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: "white",
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      color: 'white',
                     }}
                   >
                     {index === 0 && <HomeIcon />}
@@ -285,37 +287,37 @@ function Sidebar(props: ButtonProps) {
           onClick={open ? handleDrawerClose : handleDrawerOpen}
           sx={{
             padding: 0,
-            position: "absolute",
-            top: "50%",
-            left: open ? "13.4rem" : "2.5rem",
-            transform: "translateY(-50%)",
-            transition: "left 225ms ease-in-out",
+            position: 'absolute',
+            top: '50%',
+            left: open ? '13.4rem' : '2.5rem',
+            transform: 'translateY(-50%)',
+            transition: 'left 225ms ease-in-out',
             zIndex: 150,
           }}
         >
           {open ? (
             <ChevronLeftIcon
               sx={{
-                color: "white",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                backgroundColor: "var(--black)",
-                " &:hover": {
-                  backgroundColor: "var(--grey)",
-                  border: "1px solid var(--lightGrey)",
+                color: 'white',
+                borderRadius: '50%',
+                padding: '0.5rem',
+                backgroundColor: 'var(--black)',
+                ' &:hover': {
+                  backgroundColor: 'var(--grey)',
+                  border: '1px solid var(--lightGrey)',
                 },
               }}
             />
           ) : (
             <ChevronRightIcon
               sx={{
-                color: "white",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                backgroundColor: "var(--black)",
-                " &:hover": {
-                  backgroundColor: "var(--grey)",
-                  border: "1px solid var(--lightGrey)",
+                color: 'white',
+                borderRadius: '50%',
+                padding: '0.5rem',
+                backgroundColor: 'var(--black)',
+                ' &:hover': {
+                  backgroundColor: 'var(--grey)',
+                  border: '1px solid var(--lightGrey)',
                 },
               }}
             />
@@ -347,12 +349,12 @@ function Sidebar(props: ButtonProps) {
               <div className={styles.songUploadDiv}>
                 <div>
                   <span>Upload .mp3 file: </span>
-                  <span style={{ color: "blue" }}>{songFile?.name}</span>
+                  <span style={{ color: 'blue' }}>{songFile?.name}</span>
                 </div>
                 <div>
                   <input
                     accept="audio/*"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     id="raised-button-file"
                     type="file"
                     onChange={getSongFile}

@@ -4,7 +4,6 @@ import { Artist } from '../interfaces/ServerResponse';
 const API =
   process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || 'http://localhost:4002';
 
-c;
 interface Response<T> {
   ok: boolean;
   data: T;

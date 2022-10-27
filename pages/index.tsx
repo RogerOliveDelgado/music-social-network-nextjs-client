@@ -46,7 +46,9 @@ const Home = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-
+  // const unique = [...new Set(playlists.data.playlists.map((item) => item))];
+  // console.log(unique);
+  console.log(playlists);
   const isThereAnyPlaylist = playlists?.data?.playlists?.length > 0;
 
   const { t } = useI18N();
