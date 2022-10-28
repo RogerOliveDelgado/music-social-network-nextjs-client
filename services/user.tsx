@@ -11,15 +11,17 @@ export const createUser = async (
   e.preventDefault();
   try {
     const response = await fetch(`${BASE_URL_USERS}/signup`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json; charset=utf-8',
+        "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
         username: username,
         email: email,
         password: password,
         genres: likedMusic,
+        image:
+          "https://res.cloudinary.com/juancarlos/image/upload/v1666942620/gxlttit28glyqcro0reu.png",
       }),
     });
     if (response.status === 400) {
@@ -30,9 +32,9 @@ export const createUser = async (
 
     if (response.ok) {
       const result = await response.json();
-      setCookie('userToken', result.data.token, { path: '/' });
-      setCookie('username', result.data.username, { path: '/' });
-      setCookie('userID', result.data.id, { path: '/' });
+      setCookie("userToken", result.data.token, { path: "/" });
+      setCookie("username", result.data.username, { path: "/" });
+      setCookie("userID", result.data.id, { path: "/" });
       return result;
     }
   } catch (error) {

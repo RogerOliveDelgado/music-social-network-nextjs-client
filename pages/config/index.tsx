@@ -23,6 +23,7 @@ const UserConfig = (props: Props) => {
   const [cookies, setCookie, removeCookie] = useCookies([
     "userToken",
     "userID",
+    "username",
   ]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [MetaDataPlayListImage, setMetaDataPlayListImage] = useState<
@@ -55,6 +56,8 @@ const UserConfig = (props: Props) => {
       return;
     }
   };
+
+  console.log(cookies.userToken);
 
   return (
     <>
@@ -117,13 +120,25 @@ const UserConfig = (props: Props) => {
               onSubmit={(values) => {
                 const image = MetaDataPlayListImage
                   ? MetaDataPlayListImage
-                  : "https://res.cloudinary.com/juancarlos/image/upload/v1666559879/r8uysw6ypk2irfmn1a7j.png";
+                  : "https://res.cloudinary.com/juancarlos/image/upload/v1666942620/gxlttit28glyqcro0reu.png";
                 editUser({
                   id: cookies.userID,
-                  username: values.username,
+                  username:
+                    values.username !== cookies.username
+                      ? values.username
+                      : undefined,
                   phone: values.phone,
                   image: image,
+                  token: cookies.userToken,
+                }).then((data) => {
+                  console.log(data);
+                  if (data.data?.ok) {
+                    setCookie("username", values.username, { path: "/" });
+                  } else {
+                    toast.error(data.error?.data.msg);
+                  }
                 });
+
                 // .then((res) => {
                 //   console.log(res);
                 // });
