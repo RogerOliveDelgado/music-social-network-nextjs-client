@@ -6,23 +6,32 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Tooltip from '@mui/material/Tooltip';
 import FollowButton from '../../components/FollowButton/FollowButton';
 import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
-import { Album, Track, Artist, User } from '../../interfaces/ServerResponse';
+import { Album, Artist, User } from '../../interfaces/ServerResponse';
+import { Track } from '../../interfaces/playlistResponse';
 import { useGetUserQuery } from '../../redux/userAPI';
 import { useCookies } from 'react-cookie';
 
 import styles from './styles.module.css';
+import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import {
+  setCurrentIndex,
+  currentTrack as setCurrentTrack,
+  setArtistName,
+} from '../../redux/features/player/currentTracks';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   album: Album;
   rating: number;
+  tracks: Track[];
 };
 
-const AlbumHeader = ({ album, rating }: Props) => {
+const AlbumHeader = ({ album, rating, tracks }: Props) => {
   const [cookies, setCookie, removeCookie] = useCookies([
     'userID',
     'userToken',
   ]);
-
+  const dispatch = useDispatch();
   let isFollowed = undefined;
 
   let user = {
@@ -48,6 +57,13 @@ const AlbumHeader = ({ album, rating }: Props) => {
     user = dataUser.data;
     isFollowed = user.albums.some((albumX: Album) => albumX._id === album._id);
   }
+
+  const playAlbumTracks = () => {
+    dispatch(updateTrackList(tracks));
+    dispatch(setCurrentIndex(0));
+    dispatch(setCurrentTrack(tracks[0]));
+    dispatch(setArtistName(album?.artist?.name!));
+  };
 
   return (
     <>
@@ -78,6 +94,7 @@ const AlbumHeader = ({ album, rating }: Props) => {
       </div>
       <div className={styles.play_button_container}>
         <Button
+          onClick={playAlbumTracks}
           className={styles.play_button}
           variant="contained"
           color="inherit"
