@@ -12,7 +12,7 @@
 }
 .tabs_content {
   width: 100%;
-  height: 90%;
+  /* height: 90%; */
   overflow: hidden;
   overflow-y: auto;
 }
@@ -28,8 +28,3 @@
   min-width: 80%;
 }
 
-@media screen and (max-width: 900px) {
-  .tabs_content {
-    height: 55%;
-  }
-}

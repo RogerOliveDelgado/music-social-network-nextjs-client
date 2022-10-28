@@ -1,5 +1,5 @@
 .tracks_list {
-  height: 70%;
+  /* height: 70%; */
   margin-right: 2rem;
   overflow: hidden;
   overflow-y: auto;
@@ -83,4 +83,13 @@
   .tracks_list::-webkit-scrollbar {
     display: none;
   }
+}
+
+@media screen and (max-width: 500px) {
+
+.tracks_list {
+  padding-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
 }
