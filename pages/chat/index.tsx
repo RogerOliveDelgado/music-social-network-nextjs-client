@@ -14,6 +14,8 @@ import { Artist } from '../../interfaces/artistResponse';
 import { Data } from '../../interfaces/tracks';
 
 import {socketService} from '../../socket/socket'
+import { disconnectUserFromChat } from '../../socket/servicesSocket/services';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
@@ -27,9 +29,18 @@ const socket: Socket = socketService;
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
+  if(typeof window !== "undefined"){
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    window.addEventListener('beforeunload', function (e) {
+      disconnectUserFromChat();
+    });
+  }
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+    'username',
+  ]);
+  const token = cookies.userToken;
   //States to manage the renders of each component
   const [input, setInput] = useState<string>("");  
   const [messages, setMessages] = useState<string[]>([""])
@@ -83,8 +94,8 @@ const Chat = (props: Props) => {
       const data1 = await response.json();
       console.log(data1)
       setUsers(data1.data)  
-      setUserName("juanky")//Here we will set the name of user account
-      setid1("6359478dcc3b4a9e3d470f67")//Here we set the id of user account
+      setUserName(cookies.username)//Here we will set the name of user account
+      setid1(cookies.userID)//Here we set the id of user account
       // socket.emit("connected", "6359478dcc3b4a9e3d470f67")
       // setid2("633ee8ec468b79f49c802292")//This line is in line 62, here this line should be deleted
       setCurrentRoom("alicia")
@@ -119,11 +130,13 @@ const Chat = (props: Props) => {
       });
       const room = await responseCurrentRoom.json();
       
-      console.log(room);
-      setRoom(room);
-      console.log(room.name);
-      setCurrentRoom(room.data.username);
-      setid2(room.data._id);//
+      if(room != undefined && room.msg != "No current room"){
+        console.log(room);
+        setRoom(room);
+        console.log(room.name);
+        setCurrentRoom(room.data.username);
+        setid2(room.data._id);//
+      }
       // getMessagesOfCurrentRoom(room.data._id)
       if(window.location.host == "localhost:3001"){
         setCurrentRoom("Juan Carlos")
@@ -138,13 +151,13 @@ const Chat = (props: Props) => {
       const pending = await response1.json();
       console.log("PENDING MESSAGES",pending)//pending.msg.chats
       let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
-      id2 != null && pending.data.map((chat: any) => {
-        chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.receiver, numberMessages: chat.pendingMessages})
+      pending.data.map((chat: any) => {//chat.pendingMessages != 0 &&         
+        chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
       })
       setPendingMessages(arrayPendingMessages);
     }
     currentRoom();
-  },[id1, socketUp])
+  },[id1, socketUp])//socketUp
 
   //Charge the messages of the current room, after set de id2 and current room
   useEffect(() => {
@@ -167,7 +180,9 @@ const Chat = (props: Props) => {
           setMessages(dataMessages.data)
         }
       }
-    getMessagesOfCurrentRoom(room?.data._id)
+      if(room != undefined && room.msg != "No current room"){
+        getMessagesOfCurrentRoom(room?.data._id)
+      }
   },[room])
   
 
@@ -177,9 +192,9 @@ const Chat = (props: Props) => {
       // console.log("currentRoom", currentRoom);
       // console.log("id2", id2);
       // console.log("Mensaje de:", data.from);
-      // console.log("Booelan", id2 == data.from || id1 == data.from);  
-      console.log(data)
+      // console.log("Booelan", id2 == data.from || id1 == data.from); 
       setDataMessages(data);
+      id2 == data.from && deletePendingMessage(id2);
     })
 
     socket.on('typing', (data:any) => {     
@@ -192,12 +207,12 @@ const Chat = (props: Props) => {
   useEffect(() => {
     if(dataMessages.from == id2 || dataMessages.from == id1) {
       setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
-      const userLoged = users.find(user => user._id == id1);
-      console.log("HOLAAAAAAAAAAAAAAAAA",userLoged)
-      userLoged?.chats.map(chat => {
-        setPendingMessages([...pendingMessages, {id:chat._id, numberMessages: chat.pendingMessages}])
-      })
-      setUser(userLoged);
+      // const userLoged = users.find(user => user._id == id1);
+      // console.log("HOLAAAAAAAAAAAAAAAAA",userLoged)
+      // userLoged?.chats.map(chat => {
+      //   setPendingMessages([...pendingMessages, {id:chat._id, numberMessages: chat.pendingMessages}])
+      // })
+      // setUser(userLoged);
     }else{
       const exist = pendingMessages.find(chat => chat.id == dataMessages.from);
       console.log(exist);
@@ -354,7 +369,7 @@ const Chat = (props: Props) => {
           <h2>Soy {userName} </h2>
           <h1> {t('additional').messages}</h1>
           <div className={styles.main_content}>
-            <ChatRoom messages={messages} setMessages={setMessages} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers} pendingMessages={pendingMessages} userName={userName} typing={typing}/>
+            <ChatRoom messages={messages} setMessages={setMessages} deletePendingMessage={deletePendingMessage} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers} pendingMessages={pendingMessages} userName={userName} typing={typing}/>
             <ContactsContainer users={users} usersConnected={connectedUsers} deletePendingMessage={deletePendingMessage} socket={socket} id1={id1} id2={id2} setid2={setid2} setCurrentRoom={setCurrentRoom} setMessages={setMessages} pendingMessages={pendingMessages}/>
           </div>
         </div>

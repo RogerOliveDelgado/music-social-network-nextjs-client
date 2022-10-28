@@ -11,6 +11,7 @@ import { useI18N } from '../../context/i18';
 
 import {Socket} from 'socket.io-client'
 import { off } from 'process';
+import { useCookies } from 'react-cookie';
 
 type Props = {
   messages: string[],
@@ -23,16 +24,22 @@ type Props = {
   socket: Socket,
   usersConnected:{id:string, socketId:string, usuario: string}[],
   pendingMessages:{id:string, numberMessages:number}[],
-  userName: string
-  typing: string
+  userName: string,
+  typing: string,
+  deletePendingMessage: Function
 };
+
 
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
   const  [_document, set_document] = useState(null);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+    'username',
+  ]);
+  const token = cookies.userToken;
   useEffect(() => {
     chat && chat.current.scrollTo(0, chat.current.scrollHeight, 'smooth');
     // chat && console.log(chat);
@@ -77,7 +84,7 @@ const ChatRoom = (props: Props) => {
         // console.log("sender",id1);
         // console.log("receiver", id2);      
         // console.log("name", currentRoom); 
-
+        props.deletePendingMessage(props.id2)
         props.socket.emit(`send-Message`, {msg:`${props.userName}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//props.currentRoom por userName
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
         // console.log(data);

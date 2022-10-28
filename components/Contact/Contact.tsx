@@ -46,7 +46,7 @@ const Contact = (props: Props) => {
     >
       <div className={styles.contact_image}>
         <Image
-          src={props.image}
+          src={props.image}//props.user.image
           alt="contact_default"
           width={50}
           height={50}
@@ -55,10 +55,8 @@ const Contact = (props: Props) => {
       </div>
       <p className={styles.contact_name}>{props.name}</p>
       {
-        userMessages == undefined ? <span></span> : <span style={{width:'2rem', height:'2rem', borderRadius:'50%', backgroundColor:'green'}}>{userMessages?.numberMessages}</span>
-        // <div style={{width:'0.5rem', height:'0.5rem', borderRadius:'50%', backgroundColor:'red'}}></div>
+        userMessages == undefined ? <span></span> : <span style={{display:'flex', alignItems:'center', justifyContent:'center',width:'2rem', height:'2rem', borderRadius:'50%', backgroundColor:'rgb(120, 227, 120)'}}>{userMessages?.numberMessages}</span>
       }
-
     </div>
   );
 };

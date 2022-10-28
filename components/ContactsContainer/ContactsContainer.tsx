@@ -8,6 +8,7 @@ import {Album} from '../../interfaces/albumResponse'
 import {Artist} from '../../interfaces/artistResponse'
 import {Data} from '../../interfaces/tracks'
 import { Socket } from 'socket.io-client';
+import { useCookies } from 'react-cookie';
 
 type Props = {
   users: {
@@ -37,8 +38,12 @@ type Props = {
 const ContactsContainer = (props: Props) => {
   const [activeContact, setActiveContact] = useState(0);
   const { t } = useI18N();
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU5NDc4ZGNjM2I0YTllM2Q0NzBmNjciLCJ1c2VybmFtZSI6Imp1YW5reSIsImlhdCI6MTY2Njg1NDk3MSwiZXhwIjoxNjY3Mjg2OTcxfQ.uOmmmsy3TFUv_PoiE1cZeva4Ep0uNHvMcHJiYWY1Be0";
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+    'username',
+  ]);
+  const token = cookies.userToken;
   const actvateRoom = (id: number) => {
     setActiveContact(id);
   };
@@ -69,8 +74,6 @@ const ContactsContainer = (props: Props) => {
       props.setMessages(msgs.data)
     }
   }
-  console.log(props.users);
-  
   return (
     <div className={styles.contacts_container}>
       <h2>{t('additional').contacts}</h2>
@@ -84,7 +87,7 @@ const ContactsContainer = (props: Props) => {
                   <Contact
                     key={index}
                     name={`${user.username}`}
-                    active={props.usersConnected.find(userConn => userConn.usuario == user.username) ? true : false}
+                    active={props.usersConnected.find(userConn => userConn.id == user._id) ? true : false}
                     image="/Images/contact_default_male.png"
                     setCurrentRoom={props.setCurrentRoom}
                     setid2={props.setid2}
