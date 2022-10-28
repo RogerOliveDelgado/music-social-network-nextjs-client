@@ -153,10 +153,16 @@ function Sidebar(props: ButtonProps) {
     });
 
     const data = await response.json();
+    // console.log(data);
+    return data;
   };
 
   useEffect(() => {
-    // fetchingData();
+    fetchingData().then((data) => {
+      if (data.ok) {
+        toast.success("File upload successfully");
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaDataSongFile]);
 
@@ -184,7 +190,7 @@ function Sidebar(props: ButtonProps) {
 
         // setSongName("");
         setSongFile({} as File);
-        toast.success("File upload successfully");
+        // toast.success("File upload successfully");
       } else {
         toast.error("File size is too big. Maximum size is 10MB");
         return;
