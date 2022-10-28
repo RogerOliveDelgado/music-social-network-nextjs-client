@@ -32,7 +32,8 @@ type Props = {
   setCurrentRoom: React.Dispatch<React.SetStateAction<string>>,
   setMessages: React.Dispatch<React.SetStateAction<string[]>>,
   deletePendingMessage: Function,
-  pendingMessages:{id:string, numberMessages:number}[]
+  pendingMessages:{id:string, numberMessages:number}[],
+  setContacts: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ContactsContainer = (props: Props) => {
@@ -54,7 +55,6 @@ const ContactsContainer = (props: Props) => {
     props.deletePendingMessage(props.id2)//userId
     props.setid2(userId)
     props.setCurrentRoom(value)
-    console.log("CAMBIO USER", userId)
       
     props.setMessages([])
     //recogemos los mensajes cada vez que cambiamos de chat
@@ -67,7 +67,6 @@ const ContactsContainer = (props: Props) => {
       body:JSON.stringify({toUserId:userId})
     })
     const msgs = await response.json();
-    console.log(msgs)
     if(msgs.data == undefined){
       props.setMessages([""]);
     }else{
@@ -75,19 +74,20 @@ const ContactsContainer = (props: Props) => {
     }
   }
   return (
-    <div className={styles.contacts_container}>
+    <div className={styles.contacts_container} id="contacts">
       <h2>{t('additional').contacts}</h2>
       <div className={styles.contacts_wrapper}>
         {/* Make a map to print all the users */}
         {
           props.users.map((user, index) => {
+            console.log(user)
             if(user._id != props.id1){
               return (
                 <>
                   <Contact
                     key={index}
                     name={`${user.username}`}
-                    active={props.usersConnected.find(userConn => userConn.id == user._id) ? true : false}
+                    active={props.usersConnected.find(userConn => userConn.id == user._id.toString()) ? true : false}
                     image="/Images/contact_default_male.png"
                     setCurrentRoom={props.setCurrentRoom}
                     setid2={props.setid2}
@@ -95,6 +95,7 @@ const ContactsContainer = (props: Props) => {
                     user={user}
                     id1={props.id1}
                     pendingMessages={props.pendingMessages}
+                    setContacts={props.setContacts}
                   />
                 </>
               )

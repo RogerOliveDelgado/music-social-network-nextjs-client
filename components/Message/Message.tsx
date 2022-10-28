@@ -16,12 +16,11 @@ const Message = ({ image, text, user, currentRoom }: Props) => {
         user && styles.message_container_user
       }`}
     >
-      <Image src={image} alt="contact" width={40} height={40} layout="fixed" />
+      {/* <Image src={image} alt="contact" width={40} height={40} layout="fixed" /> */}
       <div
         className={`${styles.message_info} ${user && styles.message_info_user}`}
       >
-        <p className={styles.text}>{text.split(':')[1]}</p>
-        {/* <p className={styles.text}>{text}</p> */}
+        <p className={`${styles.text} ${currentRoom != text.split(':')[0] ? styles.text_right : styles.text_left}`}>{text.split(':')[1]}</p>
       </div>
     </div>
   );

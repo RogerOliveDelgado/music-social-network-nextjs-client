@@ -12,6 +12,9 @@ import { useI18N } from '../../context/i18';
 import {Socket} from 'socket.io-client'
 import { off } from 'process';
 import { useCookies } from 'react-cookie';
+import { Playlist } from '../../interfaces/playlistResponse';
+import { Album, Artist } from '../../interfaces/ServerResponse';
+import { Track } from '../../interfaces/tracks';
 
 type Props = {
   messages: string[],
@@ -26,7 +29,21 @@ type Props = {
   pendingMessages:{id:string, numberMessages:number}[],
   userName: string,
   typing: string,
-  deletePendingMessage: Function
+  deletePendingMessage: Function,
+  users: {
+    _id:string,
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    genres: string[];
+    phone: string;
+    playlists: Partial<Playlist>[];
+    albums: Partial<Album>[];
+    artists: Partial<Artist>[];
+    likedSongs: Partial<Track>[];
+  }[],
+  setContacts: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 
@@ -34,6 +51,12 @@ const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
   const  [_document, set_document] = useState(null);
+  const [image, setImage] = useState<string | undefined>("");
+  useEffect(()=>{
+      const userChat = props.users.find(user => user._id == props.id2)
+      setImage(userChat?.image)
+  },[])
+  
   const [cookies, setCookie, removeCookie] = useCookies([
     'userID',
     'userToken',
@@ -42,14 +65,11 @@ const ChatRoom = (props: Props) => {
   const token = cookies.userToken;
   useEffect(() => {
     chat && chat.current.scrollTo(0, chat.current.scrollHeight, 'smooth');
-    // chat && console.log(chat);
   }, []);
 
   //set the input message value
   const handleInput = (value:string) => {    
     if(window.location.host == "localhost:3000"){
-      console.log("Escribiendo");
-      
       props.setInput(value);
       if(value == ""){
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
@@ -77,45 +97,35 @@ const ChatRoom = (props: Props) => {
 
   //send the message
   const submitMessage = async() => {
-    console.log(window.location.host);
     if(props.input != ""){
-      if(window.location.host == "localhost:3000"){
-        // const id = id1;
-        // console.log("sender",id1);
-        // console.log("receiver", id2);      
-        // console.log("name", currentRoom); 
         props.deletePendingMessage(props.id2)
         props.socket.emit(`send-Message`, {msg:`${props.userName}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//props.currentRoom por userName
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})
-        // console.log(data);
         const response = await fetch("http://localhost:4001/chat/messages",{
           method:'POST',
           headers:{
-            // "Access-Control-Allow-Origin":'*',
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({toUser: props.id2, messages:`${props.userName}:${props.input}`,users: props.usersConnected})
         })
       const dataResponse = await response.json()
-      console.log("MSG",dataResponse);        
-      }
     }
-    // console.log(socket.id);
     props.setInput("");
   }
 
-  console.log("MENSAJES",props.messages)
+  const handleChatRoom = () => {
+    props.setContacts(false);
+  }
   return (
-    <div className={styles.chat_room_container}>
-      {/* <p>{props.currentRoom} {props.typing}</p> */}
+    <div className={styles.chat_room_container} id="chatRoom">
       <div className={styles.chat_room_header}>
-        <IconButton aria-label="back">
-          <ArrowBackIcon />
+        <IconButton aria-label="back" className={styles.arrow_button} onClick={handleChatRoom}>
+          <ArrowBackIcon />          
         </IconButton>
         <Image
           className={styles.chat_room_image}
-          src="/Images/contact_default_male.png"
+          src={ image != undefined ? image : "/Images/contact_default_male.png" }
           alt="contact_default"
           height={50}
           width={50}
@@ -136,7 +146,7 @@ const ChatRoom = (props: Props) => {
                 {
                   message != "" && <Message
                     key={index}
-                    image={'/Images/contact_default_male.png'}
+                    image={ image != undefined ? image : "/Images/contact_default_male.png" }
                     text={message}
                     currentRoom={props.currentRoom}
                   />

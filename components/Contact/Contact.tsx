@@ -27,7 +27,8 @@ type Props = {
   },
   handleUser: Function,
   id1:string | undefined,
-  pendingMessages:{id:string, numberMessages:number}[]
+  pendingMessages:{id:string, numberMessages:number}[],
+  setContacts: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const Contact = (props: Props) => {
@@ -35,16 +36,20 @@ const Contact = (props: Props) => {
   if(props.user._id != props.id1){
     userMessages= props.pendingMessages.find(chat => chat.id == props.user._id)
   }
+
+  const handleContacts = () => {
+    props.setContacts(true);
+  }
   return (
     <div
       className={`${styles.contact_container} ${
         props.active && styles.contact_container_active
       }`}
-      onClick={()=>{props.setCurrentRoom(props.user.username); props.setid2(props.user._id);props.handleUser(props.user.username, props.user._id)}}
+      onClick={()=>{props.setCurrentRoom(props.user.username); props.setid2(props.user._id);props.handleUser(props.user.username, props.user._id);handleContacts()}}
     >
       <div className={styles.contact_image}>
         <Image
-          src={props.image}//props.user.image
+          src={props.user.image}
           alt="contact_default"
           width={50}
           height={50}

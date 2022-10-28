@@ -16,8 +16,13 @@ import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
 import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
+import { Props } from "next/script";
 
-function NavbarIcons() {
+type Props = {
+  userMessage:number
+};
+
+function NavbarIcons({userMessage}:Props) {
   const { t } = useI18N();
 
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -70,7 +75,7 @@ function NavbarIcons() {
           cursor: "pointer",
         }}
         onClick={() => router.push("/chat")}
-      />
+      />{userMessage}
       <LanguageSelector />
       <div className={styles.separator}></div>
       <Button
@@ -101,7 +106,7 @@ function NavbarIcons() {
         </Link>
         <Link href={"/login"}>
           <button
-            onClick={removeStoragedCookie}
+            onClick={()=>{removeStoragedCookie(); disconnectUserFromChat()}}
             style={{ backgroundColor: "transparent", border: "none" }}
           >
             <MenuItem>{t("content").logout}</MenuItem>

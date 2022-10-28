@@ -62,8 +62,13 @@
   border-radius: 5px;
 }
 
-@media screen and (max-width: 800px) {
-  .chat_room_container {
+@media screen and (min-width: 900px) {
+  .arrow_button{
     display: none;
+  }
+}
+@media screen and (max-width: 900px) {
+  .chat_room_container {
+    width: 100%;
   }
 }

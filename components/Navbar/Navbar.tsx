@@ -4,15 +4,17 @@ import SearchAppBar from "../SearchBar/SearchBar";
 import Logo from "../Logo/Logo";
 import NavbarIcons from "../NavbarIcons/NavbarIcons";
 
-type Props = {};
+type Props = {
+  userMessage:number
+};
 
-function Navbar({}: Props) {
+function Navbar({userMessage}: Props) {
   return (
     <>
       <div className={styles.navbar}>
         <Logo Height={30} Width={100} ClassName={"logoNavbar"} />
         <SearchAppBar />
-        <NavbarIcons />
+        <NavbarIcons userMessage={userMessage}/>
       </div>
     </>
   );

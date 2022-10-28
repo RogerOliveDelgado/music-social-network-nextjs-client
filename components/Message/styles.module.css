@@ -35,3 +35,11 @@
   padding: 0.3rem;
   color: black;
 }
+
+.text_right{
+  background-color: rgb(165, 240, 165);
+}
+
+.text_left{
+  background-color: white;
+}

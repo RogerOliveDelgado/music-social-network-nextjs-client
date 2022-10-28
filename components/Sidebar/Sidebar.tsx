@@ -31,6 +31,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import toast, { Toaster } from "react-hot-toast";
 import { useCookies } from "react-cookie";
+import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
 
 const drawerWidth = "15rem";
 
@@ -251,6 +252,7 @@ function Sidebar(props: ButtonProps) {
                 onClick={() => {
                   handleNavigation(`${item.url}`);
                   uploadSongModal(item.text);
+                  disconnectUserFromChat();
                 }}
                 sx={{
                   display: "block",
@@ -382,7 +384,7 @@ function Sidebar(props: ButtonProps) {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={uploadSong}>Upload song</Button>
+            <Button onClick={()=>{uploadSong();disconnectUserFromChat();}}>Upload song</Button>
           </DialogActions>
         </BootstrapDialog>
       </div>
