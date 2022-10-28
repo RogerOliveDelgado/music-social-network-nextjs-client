@@ -25,6 +25,12 @@ export default {
     contacts: "Contacts",
     send: "Send",
     message: "Message to ",
+    emptyMessage:
+      "There's nothing in your library, check out albums and artists you like or create a playlist to fill it up",
+    emptyAlbumMsg:
+      "There are no albums available yet. You can add some by clicking on the menu on the left.",
+    emptyArtistMsg:
+      "There are no artists available yet. You can add some by clicking on the menu on the left.",
   },
   headers: {
     headerFavorites: "Your favorites",

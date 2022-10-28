@@ -140,26 +140,28 @@ function Sidebar(props: ButtonProps) {
   };
 
   const fetchingData = async () => {
-    const response = await fetch(`${BASE_URL_SPOTIFY}/track`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        title: songName,
-        trackAudio: metaDataSongFile,
-      }),
-    });
+    if (metaDataSongFile !== undefined) {
+      const response = await fetch(`${BASE_URL_SPOTIFY}/track`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: songName,
+          trackAudio: metaDataSongFile || "",
+        }),
+      });
 
-    const data = await response.json();
-    // console.log(data);
-    return data;
+      const data = await response.json();
+      // console.log(data);
+      return data;
+    }
   };
 
   useEffect(() => {
     fetchingData().then((data) => {
-      if (data.ok) {
+      if (data?.ok) {
         toast.success("File upload successfully");
       }
     });

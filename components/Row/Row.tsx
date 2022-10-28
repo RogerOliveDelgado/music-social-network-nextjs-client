@@ -11,7 +11,7 @@ const Row = ({ title, data, children }: any) => {
   return (
     <div className={styles.row_container}>
       <div className={styles.row_header}>
-        <h2>{title}</h2>
+        <h2>{data !== undefined || data?.length !== 0 ? title : <></>}</h2>
       </div>
       <div className={styles.horizontal_scroll}>
         {!children &&
