@@ -41,6 +41,7 @@ type Props = {
   heightValue?: number;
   artist?: string;
   allowDelete?: boolean;
+  deleteTrackFromPlaylist?: (track: Track) => Promise<void>
 };
 
 const TrackList = ({
@@ -49,6 +50,7 @@ const TrackList = ({
   heightValue,
   artist,
   allowDelete,
+  deleteTrackFromPlaylist,
 }: Props) => {
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
@@ -157,13 +159,6 @@ const TrackList = ({
     }
   );
 
-  const { refetch: refetchPlaylistDetails } = useGetPlaylistDetailsQuery(
-    { playlistID: router.query.playlistID, token: cookies.userToken },
-    {
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: true,
-    }
-  );
 
   const playlistId = router.query.playlistID;
   const userPlaylists = playlists?.data?.playlists;
@@ -194,28 +189,7 @@ const TrackList = ({
     handleClose();
   };
 
-  const deleteTrackFromPlaylist = async (track: Track) => {
-    try {
-      const response = await fetch(
-        `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            Authorization: `bearer ${cookies.userToken}`,
-          },
-          body: JSON.stringify({
-            tracks: track._id,
-          }),
-        }
-      );
-      if (response.ok) {
-        refetchPlaylistDetails();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   const isInPlaylistPath = router.pathname.includes('playlist');
 

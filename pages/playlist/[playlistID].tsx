@@ -36,8 +36,6 @@ const Playlist = (tracks: any) => {
     }
   );
 
-
-
   const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
   const debouncedValue = useDebounce<string>(search, 300);
@@ -102,7 +100,30 @@ const Playlist = (tracks: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change]);
 
+  const playlistId = query.playlistID;
 
+  const deleteTrackFromPlaylist = async (track: Track) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `bearer ${cookies.userToken}`,
+          },
+          body: JSON.stringify({
+            tracks: track._id,
+          }),
+        }
+      );
+      if (response.ok) {
+        refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -133,6 +154,7 @@ const Playlist = (tracks: any) => {
                 name={playlist?.data?.title}
                 tracks={playlist?.data?.tracks}
                 allowDelete={true}
+                deleteTrackFromPlaylist={deleteTrackFromPlaylist}
               />
             </div>
             <Searchbar handleChange={handleChange} />
