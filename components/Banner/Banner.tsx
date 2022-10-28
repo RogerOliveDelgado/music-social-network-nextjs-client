@@ -1,6 +1,4 @@
 import styles from './styles.module.css';
-import { Button } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
 import Image from 'next/image';
 import { useI18N } from '../../context/i18';
 

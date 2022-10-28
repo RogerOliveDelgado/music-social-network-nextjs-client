@@ -28,6 +28,12 @@ export default {
     message: "Message to ",
     emptyMessage:
       "There's nothing in your library, check out albums and artists you like or create a playlist to fill it up",
+    edit: "Edit details",
+    selectImage: "Select image",
+    playlistName: "Playlist name",
+    playlistDescription: "Playlist description",
+    cancel: "Cancel",
+    saveChanges: "Save changes",
   },
   headers: {
     headerFavorites: "Your favorites",
@@ -54,5 +60,16 @@ export default {
     phone: "Phone",
     email: "Email address",
     saveButton: "Save",
+    trackList: "Your playlists:",
+    searchTitle: "Let's find something to add to your playlist",
+    searchPlaceholder: "Search for songs to add to your playlist...",
   },
+  tooltip: {
+    addAlbum: "Add this album to your library",
+    addFavorites: "Add to favorites",
+    addTrack: "Add track to playlist",
+    removeTrack: "Remove track from playlist",
+    editPlaylist: "Edit playlist",
+    deletePlaylist: "Delete playlist",
+  }
 };

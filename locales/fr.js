@@ -28,6 +28,12 @@ export default {
     message: "Message à",
     emptyMessage:
       "Il n'y a rien dans votre bibliothèque, consultez les albums et les artistes que vous aimez ou créez une liste de lecture pour la remplir.",
+    edit: "Modifier playlist",
+    selectImage: "Sélectionner une image",
+    playlistName: "Nom de la playlist",
+    playlistDescription: "Description de la playlist",
+    cancel: "Annuler",
+    saveChanges: "Sauvegarder les modifications",
   },
   headers: {
     headerFavorites: "Vos favoris",
@@ -54,5 +60,17 @@ export default {
     phone: "Téléphone",
     email: "Adresse e-mail",
     saveButton: "Save",
+    trackList: "Vos playlists:",
+    searchTitle: "Trouvons quelque chose à ajouter à votre playlist",
+    searchPlaceholder:
+      "Rechercher des chansons à ajouter à votre liste de lecture",
+  },
+  tooltip: {
+    addAlbum: "Ajouter un album à la librairie",
+    addFavorites: "Ajouter aux favoris",
+    addTrack: "Ajouter une chanson à la playlist",
+    removeTrack: "Supprimer une chanson de la playlist",
+    editPlaylist: "Modifier la playlist",
+    deletePlaylist: "Supprimer la playlist",
   },
 };

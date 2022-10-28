@@ -69,7 +69,6 @@ const Library = (props: Props) => {
     }
   );
 
-  console.log(user);
 
   const { t } = useI18N();
 

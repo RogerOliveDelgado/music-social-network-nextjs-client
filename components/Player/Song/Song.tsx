@@ -207,7 +207,7 @@ function Song() {
         {likedSongs?.some(
           (element: Track) => element._id === currentTrack?._id
         ) ? (
-          <Tooltip title="Add to favorites">
+          <Tooltip title={t('tooltip').addFavorites}>
             <FavoriteIcon
               onClick={() => {
                 addSong(currentTrack);
@@ -215,7 +215,7 @@ function Song() {
             />
           </Tooltip>
         ) : (
-          <Tooltip title="Add to favorites">
+          <Tooltip title={t('tooltip').addFavorites}>
             <FavoriteBorderIcon
               onClick={() => {
                 addSong(currentTrack);
@@ -223,7 +223,7 @@ function Song() {
             />
           </Tooltip>
         )}
-        <Tooltip title="Add track to playlist">
+        <Tooltip title={t('tooltip').addTrack}>
           <Button
             color="inherit"
             id="basic-button"

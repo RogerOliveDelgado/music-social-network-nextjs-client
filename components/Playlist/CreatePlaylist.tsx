@@ -1,50 +1,51 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Tooltip } from '@mui/material';
-import Swal from 'sweetalert2';
-import { useMediaQuery } from 'react-responsive';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
-import React, { ChangeEvent, useState } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import styles from './styles.module.css';
-import { TextareaAutosize } from '@mui/base';
-import toast, { Toaster } from 'react-hot-toast';
-import { useRouter } from 'next/router';
-import { useCookies } from 'react-cookie';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Tooltip } from "@mui/material";
+import Swal from "sweetalert2";
+import { useMediaQuery } from "react-responsive";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
+import React, { ChangeEvent, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import styles from "./styles.module.css";
+import { TextareaAutosize } from "@mui/base";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+import { useI18N } from "../../context/i18";
 
 function CreatePlaylist(props: any) {
   const router = useRouter();
   const [cookies, setCookie] = useCookies([
-    'userToken',
-    'username',
-    'userID',
-    'refreshToken',
+    "userToken",
+    "username",
+    "userID",
+    "refreshToken",
   ]);
   const playlistId = router.query.playlistID;
   const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
 
   const TOKEN =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak';
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
 
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
   const [playlistImage, setPlaylistImage] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [playlistName, setPlaylistName] = useState('');
-  const [title, setTitle] = useState('New playlist');
-  const [playlistDescription, setPlaylistDescription] = useState('');
-  const [description, setDescription] = useState('');
+  const [playlistName, setPlaylistName] = useState("");
+  const [title, setTitle] = useState("New playlist");
+  const [playlistDescription, setPlaylistDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [metaDataplayListImage, setMetaDataPlayListImage] = useState<string>();
   const [open, setOpen] = React.useState(false);
 
   const defaultImage =
-    'https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png';
+    "https://res.cloudinary.com/juancarlos/image/upload/v1666622105/soc3kvuyp97jrrxlhya6.png";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,9 +69,9 @@ function CreatePlaylist(props: any) {
     try {
       metaDataplayListImage === undefined ? defaultImage : null;
       const response = await fetch(`${BASE_URL_SPOTIFY}/playlist`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
+          "Content-Type": "application/json; charset=utf-8",
           Authorization: `Bearer ${cookies.userToken}`,
         },
         body: JSON.stringify({
@@ -85,7 +86,7 @@ function CreatePlaylist(props: any) {
       if (response.status === 400) {
         const result = await response.json();
         console.log(result);
-        toast.error('Oops, something went wrong');
+        toast.error("Oops, something went wrong");
       }
 
       if (response.ok) {
@@ -94,7 +95,7 @@ function CreatePlaylist(props: any) {
         setDescription(playlistDescription);
         setImage(playlistImage);
         setOpen(false);
-        toast.success('Playlist created!');
+        toast.success("Playlist created!");
         setTimeout(() => {
           router.push(`/playlist/${result.data._id}`);
         }, 1000);
@@ -118,15 +119,15 @@ function CreatePlaylist(props: any) {
       const response = await fetch(
         `${BASE_URL_SPOTIFY}/playlist/${playlistId}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json; charset=utf-8',
+            "Content-Type": "application/json; charset=utf-8",
             Authorization: `Bearer ${cookies.userToken}`,
           },
           body: JSON.stringify({
-            title: playlistName == '' ? props.title : playlistName,
+            title: playlistName == "" ? props.title : playlistName,
             description:
-              playlistDescription == ''
+              playlistDescription == ""
                 ? props.description
                 : playlistDescription,
             image: playlistImage == null ? props.image : metaDataplayListImage,
@@ -136,7 +137,7 @@ function CreatePlaylist(props: any) {
       if (response.status === 400) {
         const result = await response.json();
         console.log(result);
-        toast.error('Oops, something went wrong');
+        toast.error("Oops, something went wrong");
       }
 
       if (response.ok) {
@@ -146,7 +147,7 @@ function CreatePlaylist(props: any) {
         props.setDescription(result.data.description);
         props.setChange(!props.change);
         setOpen(false);
-        toast.success('Playlist information edited succesfully!');
+        toast.success("Playlist information edited succesfully!");
       }
     } catch (error) {
       console.error(error);
@@ -161,15 +162,15 @@ function CreatePlaylist(props: any) {
       reader.onloadend = () => {
         // Use a regex to remove data url part
         const base64String = reader?.result
-          ?.replace('data:', '')
-          .replace(/^.+,/, '');
+          ?.replace("data:", "")
+          .replace(/^.+,/, "");
         setMetaDataPlayListImage(base64String);
         // Logs wL2dvYWwgbW9yZ...
       };
       reader.readAsDataURL(file);
       setPlaylistImage(file);
     } else {
-      toast.error('File size is too big. Maximum size is 10MB');
+      toast.error("File size is too big. Maximum size is 10MB");
       setOpen(false);
       return;
     }
@@ -177,30 +178,30 @@ function CreatePlaylist(props: any) {
 
   const deletePlaylist = async () => {
     Swal.fire({
-      title: 'Do you want to delete the playlist?',
+      title: "Do you want to delete the playlist?",
       showCancelButton: true,
-      confirmButtonText: 'Delete',
+      confirmButtonText: "Delete",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await fetch(
             `${BASE_URL_SPOTIFY}/playlist/${playlistId}`,
             {
-              method: 'DELETE',
+              method: "DELETE",
               headers: {
-                'Content-Type': 'application/json; charset=utf-8',
+                "Content-Type": "application/json; charset=utf-8",
                 Authorization: `Bearer ${cookies.userToken}`,
               },
             }
           );
           if (response.status === 400) {
             const result = await response.json();
-            toast.error('Oops, something went wrong');
+            toast.error("Oops, something went wrong");
           }
 
           if (response.ok) {
             const result = await response.json();
-            toast.success('Playlist deleted succesfully!');
+            toast.success("Playlist deleted succesfully!");
             setTimeout(() => {
               router.push(`/`);
             }, 1500);
@@ -213,8 +214,10 @@ function CreatePlaylist(props: any) {
   };
 
   const isLargeScreen = useMediaQuery({
-    query: '(min-width: 670px)',
+    query: "(min-width: 670px)",
   });
+
+  const { t } = useI18N();
 
   return (
     <>
@@ -227,11 +230,11 @@ function CreatePlaylist(props: any) {
           <div
             className={playlistId ? styles.icons_wrapper : styles.unique_icon}
           >
-            <Tooltip title="Edit playlist">
+            <Tooltip title={t('tooltip').editPlaylist}>
               <EditIcon onClick={handleClickOpen} />
             </Tooltip>
             {playlistId && (
-              <Tooltip title="Delete playlist">
+              <Tooltip title={t('tooltip').deletePlaylist}>
                 <DeleteForeverIcon onClick={() => deletePlaylist()} />
               </Tooltip>
             )}
@@ -287,22 +290,22 @@ function CreatePlaylist(props: any) {
           open={open}
           onClose={handleClose}
           sx={{
-            '& .css-1x51dt5-MuiInputBase-input-MuiInput-input': {
-              color: 'white',
+            "& .css-1x51dt5-MuiInputBase-input-MuiInput-input": {
+              color: "white",
             },
           }}
         >
           <div className={styles.modal}>
             <DialogTitle
               sx={{
-                color: 'white',
+                color: "white",
               }}
             >
-              Edit Details
+              {t("additional").edit}
             </DialogTitle>
             <DialogContent
               sx={{
-                display: isLargeScreen ? 'flex' : 'block',
+                display: isLargeScreen ? "flex" : "block",
               }}
             >
               <div
@@ -339,7 +342,7 @@ function CreatePlaylist(props: any) {
                         src="/images/default_playlist.png"
                       />
                     </picture>
-                    <span>Select an image</span>
+                    <span>{t("additional").selectImage}</span>
                   </>
                 )}
 
@@ -365,7 +368,7 @@ function CreatePlaylist(props: any) {
                 <TextField
                   autoFocus
                   defaultValue={props.playlistId ? props.title : playlistName}
-                  placeholder="Playlist name"
+                  placeholder={t("additional").playlistName}
                   margin="dense"
                   id="name"
                   type="text"
@@ -381,14 +384,14 @@ function CreatePlaylist(props: any) {
                   defaultValue={
                     props.playlistId ? props.description : playlistDescription
                   }
-                  placeholder="Add a description to your playlist"
+                  placeholder={t("additional").playlistDescription}
                   style={{
                     width: 200,
                     height: 100,
-                    backgroundColor: 'var(--lightGrey)',
-                    color: 'white',
+                    backgroundColor: "var(--lightGrey)",
+                    color: "white",
                     fontFamily:
-                      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+                      "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
                   }}
                   onChange={(e) => setPlaylistDescription(e.target.value)}
                 />
@@ -400,17 +403,17 @@ function CreatePlaylist(props: any) {
                 startIcon={
                   <CloseIcon
                     sx={{
-                      color: 'red',
+                      color: "red",
                     }}
                   />
                 }
                 color="error"
                 onClick={handleClose}
                 sx={{
-                  color: 'white',
+                  color: "white",
                 }}
               >
-                Cancel
+                {t("additional").cancel}
               </Button>
               <Button
                 onClick={
@@ -433,7 +436,7 @@ function CreatePlaylist(props: any) {
                 variant="contained"
                 endIcon={<CheckIcon />}
               >
-                Save Changes
+                {t("additional").saveChanges}
               </Button>
             </DialogActions>
           </div>

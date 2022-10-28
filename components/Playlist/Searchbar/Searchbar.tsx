@@ -1,4 +1,5 @@
 import React from "react";
+import { useI18N } from "../../../context/i18";
 import styles from "./styles.module.css";
 
 function Searchbar({
@@ -6,17 +7,18 @@ function Searchbar({
 }: {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
+  const { t } = useI18N();
   return (
     <>
       <div className={styles.container}>
-        <h2 className={styles.title}>Let&apos;s find something to add to your playlist</h2>
+        <h2 className={styles.title}>{t("content").searchTitle}</h2>
         <form className={styles.form} autoComplete="off">
           <label htmlFor="search" className={styles.label}>
             <input
               className={styles.input}
               type="text"
               required
-              placeholder="Search for songs to add to your playlist..."
+              placeholder={t("content").searchPlaceholder}
               id="search"
               onChange={(e) => handleChange(e)}
             />
