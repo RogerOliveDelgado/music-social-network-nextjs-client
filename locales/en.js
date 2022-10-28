@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   home: {
     home: "Home",
@@ -27,10 +28,6 @@ export default {
     message: "Message to ",
     emptyMessage:
       "There's nothing in your library, check out albums and artists you like or create a playlist to fill it up",
-    emptyAlbumMsg:
-      "There are no albums available yet. You can add some by clicking on the menu on the left.",
-    emptyArtistMsg:
-      "There are no artists available yet. You can add some by clicking on the menu on the left.",
   },
   headers: {
     headerFavorites: "Your favorites",
@@ -41,8 +38,10 @@ export default {
     headerConfig: "Settings",
   },
   content: {
-    artists: "There aren't any artists available.",
-    albums: "There aren't any albums available.",
+    artists:
+      "There are no artists available yet. You can add some by clicking on the menu on the left.",
+    albums:
+      "There are no albums available yet. You can add some by clicking on the menu on the left.",
     playlists:
       "There aren't any playlists available yet. You can add some by clicking on the left side menu.",
     search: "Explore all",

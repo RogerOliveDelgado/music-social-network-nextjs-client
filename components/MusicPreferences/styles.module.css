@@ -92,3 +92,15 @@
     display: block;
   }
 }
+
+@media only screen and (max-width: 1024px) {
+  .genresDiv {
+    justify-content: start;
+  }
+}
+
+@media only screen and (max-width: 688px) {
+  .title {
+    margin-left: 0.5rem;
+  }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   home: {
     home: "Accueil",
@@ -27,10 +28,6 @@ export default {
     message: "Message à",
     emptyMessage:
       "Il n'y a rien dans votre bibliothèque, consultez les albums et les artistes que vous aimez ou créez une liste de lecture pour la remplir.",
-    emptyAlbumMsg:
-      "Il n'y a pas encore d'albums disponibles. Vous pouvez en ajouter en cliquant sur le menu à gauche.",
-    emptyArtistMsg:
-      "Il n'y a pas encore d'artistes disponibles. Vous pouvez en ajouter en cliquant sur le menu à gauche.",
   },
   headers: {
     headerFavorites: "Vos favoris",
@@ -41,8 +38,10 @@ export default {
     headerConfig: "Paramètres",
   },
   content: {
-    artists: "Il n'y a pas d'artiste disponible.",
-    albums: "Il n'y a pas d'album disponible.",
+    artists:
+      "Il n'y a pas encore d'artistes disponibles. Vous pouvez en ajouter en cliquant sur le menu à gauche.",
+    albums:
+      "Il n'y a pas encore d'albums disponibles. Vous pouvez en ajouter en cliquant sur le menu à gauche.",
     playlists:
       "Il n'y a pas encore de listes de lecture disponibles. Vous pouvez en ajouter en cliquant sur le menu de gauche.",
     search: "Explorer tout",

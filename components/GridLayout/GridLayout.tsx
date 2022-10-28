@@ -1,10 +1,10 @@
-import styles from './styles.module.css';
-import { Album } from '../../interfaces/albumResponse';
-import { Artist } from '../../interfaces/artistResponse';
-import { Playlist } from '../../interfaces/playlistResponse';
-import AlbumCard from '../AlbumCard/AlbumCard';
+import styles from "./styles.module.css";
+import { Album } from "../../interfaces/albumResponse";
+import { Artist } from "../../interfaces/artistResponse";
+import { Playlist } from "../../interfaces/playlistResponse";
+import AlbumCard from "../AlbumCard/AlbumCard";
 
-import { useI18N } from '../../context/i18';
+import { useI18N } from "../../context/i18";
 
 type Props = {
   data?: Album[] | Artist[] | Playlist[];

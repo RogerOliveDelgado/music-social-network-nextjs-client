@@ -77,9 +77,9 @@ const Library = (props: Props) => {
     setFilter({ [view]: true });
   };
 
-  const isThereAnyArtist = artists?.data?.length! > 0;
-  const isThereAnyAlbum = albums?.data?.length! > 0;
-  const isThereAnyPlaylist = playlist?.data?.playlists?.length > 0;
+  const isThereAnyArtist = user?.data.artists.length! > 0;
+  const isThereAnyAlbum = user?.data.albums.length! > 0;
+  const isThereAnyPlaylist = user?.data.playlists.length! > 0;
 
   return (
     <>
@@ -174,7 +174,6 @@ const Library = (props: Props) => {
 
           {filter?.albums && isThereAnyAlbum ? (
             <>
-              <h3>No album</h3>
               <GridLayout data={user?.data.albums} />
             </>
           ) : (
@@ -186,10 +185,7 @@ const Library = (props: Props) => {
             )
           )}
           {filter?.artists && isThereAnyArtist ? (
-            <>
-              <h3>No artist</h3>
-              <GridLayout data={user?.data.artists} />
-            </>
+            <GridLayout data={user?.data.artists} />
           ) : (
             filter?.artists &&
             !isThereAnyArtist && (
