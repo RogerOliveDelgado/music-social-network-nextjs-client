@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import MusicGenre from '../MusicGenre/MusicGenre';
+import { useI18N } from '../../context/i18';
 
 type Props = {
   signUpCompleted: boolean;
@@ -57,7 +58,7 @@ const MusicPreferences = ({
   setFailedMsg,
 }: Props) => {
   const [likedMusic, setLikedMusic] = useState<string[]>([]);
-
+  const { t } = useI18N();
   const getLikedMusic = (genre: string) => {
     const exist = likedMusic.find((newGenre) => newGenre === genre);
     console.log(likedMusic.find((item) => item === genre));
@@ -76,6 +77,7 @@ const MusicPreferences = ({
     <>
       {signUpCompleted === true && signUpFailed === false ? (
         <div className={styles.divGenre}>
+          <h2 className={styles.title}>{`${t('content').signup}`}</h2>
           <div className={styles.genresDiv}>
             {musicGenre.map((genre) => {
               return (
