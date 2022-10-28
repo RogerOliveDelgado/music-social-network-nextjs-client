@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import styles from './styles.module.css';
-import TrackList from '../../components/TrackList/TrackList';
-import { Track } from '../../interfaces/artistResponse';
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import styles from "./styles.module.css";
+import TrackList from "../../components/TrackList/TrackList";
+import { Track } from "../../interfaces/artistResponse";
 
 interface TabPanelProps {
   data: Track[];
@@ -26,7 +26,7 @@ const TabPanel = ({ data, artist }: TabPanelProps) => {
       <div className={styles.tabs_buttons}>
         <Button
           variant="text"
-          onClick={() => onSelectTab('general')}
+          onClick={() => onSelectTab("general")}
           className={
             tabs?.general ? styles.tab_button_selected : styles.tab_button
           }
@@ -35,7 +35,7 @@ const TabPanel = ({ data, artist }: TabPanelProps) => {
         </Button>
         <Button
           variant="text"
-          onClick={() => onSelectTab('tracks')}
+          onClick={() => onSelectTab("tracks")}
           className={
             tabs?.tracks ? styles.tab_button_selected : styles.tab_button
           }
@@ -44,7 +44,7 @@ const TabPanel = ({ data, artist }: TabPanelProps) => {
         </Button>
         <Button
           variant="text"
-          onClick={() => onSelectTab('albums')}
+          onClick={() => onSelectTab("albums")}
           className={
             tabs?.albums ? styles.tab_button_selected : styles.tab_button
           }
@@ -59,11 +59,31 @@ const TabPanel = ({ data, artist }: TabPanelProps) => {
           </div>
         )}
         {tabs?.tracks && (
-          <div className={styles.trackList_container}>
-            {/* <TrackList name="All Tracks Artist Details" /> */}
-          </div>
+          <section className={styles.tabs_album}>
+          <h3>Stay tuned...</h3>
+          <picture>
+            <img
+              src="/Images/coming_soon.png"
+              alt="Coming Soon"
+              width="250rem"
+              height="150rem"
+            />
+          </picture>
+        </section>
         )}
-        {tabs?.albums && <p>Aqui va la Grid de Albums</p>}
+        {tabs?.albums && (
+          <section className={styles.tabs_album}>
+            <h3>Stay tuned...</h3>
+            <picture>
+              <img
+                src="/Images/coming_soon.png"
+                alt="Coming Soon"
+                width="250rem"
+                height="150rem"
+              />
+            </picture>
+          </section>
+        )}
       </div>
     </div>
   );

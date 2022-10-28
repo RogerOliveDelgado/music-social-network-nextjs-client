@@ -28,3 +28,10 @@
   min-width: 80%;
 }
 
+.tabs_album {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  }
