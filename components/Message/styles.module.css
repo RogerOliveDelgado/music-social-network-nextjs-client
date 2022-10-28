@@ -1,8 +1,17 @@
-.message_container {
-  display: flex;
-
+.message_container_right{
+  display:flex;
   gap: 0.5rem;
   align-items: flex-end;
+  max-width: 100%;
+  justify-content: end;
+}
+
+.message_container_left{
+  display:flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  justify-content: start;
+  max-width: 100%;
 }
 
 .message_container_user {
@@ -18,9 +27,11 @@
 }
 
 .text {
-  background: rgb(155, 118, 118);
+  /* background: rgb(155, 118, 118); */
+  background-color: rgb(165, 240, 165);
   border-radius: 5px;
-  max-width: 90%;
+  max-width: 100%;
   overflow-wrap: break-word;
   padding: 0.3rem;
+  color: black;
 }

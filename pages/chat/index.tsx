@@ -6,10 +6,260 @@ import styles from './styles.module.css';
 import Head from 'next/head';
 import { useI18N } from '../../context/i18';
 
+import { ReactEventHandler, useEffect, useRef, useState } from 'react'
+import {Socket, io} from 'socket.io-client'
+import { Playlist } from '../../interfaces/playlistResponse';
+import { Album, Artist } from '../../interfaces/ServerResponse';
+import { Track } from '../../interfaces/tracks';
+
+import {socketService} from '../../socket/socket'
+import { disconnectUserFromChat } from '../../socket/servicesSocket/services';
+import { useCookies } from 'react-cookie';
+
 type Props = {};
+
+let socketId;
+//Array wich contains the connected users, each time a user make login into chat app, this array will be updated
+let usuarios:{id:string, socketId:string, usuario: string}[] = [];
+
+//Initialize the socket 
+// const socket: Socket = io(`https://chat-backend-turbofieras.herokuapp.com`);
+const socket: Socket = socketService;
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
+  if(typeof window !== "undefined"){
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+    window.addEventListener('beforeunload', function (e) {
+      disconnectUserFromChat();
+    });
+  }
+  const [cookies, setCookie, removeCookie] = useCookies([
+    'userID',
+    'userToken',
+    'username',
+  ]);
+  const token = cookies.userToken;
+  //States to manage the renders of each component
+  const [input, setInput] = useState<string>("");  
+  const [messages, setMessages] = useState<string[]>([""])
+  const [socketUp, setSocketUp] = useState<Socket>(socket);
+  const [users, setUsers] = useState<{
+    _id:string,
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    genres: string[];
+    phone: string;
+    playlists: Partial<Playlist>[];
+    albums: Partial<Album>[];
+    artists: Partial<Artist>[];
+    likedSongs: Partial<Track>[];
+  }[]>([]);
+  const [currentRoom, setCurrentRoom] = useState<string>("");//Nombre de la persona con la que se habla
+  const [id1, setid1] = useState<string | undefined>();
+  const [id2, setid2] = useState<string | undefined>();
+  // const [inputUser,setInputUser] = useState("");
+  const [userName, setUserName] = useState<string>("")
+  const [room, setRoom] = useState<{ok:boolean, data:{_id:string}}>();
+  const [dataMessages, setDataMessages] = useState<{msg:string, from:string}>({msg:"", from:""})
+  const [typing, setTyping] = useState<string>("");
+  const [dataTyping, setDataTyping] = useState<string>("");
+  const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
+  const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
+  const [user, setUser] = useState<{
+    _id:string,
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    genres: string[];
+    phone: string;
+    chats?:{}[];
+    playlists: Partial<Playlist>[];
+    albums: Partial<Album>[];
+    artists: Partial<Artist>[];
+    likedSongs: Partial<Track>[];
+  }>();
+   //Take all the exists users on dataBase
+   useEffect(() => {
+    const getUsers = async() => {
+      const response = await fetch('http://localhost:4001/user',{
+        headers:{
+          Authorization:`Bearer ${token}`
+        },        
+      });
+      const data1 = await response.json();
+      console.log(data1)
+      setUsers(data1.data)  
+      console.log(cookies.userID)
+      setUserName(cookies.username)//Here we will set the name of user account
+      setid1(cookies.userID)//Here we set the id of user account
+      // socket.emit("connected", "6359478dcc3b4a9e3d470f67")
+      // setid2("633ee8ec468b79f49c802292")//This line is in line 62, here this line should be deleted
+      // setCurrentRoom("alicia")
+    }
+    getUsers();
+  },[])
+
+  //Take the lastest open room, as current room
+  useEffect(() => {
+    const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
+    setUserName(userName?.username)
+    if(window.location.host == 'localhost:3000'){
+      socket.emit('update_list', { id: `${id1}`, usuario: cookies.username, action: 'login' });
+    }
+    socket.on('session_update', function(data, socket){
+      socketId = socket;
+      usuarios = data;
+      
+      // Lista de usuarios conectados
+      console.log(usuarios);
+      setConnectedUsers(usuarios)
+    });
+    console.log("*******************",usuarios);
+    socket.emit("connected", id1)
+    const currentRoom = async () => {
+    const responseCurrentRoom = await fetch("http://localhost:4001/chat/currentRoom",{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      const room = await responseCurrentRoom.json();
+      
+      if(room != undefined && room.msg != "No current chat"){
+        console.log(room);
+        setRoom(room);
+        console.log(room.name);
+        setCurrentRoom(room.data.username);
+        setid2(room.data._id);//
+      }
+      // getMessagesOfCurrentRoom(room.data._id)
+      if(window.location.host == "localhost:3001"){
+        setCurrentRoom("Juan Carlos")
+      }
+      const response1 = await fetch('http://localhost:4001/chat/pendingMessages',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          Authorization: `Bearer ${token}`,
+        }
+      })
+      const pending = await response1.json();
+      console.log("PENDING MESSAGES",pending)//pending.msg.chats
+      let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
+      pending.data.map((chat: any) => {//chat.pendingMessages != 0 &&         
+        chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
+      })
+      setPendingMessages(arrayPendingMessages);
+    }
+    currentRoom();
+  },[id1, socketUp])//socketUp
+
+  //Charge the messages of the current room, after set de id2 and current room
+  useEffect(() => {
+    const getMessagesOfCurrentRoom = async (idCurrentRoom:any) => {
+          console.log("currentRoom",idCurrentRoom);
+          console.log("id1",id1);
+          console.log("id2",id2);
+          console.log(currentRoom)
+          if(currentRoom != undefined){
+          const responseOfCurrentRoom = await fetch("http://localhost:4001/chat/getMessages",{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({toUserId:id2})
+          })
+          const dataMessages = await responseOfCurrentRoom.json();
+          console.log("ROGER", dataMessages.data)
+          setMessages(dataMessages.data)
+        }
+      }
+      if(room != undefined && room.msg != "No current chat"){
+        getMessagesOfCurrentRoom(room?.data._id)
+      }
+  },[room])
+  
+
+  //Hearing into the client to receive the sended message and update these messages in DB
+  useEffect(() => {    
+    socket.on(`${id1}`, (data:any) => {
+      // console.log("currentRoom", currentRoom);
+      // console.log("id2", id2);
+      // console.log("Mensaje de:", data.from);
+      // console.log("Booelan", id2 == data.from || id1 == data.from); 
+      setDataMessages(data);
+      id2 == data.from && deletePendingMessage(id2);
+    })
+
+    socket.on('typing', (data:any) => {     
+      console.log("ME ESCRIBEN", data.split(" is ")[0], "currentRom", currentRoom);
+      setTyping(data);      
+    })
+  },[id2])
+
+  //Update the message for the currentRoom or update the pendingMessage if the user is disconnected
+  useEffect(() => {
+    if(dataMessages.from == id2 || dataMessages.from == id1) {
+      setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
+      // const userLoged = users.find(user => user._id == id1);
+      // console.log("HOLAAAAAAAAAAAAAAAAA",userLoged)
+      // userLoged?.chats.map(chat => {
+      //   setPendingMessages([...pendingMessages, {id:chat._id, numberMessages: chat.pendingMessages}])
+      // })
+      // setUser(userLoged);
+    }else{
+      const exist = pendingMessages.find(chat => chat.id == dataMessages.from);
+      console.log(exist);
+      console.log(pendingMessages);
+      
+      if(exist != undefined) {
+        pendingMessages.map(msg => {
+          if(msg.id == dataMessages.from) msg.numberMessages += 1
+        })
+        
+        setPendingMessages(pendingMessages)
+      }else{
+        if(dataMessages.from != ''){
+        const idUser = dataMessages.from;        
+        setPendingMessages([...pendingMessages,{id:idUser, numberMessages:1}])
+        
+      }
+    }
+  }
+  },[dataMessages])
+
+  //Set if a user is typing
+  useEffect(() => {
+    console.log(typing);
+    setDataTyping(typing);
+  }, [typing])
+
+  //Delete messages no read when the user goes to that room
+  const deletePendingMessage = (userId:string | undefined) => {
+    const messagesAllreadyPending = pendingMessages.filter(chat => chat.id != userId);
+    setPendingMessages(messagesAllreadyPending);
+    //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
+    const deleteInDataBasePendingMessages = async () => {
+    const response = await fetch('http://localhost:4001/chat/deletePendingMessages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({toUserId:id2})
+    })
+    const data = await response.json();
+    console.log("DELETING",data)
+    }
+    deleteInDataBasePendingMessages();
+  }
+  console.log(users)
   return (
     <>
       <Head>
@@ -23,8 +273,8 @@ const Chat = (props: Props) => {
         <div className={styles.chat_container}>
           <h1> {t('additional').messages}</h1>
           <div className={styles.main_content}>
-            <ChatRoom />
-            <ContactsContainer />
+            <ChatRoom messages={messages} setMessages={setMessages} deletePendingMessage={deletePendingMessage} currentRoom={currentRoom} id1={id1} id2={id2} socket={socket} input={input} setInput={setInput} usersConnected={connectedUsers} pendingMessages={pendingMessages} userName={userName} typing={typing}/>
+            <ContactsContainer users={users} usersConnected={connectedUsers} deletePendingMessage={deletePendingMessage} socket={socket} id1={id1} id2={id2} setid2={setid2} setCurrentRoom={setCurrentRoom} setMessages={setMessages} pendingMessages={pendingMessages}/>
           </div>
         </div>
       </Layout>

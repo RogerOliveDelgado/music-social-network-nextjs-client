@@ -18,6 +18,8 @@
     "@tanstack/react-query": "^4.10.1",
     "cookie-cutter": "^0.2.0",
     "formik": "^2.2.9",
+    "@types/socket.io": "^3.0.2",
+    "@types/socket.io-client": "^3.0.0",
     "framer-motion": "^7.5.2",
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
@@ -34,6 +36,8 @@
     "react-responsive": "^9.0.0",
     "react-speech-recognition": "^3.10.0",
     "regenerator-runtime": "^0.13.10",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.3",
     "sweetalert2": "^11.5.2",
     "swiper": "^8.4.3",
     "usehooks-ts": "^2.9.1"

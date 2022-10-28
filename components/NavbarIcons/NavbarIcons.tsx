@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
+import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
 
 function NavbarIcons() {
   const { t } = useI18N();
@@ -55,11 +56,13 @@ function NavbarIcons() {
         sx={{
           fontSize: 30,
         }}
+        onClick={disconnectUserFromChat}
       />
       <MusicVideoIcon
         sx={{
           fontSize: 30,
         }}
+        onClick={disconnectUserFromChat}
       />
       <TelegramIcon
         sx={{
