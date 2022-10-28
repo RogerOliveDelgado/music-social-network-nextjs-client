@@ -21,7 +21,8 @@ const Message = ({ image, text, user, currentRoom }: Props) => {
       <div
         className={`${styles.message_info} ${user && styles.message_info_user}`}
       >
-        <p className={styles.text}>{text.split(':')[1]}</p>
+        {/* <p className={styles.text}>{text.split(':')[1]}</p> */}
+        <p className={styles.text}>{text}</p>
       </div>
     </div>
   );

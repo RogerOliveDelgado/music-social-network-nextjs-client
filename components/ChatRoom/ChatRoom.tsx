@@ -88,7 +88,7 @@ const ChatRoom = (props: Props) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({toUser: props.id2, messages:`${props.currentRoom}:${props.input}`,users: props.usersConnected})
+          body: JSON.stringify({toUser: props.id2, messages:`${props.userName}:${props.input}`,users: props.usersConnected})
         })
       const dataResponse = await response.json()
       console.log("MSG",dataResponse);        
@@ -114,7 +114,7 @@ const ChatRoom = (props: Props) => {
           width={50}
           layout="fixed"
         />
-        <p className={styles.contact_name}>{props.currentRoom != "" ? props.currentRoom : "Abre un chat"} {props.typing.split(" is ")[0] === props.currentRoom && props.typing}</p>
+        <p className={styles.contact_name}>{props.currentRoom != "" ? props.currentRoom : "Abre un chat"} {props.typing.split(" is ")[0] === props.currentRoom && `is ${props.typing.split(" is ")[1]}`}</p>
       </div>
       <div className={styles.messages_container} ref={chat} id="fieldset">
         {/* Here make an map to print each message */}
@@ -124,7 +124,7 @@ const ChatRoom = (props: Props) => {
             return(
               <>
                 {
-                ((props.messages.length ) - index == userMessages?.numberMessages) && <div><span>{userMessages?.numberMessages} messages no read</span></div>
+                ((props.messages.length ) - index == userMessages?.numberMessages) && <div style={{width:'100%', backgroundColor:'grey', textAlign:'center', borderRadius:'5px'}}><span>{userMessages?.numberMessages} messages no read</span></div>
                 }
                 <Message
                   key={index}
