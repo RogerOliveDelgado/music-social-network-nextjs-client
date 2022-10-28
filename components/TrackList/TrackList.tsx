@@ -157,7 +157,13 @@ const TrackList = ({
     }
   );
 
-
+  const { refetch: refetchPlaylistDetails } = useGetPlaylistDetailsQuery(
+    { playlistID: router.query.playlistID, token: cookies.userToken },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+    }
+  );
 
   const playlistId = router.query.playlistID;
   const userPlaylists = playlists?.data?.playlists;
@@ -203,6 +209,9 @@ const TrackList = ({
           }),
         }
       );
+      if (response.ok) {
+        refetchPlaylistDetails();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -229,7 +238,7 @@ const TrackList = ({
               return (
                 <Reorder.Item
                   value={track}
-                  key={track?._id}
+                  key={index}
                   className={styles.track_list_row}
                   dragControls={dragControls}
                 >

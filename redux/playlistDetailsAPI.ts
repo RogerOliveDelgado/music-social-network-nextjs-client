@@ -6,7 +6,7 @@ const playlistAPI =
 export const playlistDetailsAPI = createApi({
   reducerPath: 'playlistDetailsAPI',
   baseQuery: fetchBaseQuery({ baseUrl: playlistAPI }),
-  keepUnusedDataFor: 0,
+  keepUnusedDataFor: .5,
   endpoints: (builder) => ({
     getPlaylistDetails: builder.query({
       query: ({ playlistID, token }) => ({
