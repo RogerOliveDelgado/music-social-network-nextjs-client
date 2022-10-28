@@ -14,11 +14,16 @@ import styles from "./styles.module.css";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
+import { border } from "@mui/system";
 
 function NavbarIcons() {
   const { t } = useI18N();
 
-  const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "username",
+    "userToken",
+    "userID",
+  ]);
 
   const [username, setUsername] = React.useState<string>();
 
@@ -26,7 +31,7 @@ function NavbarIcons() {
     setUsername(cookies.username);
   }, [cookies.username]);
 
-  // console.log(cookies.username);
+  console.log(cookies);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -35,6 +40,12 @@ function NavbarIcons() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const removeStoragedCookie = () => {
+    removeCookie("userToken");
+    removeCookie("username");
+    removeCookie("userID");
   };
 
   const router = useRouter();
@@ -87,7 +98,12 @@ function NavbarIcons() {
           <MenuItem>{t("content").profile}</MenuItem>
         </Link>
         <Link href={"/login"}>
-          <MenuItem>{t("content").logout}</MenuItem>
+          <button
+            onClick={removeStoragedCookie}
+            style={{ backgroundColor: "transparent", border: "none" }}
+          >
+            <MenuItem>{t("content").logout}</MenuItem>
+          </button>
         </Link>
       </Menu>
     </div>
