@@ -151,7 +151,9 @@ const UserConfig = (props: Props) => {
                   onSubmit={handleSubmit}
                 >
                   <div className={styles.input_group}>
-                    <label className={styles.label}>Username</label>
+                    <label className={styles.label}>
+                      {t("content").username}
+                    </label>
                     <input
                       autoComplete="off"
                       name="username"
@@ -163,7 +165,7 @@ const UserConfig = (props: Props) => {
                     />
                   </div>
                   <div className={styles.input_group}>
-                    <label className={styles.label}>Phone</label>
+                    <label className={styles.label}>{t("content").phone}</label>
                     <input
                       autoComplete="off"
                       name="phone"
@@ -176,7 +178,7 @@ const UserConfig = (props: Props) => {
                     />
                   </div>
                   <div className={styles.input_group}>
-                    <label className={styles.label}>Email address</label>
+                    <label className={styles.label}>{t("content").email}</label>
                     <input
                       autoComplete="off"
                       name="email"
@@ -192,9 +194,9 @@ const UserConfig = (props: Props) => {
                     variant="contained"
                     type="submit"
                     className={styles.change_button}
-                    sx={{ width: "20%" }}
+                    sx={{ width: "35%" }}
                   >
-                    Save
+                    {t("content").saveButton}
                   </Button>
                 </form>
               )}

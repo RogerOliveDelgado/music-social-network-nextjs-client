@@ -45,5 +45,9 @@ export default {
     profile: "Profile",
     logout: "Log Out",
     signup: "Select your preferred music genres",
+    username: "Username",
+    phone: "Phone",
+    email: "Email address",
+    saveButton: "Save",
   },
 };
