@@ -18,6 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 import { useGetPlaylistDetailsQuery } from "../../../redux/playlistDetailsAPI";
 import { useRouter } from "next/router";
+import { useI18N } from "../../../context/i18";
 
 function Song() {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -184,6 +185,8 @@ function Song() {
     }
     handleClose();
   };
+
+  const { t } = useI18N();
 
   return (
     <div className={styles.wrapper}>

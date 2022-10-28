@@ -45,11 +45,11 @@ export default {
   },
   content: {
     artists:
-      "Aún no hay artistas disponibles. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
+      "Aún no hay artistas en tu librería. Puedes agregar algunos haciendo clic en el menú de la izquierda.",
     albums:
-      "Aún no hay albumes disponibles. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
+      "Aún no hay albumes en tu librería. Puedes agregar algunos haciendo clic en el menú de la izquierda.",
     playlists:
-      "Aún no hay listas de reproducción disponibles. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
+      "Aún no hay listas de reproducción en tu librería. Puedes agregar algunas haciendo clic en el menú de la izquierda.",
     search: "Explorar todo",
     searchFor: "Busquedas para",
     notFound: "No se encontró nada para",

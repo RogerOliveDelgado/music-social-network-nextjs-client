@@ -1,10 +1,10 @@
-import styles from './styles.module.css';
-import { Button } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useAddItemToLibraryMutation } from '../../redux/albumAPI';
-import { useState, useEffect } from 'react';
-import { Artist, Album, Track } from '../../interfaces/ServerResponse';
-import { useCookies } from 'react-cookie';
+import styles from "./styles.module.css";
+import { Button } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useAddItemToLibraryMutation } from "../../redux/albumAPI";
+import { useState, useEffect } from "react";
+import { Artist, Album, Track } from "../../interfaces/ServerResponse";
+import { useCookies } from "react-cookie";
 
 type Props = {
   isFollowed: boolean;
@@ -14,8 +14,8 @@ type Props = {
 
 const FollowButton = ({ isFollowed, id, type }: Props) => {
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
+    "userID",
+    "userToken",
   ]);
 
   const [addItem] = useAddItemToLibraryMutation();
@@ -40,8 +40,18 @@ const FollowButton = ({ isFollowed, id, type }: Props) => {
       color="inherit"
       startIcon={<FavoriteBorderIcon />}
       onClick={handleClick}
+      sx={{
+        " &: hover": {
+          backgroundColor: "#ffefefe7",
+          color: "var(--black)",
+          opacity: 1,
+          ' & .css-i4bv87-MuiSvgIcon-root': {
+            color: "red",
+          },
+        },
+      }}
     >
-      {follow ? 'Followed' : 'Follow'}
+      {follow ? "Followed" : "Follow"}
     </Button>
   );
 };
