@@ -101,7 +101,7 @@ const ChatRoom = (props: Props) => {
   console.log("MENSAJES",props.messages)
   return (
     <div className={styles.chat_room_container}>
-      <p>{props.currentRoom} {props.typing}</p>
+      {/* <p>{props.currentRoom} {props.typing}</p> */}
       <div className={styles.chat_room_header}>
         <IconButton aria-label="back">
           <ArrowBackIcon />

@@ -58,7 +58,20 @@ const Chat = (props: Props) => {
   const [dataTyping, setDataTyping] = useState<string>("");
   const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
   const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
-
+  const [user, setUser] = useState<{
+    _id:string,
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    genres: string[];
+    phone: string;
+    chats?:{}[];
+    playlists: Partial<Playlist>[];
+    albums: Partial<Album>[];
+    artists: Partial<Artist>[];
+    likedSongs: Partial<Data>[];
+  }>();
    //Take all the exists users on dataBase
    useEffect(() => {
     const getUsers = async() => {
@@ -179,6 +192,12 @@ const Chat = (props: Props) => {
   useEffect(() => {
     if(dataMessages.from == id2 || dataMessages.from == id1) {
       setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
+      const userLoged = users.find(user => user._id == id1);
+      console.log("HOLAAAAAAAAAAAAAAAAA",userLoged)
+      userLoged?.chats.map(chat => {
+        setPendingMessages([...pendingMessages, {id:chat._id, numberMessages: chat.pendingMessages}])
+      })
+      setUser(userLoged);
     }else{
       const exist = pendingMessages.find(chat => chat.id == dataMessages.from);
       console.log(exist);
