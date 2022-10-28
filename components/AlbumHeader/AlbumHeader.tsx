@@ -1,24 +1,26 @@
-import { Button } from '@mui/material';
-import Image from 'next/image';
-import Rating from '@mui/material/Rating';
-import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import Tooltip from '@mui/material/Tooltip';
-import FollowButton from '../../components/FollowButton/FollowButton';
-import SkelettonButton from '../../components/SkelettonButton/SkelettonButton';
-import { Album, Artist, User } from '../../interfaces/ServerResponse';
-import { Track } from '../../interfaces/playlistResponse';
-import { useGetUserQuery } from '../../redux/userAPI';
-import { useCookies } from 'react-cookie';
+import { Button } from "@mui/material";
+import Image from "next/image";
+import Rating from "@mui/material/Rating";
+import InterpreterModeIcon from "@mui/icons-material/InterpreterMode";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Tooltip from "@mui/material/Tooltip";
+import FollowButton from "../../components/FollowButton/FollowButton";
+import SkelettonButton from "../../components/SkelettonButton/SkelettonButton";
+import { Album, Artist, User } from "../../interfaces/ServerResponse";
+import { Track } from "../../interfaces/playlistResponse";
+import { useGetUserQuery } from "../../redux/userAPI";
+import { useCookies } from "react-cookie";
 
-import styles from './styles.module.css';
-import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import styles from "./styles.module.css";
+import { updateTrackList } from "../../redux/features/player/musicPlayerSlice";
 import {
   setCurrentIndex,
   currentTrack as setCurrentTrack,
   setArtistName,
-} from '../../redux/features/player/currentTracks';
-import { useDispatch } from 'react-redux';
+} from "../../redux/features/player/currentTracks";
+import { useDispatch } from "react-redux";
+
+import { useI18N } from "../../context/i18";
 
 type Props = {
   album: Album;
@@ -28,24 +30,24 @@ type Props = {
 
 const AlbumHeader = ({ album, rating, tracks }: Props) => {
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
+    "userID",
+    "userToken",
   ]);
   const dispatch = useDispatch();
   let isFollowed = undefined;
 
   let user = {
-    _id: '',
-    username: '',
-    email: '',
-    phone: '',
-    image: '',
+    _id: "",
+    username: "",
+    email: "",
+    phone: "",
+    image: "",
     playlists: [] as Track[],
     artists: [] as Artist[],
     albums: [] as Album[],
     likedSongs: [] as Track[],
-    createdAt: '',
-    updatedAt: '',
+    createdAt: "",
+    updatedAt: "",
   };
 
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery({
@@ -64,6 +66,7 @@ const AlbumHeader = ({ album, rating, tracks }: Props) => {
     dispatch(setCurrentTrack(tracks[0]));
     dispatch(setArtistName(album?.artist?.name!));
   };
+  const { t } = useI18N();
 
   return (
     <>
@@ -84,13 +87,11 @@ const AlbumHeader = ({ album, rating, tracks }: Props) => {
           <InterpreterModeIcon />
           {album.artist.name}
         </h2>
-        <Tooltip title="Add this album to your library.">
-          {isSuccessUser ? (
-            <FollowButton isFollowed={isFollowed} id={album._id} type="album" />
-          ) : (
-            <SkelettonButton />
-          )}
-        </Tooltip>
+        {isSuccessUser ? (
+          <FollowButton isFollowed={isFollowed} id={album._id} type="album" />
+        ) : (
+          <SkelettonButton />
+        )}
       </div>
       <div className={styles.play_button_container}>
         <Button

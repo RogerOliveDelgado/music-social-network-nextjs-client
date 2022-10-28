@@ -45,7 +45,6 @@ const Favorites = (props: Props) => {
     { refetchOnMountOrArgChange: true, refetchOnFocus: true }
   );
 
-  console.log(userData);
 
   return (
     <>

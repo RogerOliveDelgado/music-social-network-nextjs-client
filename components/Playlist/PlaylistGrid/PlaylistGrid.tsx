@@ -1,16 +1,17 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { Playlist } from '../../../interfaces/playlistResponse';
-import { useGetPlaylistQuery } from '../../../redux/playlistsAPI';
-import { useCookies } from 'react-cookie';
-import styles from './styles.module.css';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import { Playlist } from "../../../interfaces/playlistResponse";
+import { useGetPlaylistQuery } from "../../../redux/playlistsAPI";
+import { useCookies } from "react-cookie";
+import styles from "./styles.module.css";
+import { useI18N } from "../../../context/i18";
 
 function PlaylistGrid() {
-  const id = '63566ec7f9d5803a4019ed57';
+  const id = "63566ec7f9d5803a4019ed57";
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
+    "userID",
+    "userToken",
   ]);
   const {
     data: playlists,
@@ -25,22 +26,24 @@ function PlaylistGrid() {
 
   const router = useRouter();
 
-  const test = (playlistID: any) => {
+  const redirect = (playlistID: any) => {
     router.push(`/playlist/${playlistID}`);
   };
+
+  const { t } = useI18N();
 
   return (
     <>
       <div className={styles.grid_container}>
         <div className={styles.playlists_header}>
-          <p>Your playlists:</p>
+          <p>{t("content").trackList}</p>
         </div>
         {playlists ? (
           <div className={styles.playlists_list}>
             {playlists?.data?.playlists.map((playlist: Playlist) => (
               <>
                 <div
-                  onClick={() => test(playlist._id)}
+                  onClick={() => redirect(playlist._id)}
                   className={styles.playlist_row}
                   key={playlist._id}
                 >
