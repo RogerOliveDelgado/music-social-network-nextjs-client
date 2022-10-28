@@ -87,7 +87,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .artist_details > span {
+  .artist_details > picture {
     display: none !important;
   }
 
