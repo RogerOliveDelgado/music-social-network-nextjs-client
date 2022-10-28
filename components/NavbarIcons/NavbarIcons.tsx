@@ -31,7 +31,6 @@ function NavbarIcons() {
     setUsername(cookies.username);
   }, [cookies.username]);
 
-  console.log(cookies);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
