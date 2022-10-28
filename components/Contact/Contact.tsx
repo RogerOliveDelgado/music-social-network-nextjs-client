@@ -32,9 +32,7 @@ type Props = {
 
 const Contact = (props: Props) => {
   let userMessages:{id:string, numberMessages:number} | undefined
-  console.log(props.pendingMessages)
   if(props.user._id != props.id1){
-    console.log("ENTRANDO")
     userMessages= props.pendingMessages.find(chat => chat.id == props.user._id)
   }
   return (

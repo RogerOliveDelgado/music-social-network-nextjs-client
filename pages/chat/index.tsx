@@ -94,6 +94,7 @@ const Chat = (props: Props) => {
       const data1 = await response.json();
       console.log(data1)
       setUsers(data1.data)  
+      console.log(cookies.userID)
       setUserName(cookies.username)//Here we will set the name of user account
       setid1(cookies.userID)//Here we set the id of user account
       // socket.emit("connected", "6359478dcc3b4a9e3d470f67")
@@ -108,7 +109,7 @@ const Chat = (props: Props) => {
     const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
     setUserName(userName?.username)
     if(window.location.host == 'localhost:3000'){
-      socket.emit('update_list', { id: `${id1}`, usuario: 'Juan Carlos', action: 'login' });
+      socket.emit('update_list', { id: `${id1}`, usuario: cookies.username, action: 'login' });
     }
     socket.on('session_update', function(data, socket){
       socketId = socket;
