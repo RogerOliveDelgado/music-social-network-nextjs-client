@@ -107,3 +107,15 @@
   padding: 0 8px;
   width: 2.8em;
 }
+
+@media (max-width: 700px) {
+  .searchbar {
+    width: auto;
+  }
+}
+
+@media (max-width: 550px) {
+  .searchbar_left {
+    display: none;
+  }
+}

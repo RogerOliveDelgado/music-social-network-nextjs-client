@@ -2,3 +2,19 @@
   border: 0px solid #ccc;
   color: aliceblue;
 }
+
+.flags_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+.flag {
+  display: flex;
+  align-self: center;
+}
+
+.flag > img {
+  margin-left: .4rem;
+}

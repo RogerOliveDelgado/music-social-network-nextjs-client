@@ -15,14 +15,18 @@ import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
-import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
-import { Props } from "next/script";
+import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
+import { useMediaQuery } from "react-responsive";
 
 type Props = {
-  userMessage:number
+  userMessage: number;
 };
 
-function NavbarIcons({userMessage}:Props) {
+function NavbarIcons({ userMessage }: Props) {
+  const isLargeScreen = useMediaQuery({
+    query: "(min-width: 700px)",
+  });
+
   const { t } = useI18N();
 
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -36,7 +40,6 @@ function NavbarIcons({userMessage}:Props) {
   React.useEffect(() => {
     setUsername(cookies.username);
   }, [cookies.username]);
-
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -57,25 +60,14 @@ function NavbarIcons({userMessage}:Props) {
   return (
     <div className={styles.icons}>
       <div className={styles.separator}></div>
-      <CenterFocusWeakIcon
-        sx={{
-          fontSize: 30,
-        }}
-        onClick={disconnectUserFromChat}
-      />
-      <MusicVideoIcon
-        sx={{
-          fontSize: 30,
-        }}
-        onClick={disconnectUserFromChat}
-      />
       <TelegramIcon
         sx={{
           fontSize: 30,
           cursor: "pointer",
         }}
         onClick={() => router.push("/chat")}
-      />{userMessage}
+      />
+      {userMessage}
       <LanguageSelector />
       <div className={styles.separator}></div>
       <Button
@@ -85,7 +77,7 @@ function NavbarIcons({userMessage}:Props) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {username}
+        {isLargeScreen && username}
         <AccountCircleIcon
           sx={{
             fontSize: 30,
@@ -106,7 +98,10 @@ function NavbarIcons({userMessage}:Props) {
         </Link>
         <Link href={"/login"}>
           <button
-            onClick={()=>{removeStoragedCookie(); disconnectUserFromChat()}}
+            onClick={() => {
+              removeStoragedCookie();
+              disconnectUserFromChat();
+            }}
             style={{ backgroundColor: "transparent", border: "none" }}
           >
             <MenuItem>{t("content").logout}</MenuItem>
