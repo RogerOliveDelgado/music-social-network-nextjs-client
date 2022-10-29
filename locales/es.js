@@ -2,10 +2,10 @@
 export default {
   home: {
     home: "Inicio",
-    library: "Tu libreria",
-    playlist: "Crear playList",
+    library: "Tu librería",
+    playlist: "Crear playlist",
     liked: "Canciones favoritas",
-    upload: "Subir cancion",
+    upload: "Subir canción",
     search: "Busqueda",
   },
   greetings: {

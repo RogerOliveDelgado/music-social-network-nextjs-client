@@ -60,8 +60,8 @@ function NavbarIcons({ userMessage }: Props) {
   const router = useRouter();
   return (
     <>
-      <LanguageSelector />
       <div className={styles.icons}>
+            <LanguageSelector />
         <div className={styles.notification}>
           <Badge badgeContent={userMessage} color="primary">
             <TelegramIcon
