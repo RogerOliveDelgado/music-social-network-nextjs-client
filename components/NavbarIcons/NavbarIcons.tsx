@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import MusicVideoIcon from "@mui/icons-material/MusicVideo";
@@ -16,21 +16,18 @@ import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
 import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
-import { Props } from "next/script";
+import { countContext } from "../../context/countMessages"
 
-type Props = {
-  userMessage:number
-};
 
-function NavbarIcons({userMessage}:Props) {
+function NavbarIcons() {
   const { t } = useI18N();
+  const {userMessage, setUserMessage} = useContext(countContext)
 
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "userToken",
     "userID",
   ]);
-
   const [username, setUsername] = React.useState<string>();
 
   React.useEffect(() => {
@@ -61,13 +58,13 @@ function NavbarIcons({userMessage}:Props) {
         sx={{
           fontSize: 30,
         }}
-        onClick={disconnectUserFromChat}
+        onClick={()=>{disconnectUserFromChat(cookies.userID)}}
       />
       <MusicVideoIcon
         sx={{
           fontSize: 30,
         }}
-        onClick={disconnectUserFromChat}
+        onClick={()=>{disconnectUserFromChat(cookies.userID)}}
       />
       <TelegramIcon
         sx={{
@@ -106,7 +103,7 @@ function NavbarIcons({userMessage}:Props) {
         </Link>
         <Link href={"/login"}>
           <button
-            onClick={()=>{removeStoragedCookie(); disconnectUserFromChat()}}
+            onClick={()=>{removeStoragedCookie(); disconnectUserFromChat(cookies.userID)}}
             style={{ backgroundColor: "transparent", border: "none" }}
           >
             <MenuItem>{t("content").logout}</MenuItem>

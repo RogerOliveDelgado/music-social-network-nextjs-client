@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 import Head from 'next/head';
 import { useI18N } from '../../context/i18';
 
-import { ReactEventHandler, useEffect, useRef, useState } from 'react'
+import { ReactEventHandler, useContext, useEffect, useRef, useState } from 'react'
 import {Socket, io} from 'socket.io-client'
 import { Playlist } from '../../interfaces/playlistResponse';
 import { Album, Artist } from '../../interfaces/ServerResponse';
@@ -15,6 +15,7 @@ import { Track } from '../../interfaces/tracks';
 import {socketService} from '../../socket/socket'
 import { disconnectUserFromChat } from '../../socket/servicesSocket/services';
 import { useCookies } from 'react-cookie';
+import { countContext } from '../../context/countMessages';
 
 type Props = {
   setUserMessage: React.Dispatch<React.SetStateAction<number>>
@@ -63,6 +64,8 @@ const Chat = (props: Props) => {
   const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
   const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
   const [widthWindow, setWidthWindow] = useState<number>(0);
+  const {userMessage, setUserMessage} = useContext(countContext);
+
   const [user, setUser] = useState<{
     _id:string,
     username: string;
@@ -78,6 +81,7 @@ const Chat = (props: Props) => {
     likedSongs: Partial<Track>[];
   }>();
    //Take all the exists users on dataBase
+   socket.connect()
    useEffect(() => {
     if(typeof window !== "undefined"){
       console.log(window.window.innerWidth)
@@ -183,7 +187,7 @@ const Chat = (props: Props) => {
         data.data.chats.map((chat:any) => {
           count += chat.pendingMessages
         })
-        props.setUserMessage(count)
+        setUserMessage(count)
       }
       updateNumberMessages();
     })
@@ -240,7 +244,7 @@ const Chat = (props: Props) => {
     deleteInDataBasePendingMessages();
   }
   const [contacts, setContacts] = useState<boolean>(true);
-  
+
   useEffect(()=>{
     setWidthWindow(window.window.innerWidth)
     window.addEventListener('resize', resizeWindow)

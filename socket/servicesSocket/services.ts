@@ -1,15 +1,16 @@
 import {socketService} from '../socket'
 
-const id1 = "6359478dcc3b4a9e3d470f67"
-
-export const disconnectUserFromChat = () => {
+export const disconnectUserFromChat = (idUser:string | any) => {
+ 
   try{
     console.log("ENTRANDO###################")
-    socketService.emit("Disconnect", {id:id1})
+    socketService.emit("Disconnect", {id:idUser})
     // socketService.disconnect();
-    console.log(socketService.emit("Disconnect", {id:id1}))
+    console.log(socketService.emit("Disconnect", {id:idUser}))
   }catch(error){
     console.log(error)
   }
   
 }
+
+

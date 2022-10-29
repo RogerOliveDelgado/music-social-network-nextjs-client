@@ -14,10 +14,10 @@ function Layout({ children }: Children) {
   const [userMessage, setUserMessage] = useState<number>(0)
   return (
     <>
-      <Navbar userMessage={userMessage}/>
+      <Navbar />
       <div className={styles.container}>
         <Sidebar />
-        <div className={styles.main} userMessage={setUserMessage}>{children}</div>
+        <div className={styles.main}>{children}</div>
       </div>
     </>
   );

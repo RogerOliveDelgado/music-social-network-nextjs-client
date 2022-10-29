@@ -98,7 +98,7 @@ function Sidebar(props: ButtonProps) {
 
   const [metaDataSongFile, setMetaDataSongFile] = React.useState<string>();
 
-  const [cookies, setCookie, removeCookie] = useCookies(["userToken"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["userToken", "userID"]);
 
   const token = cookies.userToken;
 
@@ -252,7 +252,7 @@ function Sidebar(props: ButtonProps) {
                 onClick={() => {
                   handleNavigation(`${item.url}`);
                   uploadSongModal(item.text);
-                  disconnectUserFromChat();
+                  // disconnectUserFromChat(cookies.userID);
                 }}
                 sx={{
                   display: "block",

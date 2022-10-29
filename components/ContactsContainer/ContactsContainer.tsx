@@ -80,7 +80,6 @@ const ContactsContainer = (props: Props) => {
         {/* Make a map to print all the users */}
         {
           props.users.map((user, index) => {
-            console.log(user)
             if(user._id != props.id1){
               return (
                 <>

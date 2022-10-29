@@ -15,6 +15,8 @@ import { useCookies } from 'react-cookie';
 import { Playlist } from '../../interfaces/playlistResponse';
 import { Album, Artist } from '../../interfaces/ServerResponse';
 import { Track } from '../../interfaces/tracks';
+import { useContext } from 'react'
+import { countContext } from '../../context/countMessages';
 
 type Props = {
   messages: string[],
@@ -48,6 +50,7 @@ type Props = {
 
 
 const ChatRoom = (props: Props) => {
+  const {setUserMessage} = useContext(countContext)
   const chat = useRef(null);
   const { t } = useI18N();
   const  [_document, set_document] = useState(null);
@@ -117,6 +120,7 @@ const ChatRoom = (props: Props) => {
   const handleChatRoom = () => {
     props.setContacts(false);
   }
+  console.log(props.usersConnected)
   return (
     <div className={styles.chat_room_container} id="chatRoom">
       <div className={styles.chat_room_header}>
