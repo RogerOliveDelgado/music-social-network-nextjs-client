@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import MusicVideoIcon from "@mui/icons-material/MusicVideo";
@@ -17,14 +17,14 @@ import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
 import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
 import { Props } from "next/script";
+import { countContext } from "../../context/countContext";
 
 type Props = {
-  userMessage:number
 };
 
-function NavbarIcons({userMessage}:Props) {
+function NavbarIcons(props:Props) {
   const { t } = useI18N();
-
+  const {userMessage, setPreviousPath} = useContext(countContext)
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "userToken",
@@ -37,7 +37,11 @@ function NavbarIcons({userMessage}:Props) {
     setUsername(cookies.username);
   }, [cookies.username]);
 
-
+  if(typeof window !== "undefined"){
+    const path = window.location.pathname.split('/')[window.location.pathname.split('/').length-1];
+    setPreviousPath(path);
+  }
+  
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

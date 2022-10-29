@@ -252,7 +252,6 @@ function Sidebar(props: ButtonProps) {
                 onClick={() => {
                   handleNavigation(`${item.url}`);
                   uploadSongModal(item.text);
-                  disconnectUserFromChat();
                 }}
                 sx={{
                   display: "block",

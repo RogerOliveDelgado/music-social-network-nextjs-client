@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Artist } from '../../interfaces/artistResponse';
 import { Playlist } from '../../interfaces/playlistResponse';
 import { Data } from '../../interfaces/tracks';
 import { Album } from '../../interfaces/albumResponse';
 import styles from './styles.module.css';
+import { countContext } from '../../context/countContext';
 
 type Props = {
   name: string;
@@ -32,9 +33,11 @@ type Props = {
 };
 
 const Contact = (props: Props) => {
+  const {pendingMessages} = useContext(countContext)
   let userMessages:{id:string, numberMessages:number} | undefined
   if(props.user._id != props.id1){
-    userMessages= props.pendingMessages.find(chat => chat.id == props.user._id)
+    userMessages= pendingMessages.find(chat => chat.id == props.user._id)//props.pendingMessages
+    console.log(userMessages)
   }
 
   const handleContacts = () => {
