@@ -40,7 +40,7 @@ const Chat = (props: Props) => {
   const token = cookies.userToken;
   //States to manage the renders of each component
   const {socket,typing, setTyping, connectedUsers, setConnectedUsers} = useContext(socketContext)
-  const {messages, setMessages,userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
+  const {currentRoom,setCurrentRoom,messages, setMessages,userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
   const [input, setInput] = useState<string>("");  
   // const [messages, setMessages] = useState<string[]>([""])
   const [socketUp, setSocketUp] = useState<Socket>(socket);
@@ -57,7 +57,7 @@ const Chat = (props: Props) => {
     artists: Partial<Artist>[];
     likedSongs: Partial<Track>[];
   }[]>([]);
-  const [currentRoom, setCurrentRoom] = useState<string>("");//Nombre de la persona con la que se habla
+  // const [currentRoom, setCurrentRoom] = useState<string>("");//Nombre de la persona con la que se habla
   const [id1, setid1] = useState<string | undefined>();
   // const [id2, setid2] = useState<string | undefined>();
   const [userName, setUserName] = useState<string>("")
@@ -125,7 +125,7 @@ const Chat = (props: Props) => {
         }
       });
       const room = await responseCurrentRoom.json();
-      
+      console.log(room)
       if(room != undefined && room.msg != "No current chat"){
         setRoom(room);
         setCurrentRoom(room.data.username);
@@ -175,67 +175,67 @@ const Chat = (props: Props) => {
   },[room])
   /**Este useEffect no estaba comentado */
   useEffect(()=>{
-  socket.on(`${cookies.userID}`, (data:any) => {
-    setDataMessages(data);//Set the message
-      console.log(data)
-      // if(typeof window !== undefined){
-      //   //If the user is not in chat frame
-      //   if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
-      //     setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
-      //     if(pendingMessages.length > 0){//if exists pending messages 
-      //       pendingMessages.map(pm => {
-      //         console.log(pm)
-      //         if (pm.id == data.from ) pm.numberMessages += 1;
-      //       })
-      //       console.log(pendingMessages)
-      //       setPendingMessages(pendingMessages);
-      //     }else{
-      //       setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
-      //     }
-      //   }else{//If user is in chat tab
-      //     // (id2 == data.from && id2 != undefined) && deletePendingMessage(id2);
-      //     if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
-      //       setUserMessage((prevUserMessage)=>prevUserMessage+1);
-      //       if(pendingMessages.length > 0){//if exists pending messages 
-      //         pendingMessages.map(pm => {
-      //           console.log(pm)
-      //           if (pm.id == data.from ) pm.numberMessages += 1;
-      //         })
-      //         console.log(pendingMessages)
-      //         setPendingMessages(pendingMessages);
-      //       }else{
-      //         setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
-      //       }
-      //     }
-      //   }
-      // }
-      //Update the count of pending messages to the navBar
-      // const updateNumberMessages = async () => {
-      //   const response = await fetch(`http://localhost:4001/user/${cookies.userID}`,{
-      //     headers:{
-      //       authorization: `Bearer ${token}`
-      //     }
-      //   })
-      //   const data1 = await response.json();
-      //   let count: number = 0;
-      //   console.log(pendingMessages)
-      //   data1.data.chats.map((chat:any) => {
-      //     count += chat.pendingMessages
-      //     if(typeof window != undefined){
-      //       if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
-      //         count == 0 && count++;
-      //       }
-      //     }
-      //   })
-      //   setUserMessage(count)
-      // }
-      // updateNumberMessages();
-  })
+  // socket.on(`${cookies.userID}`, (data:any) => {
+  //   setDataMessages(data);//Set the message
+  //     console.log(data)
+  //     // if(typeof window !== undefined){
+  //     //   //If the user is not in chat frame
+  //     //   if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
+  //     //     setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
+  //     //     if(pendingMessages.length > 0){//if exists pending messages 
+  //     //       pendingMessages.map(pm => {
+  //     //         console.log(pm)
+  //     //         if (pm.id == data.from ) pm.numberMessages += 1;
+  //     //       })
+  //     //       console.log(pendingMessages)
+  //     //       setPendingMessages(pendingMessages);
+  //     //     }else{
+  //     //       setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+  //     //     }
+  //     //   }else{//If user is in chat tab
+  //     //     // (id2 == data.from && id2 != undefined) && deletePendingMessage(id2);
+  //     //     if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
+  //     //       setUserMessage((prevUserMessage)=>prevUserMessage+1);
+  //     //       if(pendingMessages.length > 0){//if exists pending messages 
+  //     //         pendingMessages.map(pm => {
+  //     //           console.log(pm)
+  //     //           if (pm.id == data.from ) pm.numberMessages += 1;
+  //     //         })
+  //     //         console.log(pendingMessages)
+  //     //         setPendingMessages(pendingMessages);
+  //     //       }else{
+  //     //         setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+  //     //       }
+  //     //     }
+  //     //   }
+  //     // }
+  //     //Update the count of pending messages to the navBar
+  //     // const updateNumberMessages = async () => {
+  //     //   const response = await fetch(`http://localhost:4001/user/${cookies.userID}`,{
+  //     //     headers:{
+  //     //       authorization: `Bearer ${token}`
+  //     //     }
+  //     //   })
+  //     //   const data1 = await response.json();
+  //     //   let count: number = 0;
+  //     //   console.log(pendingMessages)
+  //     //   data1.data.chats.map((chat:any) => {
+  //     //     count += chat.pendingMessages
+  //     //     if(typeof window != undefined){
+  //     //       if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
+  //     //         count == 0 && count++;
+  //     //       }
+  //     //     }
+  //     //   })
+  //     //   setUserMessage(count)
+  //     // }
+  //     // updateNumberMessages();
+  // })
   socket.on('typing', (data:any) => {     
     setTyping(data);      
   })
   return () => {
-    socket.off(`${cookies.userID}`);
+    // socket.off(`${cookies.userID}`);
     socket.off('typing');
   }
   },[cookies.userID])
@@ -280,6 +280,7 @@ const Chat = (props: Props) => {
         if(dataMessages.from != id2 && id2 != undefined && dataMessages.from != cookies.userID){//If user is not talking with Id2
           console.log("El mensaje no viene de la currentRoom ni de nosotros")
           setUserMessage((prevUserMessage)=>prevUserMessage+1);
+          if(previousPath !="chat")setUserMessage((prevUserMessage)=>prevUserMessage-1);
           if(pendingMessages.length > 0){//if exists pending messages 
             pendingMessages.map(pm => {
               console.log(pm)

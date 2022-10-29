@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import MusicVideoIcon from "@mui/icons-material/MusicVideo";
@@ -18,18 +18,40 @@ import { border } from "@mui/system";
 import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
 import { Props } from "next/script";
 import { countContext } from "../../context/countContext";
+import { socketContext } from "../../context/socketContext";
 
 type Props = {
 };
 
 function NavbarIcons(props:Props) {
   const { t } = useI18N();
-  const {userMessage, setPreviousPath} = useContext(countContext)
+  const {currentRoom,userMessage, setPreviousPath, setUserMessage, setDataMessages, id2, pendingMessages} = useContext(countContext)
+  const {socket} = useContext(socketContext)
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "userToken",
     "userID",
   ]);
+
+  useEffect(()=>{
+    socket.on(`${cookies.userID}`,(data:any)=>{
+      if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){
+        setUserMessage(userMessage+1);
+      }
+      // else{
+      //   console.log(data)
+      //   console.log(currentRoom)
+      //   if(data.msg.split(':')[0] != currentRoom){//Si nos llega un mensaje de una room distinta suma 1
+      //     console.log("Deberia entrar")
+      //     setUserMessage(userMessage+1);
+      //   }
+      // }
+      setDataMessages(data);
+    })
+    return()=>{
+      socket.off(`${cookies.userID}`)
+    }
+  },[currentRoom])
 
   const [username, setUsername] = React.useState<string>();
 

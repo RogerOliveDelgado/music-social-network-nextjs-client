@@ -12,7 +12,9 @@ interface contextProps{
   pendingMessages:{id:string, numberMessages:number}[],
   setPendingMessages:React.Dispatch<React.SetStateAction<{id:string, numberMessages:number}[]>>,
   messages:string[],
-  setMessages:React.Dispatch<React.SetStateAction<string[]>>
+  setMessages:React.Dispatch<React.SetStateAction<string[]>>,
+  currentRoom: string,
+  setCurrentRoom: React.Dispatch<React.SetStateAction<string>>
 }
 
 interface props{
@@ -34,7 +36,8 @@ export const CountMessageProvider = ({children}:props) => {
   const [id2, setid2] = useState<string | undefined>();
   const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
   const [messages, setMessages] = useState<string[]>([""])
-  
+  const [currentRoom, setCurrentRoom] = useState("");
+
   useEffect(()=> {
     const updateNumberMessages = async () => {
         const response1 = await fetch('http://localhost:4001/chat/pendingMessages',{
@@ -61,6 +64,6 @@ export const CountMessageProvider = ({children}:props) => {
   
 
   return(
-    <countContext.Provider value={{messages, setMessages,userMessage, setUserMessage, dataMessages, setDataMessages, previousPath, setPreviousPath, id2, setid2,pendingMessages, setPendingMessages}}>{children}</countContext.Provider>
+    <countContext.Provider value={{currentRoom, setCurrentRoom,messages, setMessages,userMessage, setUserMessage, dataMessages, setDataMessages, previousPath, setPreviousPath, id2, setid2,pendingMessages, setPendingMessages}}>{children}</countContext.Provider>
   )
 }
