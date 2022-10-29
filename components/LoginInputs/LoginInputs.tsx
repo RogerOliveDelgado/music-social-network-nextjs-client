@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import toast, { Toaster } from "react-hot-toast";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useCookies } from "react-cookie";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useCookies } from 'react-cookie';
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
 type Props = {};
 
@@ -17,7 +17,7 @@ const LoginInputs = (props: Props) => {
 
   const [seePassword, setSeePassword] = useState<boolean>();
 
-  const [cookies, setCookie] = useCookies(["userToken", "username", "userID"]);
+  const [cookies, setCookie] = useCookies(['userToken', 'username', 'userID']);
 
   const getEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -38,31 +38,34 @@ const LoginInputs = (props: Props) => {
   ) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:4001/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/signin`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
 
       if (response.status === 400) {
         const result = await response.json();
-        toast.error("Oops, something went wrong!");
+        toast.error('Oops, something went wrong!');
       }
 
       if (response.ok) {
         const result = await response.json();
 
-        setCookie("userToken", result.data.token, { path: "/" });
-        setCookie("username", result.data.username, { path: "/" });
-        setCookie("userID", result.data.id, { path: "/" });
+        setCookie('userToken', result.data.token, { path: '/' });
+        setCookie('username', result.data.username, { path: '/' });
+        setCookie('userID', result.data.id, { path: '/' });
 
-        toast.promise(router.push("/es"), {
-          loading: "Goooing...",
+        toast.promise(router.push('/es'), {
+          loading: 'Goooing...',
           success: <b>Here we are!</b>,
           error: <b>Oops, something went wrong!</b>,
         });
@@ -82,7 +85,7 @@ const LoginInputs = (props: Props) => {
       />
       <div className={` ${styles.loginDivInput}`}>
         <input
-          type={seePassword ? "text" : "password"}
+          type={seePassword ? 'text' : 'password'}
           onChange={getPassword}
           placeholder="Introduce your password"
           className={`${styles.loginInput} ${styles.noBorder}`}
