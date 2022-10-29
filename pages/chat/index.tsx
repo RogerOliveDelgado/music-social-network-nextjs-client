@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 import Head from 'next/head';
 import { useI18N } from '../../context/i18';
 
-import { ReactEventHandler, useEffect, useRef, useState } from 'react'
+import { ReactEventHandler, useContext, useEffect, useRef, useState } from 'react'
 import {Socket, io} from 'socket.io-client'
 import { Playlist } from '../../interfaces/playlistResponse';
 import { Album, Artist } from '../../interfaces/ServerResponse';
@@ -15,6 +15,7 @@ import { Track } from '../../interfaces/tracks';
 import {socketService} from '../../socket/socket'
 import { disconnectUserFromChat } from '../../socket/servicesSocket/services';
 import { useCookies } from 'react-cookie';
+import { countContext } from '../../context/countContext';
 
 type Props = {
   setUserMessage: React.Dispatch<React.SetStateAction<number>>
@@ -36,6 +37,7 @@ const Chat = (props: Props) => {
   ]);
   const token = cookies.userToken;
   //States to manage the renders of each component
+  const {userMessage,setUserMessage} = useContext(countContext)
   const [input, setInput] = useState<string>("");  
   const [messages, setMessages] = useState<string[]>([""])
   const [socketUp, setSocketUp] = useState<Socket>(socket);
@@ -202,7 +204,10 @@ const Chat = (props: Props) => {
       
       if(exist != undefined) {
         pendingMessages.map(msg => {
-          if(msg.id == dataMessages.from) msg.numberMessages += 1
+          if(msg.id == dataMessages.from){
+            msg.numberMessages += 1
+            setUserMessage(userMessage+1)
+          } 
         })
         
         setPendingMessages(pendingMessages)
@@ -210,7 +215,7 @@ const Chat = (props: Props) => {
         if(dataMessages.from != ''){
         const idUser = dataMessages.from;        
         setPendingMessages([...pendingMessages,{id:idUser, numberMessages:1}])
-        
+        setUserMessage(userMessage+1)
       }
     }
   }

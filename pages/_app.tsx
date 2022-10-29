@@ -7,6 +7,7 @@ import { CookiesProvider } from 'react-cookie';
 import Router from 'next/router';
 import ProgressBar from '@badrap/bar-of-progress';
 import '../styles/globals.css';
+import { CountMessageProvider } from '../context/countContext';
 
 const progress = new ProgressBar({
   size: 6,
@@ -28,6 +29,7 @@ type ComponentWithPageLayout = AppProps & {
 function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <CookiesProvider>
+      <CountMessageProvider>
       <Provider store={store}>
         <I18NProvider>
           <div className="App">
@@ -36,6 +38,7 @@ function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
           </div>
         </I18NProvider>
       </Provider>
+      </CountMessageProvider>
     </CookiesProvider>
   );
 }
