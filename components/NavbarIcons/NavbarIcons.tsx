@@ -58,13 +58,13 @@ function NavbarIcons() {
         sx={{
           fontSize: 30,
         }}
-        onClick={()=>{disconnectUserFromChat(cookies.userID)}}
+        // onClick={()=>{disconnectUserFromChat(cookies.userID)}}
       />
       <MusicVideoIcon
         sx={{
           fontSize: 30,
         }}
-        onClick={()=>{disconnectUserFromChat(cookies.userID)}}
+        // onClick={()=>{disconnectUserFromChat(cookies.userID)}}
       />
       <TelegramIcon
         sx={{

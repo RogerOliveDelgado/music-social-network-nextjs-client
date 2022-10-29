@@ -26,9 +26,11 @@ let socketId;
 let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
 //Initialize the socket 
-const socket: Socket = socketService;
+let socket: Socket = socketService;
 
 const Chat = (props: Props) => {
+  const socketRef = useRef<Socket>();
+  // socketRef.current = socket;
   const { t } = useI18N();
   const [cookies, setCookie, removeCookie] = useCookies([
     'userID',
@@ -81,8 +83,9 @@ const Chat = (props: Props) => {
     likedSongs: Partial<Track>[];
   }>();
    //Take all the exists users on dataBase
-   socket.connect()
+   (socket.connected == false && cookies.userToken != undefined) && socket.connect()
    useEffect(() => {
+    socketRef.current = socket;
     if(typeof window !== "undefined"){
       console.log(window.window.innerWidth)
       setWidthWindow(window.window.innerWidth)
@@ -99,6 +102,9 @@ const Chat = (props: Props) => {
       setid1(cookies.userID)//Here we set the id of user account
     }
     getUsers();
+    console.log(socketRef.current);
+    if(socket.connected == false)socket = socketService
+    console.log(socketRef.current);
   },[])
 
   //Take the lastest open room, as current room
@@ -111,7 +117,6 @@ const Chat = (props: Props) => {
       usuarios = data;
       
       // Lista de usuarios conectados
-      console.log(usuarios)
       setConnectedUsers(usuarios)
     });
     socket.emit("connected", id1)
@@ -140,7 +145,10 @@ const Chat = (props: Props) => {
       const pending = await response1.json();
       let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
       pending.data.map((chat: any) => {       
-        chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
+        if(chat.pendingMessages != 0){
+          arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
+          // setUserMessage(userMessage+chat.pendingMessages)
+        }
       })
       setPendingMessages(arrayPendingMessages);
     }
@@ -174,22 +182,6 @@ const Chat = (props: Props) => {
     socket.on(`${id1}`, (data:any) => {
       setDataMessages(data);
       id2 == data.from && deletePendingMessage(id2);
-
-      //Update the count of pending messages to the navBar
-      const updateNumberMessages = async () => {
-        const response = await fetch(`http://localhost:4001/user/${cookies.userID}`,{
-          headers:{
-            authorization: `Bearer ${token}`
-          }
-        })
-        const data = await response.json();
-        let count: number = 0;
-        data.data.chats.map((chat:any) => {
-          count += chat.pendingMessages
-        })
-        setUserMessage(count)
-      }
-      updateNumberMessages();
     })
 
     socket.on('typing', (data:any) => {     
@@ -206,7 +198,10 @@ const Chat = (props: Props) => {
       
       if(exist != undefined) {
         pendingMessages.map(msg => {
-          if(msg.id == dataMessages.from) msg.numberMessages += 1
+          if(msg.id == dataMessages.from){
+            msg.numberMessages += 1
+            setUserMessage(userMessage+1)
+          } 
         })
         
         setPendingMessages(pendingMessages)
@@ -214,7 +209,8 @@ const Chat = (props: Props) => {
         if(dataMessages.from != ''){
         const idUser = dataMessages.from;        
         setPendingMessages([...pendingMessages,{id:idUser, numberMessages:1}])
-        
+        console.log(userMessage)
+        setUserMessage(userMessage+1)
       }
     }
   }
@@ -228,6 +224,11 @@ const Chat = (props: Props) => {
   //Delete messages no read when the user goes to that room
   const deletePendingMessage = (userId:string | undefined) => {
     const messagesAllreadyPending = pendingMessages.filter(chat => chat.id != userId);
+    let countPending: number = 0;
+    messagesAllreadyPending.map(chat => {
+      countPending += chat.numberMessages;
+    })
+    setUserMessage(countPending);
     setPendingMessages(messagesAllreadyPending);
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {

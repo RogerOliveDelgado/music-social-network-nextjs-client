@@ -120,7 +120,6 @@ const ChatRoom = (props: Props) => {
   const handleChatRoom = () => {
     props.setContacts(false);
   }
-  console.log(props.usersConnected)
   return (
     <div className={styles.chat_room_container} id="chatRoom">
       <div className={styles.chat_room_header}>

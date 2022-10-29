@@ -29,16 +29,18 @@ type ComponentWithPageLayout = AppProps & {
 function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <CookiesProvider>
+      <CountMessageProvider>
       <Provider store={store}>
         <I18NProvider>
-          <CountMessageProvider>
+          
           <div className="App">
             <Component {...pageProps} />
             <Player />
           </div>
-          </CountMessageProvider>
+          
         </I18NProvider>
       </Provider>
+      </CountMessageProvider>
     </CookiesProvider>
   );
 }
