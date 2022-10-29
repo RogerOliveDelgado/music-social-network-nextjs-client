@@ -32,4 +32,81 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 3rem;
+}
+
+.explore_button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+}
+
+.explore_button {
+  --primary-color: rgb(235, 228, 228);
+  --hovered-color: #695ee4;
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.explore_button p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: var(--primary-color);
+}
+.explore_button p:hover {
+  color: var(--hovered-color);
+}
+
+.explore_button::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+  color: #695ee4;
+}
+
+.explore_button p::before {
+  position: absolute;
+  box-sizing: border-box;
+  /* content: 'Explore'; */
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+  cursor: pointer;
+}
+
+.explore_button:hover::after {
+  width: 100%;
+  color: #695ee4;
+}
+
+.explore_button:hover p::before {
+  width: 100%;
+}
+
+.explore_button:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+  color: #695ee4;
+}
+
+.explore_button svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 15px;
+  transition-delay: 0.2s;
 }

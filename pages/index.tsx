@@ -14,13 +14,26 @@ import { useGetPlaylistQuery } from '../redux/playlistsAPI';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import MusicGenre from '../components/MusicGenre/MusicGenre';
+import GridLayout from '../components/GridLayout/GridLayout';
 
 const Home = () => {
   const [cookies, setCookie, removeCookie] = useCookies([
     'userID',
     'userToken',
+    'username',
   ]);
   const [token, setToken] = useState<string>('');
+  const [exploreType, setExploreType] = useState<{ type: string }>({
+    type: '',
+  });
+
+  const handleExploration = (type: string) => {
+    setExploreType({ type: type });
+  };
+
+  const resetExploreType = () => {
+    setExploreType({ type: '' });
+  };
 
   const {
     data: albums,
@@ -63,24 +76,67 @@ const Home = () => {
       <Layout>
         <div className={styles['home_container']}>
           <h1 className={styles.greetings}>{getGreetings()}</h1>
-          {/* <Row title="Trending Now" /> */}
+          {exploreType.type !== '' && (
+            <p className={styles.back_button} onClick={resetExploreType}>
+              Go Back
+            </p>
+          )}
+          {exploreType.type === t('additional').albums && (
+            <GridLayout data={albums?.data} title={t('additional').albums} />
+          )}
+          {exploreType.type === t('additional').artists && (
+            <GridLayout data={artists?.data} title={t('additional').artists} />
+          )}
+          {exploreType.type === t('additional').playlist && (
+            <GridLayout
+              data={playlists?.data?.playlists}
+              title={t('additional').playlist}
+            />
+          )}
           {isLoading ? (
             <RowSkeleton />
           ) : (
-            <Row title={t('additional').albums} data={albums?.data} />
+            <>
+              {exploreType.type === '' ? (
+                <Row
+                  title={t('additional').albums}
+                  data={albums?.data}
+                  explore={handleExploration}
+                />
+              ) : (
+                <></>
+              )}
+            </>
           )}
           {isLoadingArtist ? (
             <RowSkeleton />
           ) : (
-            <Row title={t('additional').artists} data={artists?.data} />
+            <>
+              {exploreType.type === '' ? (
+                <Row
+                  title={t('additional').artists}
+                  data={artists?.data}
+                  explore={handleExploration}
+                />
+              ) : (
+                <></>
+              )}
+            </>
           )}
           {isLoadingPlaylist ? (
             <RowSkeleton />
           ) : isThereAnyPlaylist ? (
-            <Row
-              title={t('additional').playlist}
-              data={playlists?.data?.playlists}
-            />
+            <>
+              {exploreType.type === '' ? (
+                <Row
+                  title={t('additional').playlist}
+                  data={playlists?.data?.playlists}
+                  explore={handleExploration}
+                />
+              ) : (
+                <></>
+              )}
+            </>
           ) : null}
         </div>
       </Layout>

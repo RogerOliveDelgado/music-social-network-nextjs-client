@@ -12,3 +12,34 @@
 .greetings {
   align-self: flex-start;
 }
+
+.back_button {
+  position: relative;
+  width: fit-content;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+  cursor: pointer;
+}
+.back_button:hover {
+  color: #695ee4;
+  scale: 1.01;
+}
+.back_button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #695ee4;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.back_button:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
