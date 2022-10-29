@@ -8,6 +8,7 @@ import Router from 'next/router';
 import ProgressBar from '@badrap/bar-of-progress';
 import '../styles/globals.css';
 import { CountMessageProvider } from '../context/countContext';
+import { SocketProvider } from '../context/socketContext';
 
 const progress = new ProgressBar({
   size: 6,
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
   return (
     <CookiesProvider>
       <CountMessageProvider>
+        <SocketProvider>
       <Provider store={store}>
         <I18NProvider>
           <div className="App">
@@ -38,6 +40,7 @@ function MyApp({ Component, pageProps }: ComponentWithPageLayout) {
           </div>
         </I18NProvider>
       </Provider>
+      </SocketProvider>
       </CountMessageProvider>
     </CookiesProvider>
   );

@@ -17,6 +17,7 @@ import { disconnectUserFromChat } from '../../socket/servicesSocket/services';
 import { useCookies } from 'react-cookie';
 import { countContext } from '../../context/countContext';
 import { CollectionsOutlined } from '@mui/icons-material';
+import { socketContext } from '../../context/socketContext';
 
 type Props = {
   setUserMessage: React.Dispatch<React.SetStateAction<number>>
@@ -27,7 +28,7 @@ let socketId;
 let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
 //Initialize the socket 
-const socket: Socket = socketService;
+// const socket: Socket = socketService;
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
@@ -38,9 +39,10 @@ const Chat = (props: Props) => {
   ]);
   const token = cookies.userToken;
   //States to manage the renders of each component
-  const {userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
+  const {socket,typing, setTyping, connectedUsers, setConnectedUsers} = useContext(socketContext)
+  const {messages, setMessages,userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
   const [input, setInput] = useState<string>("");  
-  const [messages, setMessages] = useState<string[]>([""])
+  // const [messages, setMessages] = useState<string[]>([""])
   const [socketUp, setSocketUp] = useState<Socket>(socket);
   const [users, setUsers] = useState<{
     _id:string,
@@ -61,10 +63,10 @@ const Chat = (props: Props) => {
   const [userName, setUserName] = useState<string>("")
   const [room, setRoom] = useState<{ok:boolean, data:{_id:string}}>();
   // const [dataMessages, setDataMessages] = useState<{msg:string, from:string}>({msg:"", from:""})
-  const [typing, setTyping] = useState<string>("");
-  const [dataTyping, setDataTyping] = useState<string>("");
+  // const [typing, setTyping] = useState<string>("");
+  // const [dataTyping, setDataTyping] = useState<string>("");
   // const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
-  const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
+  // const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
   const [widthWindow, setWidthWindow] = useState<number>(0);
   const [user, setUser] = useState<{
     _id:string,
@@ -103,7 +105,7 @@ const Chat = (props: Props) => {
   //Take the lastest open room, as current room
   useEffect(() => {
     const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
-    setUserName(userName?.username)
+    setUserName(cookies.username)
     socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
     socket.on('session_update', function(data, socket){
       socketId = socket;
@@ -149,7 +151,7 @@ const Chat = (props: Props) => {
       if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
     }
     currentRoom();
-  },[id1, socketUp])//socketUp
+  },[cookies.userID, socketUp])//socketUp
 
   //Charge the messages of the current room, after set de id2 and current room
   useEffect(() => {
@@ -171,7 +173,7 @@ const Chat = (props: Props) => {
         getMessagesOfCurrentRoom(room?.data._id)
       }
   },[room])
-  
+  /**Este useEffect no estaba comentado */
   useEffect(()=>{
   socket.on(`${cookies.userID}`, (data:any) => {
     setDataMessages(data);//Set the message
@@ -241,7 +243,7 @@ const Chat = (props: Props) => {
   //   setTyping(data);      
   // })
 
-  //Update the message for the currentRoom or update the pendingMessage if the user is disconnected
+  // Update the message for the currentRoom or update the pendingMessage if the user is disconnected
   useEffect(() => {
     console.log("ACTUALIZANDO MENSAJES")
     console.log(dataMessages)
@@ -291,6 +293,7 @@ const Chat = (props: Props) => {
         }
       }
     }
+    /**Esto de abajo del else estaba ya comentado menos el useEffect */
     // else{
     //   const exist = pendingMessages.find(chat => chat.id == dataMessages.from);
     //   console.log("ELSE", exist)
@@ -313,9 +316,10 @@ const Chat = (props: Props) => {
   },[dataMessages])
 
   //Set if a user is typing
-  useEffect(() => {
-    setDataTyping(typing);
-  }, [typing])
+  /**Esto no estaba comentado */
+  // useEffect(() => {
+  //   setDataTyping(typing);
+  // }, [typing])
 
   //Delete messages no read when the user goes to that room
   const deletePendingMessage = (userId:string | undefined) => {

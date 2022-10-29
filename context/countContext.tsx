@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
 interface contextProps{
@@ -11,7 +10,9 @@ interface contextProps{
   id2: string | undefined,
   setid2: React.Dispatch<React.SetStateAction<string | undefined>>,
   pendingMessages:{id:string, numberMessages:number}[],
-  setPendingMessages:React.Dispatch<React.SetStateAction<{id:string, numberMessages:number}[]>>
+  setPendingMessages:React.Dispatch<React.SetStateAction<{id:string, numberMessages:number}[]>>,
+  messages:string[],
+  setMessages:React.Dispatch<React.SetStateAction<string[]>>
 }
 
 interface props{
@@ -32,7 +33,8 @@ export const CountMessageProvider = ({children}:props) => {
   const [previousPath, setPreviousPath] = useState<string>("/");
   const [id2, setid2] = useState<string | undefined>();
   const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
-
+  const [messages, setMessages] = useState<string[]>([""])
+  
   useEffect(()=> {
     const updateNumberMessages = async () => {
         const response1 = await fetch('http://localhost:4001/chat/pendingMessages',{
@@ -59,6 +61,6 @@ export const CountMessageProvider = ({children}:props) => {
   
 
   return(
-    <countContext.Provider value={{userMessage, setUserMessage, dataMessages, setDataMessages, previousPath, setPreviousPath, id2, setid2,pendingMessages, setPendingMessages}}>{children}</countContext.Provider>
+    <countContext.Provider value={{messages, setMessages,userMessage, setUserMessage, dataMessages, setDataMessages, previousPath, setPreviousPath, id2, setid2,pendingMessages, setPendingMessages}}>{children}</countContext.Provider>
   )
 }
