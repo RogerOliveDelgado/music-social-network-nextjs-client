@@ -110,11 +110,30 @@
 
 @media (max-width: 700px) {
   .searchbar {
-    width: auto;
+    width: 13rem;
+    height: 2rem;
+  }
+
+  .searchbar_wrapper{
+    padding:  5px 4px 0 10px;
+  }
+
+  .searchbar_input{
+    font-size: 12px;
+  }
+
+  .searchbar_left{
+    font-size: 10px;
+    padding-right: 4px;
   }
 }
 
 @media (max-width: 550px) {
+
+  .searchbar {
+    width: 11rem;
+  }
+
   .searchbar_left {
     display: none;
   }

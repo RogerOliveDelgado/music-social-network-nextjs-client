@@ -56,59 +56,64 @@ function NavbarIcons({ userMessage }: Props) {
     removeCookie("userID");
   };
 
+
   const router = useRouter();
   return (
-    <div className={styles.icons}>
-      <div className={styles.separator}></div>
-      <TelegramIcon
-        sx={{
-          fontSize: 30,
-          cursor: "pointer",
-        }}
-        onClick={() => router.push("/chat")}
-      />
-      {userMessage}
+    <>
       <LanguageSelector />
-      <div className={styles.separator}></div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        {isLargeScreen && username}
-        <AccountCircleIcon
-          sx={{
-            fontSize: 30,
-          }}
-        />
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <Link href={"/config"}>
-          <MenuItem>{t("content").profile}</MenuItem>
-        </Link>
-        <Link href={"/login"}>
-          <button
-            onClick={() => {
-              removeStoragedCookie();
-              disconnectUserFromChat();
+      <div className={styles.icons}>
+        <div className={styles.notification}>
+          <TelegramIcon
+            sx={{
+              fontSize: 30,
+              cursor: "pointer",
             }}
-            style={{ backgroundColor: "transparent", border: "none" }}
-          >
-            <MenuItem>{t("content").logout}</MenuItem>
-          </button>
-        </Link>
-      </Menu>
-    </div>
+            onClick={() => router.push("/chat")}
+          />
+          {userMessage > 0 && (
+            <span className={styles.badge}>{userMessage}</span>
+          )}
+        </div>
+        <Button
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          {isLargeScreen && username}
+          <AccountCircleIcon
+            sx={{
+              fontSize: 30,
+            }}
+          />
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <Link href={"/config"}>
+            <MenuItem>{t("content").profile}</MenuItem>
+          </Link>
+          <Link href={"/login"}>
+            <button
+              onClick={() => {
+                removeStoragedCookie();
+                disconnectUserFromChat();
+              }}
+              style={{ backgroundColor: "transparent", border: "none" }}
+            >
+              <MenuItem>{t("content").logout}</MenuItem>
+            </button>
+          </Link>
+        </Menu>
+      </div>
+    </>
   );
 }
 

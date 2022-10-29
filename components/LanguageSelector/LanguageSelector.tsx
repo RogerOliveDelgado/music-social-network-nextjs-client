@@ -30,7 +30,10 @@ const LanguageSelector = (props: Props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{
+      display: "flex",
+      alignItems: "center",
+    }}>
       <FormControl
         fullWidth
         variant="standard"

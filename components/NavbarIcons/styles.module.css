@@ -1,6 +1,39 @@
 .icons {
     display: flex;
     flex-grow: .5;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
+}
+
+.notification {
+    background-color: var(--grey);
+    color: white;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    padding: .1rem .35rem;
+    margin-right: 1rem;
+  }
+
+  .notification > svg {
+    margin-top: .2rem;
+  }
+  
+  /* .notification:hover {
+    background: var(--darker_blue);
+  } */
+  
+  .notification .badge {
+    position: absolute;
+    top: -3px;
+    right: -14px;
+    padding: 1px 7px;
+    border-radius: 50%;
+    background: #FA3E3E;
+    color: white;
+  }
+
+.badge {
+    font-size: 14px;
 }
