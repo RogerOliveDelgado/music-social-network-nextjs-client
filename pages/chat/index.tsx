@@ -103,7 +103,7 @@ const Chat = (props: Props) => {
   //Take the lastest open room, as current room
   useEffect(() => {
     const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
-    setUserName(userName?.username)
+    setUserName(cookies.username)
     socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
     socket.on('session_update', function(data, socket){
       socketId = socket;
@@ -272,8 +272,8 @@ const Chat = (props: Props) => {
           setPendingMessages([...pendingMessages,{id:dataMessages.from, numberMessages:1}])
         }
       }else{//If user is in chat tab
-        console.log("Esta en chat")
-        // (id2 == data.from && id2 != undefined) && deletePendingMessage(id2);
+        console.log("Esta en chat");
+        (id2 == dataMessages.from && id2 != undefined) && deletePendingMessage(id2);//Si nos escribe estando en el chat borra los pending messages de ese chat
         //comprobamos si venia de otra pagina distinta al chat
         if(dataMessages.from != id2 && id2 != undefined && dataMessages.from != cookies.userID){//If user is not talking with Id2
           console.log("El mensaje no viene de la currentRoom ni de nosotros")
