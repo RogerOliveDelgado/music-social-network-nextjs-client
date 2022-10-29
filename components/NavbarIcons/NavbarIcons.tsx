@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import Badge from "@mui/material/Badge";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import MusicVideoIcon from "@mui/icons-material/MusicVideo";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -56,23 +57,21 @@ function NavbarIcons({ userMessage }: Props) {
     removeCookie("userID");
   };
 
-
   const router = useRouter();
   return (
     <>
       <LanguageSelector />
       <div className={styles.icons}>
         <div className={styles.notification}>
-          <TelegramIcon
-            sx={{
-              fontSize: 30,
-              cursor: "pointer",
-            }}
-            onClick={() => router.push("/chat")}
-          />
-          {userMessage > 0 && (
-            <span className={styles.badge}>{userMessage}</span>
-          )}
+          <Badge badgeContent={userMessage} color="primary">
+            <TelegramIcon
+              sx={{
+                fontSize: 30,
+                cursor: "pointer",
+              }}
+              onClick={() => router.push("/chat")}
+            />
+          </Badge>
         </div>
         <Button
           id="basic-button"
