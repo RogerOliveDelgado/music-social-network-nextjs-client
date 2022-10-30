@@ -94,16 +94,6 @@ const Chat = (props: Props) => {
   useEffect(() => {
     const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
     setUserName(cookies.username)
-    // socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
-    // socket.on('session_update', function(data, socket){
-    //   socketId = socket;
-    //   usuarios = data;
-      
-    //   // Lista de usuarios conectados
-    //   console.log(usuarios)
-    //   setConnectedUsers(usuarios)
-    // });
-    // socket.emit("connected", cookies.userID)
     const currentRoom = async () => {
     const responseCurrentRoom = await fetch("http://localhost:4001/chat/currentRoom",{
         method:'POST',
@@ -127,13 +117,15 @@ const Chat = (props: Props) => {
       })
       const pending = await response1.json();
       let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
+      let arrayPendingMessagesPrime: {id:string, numberMessages:number}[] = [];
       pending.data.map((chat: any) => {
         chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
+        arrayPendingMessagesPrime.push({id:chat.toUser, numberMessages: chat.pendingMessages})
       })
       console.log(pendingMessages)
       console.log(arrayPendingMessages)
       if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
-      if(pendingMessages != arrayPendingMessages)setPendingMessages(arrayPendingMessages);
+      if(pendingMessages != arrayPendingMessages)setPendingMessages(pendingMessages);
     }
     currentRoom();
   },[cookies.userID, socketUp])//socketUp
@@ -172,6 +164,7 @@ const Chat = (props: Props) => {
   // Update the message for the currentRoom or update the pendingMessage if the user is disconnected
   useEffect(() => {
     if(dataMessages.from == id2 || dataMessages.from == id1) {//If message comes from one of the actual talkers
+      console.log("EFFECT", userMessage)
         setUserMessage(userMessage)//Comprobar si vale
         setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
     }
@@ -188,7 +181,8 @@ const Chat = (props: Props) => {
     messagesAllreadyPending.map(chat=>{
       count += chat.numberMessages
     })
-    setUserMessage(count);
+    console.log("DELET", count)
+    previousPath == 'chat' && setUserMessage(count);
     setPendingMessages(messagesAllreadyPending);
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {

@@ -39,6 +39,7 @@ function NavbarIcons(props:Props) {
 
   useEffect(()=>{
     console.log("Entrando")
+    socket.connect();
     socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
     socket.on('session_update', function(data, socket){
       socketId = socket;

@@ -48,8 +48,9 @@ export const CountMessageProvider = ({children}:props) => {
           }
         })
         const pending = await response1.json();
+        console.log(pending)
         let count: number = 0;
-        pending.data.map((chat: any) => {       
+        pending.ok == true && pending.data.map((chat: any) => {       
           if(chat.pendingMessages != 0){
             count += chat.pendingMessages;
             console.log(chat);
