@@ -56,8 +56,8 @@ export const CountMessageProvider = ({children}:props) => {
             
           }
         })
-        console.log("contando",count)
         setUserMessage(count)
+        setPendingMessages([])
       }      
       updateNumberMessages();
   },[cookies.userToken])

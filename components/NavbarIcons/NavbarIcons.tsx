@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
 import { border } from "@mui/system";
-import {disconnectUserFromChat} from '../../socket/servicesSocket/services'
 import { Props } from "next/script";
 import { countContext } from "../../context/countContext";
 import { socketContext } from "../../context/socketContext";
@@ -25,7 +24,7 @@ type Props = {
 
 function NavbarIcons(props:Props) {
   const { t } = useI18N();
-  const {currentRoom,userMessage, setPreviousPath, setUserMessage, setDataMessages, id2, pendingMessages} = useContext(countContext)
+  const {currentRoom,userMessage, setPreviousPath, setUserMessage, setDataMessages, id2, pendingMessages,setPendingMessages,previousPath} = useContext(countContext)
   const {socket} = useContext(socketContext)
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
@@ -34,24 +33,43 @@ function NavbarIcons(props:Props) {
   ]);
 
   useEffect(()=>{
-    socket.on(`${cookies.userID}`,(data:any)=>{
+    console.log("Entrando")
+    socket.on(`${cookies.userID}`,(data:any)=>{console.log("data", data)
+      console.log(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
       if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){
-        setUserMessage(userMessage+1);
+        // setUserMessage((prevUserMessage)=> prevUserMessage+1)
+        setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
+        if(pendingMessages.length > 0){//if exists pending messages 
+          pendingMessages.map(pm => {
+            console.log(pm)
+            if (pm.id == data.from ) pm.numberMessages += 1;
+          })
+          console.log(pendingMessages)
+          setPendingMessages(pendingMessages);
+        }else{
+          setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+        }
+      }else{//If user is in chat tab
+        //comprobamos si venia de otra pagina distinta al chat
+        if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
+          setUserMessage((prevUserMessage)=>prevUserMessage+1);
+          if(previousPath !="chat")setUserMessage((prevUserMessage)=>prevUserMessage-1);
+          if(pendingMessages.length > 0){//if exists pending messages 
+            pendingMessages.map(pm => {
+              if (pm.id == data.from ) pm.numberMessages += 1;
+            })
+            setPendingMessages(pendingMessages);
+          }else{
+            setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+          }
+        }
       }
-      // else{
-      //   console.log(data)
-      //   console.log(currentRoom)
-      //   if(data.msg.split(':')[0] != currentRoom){//Si nos llega un mensaje de una room distinta suma 1
-      //     console.log("Deberia entrar")
-      //     setUserMessage(userMessage+1);
-      //   }
-      // }
       setDataMessages(data);
     })
     return()=>{
       socket.off(`${cookies.userID}`)
     }
-  },[currentRoom])
+  },[currentRoom,pendingMessages])
 
   const [username, setUsername] = React.useState<string>();
 
@@ -87,13 +105,11 @@ function NavbarIcons(props:Props) {
         sx={{
           fontSize: 30,
         }}
-        onClick={disconnectUserFromChat}
       />
       <MusicVideoIcon
         sx={{
           fontSize: 30,
         }}
-        onClick={disconnectUserFromChat}
       />
       <TelegramIcon
         sx={{
@@ -132,7 +148,7 @@ function NavbarIcons(props:Props) {
         </Link>
         <Link href={"/login"}>
           <button
-            onClick={()=>{removeStoragedCookie(); disconnectUserFromChat()}}
+            onClick={()=>{removeStoragedCookie()}}
             style={{ backgroundColor: "transparent", border: "none" }}
           >
             <MenuItem>{t("content").logout}</MenuItem>

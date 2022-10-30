@@ -383,7 +383,7 @@ function Sidebar(props: ButtonProps) {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={()=>{uploadSong();disconnectUserFromChat();}}>Upload song</Button>
+            <Button onClick={()=>{uploadSong();}}>Upload song</Button>
           </DialogActions>
         </BootstrapDialog>
       </div>

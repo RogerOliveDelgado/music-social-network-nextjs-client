@@ -27,9 +27,6 @@ let socketId;
 //Array wich contains the connected users, each time a user make login into chat app, this array will be updated
 let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
-//Initialize the socket 
-// const socket: Socket = socketService;
-
 const Chat = (props: Props) => {
   const { t } = useI18N();
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -42,7 +39,6 @@ const Chat = (props: Props) => {
   const {socket,typing, setTyping, connectedUsers, setConnectedUsers} = useContext(socketContext)
   const {currentRoom,setCurrentRoom,messages, setMessages,userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
   const [input, setInput] = useState<string>("");  
-  // const [messages, setMessages] = useState<string[]>([""])
   const [socketUp, setSocketUp] = useState<Socket>(socket);
   const [users, setUsers] = useState<{
     _id:string,
@@ -57,16 +53,9 @@ const Chat = (props: Props) => {
     artists: Partial<Artist>[];
     likedSongs: Partial<Track>[];
   }[]>([]);
-  // const [currentRoom, setCurrentRoom] = useState<string>("");//Nombre de la persona con la que se habla
   const [id1, setid1] = useState<string | undefined>();
-  // const [id2, setid2] = useState<string | undefined>();
   const [userName, setUserName] = useState<string>("")
   const [room, setRoom] = useState<{ok:boolean, data:{_id:string}}>();
-  // const [dataMessages, setDataMessages] = useState<{msg:string, from:string}>({msg:"", from:""})
-  // const [typing, setTyping] = useState<string>("");
-  // const [dataTyping, setDataTyping] = useState<string>("");
-  // const [pendingMessages, setPendingMessages] = useState<{id:string, numberMessages:number}[]>([]);
-  // const [connectedUsers, setConnectedUsers] = useState<{id:string,socketId:string,usuario:string}[]>([])
   const [widthWindow, setWidthWindow] = useState<number>(0);
   const [user, setUser] = useState<{
     _id:string,
@@ -85,7 +74,6 @@ const Chat = (props: Props) => {
    //Take all the exists users on dataBase
    useEffect(() => {
     if(typeof window !== "undefined"){
-      console.log(window.window.innerWidth)
       setWidthWindow(window.window.innerWidth)
     }
     const getUsers = async() => {
@@ -112,7 +100,6 @@ const Chat = (props: Props) => {
       usuarios = data;
       
       // Lista de usuarios conectados
-      console.log(usuarios)
       setConnectedUsers(usuarios)
     });
     socket.emit("connected", cookies.userID)
@@ -125,7 +112,6 @@ const Chat = (props: Props) => {
         }
       });
       const room = await responseCurrentRoom.json();
-      console.log(room)
       if(room != undefined && room.msg != "No current chat"){
         setRoom(room);
         setCurrentRoom(room.data.username);
@@ -142,12 +128,7 @@ const Chat = (props: Props) => {
       let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
       pending.data.map((chat: any) => {
         chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
-        if(chat.toUser == id2 && id2 != undefined){console.log("BUG")
-          // userMessage > 0 && setUserMessage(userMessage-chat.pendingMessages)
-        }
       })
-      console.log(pendingMessages)
-      console.log(arrayPendingMessages)
       if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
     }
     currentRoom();
@@ -173,154 +154,27 @@ const Chat = (props: Props) => {
         getMessagesOfCurrentRoom(room?.data._id)
       }
   },[room])
-  /**Este useEffect no estaba comentado */
+  
+  //Set the typing event
   useEffect(()=>{
-  // socket.on(`${cookies.userID}`, (data:any) => {
-  //   setDataMessages(data);//Set the message
-  //     console.log(data)
-  //     // if(typeof window !== undefined){
-  //     //   //If the user is not in chat frame
-  //     //   if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
-  //     //     setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
-  //     //     if(pendingMessages.length > 0){//if exists pending messages 
-  //     //       pendingMessages.map(pm => {
-  //     //         console.log(pm)
-  //     //         if (pm.id == data.from ) pm.numberMessages += 1;
-  //     //       })
-  //     //       console.log(pendingMessages)
-  //     //       setPendingMessages(pendingMessages);
-  //     //     }else{
-  //     //       setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
-  //     //     }
-  //     //   }else{//If user is in chat tab
-  //     //     // (id2 == data.from && id2 != undefined) && deletePendingMessage(id2);
-  //     //     if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
-  //     //       setUserMessage((prevUserMessage)=>prevUserMessage+1);
-  //     //       if(pendingMessages.length > 0){//if exists pending messages 
-  //     //         pendingMessages.map(pm => {
-  //     //           console.log(pm)
-  //     //           if (pm.id == data.from ) pm.numberMessages += 1;
-  //     //         })
-  //     //         console.log(pendingMessages)
-  //     //         setPendingMessages(pendingMessages);
-  //     //       }else{
-  //     //         setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
-  //     //       }
-  //     //     }
-  //     //   }
-  //     // }
-  //     //Update the count of pending messages to the navBar
-  //     // const updateNumberMessages = async () => {
-  //     //   const response = await fetch(`http://localhost:4001/user/${cookies.userID}`,{
-  //     //     headers:{
-  //     //       authorization: `Bearer ${token}`
-  //     //     }
-  //     //   })
-  //     //   const data1 = await response.json();
-  //     //   let count: number = 0;
-  //     //   console.log(pendingMessages)
-  //     //   data1.data.chats.map((chat:any) => {
-  //     //     count += chat.pendingMessages
-  //     //     if(typeof window != undefined){
-  //     //       if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){console.log("Entrando")
-  //     //         count == 0 && count++;
-  //     //       }
-  //     //     }
-  //     //   })
-  //     //   setUserMessage(count)
-  //     // }
-  //     // updateNumberMessages();
-  // })
-  socket.on('typing', (data:any) => {     
-    setTyping(data);      
-  })
-  return () => {
-    // socket.off(`${cookies.userID}`);
-    socket.off('typing');
-  }
+    socket.on('typing', (data:any) => {     
+      setTyping(data);      
+    })
+    return () => {
+      socket.off('typing');
+    }
   },[cookies.userID])
-  // socket.on('typing', (data:any) => {     
-  //   setTyping(data);      
-  // })
 
   // Update the message for the currentRoom or update the pendingMessage if the user is disconnected
   useEffect(() => {
-    console.log("ACTUALIZANDO MENSAJES")
-    console.log(dataMessages)
-    console.log(id2)
     if(dataMessages.from == id2 || dataMessages.from == id1) {//If message comes from one of the actual talkers
-      console.log(pendingMessages)
-      if(previousPath != window.location.pathname.split('/')[window.location.pathname.split('/').length-1]){//If message comes from id2 and id1 was in other frame
-        //We must to update the user message contact
-      }
         setUserMessage(userMessage)//Comprobar si vale
         setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
     }
-    if(typeof window !== undefined){
-      //If the user is not in chat frame
-      console.log(previousPath)
-      console.log(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
-      if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){
-        console.log("No viene de chat")
-        setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
-        if(pendingMessages.length > 0){//if exists pending messages 
-          pendingMessages.map(pm => {
-            console.log(pm)
-            if (pm.id == dataMessages.from ) pm.numberMessages += 1;
-          })
-          console.log(pendingMessages)
-          setPendingMessages(pendingMessages);
-        }else{
-          setPendingMessages([...pendingMessages,{id:dataMessages.from, numberMessages:1}])
-        }
-      }else{//If user is in chat tab
-        console.log("Esta en chat")
-        // (id2 == data.from && id2 != undefined) && deletePendingMessage(id2);
-        //comprobamos si venia de otra pagina distinta al chat
-        if(dataMessages.from != id2 && id2 != undefined && dataMessages.from != cookies.userID){//If user is not talking with Id2
-          console.log("El mensaje no viene de la currentRoom ni de nosotros")
-          setUserMessage((prevUserMessage)=>prevUserMessage+1);
-          if(previousPath !="chat")setUserMessage((prevUserMessage)=>prevUserMessage-1);
-          if(pendingMessages.length > 0){//if exists pending messages 
-            pendingMessages.map(pm => {
-              console.log(pm)
-              if (pm.id == dataMessages.from ) pm.numberMessages += 1;
-            })
-            console.log(pendingMessages)
-            setPendingMessages(pendingMessages);
-          }else{
-            setPendingMessages([...pendingMessages,{id:dataMessages.from, numberMessages:1}])
-          }
-        }
-      }
+    if(dataMessages.from == id2 && id2 != undefined && dataMessages.from != cookies.userID){
+        (id2 == dataMessages.from && id2 != undefined) && deletePendingMessage(id2);
     }
-    /**Esto de abajo del else estaba ya comentado menos el useEffect */
-    // else{
-    //   const exist = pendingMessages.find(chat => chat.id == dataMessages.from);
-    //   console.log("ELSE", exist)
-    //   if(exist != undefined) {
-    //     pendingMessages.map(msg => {
-    //       if(msg.id == dataMessages.from){
-    //         msg.numberMessages += 1
-    //         setUserMessage(userMessage+1)
-    //       } 
-    //     })        
-    //     setPendingMessages(pendingMessages)
-    //   }else{
-    //     if(dataMessages.from != ''){
-    //       const idUser = dataMessages.from;        
-    //       setPendingMessages([...pendingMessages,{id:idUser, numberMessages:1}])
-    //       setUserMessage(userMessage+1)
-    //     }
-    //   }
-    // }
   },[dataMessages])
-
-  //Set if a user is typing
-  /**Esto no estaba comentado */
-  // useEffect(() => {
-  //   setDataTyping(typing);
-  // }, [typing])
 
   //Delete messages no read when the user goes to that room
   const deletePendingMessage = (userId:string | undefined) => {
@@ -348,6 +202,7 @@ const Chat = (props: Props) => {
   }
   const [contacts, setContacts] = useState<boolean>(true);
   
+  //Get the screen size on dynamic way
   useEffect(()=>{
     setWidthWindow(window.window.innerWidth)
     window.addEventListener('resize', resizeWindow)
@@ -356,6 +211,7 @@ const Chat = (props: Props) => {
   const resizeWindow = () => {
     setWidthWindow(window.window.innerWidth)
   }  
+
   return (
     <>
       <Head>

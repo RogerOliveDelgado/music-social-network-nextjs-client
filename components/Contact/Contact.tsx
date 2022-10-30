@@ -37,7 +37,6 @@ const Contact = (props: Props) => {
   let userMessages:{id:string, numberMessages:number} | undefined
   if(props.user._id != props.id1){
     userMessages= pendingMessages.find(chat => chat.id == props.user._id)//props.pendingMessages
-    console.log(userMessages)
   }
 
   const handleContacts = () => {
