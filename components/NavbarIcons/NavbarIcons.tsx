@@ -19,6 +19,9 @@ import { border } from "@mui/system";
 import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
 import { useMediaQuery } from "react-responsive";
 
+import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
+
 type Props = {
   userMessage: number;
 };
@@ -61,7 +64,6 @@ function NavbarIcons({ userMessage }: Props) {
   return (
     <>
       <div className={styles.icons}>
-            <LanguageSelector />
         <div className={styles.notification}>
           <Badge badgeContent={userMessage} color="primary">
             <TelegramIcon
@@ -73,6 +75,14 @@ function NavbarIcons({ userMessage }: Props) {
             />
           </Badge>
         </div>
+        {/* <Link href={"/config"}>
+          <AccountCircleIcon
+            sx={{
+              fontSize: 30,
+              cursor: "pointer",
+            }}
+          />
+        </Link> */}
         <Button
           id="basic-button"
           aria-controls={open ? "basic-menu" : undefined}
@@ -80,10 +90,11 @@ function NavbarIcons({ userMessage }: Props) {
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
         >
-          {isLargeScreen && username}
+          {/* {isLargeScreen && username} */}
           <AccountCircleIcon
             sx={{
               fontSize: 30,
+              color: "white",
             }}
           />
         </Button>
@@ -95,9 +106,30 @@ function NavbarIcons({ userMessage }: Props) {
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
+          sx={{
+            "& .MuiPopover-paper": {
+              // borderRadius: 0,
+              border: "1px solid #ccc",
+              backgroundColor: "transparent",
+              width: "11.3rem",
+            },
+          }}
         >
           <Link href={"/config"}>
-            <MenuItem>{t("content").profile}</MenuItem>
+            <button className={styles.profileButtons}>
+              <MenuItem
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                  color: "white",
+                  marginLeft: "-13px",
+                }}
+              >
+                {t("content").profile}
+              </MenuItem>
+              <SettingsIcon />
+            </button>
           </Link>
           <Link href={"/login"}>
             <button
@@ -105,12 +137,24 @@ function NavbarIcons({ userMessage }: Props) {
                 removeStoragedCookie();
                 disconnectUserFromChat();
               }}
-              style={{ backgroundColor: "transparent", border: "none" }}
+              className={styles.profileButtons}
             >
-              <MenuItem>{t("content").logout}</MenuItem>
+              <MenuItem
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                  color: "white",
+                  marginLeft: "-13px",
+                }}
+              >
+                {t("content").logout}
+              </MenuItem>
+              <LogoutIcon />
             </button>
           </Link>
         </Menu>
+        <LanguageSelector />
       </div>
     </>
   );

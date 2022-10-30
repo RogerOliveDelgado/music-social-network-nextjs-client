@@ -73,14 +73,13 @@ body {
   color: var(--lightest_blue);
 }
 
-
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-button {
   width: 35px;
-  height: 35px;
+  height: 45px;
 }
 ::-webkit-scrollbar-thumb {
   background: #e1e1e1;

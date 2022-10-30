@@ -263,8 +263,8 @@ function Sidebar(props: ButtonProps) {
                   width: "100%",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.08)",
-                    borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                    // borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                    // borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
                   },
                 }}
               >
@@ -389,7 +389,14 @@ function Sidebar(props: ButtonProps) {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={()=>{uploadSong();disconnectUserFromChat();}}>Upload song</Button>
+            <Button
+              onClick={() => {
+                uploadSong();
+                disconnectUserFromChat();
+              }}
+            >
+              Upload song
+            </Button>
           </DialogActions>
         </BootstrapDialog>
       </div>

@@ -1,21 +1,21 @@
-import type { NextPage } from 'next';
-import { useCookies } from 'react-cookie';
-import Head from 'next/head';
+import type { NextPage } from "next";
+import { useCookies } from "react-cookie";
+import Head from "next/head";
 
-import { GetServerSideProps } from 'next';
-import { motion, Variants } from 'framer-motion';
+import { GetServerSideProps } from "next";
+import { motion, Variants } from "framer-motion";
 
-import LoginInputs from '../../components/LoginInputs/LoginInputs';
+import LoginInputs from "../../components/LoginInputs/LoginInputs";
 
-import GoogleIcon from '@mui/icons-material/Google';
-import Link from 'next/link';
+import GoogleIcon from "@mui/icons-material/Google";
+import Link from "next/link";
 
-import FreeSongs from '../../components/FreeSongs/FreeSongs';
-import Logo from '../../components/Logo/Logo';
+import FreeSongs from "../../components/FreeSongs/FreeSongs";
+import Logo from "../../components/Logo/Logo";
 
-import { Track } from '../../interfaces/tracks';
+import { Track } from "../../interfaces/tracks";
 
-import styles from '../../styles/Home.module.css';
+import styles from "../../styles/Home.module.css";
 interface parsedTracks {
   parsedTracks: Track[];
 }
@@ -42,7 +42,7 @@ const Login = ({ parsedTracks }: parsedTracks) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Logo Height={80} Width={110} ClassName={'logoMain'} />
+      <Logo Height={80} Width={110} ClassName={"logoMain"} />
 
       <main className={styles.indexMain}>
         <motion.section
@@ -55,15 +55,11 @@ const Login = ({ parsedTracks }: parsedTracks) => {
           {/* <DemoAppComponent /> */}
           <div className={styles.logIn_signUp_Div}>
             <LoginInputs />
-            <section className={styles.googleLogin}>
-              <GoogleIcon />
-              <span>Continue with Google</span>
-            </section>
             <section className={styles.signUpSection}>
               <span>
                 Don<span>&#39;</span>t have an account?
               </span>
-              <Link href={'/signup'}>
+              <Link href={"/signup"}>
                 <a className={styles.colorLink}>Sign Up</a>
               </Link>
             </section>

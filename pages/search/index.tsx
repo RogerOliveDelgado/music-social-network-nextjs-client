@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const Search = ({ parsedArtist }: Props) => {
+export default function Search({ parsedArtist }: Props) {
   const { t } = useI18N();
 
   const generateRandomNumbers = () => {
@@ -79,6 +79,6 @@ const Search = ({ parsedArtist }: Props) => {
       </Layout>
     </>
   );
-};
+}
 
-export default Search;
+// export default Search;
