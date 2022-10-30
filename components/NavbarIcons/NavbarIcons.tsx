@@ -18,14 +18,19 @@ import { border } from "@mui/system";
 import { Props } from "next/script";
 import { countContext } from "../../context/countContext";
 import { socketContext } from "../../context/socketContext";
+import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
 
 type Props = {
 };
 
+let socketId;
+//Array wich contains the connected users, each time a user make login into chat app, this array will be updated
+let usuarios:{id:string, socketId:string, usuario: string}[] = [];
+
 function NavbarIcons(props:Props) {
   const { t } = useI18N();
   const {currentRoom,userMessage, setPreviousPath, setUserMessage, setDataMessages, id2, pendingMessages,setPendingMessages,previousPath} = useContext(countContext)
-  const {socket} = useContext(socketContext)
+  const {socket,setConnectedUsers} = useContext(socketContext)
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "userToken",
@@ -34,6 +39,16 @@ function NavbarIcons(props:Props) {
 
   useEffect(()=>{
     console.log("Entrando")
+    socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
+    socket.on('session_update', function(data, socket){
+      socketId = socket;
+      usuarios = data;
+      
+      // Lista de usuarios conectados
+      console.log(usuarios)
+      setConnectedUsers(usuarios)
+    });
+    socket.emit("connected", cookies.userID)
     socket.on(`${cookies.userID}`,(data:any)=>{console.log("data", data)
       console.log(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
       if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){
@@ -92,6 +107,8 @@ function NavbarIcons(props:Props) {
   };
 
   const removeStoragedCookie = () => {
+    socket.emit("Disconnect", {id:cookies.userID})
+    socket.disconnect();
     removeCookie("userToken");
     removeCookie("username");
     removeCookie("userID");

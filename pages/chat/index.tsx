@@ -94,15 +94,16 @@ const Chat = (props: Props) => {
   useEffect(() => {
     const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
     setUserName(cookies.username)
-    socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
-    socket.on('session_update', function(data, socket){
-      socketId = socket;
-      usuarios = data;
+    // socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
+    // socket.on('session_update', function(data, socket){
+    //   socketId = socket;
+    //   usuarios = data;
       
-      // Lista de usuarios conectados
-      setConnectedUsers(usuarios)
-    });
-    socket.emit("connected", cookies.userID)
+    //   // Lista de usuarios conectados
+    //   console.log(usuarios)
+    //   setConnectedUsers(usuarios)
+    // });
+    // socket.emit("connected", cookies.userID)
     const currentRoom = async () => {
     const responseCurrentRoom = await fetch("http://localhost:4001/chat/currentRoom",{
         method:'POST',
@@ -129,7 +130,10 @@ const Chat = (props: Props) => {
       pending.data.map((chat: any) => {
         chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
       })
+      console.log(pendingMessages)
+      console.log(arrayPendingMessages)
       if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
+      if(pendingMessages != arrayPendingMessages)setPendingMessages(arrayPendingMessages);
     }
     currentRoom();
   },[cookies.userID, socketUp])//socketUp
