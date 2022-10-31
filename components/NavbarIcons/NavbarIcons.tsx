@@ -110,7 +110,7 @@ function NavbarIcons({ userMessage }: Props) {
             "& .MuiPopover-paper": {
               // borderRadius: 0,
               border: "1px solid #ccc",
-              backgroundColor: "transparent",
+              backgroundColor: "var(--lightGrey)",
               width: "11.3rem",
             },
           }}
