@@ -34,6 +34,7 @@ export default {
     playlistDescription: "Description de la playlist",
     cancel: "Annuler",
     saveChanges: "Sauvegarder les modifications",
+    goBack: "Retourner",
   },
   headers: {
     headerFavorites: "Vos favoris",
@@ -64,6 +65,10 @@ export default {
     searchTitle: "Trouvons quelque chose à ajouter à votre playlist",
     searchPlaceholder:
       "Rechercher des chansons à ajouter à votre liste de lecture",
+    upload: "Télécharger",
+    uploadSong: "Télécharger une chanson",
+    uploadYourSong: "Téléchargez votre chanson",
+    songName: "Nom de la chanson",
   },
   tooltip: {
     addAlbum: "Ajouter un album à la librairie",
@@ -81,4 +86,11 @@ export default {
     notAccount: "Vous n'avez pas de compte? ",
     signup: " Sign up",
   },
+  toast: {
+    successTrack: "Chanson ajoutée avec succès",
+    error: "Une erreur s'est produite",
+    fileSizeError: "Le fichier est trop volumineux. La taille maximale est de 10 MB",
+    emptyInput: "Le nom du chanson et le fichier du chanson ne peuvent pas être vides",
+    fillGenres: "Veuillez sélectionner 5 genres ou plus."
+  }
 };

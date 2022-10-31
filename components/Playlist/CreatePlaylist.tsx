@@ -85,7 +85,7 @@ function CreatePlaylist(props: any) {
       });
       if (response.status === 400) {
         const result = await response.json();
-        toast.error("Oops, something went wrong");
+        toast.error(t('toast').error);
       }
 
       if (response.ok) {
@@ -135,7 +135,7 @@ function CreatePlaylist(props: any) {
       );
       if (response.status === 400) {
         const result = await response.json();
-        toast.error("Oops, something went wrong");
+        toast.error(t('toast').error);
       }
 
       if (response.ok) {
@@ -168,7 +168,7 @@ function CreatePlaylist(props: any) {
       reader.readAsDataURL(file);
       setPlaylistImage(file);
     } else {
-      toast.error("File size is too big. Maximum size is 10MB");
+      toast.error(t('toast').fileSizeError);
       setOpen(false);
       return;
     }
@@ -194,7 +194,7 @@ function CreatePlaylist(props: any) {
           );
           if (response.status === 400) {
             const result = await response.json();
-            toast.error("Oops, something went wrong");
+            toast.error(t('toast').error);
           }
 
           if (response.ok) {

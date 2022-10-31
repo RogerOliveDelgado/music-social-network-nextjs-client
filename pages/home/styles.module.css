@@ -13,33 +13,77 @@
   align-self: flex-start;
 }
 
-.back_button {
+.back_container{
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  --primary-color: rgb(235, 228, 228);
+  --hovered-color: #695ee4;
   position: relative;
-  width: fit-content;
+  display: flex;
   font-weight: 600;
   font-size: 20px;
   gap: 0.5rem;
   align-items: center;
   cursor: pointer;
-}
-.back_button:hover {
-  color: #695ee4;
-  scale: 1.01;
-}
-.back_button::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #695ee4;
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  margin-top: 2.5rem;
+  width: fit-content;
 }
 
-.back_button:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+.back_container p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: var(--primary-color);
+}
+.back_container p:hover {
+  color: var(--hovered-color);
+}
+
+.back_container::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ;
+  color: #695ee4;
+}
+
+.back_container p::before {
+  position: absolute;
+  box-sizing: border-box;
+  /* content: 'Explore'; */
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+  cursor: pointer;
+}
+
+.back_container:hover::after {
+  width: 7.5rem;
+  color: #695ee4;
+}
+
+.back_container:hover p::before {
+  width: 7.5rem;
+}
+
+.back_container:hover svg {
+  transform: translateX(-4px);
+  color: var(--hovered-color);
+  color: #695ee4;
+}
+
+.back_container svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 25px;
+  transition-delay: 0.2s;
 }

@@ -7,7 +7,7 @@ import { useGetAlbumsQuery } from "../redux/albumAPI";
 import { useGetArtistsQuery } from "../redux/artistAPI";
 import RowSkeleton from "../components/RowSkeleton/RowSkeleton";
 import { useI18N } from "../context/i18";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import styles from "../pages/home/styles.module.css";
 import Head from "next/head";
 import { useGetPlaylistQuery } from "../redux/playlistsAPI";
@@ -80,9 +80,12 @@ const Home = () => {
         <div className={styles["home_container"]}>
           <h1 className={styles.greetings}>{getGreetings()}</h1>
           {exploreType.type !== "" && (
-            <p className={styles.back_button} onClick={resetExploreType}>
-              Go Back
-            </p>
+            <button className={styles.back_container} onClick={resetExploreType}>
+              <ArrowBackIcon />
+              <p className={styles.back_button}>
+                {t('additional').goBack}
+              </p>
+            </button>
           )}
           {exploreType.type === t("additional").albums && (
             <GridLayout data={albums?.data} title={t("additional").albums} />

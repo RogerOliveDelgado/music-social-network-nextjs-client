@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import styles from "./styles.module.css";
 import { createUser } from "../../services/user";
+import { useI18N } from "../../context/i18";
 type Props = {
   username: string;
   email: string;
@@ -70,6 +71,8 @@ const SignUpInputs = ({
   //next router
   const router = useRouter();
 
+  const { t } = useI18N();
+
   //*Sign up function/
   const signUp = async (
     username: String,
@@ -80,7 +83,7 @@ const SignUpInputs = ({
   ) => {
     e.preventDefault();
     if (likedMusic.length < 5) {
-      toast.error("Please select 5 genres or more.");
+      toast.error(t('toast').fillGenres);
     } else {
       const result = await createUser(
         username,

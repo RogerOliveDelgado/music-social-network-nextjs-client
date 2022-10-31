@@ -173,7 +173,6 @@ function Sidebar(props: ButtonProps) {
     // if (songName.length !== 0 && songFile!.length !== 0) {
 
     if (songName.length !== 0 && songFile!.size > 0) {
-
       if (songFile!.size < 10485760) {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -192,11 +191,11 @@ function Sidebar(props: ButtonProps) {
         setSongFile({} as File);
         // toast.success("File upload successfully");
       } else {
-        toast.error("File size is too big. Maximum size is 10MB");
+        toast.error(t("toast").fileSizeError);
         return;
       }
     } else {
-      toast.error("Song name and song file cannot be empty");
+      toast.error(t("toast").emptyInput);
     }
   };
 
@@ -345,14 +344,14 @@ function Sidebar(props: ButtonProps) {
             id="customized-dialog-title"
             onClose={handleClose}
           >
-            Upload your song
+            {t('content').uploadYourSong}
           </BootstrapDialogTitle>
           <DialogContent>
             <form className={styles.sectionUploadSong}>
               <TextField
                 id="name"
                 margin="dense"
-                label="Song name"
+                label={t('content').songName}
                 type="email"
                 onChange={getSongName}
                 fullWidth
@@ -379,7 +378,7 @@ function Sidebar(props: ButtonProps) {
                       className={styles.uploadbuttonContainer}
                     >
                       <AddIcon />
-                      Upload
+                      {t("content").upload}
                     </Button>
                   </label>
                 </div>
@@ -394,10 +393,9 @@ function Sidebar(props: ButtonProps) {
               sx={{
                 color: "#90b8f8",
                 border: "1px solid #90b8f8",
-                backgroundColor: "#353941",
               }}
             >
-              Upload song
+              {t("content").uploadSong}
             </Button>
           </DialogActions>
         </BootstrapDialog>

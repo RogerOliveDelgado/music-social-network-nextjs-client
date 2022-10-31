@@ -20,6 +20,8 @@ import { countContext } from "../../context/countContext";
 type Props = {};
 
 const UserConfig = (props: Props) => {
+
+
   const [editUser] = useEditUserMutation();
   const [cookies, setCookie, removeCookie] = useCookies([
     "userToken",
@@ -52,7 +54,7 @@ const UserConfig = (props: Props) => {
       reader.readAsDataURL(file);
       setPreviewImage(file);
     } else {
-      toast.error("File size is too big. Maximum size is 10MB");
+      toast.error(t('toast').fileSizeError);
       return;
     }
   };
@@ -142,7 +144,7 @@ const UserConfig = (props: Props) => {
                 }).then((data) => {
                   if (data.data?.ok) {
                     setCookie("username", values.username, { path: "/" });
-                    toast.success("Profile, update succesfully");
+                    toast.success("Profile updated succesfully");
                   } else {
                     toast.error(data.error?.data.msg);
                   }

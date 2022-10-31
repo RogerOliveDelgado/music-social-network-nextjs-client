@@ -8,6 +8,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import styles from "./styles.module.css";
 import { createUser } from "../../services/user";
+import { useI18N } from "../../context/i18";
 
 type Props = {
   signUpFailed: boolean;
@@ -53,6 +54,8 @@ const SignUpFailed = ({
   };
   const router = useRouter();
 
+  const {t} = useI18N();
+
   const signUp = async (
     username: String,
     email: String,
@@ -62,7 +65,7 @@ const SignUpFailed = ({
   ) => {
     e.preventDefault();
     if (likedMusic.length < 5) {
-      toast.error("Please select 5 genres or more.");
+      toast.error(t('toast').fillGenres);
     } else {
       const result = await createUser(
         username,

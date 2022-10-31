@@ -34,6 +34,7 @@ export default {
     playlistDescription: "Playlist description",
     cancel: "Cancel",
     saveChanges: "Save changes",
+    goBack: "Go back",
   },
   headers: {
     headerFavorites: "Your favorites",
@@ -63,6 +64,10 @@ export default {
     trackList: "Your playlists:",
     searchTitle: "Let's find something to add to your playlist",
     searchPlaceholder: "Search for songs to add to your playlist...",
+    upload: "Upload",
+    uploadSong: "Upload song",
+    uploadYourSong: "Upload your song",
+    songName: "Song name",
   },
   tooltip: {
     addAlbum: "Add this album to your library",
@@ -80,4 +85,11 @@ export default {
     notAccount: "Don't have an account? ",
     signup: " Sign up",
   },
+  toast: {
+    successTrack: "Track added to playlist succesfully",
+    error: "Oops! Something went wrong",
+    fileSizeError: "File size is too big. Maximum size is 10MB.",
+    emptyInput: "Song name and song file cannot be empty",
+    fillGenres: "Please select 5 genres or more."
+  }
 };

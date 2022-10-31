@@ -34,6 +34,7 @@ export default {
     playlistDescription: "Añade una descripción a la lista de reproducción",
     cancel: "Cancelar",
     saveChanges: "Guardar cambios",
+    goBack: "Volver",
   },
   headers: {
     headerFavorites: "Tus favoritos",
@@ -63,6 +64,10 @@ export default {
     trackList: "Tus listas de reproducción:",
     searchTitle: "Encontremos algo para añadir a tu lista de reproducción",
     searchPlaceholder: "Busca canciones para añadir a tu lista de reproducción",
+    upload: "Subir",
+    uploadSong: "Subir canción",
+    uploadYourSong: "Sube tu canción",
+    songName: "Nombre de la canción",
   },
   tooltip: {
     addAlbum: "Añadir álbum a tu librería",
@@ -80,4 +85,11 @@ export default {
     notAccount: "¿No tienes cuenta? ",
     signup: " Registrate",
   },
+  toast: {
+    successTrack: "Canción añadida a tu lista de reproducción",
+    error: "Ha ocurrido un error",
+    fileSizeError: "El tamaño del archivo es demasiado grande. El tamaño máximo es de 10MB",
+    emptyInput: "El nombre de la canción y el archivo no pueden estar vacíos",
+    fillGenres: "Por favor, selecciona al menos 5 géneros musicales",
+  }
 };
