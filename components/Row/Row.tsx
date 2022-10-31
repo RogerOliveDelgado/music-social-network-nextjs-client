@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 
 import styles from './styles.module.css';
 import { useI18N } from '../../context/i18';
+import { useRouter } from 'next/router';
 
 type Props = {
   title: string;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const Row = ({ title, data, children, explore }: any) => {
+  const router = useRouter();
   const { t } = useI18N();
   return (
     <div className={styles.row_container}>
@@ -22,26 +24,30 @@ const Row = ({ title, data, children, explore }: any) => {
         <h2>{data !== undefined || data?.length !== 0 ? title : <></>}</h2>
         <p className={styles.explore_button}>
           {data !== undefined || data?.length !== 0 ? (
-            <button
-              className={styles.explore_button}
-              onClick={() => explore(title)}
-            >
-              <p>{t('tooltip').explore}</p>
-              <svg
-                stroke-width="4"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                ></path>
-              </svg>
-            </button>
+            <>
+              {router.pathname === '/' && (
+                <button
+                  className={styles.explore_button}
+                  onClick={() => explore(title)}
+                >
+                  <p>{t('tooltip').explore}</p>
+                  <svg
+                    stroke-width="4"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                </button>
+              )}
+            </>
           ) : (
             <></>
           )}
