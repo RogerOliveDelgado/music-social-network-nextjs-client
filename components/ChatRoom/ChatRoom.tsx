@@ -181,9 +181,9 @@ const ChatRoom = (props: Props) => {
         />
         <p className={styles.contact_name}>
           {props.currentRoom != "" ? props.currentRoom : "Abre un chat"}{" "}
-          {props.typing.split(" is ")[0] === props.currentRoom &&
+          <span style={{color:'gray', fontStyle:'italic'}}>{props.typing.split(" is ")[0] === props.currentRoom &&
             props.typing.split(" is ")[1] != undefined &&
-            `is ${props.typing.split(" is ")[1]}`}
+            `is ${props.typing.split(" is ")[1]}...`}</span>
         </p>
       </div>
       <div className={styles.messages_container} ref={chat} id="fieldset">
