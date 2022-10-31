@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import React, { useContext } from 'react';
-import { Artist } from '../../interfaces/artistResponse';
+import { Artist, Album } from '../../interfaces/ServerResponse';
 import { Playlist } from '../../interfaces/playlistResponse';
-import { Data } from '../../interfaces/tracks';
-import { Album } from '../../interfaces/albumResponse';
+import { Track } from '../../interfaces/tracks';
 import styles from './styles.module.css';
 import { countContext } from '../../context/countContext';
 
@@ -24,7 +23,7 @@ type Props = {
     playlists: Partial<Playlist>[];
     albums: Partial<Album>[];
     artists: Partial<Artist>[];
-    likedSongs: Partial<Data>[];
+    likedSongs: Partial<Track>[];
   },
   handleUser: Function,
   id1:string | undefined,

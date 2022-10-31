@@ -66,11 +66,16 @@ function NavbarIcons(props:Props) {
         if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
           setUserMessage((prevUserMessage)=>prevUserMessage+1);
           if(previousPath !="chat")setUserMessage((prevUserMessage)=>prevUserMessage-1);
+          let flag: boolean = false;
           if(pendingMessages.length > 0){//if exists pending messages 
             pendingMessages.map(pm => {
-              if (pm.id == data.from ) pm.numberMessages += 1;
-            })
+              if (pm.id == data.from ) {
+                pm.numberMessages += 1;
+                flag = true;
+              }
+            })            
             setPendingMessages(pendingMessages);
+            if(flag == false) setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
           }else{
             setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
           }
@@ -118,7 +123,7 @@ function NavbarIcons(props:Props) {
     <>
       <div className={styles.icons}>
         <div className={styles.notification}>
-          <Badge badgeContent={userMessage} color="primary">
+          <Badge badgeContent={userMessage} max={9} color="primary">
             <TelegramIcon
               sx={{
                 fontSize: 30,

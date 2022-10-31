@@ -4,9 +4,8 @@ import styles from './styles.module.css';
 import { useI18N } from '../../context/i18';
 
 import {Playlist} from '../../interfaces/playlistResponse'
-import {Album} from '../../interfaces/albumResponse'
-import {Artist} from '../../interfaces/artistResponse'
-import {Data} from '../../interfaces/tracks'
+import {Album, Artist} from '../../interfaces/ServerResponse'
+import {Track} from '../../interfaces/tracks'
 import { Socket } from 'socket.io-client';
 import { useCookies } from 'react-cookie';
 
@@ -22,7 +21,7 @@ type Props = {
       playlists: Partial<Playlist>[];
       albums: Partial<Album>[];
       artists: Partial<Artist>[];
-      likedSongs: Partial<Data>[];
+      likedSongs: Partial<Track>[];
     }[],
   usersConnected:{id:string, socketId:string, usuario: string}[],
   socket: Socket,
