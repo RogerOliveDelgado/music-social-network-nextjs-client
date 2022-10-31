@@ -1,40 +1,127 @@
 .loginForm {
   width: 25rem;
-  height: 9rem;
+  height: 10rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 }
+
+/* .input {
+ line-height: 28px;
+ border: 2px solid transparent;
+ border-bottom-color: #777;
+ padding: .2rem 0;
+ outline: none;
+ background-color: transparent;
+ color: #0d0c22;
+ transition: .3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.loginInput:focus, loginInput:hover {
+ outline: none;
+ padding: .2rem 1rem;
+ border-radius: 1rem;
+ border-color: #7a9cc6;
+}
+
+.loginInput::placeholder {
+ color: #777;
+}
+
+.loginInput:focus::placeholder {
+ opacity: 0;
+ transition: opacity .3s;
+}
+ */
 
 .loginInput {
   width: 100%;
   height: 2rem;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid #ccc;
+  border: 2px solid transparent;
+  border-bottom-color: #777;
+
   font-size: 1.05rem;
-  color: black;
+  color: #0d0c22;
+  outline: none;
+  transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.loginInput:focus,
+.loginInput:hover {
+  outline: none;
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  border-color: #7a9cc6;
+}
+
+.loginInput::placeholder {
+  color: #777;
+}
+
+.loginInput:focus::placeholder {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.passwordInput {
+  width: 100%;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  font-size: 1.05rem;
+  color: #0d0c22;
   outline: none;
 }
 
-.noBorder {
-  border: none;
+.passwordInput::placeholder {
+  color: #777;
+}
+
+.passwordInput:focus::placeholder {
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .loginDivInput {
   width: 100%;
   display: flex;
+  justify-content: space-evenly;
   align-items: center;
-  height: 2.2rem;
+
+  height: 2rem;
   background-color: transparent;
-  border-bottom: 1px solid #ccc;
+  border: none;
+  border: 2px solid transparent;
+  border-bottom-color: #777;
+
   font-size: 1.05rem;
-  color: black;
+  color: #0d0c22;
   outline: none;
+  transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  margin-bottom: 1rem;
 }
 
-.loginButton {
+.loginDivInput:focus,
+.loginDivInput:hover {
+  outline: none;
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  border-color: #7a9cc6;
+}
+
+.loginDivInput::placeholder {
+  color: #777;
+}
+
+.loginDivInput:focus::placeholder {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* .loginButton {
   height: 2rem;
   width: 35%;
   background-color: var(--darker_blue);
@@ -42,11 +129,69 @@
   font-size: 1.1rem;
   color: black;
   border: none;
+} */
+
+.buttonLogin {
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 3px;
+  height: 3em;
+  padding: 0 3em;
+  border: none;
+  background-color: var(--darker_blue);
+  color: #fff;
+  text-transform: uppercase;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.buttonLogin::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: 0;
+  height: 0px;
+  width: 100%;
+  background: var(--darker_blue);
+  background: linear-gradient(90deg, var(--darker_blue) 20%, #36508b 100%);
+  transition: 0.2s;
+}
+
+.buttonLogin .label {
+  position: relative;
+}
+
+.buttonLogin .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3em;
+  width: 3em;
+  position: absolute;
+  top: 3em;
+  right: 0;
+  opacity: 0;
+  transition: 0.4s;
+}
+
+.buttonLogin:hover::before {
+  height: 100%;
+}
+
+.buttonLogin:hover .icon {
+  top: 0;
+  opacity: 1;
 }
 
 @media only screen and (max-width: 700px) {
   .loginForm {
     width: 90%;
+  }
+  .loginInput,
+  .loginDivInput {
+    width: 95%;
   }
 }
 

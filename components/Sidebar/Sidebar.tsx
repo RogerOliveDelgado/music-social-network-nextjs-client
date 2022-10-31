@@ -264,8 +264,8 @@ function Sidebar(props: ButtonProps) {
                   width: "100%",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.08)",
-                    borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                    // borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                    // borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
                   },
                 }}
               >
