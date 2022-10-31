@@ -1,22 +1,28 @@
-import Layout from '../../components/Layout/Layout';
-import ContactsContainer from '../../components/ContactsContainer/ContactsContainer';
-import ChatRoom from '../../components/ChatRoom/ChatRoom';
+import Layout from "../../components/Layout/Layout";
+import ContactsContainer from "../../components/ContactsContainer/ContactsContainer";
+import ChatRoom from "../../components/ChatRoom/ChatRoom";
 
-import styles from './styles.module.css';
-import Head from 'next/head';
-import { useI18N } from '../../context/i18';
+import styles from "./styles.module.css";
+import Head from "next/head";
+import { useI18N } from "../../context/i18";
 
-import { ReactEventHandler, useContext, useEffect, useRef, useState } from 'react'
-import {Socket, io} from 'socket.io-client'
-import { Playlist } from '../../interfaces/playlistResponse';
-import { Album, Artist } from '../../interfaces/ServerResponse';
-import { Track } from '../../interfaces/tracks';
+import {
+  ReactEventHandler,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Socket, io } from "socket.io-client";
+import { Playlist } from "../../interfaces/playlistResponse";
+import { Album, Artist } from "../../interfaces/ServerResponse";
+import { Track } from "../../interfaces/tracks";
 
-import { socketService } from '../../socket/socket';
-import { useCookies } from 'react-cookie';
-import { countContext } from '../../context/countContext';
-import { CollectionsOutlined } from '@mui/icons-material';
-import { socketContext } from '../../context/socketContext';
+import { socketService } from "../../socket/socket";
+import { useCookies } from "react-cookie";
+import { countContext } from "../../context/countContext";
+import { CollectionsOutlined } from "@mui/icons-material";
+import { socketContext } from "../../context/socketContext";
 
 type Props = {
   setUserMessage: React.Dispatch<React.SetStateAction<number>>;
@@ -29,32 +35,49 @@ let usuarios: { id: string; socketId: string; usuario: string }[] = [];
 const Chat = (props: Props) => {
   const { t } = useI18N();
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
-    'username',
+    "userID",
+    "userToken",
+    "username",
   ]);
   const token = cookies.userToken;
   //States to manage the renders of each component
-  const {socket,typing, setTyping, connectedUsers, setConnectedUsers} = useContext(socketContext)
-  const {currentRoom,setCurrentRoom,messages, setMessages,userMessage,setUserMessage, dataMessages, setDataMessages, previousPath, id2, setid2, pendingMessages, setPendingMessages} = useContext(countContext)
-  const [input, setInput] = useState<string>("");  
+  const { socket, typing, setTyping, connectedUsers, setConnectedUsers } =
+    useContext(socketContext);
+  const {
+    currentRoom,
+    setCurrentRoom,
+    messages,
+    setMessages,
+    userMessage,
+    setUserMessage,
+    dataMessages,
+    setDataMessages,
+    previousPath,
+    id2,
+    setid2,
+    pendingMessages,
+    setPendingMessages,
+  } = useContext(countContext);
+  const [input, setInput] = useState<string>("");
   const [socketUp, setSocketUp] = useState<Socket>(socket);
-  const [users, setUsers] = useState<{
-    _id:string,
-    username: string;
-    email: string;
-    password: string;
-    image: string;
-    genres: string[];
-    phone: string;
-    playlists: Partial<Playlist>[];
-    albums: Partial<Album>[];
-    artists: Partial<Artist>[];
-    likedSongs: Partial<Track>[];
-  }[]>([]);
+  const [users, setUsers] = useState<
+    {
+      _id: string;
+      username: string;
+      email: string;
+      password: string;
+      image: string;
+      genres: string[];
+      phone: string;
+      playlists: Partial<Playlist>[];
+      albums: Partial<Album>[];
+      artists: Partial<Artist>[];
+      likedSongs: Partial<Track>[];
+    }[]
+  >([]);
   const [id1, setid1] = useState<string | undefined>();
-  const [userName, setUserName] = useState<string>("")
-  const [room, setRoom] = useState<{ok:boolean, data:{_id:string}}>();
+  const [userName, setUserName] = useState<string>("");
+  const [room, setRoom] = useState<{ ok: boolean; data: { _id: string } }>();
   const [widthWindow, setWidthWindow] = useState<number>(0);
   const [user, setUser] = useState<{
     _id: string;
@@ -70,10 +93,10 @@ const Chat = (props: Props) => {
     artists: Partial<Artist>[];
     likedSongs: Partial<Track>[];
   }>();
-   //Take all the exists users on dataBase
-   useEffect(() => {
-    if(typeof window !== "undefined"){
-      setWidthWindow(window.window.innerWidth)
+  //Take all the exists users on dataBase
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWidthWindow(window.window.innerWidth);
     }
     const getUsers = async () => {
       const response = await fetch(
@@ -94,21 +117,23 @@ const Chat = (props: Props) => {
 
   //Take the lastest open room, as current room
   useEffect(() => {
-    const userName = users.find((user: { _id: string | undefined; }) => user._id == id1)
-    setUserName(cookies.username)
+    const userName = users.find(
+      (user: { _id: string | undefined }) => user._id == id1
+    );
+    setUserName(cookies.username);
     const currentRoom = async () => {
       const responseCurrentRoom = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/currentRoom`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
       );
       const room = await responseCurrentRoom.json();
-      if(room != undefined && room.msg != "No current chat"){
+      if (room != undefined && room.msg != "No current chat") {
         setRoom(room);
         setCurrentRoom(room.data.username);
         setid2(room.data._id);
@@ -116,31 +141,40 @@ const Chat = (props: Props) => {
       const response1 = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/pendingMessages`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
       );
       const pending = await response1.json();
-      let arrayPendingMessages: {id:string, numberMessages:number}[] = [];
-      let arrayPendingMessagesPrime: {id:string, numberMessages:number}[] = [];
+      let arrayPendingMessages: { id: string; numberMessages: number }[] = [];
+      let arrayPendingMessagesPrime: { id: string; numberMessages: number }[] =
+        [];
       pending.data.map((chat: any) => {
-        chat.pendingMessages != 0 && arrayPendingMessages.push({id:chat.toUser, numberMessages: chat.pendingMessages})
-        arrayPendingMessagesPrime.push({id:chat.toUser, numberMessages: chat.pendingMessages})
-      })
-      if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
-      if(pendingMessages != arrayPendingMessages){
-        if(pendingMessages.length > arrayPendingMessages.length){
+        chat.pendingMessages != 0 &&
+          arrayPendingMessages.push({
+            id: chat.toUser,
+            numberMessages: chat.pendingMessages,
+          });
+        arrayPendingMessagesPrime.push({
+          id: chat.toUser,
+          numberMessages: chat.pendingMessages,
+        });
+      });
+      if (pendingMessages == arrayPendingMessages)
+        setPendingMessages(arrayPendingMessages);
+      if (pendingMessages != arrayPendingMessages) {
+        if (pendingMessages.length > arrayPendingMessages.length) {
           setPendingMessages(pendingMessages);
-        }else{
+        } else {
           setPendingMessages(arrayPendingMessages);
         }
       }
-    }
+    };
     currentRoom();
-  },[cookies.userID, socketUp])//socketUp
+  }, [cookies.userID, socketUp]); //socketUp
 
   //Charge the messages of the current room, after set de id2 and current room
   useEffect(() => {
@@ -149,9 +183,9 @@ const Chat = (props: Props) => {
         const responseOfCurrentRoom = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/getMessages`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ toUserId: id2 }),
@@ -160,80 +194,94 @@ const Chat = (props: Props) => {
         const dataMessages = await responseOfCurrentRoom.json();
         setMessages(dataMessages.data);
       }
-      if(room != undefined && room.msg != "No current chat"){
-        getMessagesOfCurrentRoom(room?.data._id)
+      if (room != undefined && room.msg != "No current chat") {
+        getMessagesOfCurrentRoom(room?.data._id);
       }
-    }
-  },[room])
-  
+    };
+  }, [room]);
+
   //Set the typing event
-  useEffect(()=>{
-    socket.on('typing', (data:any) => {     
-      setTyping(data);      
-    })
+  useEffect(() => {
+    socket.on("typing", (data: any) => {
+      setTyping(data);
+    });
     return () => {
-      socket.off('typing');
-    }
-  },[cookies.userID])
+      socket.off("typing");
+    };
+  }, [cookies.userID]);
 
   // Update the message for the currentRoom or update the pendingMessage if the user is disconnected
   useEffect(() => {
-    if(dataMessages.from == id2 || dataMessages.from == id1) {//If message comes from one of the actual talkers
-        setUserMessage(userMessage)//Comprobar si vale
-        setMessages((prevMessages) => {return [...prevMessages, dataMessages.msg]})
+    if (dataMessages.from == id2 || dataMessages.from == id1) {
+      //If message comes from one of the actual talkers
+      setUserMessage(userMessage); //Comprobar si vale
+      setMessages((prevMessages) => {
+        return [...prevMessages, dataMessages.msg];
+      });
     }
-    if(dataMessages.from == id2 && id2 != undefined && dataMessages.from != cookies.userID){
-        (id2 == dataMessages.from && id2 != undefined) && deletePendingMessage(id2);
+    if (
+      dataMessages.from == id2 &&
+      id2 != undefined &&
+      dataMessages.from != cookies.userID
+    ) {
+      id2 == dataMessages.from && id2 != undefined && deletePendingMessage(id2);
     }
-  },[dataMessages])
+  }, [dataMessages]);
 
   //Delete messages no read when the user goes to that room
-  const deletePendingMessage = (userId:string | undefined) => {
-    const messagesAllreadyPending = pendingMessages.filter(chat => chat.id != userId);
+  const deletePendingMessage = (userId: string | undefined) => {
+    const messagesAllreadyPending = pendingMessages.filter(
+      (chat) => chat.id != userId
+    );
     let count: number = 0;
-    messagesAllreadyPending.map(chat=>{
-      count += chat.numberMessages
-    })
-    previousPath == 'chat' && setUserMessage(count);
+    messagesAllreadyPending.map((chat) => {
+      count += chat.numberMessages;
+    });
+    previousPath == "chat" && setUserMessage(count);
     setPendingMessages(messagesAllreadyPending);
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {
-    const response = await fetch('http://localhost:4001/chat/deletePendingMessages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({toUserId:id2})
-    })
-    const data = await response.json();
-    }
-    deleteInDataBasePendingMessages();  
-  }
+      const response = await fetch(
+        "http://localhost:4001/chat/deletePendingMessages",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ toUserId: id2 }),
+        }
+      );
+      const data = await response.json();
+    };
+    deleteInDataBasePendingMessages();
+  };
   const [contacts, setContacts] = useState<boolean>(true);
-  
+
   //Get the screen size on dynamic way
-  useEffect(()=>{
-    setWidthWindow(window.window.innerWidth)
-    window.addEventListener('resize', resizeWindow)
-  },[widthWindow])
+  useEffect(() => {
+    setWidthWindow(window.window.innerWidth);
+    window.addEventListener("resize", resizeWindow);
+  }, [widthWindow]);
 
   const resizeWindow = () => {
-    setWidthWindow(window.window.innerWidth)
-  }  
+    setWidthWindow(window.window.innerWidth);
+  };
 
   return (
     <>
       <Head>
         <title>
-          {`${t('additional').app_name} - ${t('headers').headerChat}`}
+          {`${t("additional").app_name} - ${t("headers").headerChat} ${
+            userMessage === 0 ? "" : `(${userMessage})`
+          }`}
         </title>
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
         <div className={styles.chat_container}>
-          <h1> {t('additional').messages}</h1>
+          <h1> {t("additional").messages}</h1>
           <div className={styles.main_content}>
             {contacts == true && widthWindow < 901 && (
               <ChatRoom
