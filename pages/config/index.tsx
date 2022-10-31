@@ -142,6 +142,7 @@ const UserConfig = (props: Props) => {
                 }).then((data) => {
                   if (data.data?.ok) {
                     setCookie("username", values.username, { path: "/" });
+                    toast.success("Profile, update succesfully");
                   } else {
                     toast.error(data.error?.data.msg);
                   }
