@@ -38,6 +38,8 @@
 .artist_genres {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 .follow_button {
   border-radius: 10px;
@@ -52,6 +54,7 @@
   border-radius: 5px;
   padding: 0.2rem;
   color: #868383;
+  text-transform: capitalize;
 }
 
 .play_button {

@@ -1,19 +1,19 @@
-import React from 'react';
-import Image from 'next/image';
-import styles from './styles.module.css';
+import React, { useEffect } from "react";
+import Image from "next/image";
+import styles from "./styles.module.css";
 
-import { LogoProps } from '../../interfaces/interfaces';
+import { LogoProps } from "../../interfaces/interfaces";
+import { useMediaQuery } from "react-responsive";
 
 function Logo({ Height, Width, ClassName }: LogoProps) {
   return (
     <div className={`${ClassName}`}>
-      <Image
-        src="/images/spotify_logo.png"
-        alt="Spotify Logo"
-        width={Width}
-        height={Height}
-        objectFit="contain"
-      />
+      <picture className={styles.large_screen}>
+        <img src="/images/beatgo_logo.png" alt="BeatGo Logo" />
+      </picture>
+      <picture className={styles.mobile_screen}>
+        <img src="/images/logo.png" alt="BeatGo Logo" />
+      </picture>
     </div>
   );
 }

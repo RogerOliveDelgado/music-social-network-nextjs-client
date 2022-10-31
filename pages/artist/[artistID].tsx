@@ -1,9 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
-import Image from "next/image";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import Tooltip from "@mui/material/Tooltip";
+import TagIcon from '@mui/icons-material/Tag';
+import Chip from '@mui/material/Chip';
 
 import Layout from "../../components/Layout/Layout";
 import TabPanel from "../../components/TabPanel/TabPanel";
@@ -93,9 +92,13 @@ const ArtistDetails = (props: Props) => {
               <div className={styles.artist_genres}>
                 {artist?.data.genres.map((genre: string, index: number) => {
                   return (
-                    <p key={index} className={styles.genre}>
-                      {genre}
-                    </p>
+                    // <p key={index} className={styles.genre}>
+                    //   {genre}
+                    // </p>
+
+                    <Chip className={styles.genre} variant="outlined" key={index} label={genre} icon={<TagIcon sx={{
+                      color: "var(--darker_blue) !important"
+                    }} />} />
                   );
                 })}
               </div>

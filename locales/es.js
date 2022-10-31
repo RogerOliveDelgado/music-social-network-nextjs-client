@@ -20,7 +20,7 @@ export default {
     all: "Todo",
     search: "¿Qué quieres escuchar?",
     playlist: "Listas de Reproducción",
-    app_name: "Spotify",
+    app_name: "BeatGO",
     tracks: "Canciones",
     messages: "Mensajes",
     contacts: "Contactos",

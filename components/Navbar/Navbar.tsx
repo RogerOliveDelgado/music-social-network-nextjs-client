@@ -12,7 +12,7 @@ function Navbar({userMessage}: Props) {
   return (
     <>
       <div className={styles.navbar}>
-        <Logo Height={30} Width={100} ClassName={"logoNavbar"} />
+        <Logo Height={100} Width={100} ClassName={"logoNavbar"} />
         <SearchAppBar />
         <NavbarIcons userMessage={userMessage}/>
       </div>

@@ -50,6 +50,8 @@
   font-weight: bold;
   color: var(--lightest_blue);
   transition: all 300ms;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .restartGenreButton:hover,
