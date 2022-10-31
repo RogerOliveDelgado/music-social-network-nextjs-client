@@ -108,11 +108,14 @@ function NavbarIcons(props:Props) {
   };
 
   const removeStoragedCookie = () => {
-    socket.emit("Disconnect", {id:cookies.userID})
+    socket.emit("Disconnect", {id:cookies.userID})    
     socket.disconnect();
-    removeCookie("userToken");
-    removeCookie("username");
-    removeCookie("userID");
+    console.log(socket)
+    if(socket.connected == false){
+      removeCookie("userToken");
+      removeCookie("username");
+      removeCookie("userID");
+    }
   };
 
   const router = useRouter();

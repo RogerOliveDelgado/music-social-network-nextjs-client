@@ -125,7 +125,13 @@ const Chat = (props: Props) => {
       console.log(pendingMessages)
       console.log(arrayPendingMessages)
       if(pendingMessages == arrayPendingMessages)setPendingMessages(arrayPendingMessages);
-      if(pendingMessages != arrayPendingMessages)setPendingMessages(pendingMessages);
+      if(pendingMessages != arrayPendingMessages){
+        if(pendingMessages.length > arrayPendingMessages.length){
+          setPendingMessages(pendingMessages);
+        }else{
+          setPendingMessages(arrayPendingMessages);
+        }
+      }
     }
     currentRoom();
   },[cookies.userID, socketUp])//socketUp
@@ -176,6 +182,7 @@ const Chat = (props: Props) => {
   //Delete messages no read when the user goes to that room
   const deletePendingMessage = (userId:string | undefined) => {
     console.log(previousPath)
+    console.log("Pending messages en delete", pendingMessages)
     const messagesAllreadyPending = pendingMessages.filter(chat => chat.id != userId);
     let count: number = 0;
     messagesAllreadyPending.map(chat=>{
