@@ -18,11 +18,11 @@
 }
 
 .songDiv:first-child {
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 .songDiv:last-child {
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 .imgSongDiv {
@@ -39,6 +39,7 @@
   transition: all 300ms;
   top: -50px;
   z-index: -1;
+  cursor: pointer;
 }
 
 .playButton:hover {
@@ -49,4 +50,3 @@
   top: 0px;
   z-index: 0;
 }
-

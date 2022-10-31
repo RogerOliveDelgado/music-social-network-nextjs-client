@@ -16,6 +16,8 @@ import Logo from "../../components/Logo/Logo";
 import { Track } from "../../interfaces/tracks";
 
 import styles from "../../styles/Home.module.css";
+import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
+import { useI18N } from "../../context/i18";
 interface parsedTracks {
   parsedTracks: Track[];
 }
@@ -34,6 +36,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Login = ({ parsedTracks }: parsedTracks) => {
+  const { t } = useI18N();
+
   return (
     <>
       <Head>
@@ -42,7 +46,10 @@ const Login = ({ parsedTracks }: parsedTracks) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Logo Height={80} Width={110} ClassName={"logoMain"} />
+      <div className={styles.loginHeader}>
+        <Logo Height={80} Width={110} ClassName={"logoMain"} />
+        <LanguageSelector />
+      </div>
 
       <main className={styles.indexMain}>
         <motion.section
@@ -56,11 +63,9 @@ const Login = ({ parsedTracks }: parsedTracks) => {
           <div className={styles.logIn_signUp_Div}>
             <LoginInputs />
             <section className={styles.signUpSection}>
-              <span>
-                Don<span>&#39;</span>t have an account?
-              </span>
+              <span>{t("login").notAccount}</span>
               <Link href={"/signup"}>
-                <a className={styles.colorLink}>Sign Up</a>
+                <a className={styles.colorLink}>{t("login").signup}</a>
               </Link>
             </section>
           </div>

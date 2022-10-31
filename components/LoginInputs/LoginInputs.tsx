@@ -6,10 +6,13 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useCookies } from "react-cookie";
 
 import styles from "./styles.module.css";
+import { useI18N } from "../../context/i18";
 
 type Props = {};
 
 const LoginInputs = (props: Props) => {
+  const { t } = useI18N();
+
   const router = useRouter();
 
   const [email, setEmail] = useState(String);
@@ -78,7 +81,7 @@ const LoginInputs = (props: Props) => {
   return (
     <form className={styles.loginForm}>
       <input
-        placeholder="Introduce your email"
+        placeholder={`${t("login").email}`}
         type="email"
         className={styles.loginInput}
         onChange={getEmail}
@@ -90,7 +93,7 @@ const LoginInputs = (props: Props) => {
       /> */}
       <div className={` ${styles.loginDivInput}`}>
         <input
-          placeholder="Introduce your password"
+          placeholder={`${t("login").password}`}
           onChange={getPassword}
           type={seePassword ? "text" : "password"}
           className={styles.passwordInput}
@@ -118,7 +121,7 @@ const LoginInputs = (props: Props) => {
             logIn(email, password, e);
           }}
         >
-          Log in
+          {`${t("login").login}`}
         </span>
         <span className={styles.icon}>
           <svg

@@ -6,6 +6,12 @@
   justify-content: space-around;
 }
 
+.loginHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2rem;
+}
+
 .loginWrapper {
   display: flex;
   align-items: center;
@@ -34,7 +40,7 @@
 }
 
 .signUpSection {
-  width: 15rem;
+  width: 17rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
