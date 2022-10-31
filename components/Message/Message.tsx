@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import React from 'react';
-import styles from './styles.module.css';
+import Image from "next/image";
+import React from "react";
+import styles from "./styles.module.css";
 
 type Props = {
   image: string;
@@ -12,15 +12,25 @@ type Props = {
 const Message = ({ image, text, user, currentRoom }: Props) => {
   return (
     <div
-      className={`${currentRoom != text.split(':')[0] ? styles.message_container_right : styles.message_container_left} ${
-        user && styles.message_container_user
-      }`}
+      className={`${
+        currentRoom != text.split("-")[0]
+          ? styles.message_container_right
+          : styles.message_container_left
+      } ${user && styles.message_container_user}`}
     >
       {/* <Image src={image} alt="contact" width={40} height={40} layout="fixed" /> */}
       <div
         className={`${styles.message_info} ${user && styles.message_info_user}`}
       >
-        <p className={`${styles.text} ${currentRoom != text.split(':')[0] ? styles.text_right : styles.text_left}`}>{text.split(':')[1]}</p>
+        <p
+          className={`${styles.text} ${
+            currentRoom != text.split("-")[0]
+              ? styles.text_right
+              : styles.text_left
+          }`}
+        >
+          {text.split("-")[1]}
+        </p>
       </div>
     </div>
   );

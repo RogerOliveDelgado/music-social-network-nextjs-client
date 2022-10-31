@@ -119,7 +119,7 @@ const ChatRoom = (props: Props) => {
       // setPreviousPath(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
       props.deletePendingMessage(props.id2);
       props.socket.emit(`send-Message`, {
-        msg: `${props.userName}:${props.input}`,
+        msg: `${props.userName}-${props.input}`,
         to: `${props.id2}`,
         sender: `${props.id1}`,
         socket: props.socket.id,
@@ -138,7 +138,7 @@ const ChatRoom = (props: Props) => {
         },
         body: JSON.stringify({
           toUser: props.id2,
-          messages: `${props.userName}:${props.input}`,
+          messages: `${props.userName}-${props.input}`,
           users: props.usersConnected,
         }),
       });
