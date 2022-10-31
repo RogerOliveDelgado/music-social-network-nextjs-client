@@ -27,7 +27,6 @@ const FreeSongs = ({ tracks }: Props) => {
   const [getArtistData] = useGetArtistDataMutation();
 
   const handlePlay = async (track: NewTrack) => {
-    // console.log(track.album.artist);
     dispatch(updateSingleSong(track));
     dispatch(setCurrentTrack(track));
     const response = await getArtistData(

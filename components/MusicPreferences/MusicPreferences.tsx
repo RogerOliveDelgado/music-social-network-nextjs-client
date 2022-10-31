@@ -61,7 +61,6 @@ const MusicPreferences = ({
   const { t } = useI18N();
   const getLikedMusic = (genre: string) => {
     const exist = likedMusic.find((newGenre) => newGenre === genre);
-    console.log(likedMusic.find((item) => item === genre));
     if (exist) {
       setLikedMusic((prevGenre) => prevGenre.filter((item) => item !== genre));
     } else {

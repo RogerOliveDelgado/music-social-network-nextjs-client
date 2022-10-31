@@ -22,8 +22,6 @@ export const updateUser = async (
         image: image,
       }),
     });
-    console.log(response);
     const data = await response.json();
-    console.log(data);
   } catch (error) {}
 };

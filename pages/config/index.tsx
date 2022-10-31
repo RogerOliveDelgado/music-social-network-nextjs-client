@@ -36,7 +36,6 @@ const UserConfig = (props: Props) => {
     isLoading,
   } = useGetUserQuery({ id: cookies.userID, token: cookies.userToken });
   const { t } = useI18N();
-  console.log(cookies.userToken, "user");
 
   const onLoad = (file) => {
     if (file.size < 10485760) {
@@ -56,8 +55,6 @@ const UserConfig = (props: Props) => {
       return;
     }
   };
-
-  console.log(cookies.userToken);
 
   return (
     <>
@@ -131,17 +128,12 @@ const UserConfig = (props: Props) => {
                   image: image,
                   token: cookies.userToken,
                 }).then((data) => {
-                  console.log(data);
                   if (data.data?.ok) {
                     setCookie("username", values.username, { path: "/" });
                   } else {
                     toast.error(data.error?.data.msg);
                   }
                 });
-
-                // .then((res) => {
-                //   console.log(res);
-                // });
               }}
             >
               {({ handleSubmit, values, handleChange }) => (

@@ -6,7 +6,6 @@ const JWT_EXPIRED_MESSAGE = "jwt expired"
 
 export default async function middleware(req: NextRequest) {
   const userToken = req.cookies.get("userToken");
-  console.log("Middleware")
 
   if (userToken === undefined) {
     return NextResponse.redirect(new URL("/login", req.url));
@@ -20,10 +19,8 @@ export default async function middleware(req: NextRequest) {
       })
     })
     const data = await response.json()
-    console.log(data?.msg, 'MESSAGE')
     if(!data.ok && msg!== JWT_EXPIRED_MESSAGE) {throw new Error}
     if(!data.ok && msg === JWT_EXPIRED_MESSAGE) {
-      console.log("Token expired hola")
     }
 
     return NextResponse.next();

@@ -85,7 +85,6 @@ function CreatePlaylist(props: any) {
       });
       if (response.status === 400) {
         const result = await response.json();
-        console.log(result);
         toast.error("Oops, something went wrong");
       }
 
@@ -136,7 +135,6 @@ function CreatePlaylist(props: any) {
       );
       if (response.status === 400) {
         const result = await response.json();
-        console.log(result);
         toast.error("Oops, something went wrong");
       }
 

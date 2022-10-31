@@ -6,7 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Message from '../Message/Message';
 
 import styles from './styles.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useI18N } from '../../context/i18';
 
 import {Socket} from 'socket.io-client'
@@ -15,6 +15,7 @@ import { useCookies } from 'react-cookie';
 import { Playlist } from '../../interfaces/playlistResponse';
 import { Album, Artist } from '../../interfaces/ServerResponse';
 import { Track } from '../../interfaces/tracks';
+import { countContext } from '../../context/countContext';
 
 type Props = {
   messages: string[],
@@ -52,6 +53,7 @@ const ChatRoom = (props: Props) => {
   const { t } = useI18N();
   const  [_document, set_document] = useState(null);
   const [image, setImage] = useState<string | undefined>("");
+  const{setPreviousPath} = useContext(countContext)
   useEffect(()=>{
       const userChat = props.users.find(user => user._id == props.id2)
       setImage(userChat?.image)
@@ -98,6 +100,7 @@ const ChatRoom = (props: Props) => {
   //send the message
   const submitMessage = async() => {
     if(props.input != ""){
+        // setPreviousPath(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
         props.deletePendingMessage(props.id2)
         props.socket.emit(`send-Message`, {msg:`${props.userName}:${props.input}`, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})//props.currentRoom por userName
         props.socket.emit(`typing`, {msg:``, to:`${props.id2}`, sender:`${props.id1}`, socket:props.socket.id})

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import Badge from "@mui/material/Badge";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
@@ -15,29 +15,73 @@ import styles from "./styles.module.css";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useI18N } from "../../context/i18";
-import { border } from "@mui/system";
-import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
-import { useMediaQuery } from "react-responsive";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import { countContext } from "../../context/countContext";
+import { socketContext } from "../../context/socketContext";
 type Props = {
   userMessage: number;
 };
 
-function NavbarIcons({ userMessage }: Props) {
-  const isLargeScreen = useMediaQuery({
-    query: "(min-width: 700px)",
-  });
+let socketId;
+//Array wich contains the connected users, each time a user make login into chat app, this array will be updated
+let usuarios:{id:string, socketId:string, usuario: string}[] = [];
 
+function NavbarIcons(props:Props) {
   const { t } = useI18N();
-
+  const {currentRoom,userMessage, setPreviousPath, setUserMessage, setDataMessages, id2, pendingMessages,setPendingMessages,previousPath} = useContext(countContext)
+  const {socket,setConnectedUsers} = useContext(socketContext)
   const [cookies, setCookie, removeCookie] = useCookies([
     "username",
     "userToken",
     "userID",
   ]);
+
+  useEffect(()=>{
+    socket.connect();
+    socket.emit('update_list', { id: `${cookies.userID}`, usuario: cookies.username, action: 'login' });
+    socket.on('session_update', function(data, socket){
+      socketId = socket;
+      usuarios = data;
+      
+      // Lista de usuarios conectados
+      setConnectedUsers(usuarios)
+    });
+    socket.emit("connected", cookies.userID)
+    socket.on(`${cookies.userID}`,(data:any)=>{
+      if(window.location.pathname.split('/')[window.location.pathname.split('/').length-1] != 'chat'){
+        // setUserMessage((prevUserMessage)=> prevUserMessage+1)
+        setUserMessage((prevUserMessage)=>prevUserMessage+1)//Set up 1 the userMessages
+        if(pendingMessages.length > 0){//if exists pending messages 
+          pendingMessages.map(pm => {
+            if (pm.id == data.from ) pm.numberMessages += 1;
+          })
+          setPendingMessages(pendingMessages);
+        }else{
+          setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+        }
+      }else{//If user is in chat tab
+        //comprobamos si venia de otra pagina distinta al chat
+        if(data.from != id2 && id2 != undefined && data.from != cookies.userID){//If user is not talking with Id2
+          setUserMessage((prevUserMessage)=>prevUserMessage+1);
+          if(previousPath !="chat")setUserMessage((prevUserMessage)=>prevUserMessage-1);
+          if(pendingMessages.length > 0){//if exists pending messages 
+            pendingMessages.map(pm => {
+              if (pm.id == data.from ) pm.numberMessages += 1;
+            })
+            setPendingMessages(pendingMessages);
+          }else{
+            setPendingMessages([...pendingMessages,{id:data.from, numberMessages:1}])
+          }
+        }
+      }
+      setDataMessages(data);
+    })
+    return()=>{
+      socket.off(`${cookies.userID}`)
+    }
+  },[currentRoom,pendingMessages])
 
   const [username, setUsername] = React.useState<string>();
 
@@ -45,6 +89,11 @@ function NavbarIcons({ userMessage }: Props) {
     setUsername(cookies.username);
   }, [cookies.username]);
 
+  if(typeof window !== "undefined"){
+    const path = window.location.pathname.split('/')[window.location.pathname.split('/').length-1];
+    setPreviousPath(path);
+  }
+  
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,9 +104,13 @@ function NavbarIcons({ userMessage }: Props) {
   };
 
   const removeStoragedCookie = () => {
-    removeCookie("userToken");
-    removeCookie("username");
-    removeCookie("userID");
+    socket.emit("Disconnect", {id:cookies.userID})    
+    socket.disconnect();
+    if(socket.connected == false){
+      removeCookie("userToken");
+      removeCookie("username");
+      removeCookie("userID");
+    }
   };
 
   const router = useRouter();
@@ -135,7 +188,6 @@ function NavbarIcons({ userMessage }: Props) {
             <button
               onClick={() => {
                 removeStoragedCookie();
-                disconnectUserFromChat();
               }}
               className={styles.profileButtons}
             >

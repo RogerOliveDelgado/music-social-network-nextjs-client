@@ -156,7 +156,6 @@ function Sidebar(props: ButtonProps) {
       });
 
       const data = await response.json();
-      // console.log(data);
       return data;
     }
   };
@@ -174,7 +173,6 @@ function Sidebar(props: ButtonProps) {
     // if (songName.length !== 0 && songFile!.length !== 0) {
 
     if (songName.length !== 0 && songFile!.size > 0) {
-      // console.log("entro");
 
       if (songFile!.size < 10485760) {
         const reader = new FileReader();
@@ -188,8 +186,6 @@ function Sidebar(props: ButtonProps) {
         };
 
         reader.readAsDataURL(songFile);
-        // console.log(songFile);
-        // console.log(setMetaDataSongFile);
         handleClose();
 
         // setSongName("");
@@ -253,7 +249,6 @@ function Sidebar(props: ButtonProps) {
                 onClick={() => {
                   handleNavigation(`${item.url}`);
                   uploadSongModal(item.text);
-                  disconnectUserFromChat();
                 }}
                 sx={{
                   display: "block",
@@ -395,7 +390,6 @@ function Sidebar(props: ButtonProps) {
             <Button
               onClick={() => {
                 uploadSong();
-                disconnectUserFromChat();
               }}
               sx={{
                 color: "#90b8f8",
