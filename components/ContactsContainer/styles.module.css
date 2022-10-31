@@ -16,6 +16,7 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   border-radius: 5px;
+  padding-right: 0.45rem;
 }
 
 @media screen and (max-width: 900px) {
