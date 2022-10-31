@@ -32,6 +32,7 @@ import AddIcon from "@mui/icons-material/Add";
 import toast, { Toaster } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 import { disconnectUserFromChat } from "../../socket/servicesSocket/services";
+import { color } from "@mui/system";
 
 const drawerWidth = "15rem";
 
@@ -343,6 +344,7 @@ function Sidebar(props: ButtonProps) {
           onClose={handleClose}
           aria-labelledby="customized-dialog-title"
           open={openSongModal}
+          sx={{ color: "#90b8f8" }}
         >
           <BootstrapDialogTitle
             id="customized-dialog-title"
@@ -360,6 +362,7 @@ function Sidebar(props: ButtonProps) {
                 onChange={getSongName}
                 fullWidth
                 variant="standard"
+                sx={{ borderBottom: "1px solid white" }}
               />
               <div className={styles.songUploadDiv}>
                 <div>
@@ -389,7 +392,19 @@ function Sidebar(props: ButtonProps) {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={()=>{uploadSong();disconnectUserFromChat();}}>Upload song</Button>
+            <Button
+              onClick={() => {
+                uploadSong();
+                disconnectUserFromChat();
+              }}
+              sx={{
+                color: "#90b8f8",
+                border: "1px solid #90b8f8",
+                backgroundColor: "#353941",
+              }}
+            >
+              Upload song
+            </Button>
           </DialogActions>
         </BootstrapDialog>
       </div>

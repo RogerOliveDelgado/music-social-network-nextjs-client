@@ -29,4 +29,9 @@
   justify-content: space-between;
   width: 7.3rem;
   align-items: center;
+  background-color: var(--lightGrey);
+}
+
+.uploadbuttonContainer:hover {
+  background-color: var(--grey);
 }
