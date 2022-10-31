@@ -113,6 +113,16 @@ function NavbarIcons(props:Props) {
     }
   };
 
+  useEffect(()=>{
+    if(typeof window != "undefined"){
+      window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = "\o/";
+        socket.emit("Disconnect", {id:cookies.userID})    
+        socket.disconnect();
+      });
+    }
+  },[socket])
+  
   const router = useRouter();
   return (
     <>
