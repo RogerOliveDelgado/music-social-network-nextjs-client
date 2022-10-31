@@ -37,7 +37,7 @@ const LoginInputs = (props: Props) => {
   const logIn = async (
     email: String,
     password: String,
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+    e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
     try {
@@ -79,7 +79,12 @@ const LoginInputs = (props: Props) => {
   };
 
   return (
-    <form className={styles.loginForm}>
+    <form
+      className={styles.loginForm}
+      onSubmit={(e) => {
+        logIn(email, password, e);
+      }}
+    >
       <input
         placeholder={`${t("login").email}`}
         type="email"
@@ -115,14 +120,7 @@ const LoginInputs = (props: Props) => {
       <Toaster />
 
       <button className={styles.buttonLogin}>
-        <span
-          className={styles.label}
-          onClick={(e) => {
-            logIn(email, password, e);
-          }}
-        >
-          {`${t("login").login}`}
-        </span>
+        <span className={styles.label}>{`${t("login").login}`}</span>
         <span className={styles.icon}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
