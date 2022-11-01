@@ -74,6 +74,7 @@
 
 .menu_title {
   padding: 0rem 2rem;
+  color: var(--lightest_blue);
 }
 
 @media screen and (max-width: 900px) {

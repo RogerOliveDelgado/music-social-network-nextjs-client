@@ -68,6 +68,8 @@ export default {
     uploadSong: "Upload song",
     uploadYourSong: "Upload your song",
     songName: "Song name",
+    menuItem: "Select a playlist to add track",
+    noPlaylists: "You don't have any playlists yet",
   },
   tooltip: {
     addAlbum: "Add this album to your library",
