@@ -39,7 +39,7 @@ function Song() {
   const { artistName } = useSelector((state: RootState) => state.currentTrack);
 
   const album = useSelector(
-    (state: RootState) => state.currentTrack.currentTrack?.album
+    (state: RootState) => state.currentTrack.currentTrack
   );
 
   const albumImage = album?.image;
@@ -187,6 +187,7 @@ function Song() {
 
   const { t } = useI18N();
 
+  console.log("####Album Image: " , albumImage)
 
   return (
     <div className={styles.wrapper}>
