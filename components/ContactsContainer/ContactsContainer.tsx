@@ -9,6 +9,8 @@ import {Track} from '../../interfaces/tracks'
 import { Socket } from 'socket.io-client';
 import { useCookies } from 'react-cookie';
 
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || ""
+
 type Props = {
   users: {
       _id:string,
@@ -57,7 +59,7 @@ const ContactsContainer = (props: Props) => {
       
     props.setMessages([])
     //recogemos los mensajes cada vez que cambiamos de chat
-    const response = await fetch("http://localhost:4001/chat/getMessages",{
+    const response = await fetch(`${BASE_URL}/chat/getMessages`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json', 

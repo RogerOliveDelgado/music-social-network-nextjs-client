@@ -22,6 +22,7 @@ interface props{
 }
 //Context
 export const countContext = createContext<contextProps>({} as contextProps);
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || ""
 
 //Provider
 export const CountMessageProvider = ({children}:props) => {
@@ -40,7 +41,7 @@ export const CountMessageProvider = ({children}:props) => {
 
   useEffect(()=> {
     const updateNumberMessages = async () => {
-        const response1 = await fetch('http://localhost:4001/chat/pendingMessages',{
+        const response1 = await fetch(`${BASE_URL}/chat/pendingMessages`,{
           method:'POST',
           headers:{
             'Content-Type':'application/json',

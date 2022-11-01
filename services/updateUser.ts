@@ -1,5 +1,5 @@
 const BASE_URL =
-  //   process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND ||
+    process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND ||
   'http://localhost/users';
 
 export const updateUser = async (

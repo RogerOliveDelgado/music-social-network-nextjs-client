@@ -47,6 +47,9 @@ type Props = {
   setContacts: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || ""
+const CLIENT_URL = process.env.CLIENT_URL || ""
+
 const ChatRoom = (props: Props) => {
   const chat = useRef(null);
   const { t } = useI18N();
@@ -70,7 +73,7 @@ const ChatRoom = (props: Props) => {
 
   //set the input message value
   const handleInput = (value: string) => {
-    if (window.location.host == "localhost:3000") {
+    if (window.location.host == CLIENT_URL) {
       props.setInput(value);
       if (value == "") {
         props.socket.emit(`typing`, {
@@ -116,21 +119,20 @@ const ChatRoom = (props: Props) => {
   //send the message
   const submitMessage = async () => {
     if (props.input != "") {
-      // setPreviousPath(window.location.pathname.split('/')[window.location.pathname.split('/').length-1])
       props.deletePendingMessage(props.id2);
       props.socket.emit(`send-Message`, {
         msg: `${props.userName}-${props.input}`,
         to: `${props.id2}`,
         sender: `${props.id1}`,
         socket: props.socket.id,
-      }); //props.currentRoom por userName
+      });
       props.socket.emit(`typing`, {
         msg: ``,
         to: `${props.id2}`,
         sender: `${props.id1}`,
         socket: props.socket.id,
       });
-      const response = await fetch("http://localhost:4001/chat/messages", {
+      const response = await fetch(`${BASE_URL}/chat/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

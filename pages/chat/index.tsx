@@ -31,6 +31,7 @@ type Props = {
 let socketId;
 //Array wich contains the connected users, each time a user make login into chat app, this array will be updated
 let usuarios: { id: string; socketId: string; usuario: string }[] = [];
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || ""
 
 const Chat = (props: Props) => {
   const { t } = useI18N();
@@ -100,7 +101,7 @@ const Chat = (props: Props) => {
     }
     const getUsers = async () => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/user`,
+        `${BASE_URL}/user`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -123,7 +124,7 @@ const Chat = (props: Props) => {
     setUserName(cookies.username);
     const currentRoom = async () => {
       const responseCurrentRoom = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/currentRoom`,
+        `${BASE_URL}/chat/currentRoom`,
         {
           method: "POST",
           headers: {
@@ -139,7 +140,7 @@ const Chat = (props: Props) => {
         setid2(room.data._id);
       }
       const response1 = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/pendingMessages`,
+        `${BASE_URL}/chat/pendingMessages`,
         {
           method: "POST",
           headers: {
@@ -181,7 +182,7 @@ const Chat = (props: Props) => {
     const getMessagesOfCurrentRoom = async (idCurrentRoom: any) => {
       if (currentRoom != undefined) {
         const responseOfCurrentRoom = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND}/chat/getMessages`,
+          `${BASE_URL}/chat/getMessages`,
           {
             method: "POST",
             headers: {
@@ -242,7 +243,7 @@ const Chat = (props: Props) => {
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {
       const response = await fetch(
-        "http://localhost:4001/chat/deletePendingMessages",
+        `${BASE_URL}/chat/deletePendingMessages`,
         {
           method: "POST",
           headers: {

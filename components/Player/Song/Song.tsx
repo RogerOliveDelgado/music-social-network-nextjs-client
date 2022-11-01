@@ -26,8 +26,8 @@ function Song() {
     "userToken",
   ]);
   const TOKEN = cookies.userToken;
-  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
-  const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND;
+  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "";
+  const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || "";
 
   const { query } = useRouter();
 
@@ -102,7 +102,7 @@ function Song() {
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
-      const response = await fetch(`http://localhost:4002/track/library`, {
+      const response = await fetch(`${BASE_URL_SPOTIFY}/track/library`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -116,7 +116,7 @@ function Song() {
       if (data.ok) {
         setTimeout(async () => {
           const userResponse = await fetch(
-            `http://localhost:4001/user/${cookies.userID}`,
+            `${BASE_URL_USER}/user/${cookies.userID}`,
             {
               headers: {
                 Authorization: `bearer ${TOKEN}`,
@@ -158,7 +158,7 @@ function Song() {
   ) => {
     try {
       const response = await fetch(
-        `http://localhost:4002/playlist/tracks/${playlistId}`,
+        `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
         {
           method: "PATCH",
           headers: {
