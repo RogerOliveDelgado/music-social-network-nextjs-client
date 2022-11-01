@@ -23,11 +23,13 @@ const TrackCard = ({ track }: Props) => {
   const handlePlay = async (track: NewTrack) => {
     dispatch(updateSingleSong(track));
     dispatch(setCurrentTrack(track));
-    const response = await getArtistData(
-      track.album.artist as unknown as string
-    );
+    if(track?.album?.artist){
+      const response = await getArtistData(
+        track.album.artist as unknown as string
+        ).unwrap();
+      dispatch(setArtistName(response.data.name!));
+    }
 
-    dispatch(setArtistName(response.data.data.name!));
   };
   return (
     <div className={styles.trackCard}>

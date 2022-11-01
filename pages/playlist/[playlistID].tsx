@@ -90,6 +90,7 @@ const Playlist = (tracks: any) => {
             method: "GET",
             headers: {
               Authorization: `Bearer ${cookies.userToken}`,
+              "Content-Type": "application/json"
             },
           }
         );

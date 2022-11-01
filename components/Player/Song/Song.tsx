@@ -116,7 +116,7 @@ function Song() {
       if (data.ok) {
         setTimeout(async () => {
           const userResponse = await fetch(
-            `${BASE_URL_USER}/user/${cookies.userID}`,
+            `${BASE_URL_USERS}/user/${cookies.userID}`,
             {
               headers: {
                 Authorization: `bearer ${TOKEN}`,
@@ -195,7 +195,7 @@ function Song() {
           src={
             albumImage !== undefined
               ? albumImage
-              : "/images/default_playlist.png"
+              : "/Images/default_playlist.png"
           }
           alt="Picture of the author"
           width="52px"
