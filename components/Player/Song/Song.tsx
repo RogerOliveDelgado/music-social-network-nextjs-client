@@ -26,7 +26,8 @@ function Song() {
     "userToken",
   ]);
   const TOKEN = cookies.userToken;
-  const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "";
+  const BASE_URL_SPOTIFY =
+    process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "";
   const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || "";
 
   const { query } = useRouter();
@@ -92,13 +93,12 @@ function Song() {
     }
   );
 
-  const { refetch: refetchPlaylists } =
-    useGetPlaylistDetailsQuery(
-      { playlistID: query?.playlistID, token: cookies.userToken },
-      {
-        refetchOnMountOrArgChange: true,
-      }
-    );
+  const { refetch: refetchPlaylists } = useGetPlaylistDetailsQuery(
+    { playlistID: query?.playlistID, token: cookies.userToken },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
@@ -134,7 +134,6 @@ function Song() {
 
   const userPlaylists = playlists?.data?.playlists;
   const likedSongs = playlists?.data?.likedSongs;
-
 
   //Menu
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -188,6 +187,7 @@ function Song() {
 
   const { t } = useI18N();
 
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.image_container}>
@@ -210,7 +210,7 @@ function Song() {
         {likedSongs?.some(
           (element: Track) => element._id === currentTrack?._id
         ) ? (
-          <Tooltip title={t('tooltip').addFavorites}>
+          <Tooltip title={t("tooltip").addFavorites}>
             <FavoriteIcon
               onClick={() => {
                 addSong(currentTrack);
@@ -218,7 +218,7 @@ function Song() {
             />
           </Tooltip>
         ) : (
-          <Tooltip title={t('tooltip').addFavorites}>
+          <Tooltip title={t("tooltip").addFavorites}>
             <FavoriteBorderIcon
               onClick={() => {
                 addSong(currentTrack);
@@ -226,7 +226,7 @@ function Song() {
             />
           </Tooltip>
         )}
-        <Tooltip title={t('tooltip').addTrack}>
+        <Tooltip title={t("tooltip").addTrack}>
           <Button
             color="inherit"
             id="basic-button"
@@ -255,30 +255,44 @@ function Song() {
           anchorOrigin={{ horizontal: "left", vertical: "top" }}
           sx={{
             "& .MuiMenu-paper": {
-              backgroundColor: "var(--grey)",
+              backgroundColor: "var(--black)",
               color: "white",
               boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
               border: "1px solid var(--darker_black)",
             },
           }}
         >
-          <p
-            className={styles.menu_title}
-          >{`Select a playlist to add track '${trackTitle.title}':`}</p>
-          {userPlaylists?.map((playlist: any) => (
+         <h4
+              className={styles.menu_title}
+            >{`${t('content').menuItem} '${trackTitle.title}':`}</h4>
+           {userPlaylists?.length > 0 ? (
+            userPlaylists?.map((playlist: any) => (
+              <MenuItem
+                key={playlist._id}
+                onClick={() => manageClick(playlist._id, trackTitle)}
+                sx={{
+                  padding: "0.5rem 1rem",
+                  "&:hover": {
+                    backgroundColor: "var(--lightGrey)",
+                  },
+                }}
+              >
+                {playlist.title}
+              </MenuItem>
+            ))
+          ) : (
             <MenuItem
-              key={playlist._id}
-              onClick={() => manageClick(playlist._id, trackTitle)}
-              sx={{
-                padding: "0.5rem 1rem",
-                "&:hover": {
-                  backgroundColor: "var(--lightGrey)",
-                },
-              }}
+            sx={{
+              fontStyle: "italic",
+              cursor: "default",
+              " &:hover": {
+                backgroundColor: "transparent",
+              },
+            }}
             >
-              {playlist.title}
+                  {t('content').noPlaylists}
             </MenuItem>
-          ))}
+          )}
         </Menu>
       </div>
       <Toaster />
