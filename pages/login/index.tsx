@@ -48,7 +48,7 @@ const Login = ({ parsedTracks }: parsedTracks) => {
 
       <div className={styles.loginHeader}>
         <picture className={styles.logoMain}>
-          <img src="/images/beatgo_logo_grey.png" alt="BeatGO Logo" />
+          <img src="/Images/beatgo_logo_grey.png" alt="BeatGO Logo" />
         </picture>
         <LanguageSelector />
       </div>

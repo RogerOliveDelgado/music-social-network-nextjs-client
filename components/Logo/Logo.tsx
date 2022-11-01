@@ -9,10 +9,10 @@ function Logo({ Height, Width, ClassName }: LogoProps) {
   return (
     <div className={`${ClassName}`}>
       <picture className={styles.large_screen}>
-        <img src="/images/beatgo_logo.png" alt="BeatGo Logo" />
+        <img src="/Images/beatgo_logo.png" alt="BeatGo Logo" />
       </picture>
       <picture className={styles.mobile_screen}>
-        <img src="/images/logo.png" alt="BeatGo Logo" />
+        <img src="/Images/logo.png" alt="BeatGo Logo" />
       </picture>
     </div>
   );
