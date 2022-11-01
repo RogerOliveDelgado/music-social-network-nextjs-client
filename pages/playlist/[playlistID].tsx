@@ -83,19 +83,24 @@ const Playlist = (tracks: any) => {
 
   useEffect(() => {
     const getupdatedData = async () => {
-      const response = await fetch(
-        `${BASE_URL_SPOTIFY}/playlist/${query.playlistID}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${cookies.userToken}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setImagePlayList(data?.data?.image);
-      setDescription(data?.data?.description);
-      setTitle(data?.data?.title);
+      try{
+        const response = await fetch(
+          `${BASE_URL_SPOTIFY}/playlist/${query.playlistID}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${cookies.userToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setImagePlayList(data?.data?.image);
+        setDescription(data?.data?.description);
+        setTitle(data?.data?.title);
+
+      } catch(error) {
+        console.error(error)
+      }
     };
     getupdatedData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
