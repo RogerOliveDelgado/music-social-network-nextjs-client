@@ -47,6 +47,7 @@ const ArtistDetails = (props: Props) => {
       refetchOnMountOrArgChange: true,
     }
   );
+  console.log("artist",artist )
 
   const { userMessage } = useContext(countContext);
 

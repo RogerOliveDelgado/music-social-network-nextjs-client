@@ -41,7 +41,6 @@ function Song() {
   const album = useSelector(
     (state: RootState) => state.currentTrack.currentTrack
   );
-
   const albumImage = album?.image;
 
   const width = useWidth();
@@ -186,8 +185,6 @@ function Song() {
   };
 
   const { t } = useI18N();
-
-  console.log("####Album Image: " , albumImage)
 
   return (
     <div className={styles.wrapper}>
