@@ -12,16 +12,16 @@ export default async function middleware(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/auth`, {
-      method: 'GET',
-      headers: new Headers({
-        'Authorization': `bearer ${userToken}`
-      })
-    })
-    const data = await response.json()
-    if(!data.ok && msg!== JWT_EXPIRED_MESSAGE) {throw new Error}
-    if(!data.ok && msg === JWT_EXPIRED_MESSAGE) {
-    }
+    // const response = await fetch(`${BASE_URL}/auth`, {
+    //   method: 'GET',
+    //   headers: new Headers({
+    //     'Authorization': `bearer ${userToken}`
+    //   })
+    // })
+    // const data = await response.json()
+    // if(!data.ok && msg!== JWT_EXPIRED_MESSAGE) {throw new Error}
+    // if(!data.ok && msg === JWT_EXPIRED_MESSAGE) {
+    // }
 
     return NextResponse.next();
   } catch (error) {
