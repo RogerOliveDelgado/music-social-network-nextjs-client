@@ -41,26 +41,32 @@ export const CountMessageProvider = ({children}:props) => {
 
   useEffect(()=> {
     const updateNumberMessages = async () => {
-        const response1 = await fetch(`${BASE_URL}/chat/pendingMessages`,{
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            Authorization: `Bearer ${cookies.userToken}`,
-          }
-        })
-        const pending = await response1.json();
-        let count: number = 0;
-        pending.ok == true && pending.data.map((chat: any) => {       
-          if(chat.pendingMessages != 0){
-            count += chat.pendingMessages;
-            
-          }
-        })
-        setUserMessage(count)
-        setPendingMessages([])
-      }      
-      updateNumberMessages();
-  },[cookies.userToken])
+      if(cookies.userToken !== ''){
+        try{
+          const response1 = await fetch(`${BASE_URL}/chat/pendingMessages`,{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              Authorization: `Bearer ${cookies.userToken}`,
+            }
+          })
+          const pending = await response1.json();
+          let count: number = 0;
+          pending.ok == true && pending.data.map((chat: any) => {       
+            if(chat.pendingMessages != 0){
+              count += chat.pendingMessages;
+              
+            }
+          })
+          setUserMessage(count)
+          setPendingMessages([])
+        } catch (error) {
+          console.error(error)
+        }
+        }
+        updateNumberMessages();
+      }
+},[cookies.userToken])
   
 
   return(

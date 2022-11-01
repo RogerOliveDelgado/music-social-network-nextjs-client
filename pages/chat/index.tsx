@@ -123,55 +123,64 @@ const Chat = (props: Props) => {
     );
     setUserName(cookies.username);
     const currentRoom = async () => {
-      const responseCurrentRoom = await fetch(
-        `${BASE_URL}/chat/currentRoom`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+      try {
+        const responseCurrentRoom = await fetch(
+          `${BASE_URL}/chat/currentRoom`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const room = await responseCurrentRoom.json();
+        if (room != undefined && room.msg != "No current chat") {
+          setRoom(room);
+          setCurrentRoom(room.data.username);
+          setid2(room.data._id);
         }
-      );
-      const room = await responseCurrentRoom.json();
-      if (room != undefined && room.msg != "No current chat") {
-        setRoom(room);
-        setCurrentRoom(room.data.username);
-        setid2(room.data._id);
+      } catch (error) {
+        console.error(error)
       }
-      const response1 = await fetch(
-        `${BASE_URL}/chat/pendingMessages`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const pending = await response1.json();
-      let arrayPendingMessages: { id: string; numberMessages: number }[] = [];
-      let arrayPendingMessagesPrime: { id: string; numberMessages: number }[] =
-        [];
-      pending.data.map((chat: any) => {
-        chat.pendingMessages != 0 &&
-          arrayPendingMessages.push({
+
+      try {
+        const response1 = await fetch(
+          `${BASE_URL}/chat/pendingMessages`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const pending = await response1.json();
+        let arrayPendingMessages: { id: string; numberMessages: number }[] = [];
+        let arrayPendingMessagesPrime: { id: string; numberMessages: number }[] =
+          [];
+        pending.data.map((chat: any) => {
+          chat.pendingMessages != 0 &&
+            arrayPendingMessages.push({
+              id: chat.toUser,
+              numberMessages: chat.pendingMessages,
+            });
+          arrayPendingMessagesPrime.push({
             id: chat.toUser,
             numberMessages: chat.pendingMessages,
           });
-        arrayPendingMessagesPrime.push({
-          id: chat.toUser,
-          numberMessages: chat.pendingMessages,
         });
-      });
-      if (pendingMessages == arrayPendingMessages)
-        setPendingMessages(arrayPendingMessages);
-      if (pendingMessages != arrayPendingMessages) {
-        if (pendingMessages.length > arrayPendingMessages.length) {
-          setPendingMessages(pendingMessages);
-        } else {
+        if (pendingMessages == arrayPendingMessages)
           setPendingMessages(arrayPendingMessages);
+        if (pendingMessages != arrayPendingMessages) {
+          if (pendingMessages.length > arrayPendingMessages.length) {
+            setPendingMessages(pendingMessages);
+          } else {
+            setPendingMessages(arrayPendingMessages);
+          }
         }
+      } catch (error) {
+        console.error(error)
       }
     };
     currentRoom();
@@ -181,19 +190,23 @@ const Chat = (props: Props) => {
   useEffect(() => {
     const getMessagesOfCurrentRoom = async (idCurrentRoom: any) => {
       if (currentRoom != undefined) {
-        const responseOfCurrentRoom = await fetch(
-          `${BASE_URL}/chat/getMessages`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ toUserId: id2 }),
-          }
-        );
-        const dataMessages = await responseOfCurrentRoom.json();
-        setMessages(dataMessages.data);
+        try {
+          const responseOfCurrentRoom = await fetch(
+            `${BASE_URL}/chat/getMessages`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ toUserId: id2 }),
+            }
+          );
+          const dataMessages = await responseOfCurrentRoom.json();
+          setMessages(dataMessages.data);
+        } catch (error) {
+          console.error(error)
+        }
       }
       if (room != undefined && room.msg != "No current chat") {
         getMessagesOfCurrentRoom(room?.data._id);
@@ -242,18 +255,22 @@ const Chat = (props: Props) => {
     setPendingMessages(messagesAllreadyPending);
     //Should call to the function in dataBase to put to 0 the pendingMessages of the chat
     const deleteInDataBasePendingMessages = async () => {
-      const response = await fetch(
-        `${BASE_URL}/chat/deletePendingMessages`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ toUserId: id2 }),
-        }
-      );
-      const data = await response.json();
+      try {
+        const response = await fetch(
+          `${BASE_URL}/chat/deletePendingMessages`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ toUserId: id2 }),
+          }
+        );
+        const data = await response.json();
+      } catch (error) {
+        console.error(error)
+      }
     };
     deleteInDataBasePendingMessages();
   };
