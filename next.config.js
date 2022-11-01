@@ -9,6 +9,7 @@ const nextConfig = {
       "via.placeholder.com",
       "i.scdn.co",
       "res.cloudinary.com",
+      "www.rootzwiki.com"
     ],
   },
   i18n: {
