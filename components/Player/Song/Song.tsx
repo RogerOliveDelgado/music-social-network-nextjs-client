@@ -31,7 +31,6 @@ function Song() {
   const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || "";
 
   const { query, pathname } = useRouter();
-  console.log(pathname, "pathname")
 
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
