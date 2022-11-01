@@ -30,7 +30,8 @@ function Song() {
     process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND || "";
   const BASE_URL_USERS = process.env.NEXT_PUBLIC_BACKEND_USERS_BACKEND || "";
 
-  const { query } = useRouter();
+  const { query, pathname } = useRouter();
+  console.log(pathname, "pathname")
 
   const { currentTrack } = useSelector(
     (state: RootState) => state.currentTrack
@@ -211,6 +212,10 @@ function Song() {
           <Tooltip title={t("tooltip").addFavorites}>
             <FavoriteIcon
               onClick={() => {
+                if(pathname === '/login') {
+                  toast.error('You must be logged in to enjoy our app!')
+                  return
+                }
                 addSong(currentTrack);
               }}
             />
@@ -219,6 +224,10 @@ function Song() {
           <Tooltip title={t("tooltip").addFavorites}>
             <FavoriteBorderIcon
               onClick={() => {
+                if(pathname === '/login') {
+                  toast.error('You must be logged in to enjoy our app!')
+                  return
+                }
                 addSong(currentTrack);
               }}
             />
@@ -231,7 +240,12 @@ function Song() {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={(e) => handleClick(e, currentTrack)}
+            onClick={(e) => {
+              if(pathname === '/login') {
+                toast.error('You must be logged in to enjoy our app!')
+                return
+              }
+              handleClick(e, currentTrack)}}
           >
             <input hidden />
             <AddCircleOutlineIcon />
