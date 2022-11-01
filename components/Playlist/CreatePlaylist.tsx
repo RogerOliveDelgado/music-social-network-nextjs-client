@@ -152,7 +152,7 @@ function CreatePlaylist(props: any) {
   const handleImage = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const file = target.files[0];
     // Encode the file using the FileReader API
-    if (file.size < 10485760) {
+    if (file?.size < 10485760) {
       const reader = new FileReader();
       reader.onloadend = () => {
         // Use a regex to remove data url part

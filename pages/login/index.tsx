@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const result = await response.json();
 
   //This is necessary. What it does is that Next does not render all the tracks, but only the first 10 tracks so that the app is not so heavy.
-  const parsedTracks = result.data.slice(13, 20).map((track: Track) => track);
+  const parsedTracks = result.data.slice(17, 24).map((track: Track) => track);
 
   return {
     props: { parsedTracks },
