@@ -29,11 +29,13 @@ const FreeSongs = ({ tracks }: Props) => {
   const handlePlay = async (track: NewTrack) => {
     dispatch(updateSingleSong(track));
     dispatch(setCurrentTrack(track));
-    const response = await getArtistData(
-      track.album.artist as unknown as string
-    );
-
-    dispatch(setArtistName(response.data.data.name!));
+    if(track?.album?.artist){
+      const response = await getArtistData(
+        track.album.artist as unknown as string
+      );
+  
+      dispatch(setArtistName(response.data.data.name!));
+    }
   };
 
   return (
