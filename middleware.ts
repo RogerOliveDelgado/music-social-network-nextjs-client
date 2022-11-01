@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
-const BASE_URL = process.env.USERS_BACKEND_URL || "http://localhost:4001"
+const BASE_URL = process.env.USERS_BACKEND_ || "http://localhost:4001"
 const JWT_EXPIRED_MESSAGE = "jwt expired"
 
 export default async function middleware(req: NextRequest) {

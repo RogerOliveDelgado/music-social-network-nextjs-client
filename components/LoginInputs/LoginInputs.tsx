@@ -66,6 +66,12 @@ const LoginInputs = (props: Props) => {
         setCookie("userToken", result.data.token, { path: "/" });
         setCookie("username", result.data.username, { path: "/" });
         setCookie("userID", result.data.id, { path: "/" });
+      
+        toast.promise(router.push("/es"), {
+          loading: "Goooing...",
+          success: <b>Here we are!</b>,
+          error: <b>Oops, something went wrong!</b>,
+        });
       }
     } catch (error) {
       console.error(error);
