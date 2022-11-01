@@ -143,20 +143,24 @@ function Sidebar(props: ButtonProps) {
 
   const fetchingData = async () => {
     if (metaDataSongFile !== undefined) {
-      const response = await fetch(`${BASE_URL_SPOTIFY}/track`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: songName,
-          trackAudio: metaDataSongFile || "",
-        }),
-      });
-
-      const data = await response.json();
-      return data;
+      try{
+        const response = await fetch(`${BASE_URL_SPOTIFY}/track`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: songName,
+            trackAudio: metaDataSongFile || "",
+          }),
+        });
+  
+        const data = await response.json();
+        return data;
+      } catch(error) {
+        console.error(error)
+      }
     }
   };
 
