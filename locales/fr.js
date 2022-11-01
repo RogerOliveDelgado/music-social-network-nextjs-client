@@ -69,6 +69,8 @@ export default {
     uploadSong: "Télécharger une chanson",
     uploadYourSong: "Téléchargez votre chanson",
     songName: "Nom de la chanson",
+    menuItem: "Sélectionnez une liste de lecture pour ajouter une chanson",
+    noPlaylists: "Vous n'avez pas encore de playlists",
   },
   tooltip: {
     addAlbum: "Ajouter un album à la librairie",

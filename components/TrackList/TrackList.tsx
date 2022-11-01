@@ -1,40 +1,40 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import IconButton from '@mui/material/IconButton';
-import AlbumIcon from '@mui/icons-material/Album';
-import { Track } from '../../interfaces/tracks';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { millisToMinutes } from '../../utils/converter';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import IconButton from "@mui/material/IconButton";
+import AlbumIcon from "@mui/icons-material/Album";
+import { Track } from "../../interfaces/tracks";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { millisToMinutes } from "../../utils/converter";
 /* A JWT token that is used to authenticate the user. */
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTrackList } from '../../redux/features/player/musicPlayerSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { updateTrackList } from "../../redux/features/player/musicPlayerSlice";
 import {
   setCurrentIndex,
   setArtistName,
   currentTrack as setCurrentTrack,
-} from '../../redux/features/player/currentTracks';
-import { RootState } from '../../redux/store';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useGetPlaylistQuery } from '../../redux/playlistsAPI';
+} from "../../redux/features/player/currentTracks";
+import { RootState } from "../../redux/store";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useGetPlaylistQuery } from "../../redux/playlistsAPI";
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import GraphicEqIcon from "@mui/icons-material/GraphicEq";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-import { Reorder, AnimatePresence, useDragControls } from 'framer-motion';
+import { Reorder, AnimatePresence, useDragControls } from "framer-motion";
 
-import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
-import { useCookies } from 'react-cookie';
-import { motion } from 'framer-motion';
+import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
+import { useCookies } from "react-cookie";
+import { motion } from "framer-motion";
 
-import styles from './styles.module.css';
-import { useI18N } from '../../context/i18';
+import styles from "./styles.module.css";
+import { useI18N } from "../../context/i18";
 
 type Props = {
   name: string;
@@ -56,8 +56,8 @@ const TrackList = ({
   const [orderTracks, setOrderTracks] = useState<Track[]>(tracks);
   const [inPlayList, setInPlayList] = useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies([
-    'userID',
-    'userToken',
+    "userID",
+    "userToken",
   ]);
 
   const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
@@ -97,9 +97,9 @@ const TrackList = ({
   const addSong = (song: Track) => {
     const putSongInUser = async (song: Track) => {
       const response = await fetch(`${BASE_URL_SPOTIFY}/track/library`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
+          "Content-Type": "application/json; charset=utf-8",
           Authorization: `bearer ${cookies.userToken}`,
         },
         body: JSON.stringify(song),
@@ -133,9 +133,9 @@ const TrackList = ({
       const response = await fetch(
         `${BASE_URL_SPOTIFY}/playlist/tracks/${playlistId}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json; charset=utf-8',
+            "Content-Type": "application/json; charset=utf-8",
             Authorization: `bearer ${cookies.userToken}`,
           },
           body: JSON.stringify({
@@ -182,14 +182,14 @@ const TrackList = ({
   const manageClick = (playlistID: string, track: Track) => {
     try {
       addTrackToPlaylist(playlistID, track);
-      toast.success('Track added to playlist successfully');
+      toast.success("Track added to playlist successfully");
     } catch (error) {
       console.log(error);
     }
     handleClose();
   };
 
-  const isInPlaylistPath = router.pathname.includes('playlist');
+  const isInPlaylistPath = router.pathname.includes("playlist");
 
   const { t } = useI18N();
 
@@ -197,7 +197,7 @@ const TrackList = ({
     <div style={heightValue && { height: `${heightValue}rem` }}>
       <div className={styles.track_list_header}>
         <AlbumIcon />
-        <p>{name || 'Album name'}</p>
+        <p>{name || "Album name"}</p>
       </div>
       {tracks ? (
         <div className={styles.tracks_list}>
@@ -230,7 +230,7 @@ const TrackList = ({
                   {isInPlaylistPath ? (
                     <>
                       {allowDelete && (
-                        <Tooltip title={t('tooltip').deleteTrack}>
+                        <Tooltip title={t("tooltip").deleteTrack}>
                           <IconButton color="inherit" component="label">
                             <input hidden />
                             <RemoveCircleOutlineIcon
@@ -240,7 +240,7 @@ const TrackList = ({
                         </Tooltip>
                       )}
                       {!allowDelete && (
-                        <Tooltip title={t('tooltip').addTrack}>
+                        <Tooltip title={t("tooltip").addTrack}>
                           <IconButton color="inherit" component="label">
                             <input hidden />
                             <AddCircleOutlineIcon
@@ -254,13 +254,13 @@ const TrackList = ({
                     </>
                   ) : (
                     <>
-                      <Tooltip title={t('tooltip').addTrack}>
+                      <Tooltip title={t("tooltip").addTrack}>
                         <Button
                           color="inherit"
                           id="basic-button"
-                          aria-controls={open ? 'basic-menu' : undefined}
+                          aria-controls={open ? "basic-menu" : undefined}
                           aria-haspopup="true"
-                          aria-expanded={open ? 'true' : undefined}
+                          aria-expanded={open ? "true" : undefined}
                           onClick={(e) => handleClick(e, track)}
                         >
                           <input hidden />
@@ -274,7 +274,7 @@ const TrackList = ({
                     {likedSongs?.some(
                       (element: Track) => element._id === track._id
                     ) ? (
-                      <Tooltip title={t('tooltip').addFavorites}>
+                      <Tooltip title={t("tooltip").addFavorites}>
                         <FavoriteIcon
                           onClick={() => {
                             addSong(track);
@@ -282,7 +282,7 @@ const TrackList = ({
                         />
                       </Tooltip>
                     ) : (
-                      <Tooltip title={t('tooltip').addFavorites}>
+                      <Tooltip title={t("tooltip").addFavorites}>
                         <FavoriteBorderIcon
                           onClick={() => {
                             addSong(track);
@@ -309,41 +309,54 @@ const TrackList = ({
             PaperProps={{
               elevation: 0,
               sx: {
-                overflow: 'visible',
-                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                 mt: 1.5,
               },
             }}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             sx={{
-              '& .MuiMenu-paper': {
-                backgroundColor: 'var(--black)',
-                color: 'white',
-                boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
+              "& .MuiMenu-paper": {
+                backgroundColor: "var(--black)",
+                color: "white",
               },
             }}
           >
-            <h4
-              className={styles.menu_title}
-            >{`Select a playlist to add track '${trackTitle.title}':`}</h4>
-            {userPlaylists?.map((playlist: any) => (
+            <h4 className={styles.menu_title}>{`${t("content").menuItem} '${
+              trackTitle.title
+            }':`}</h4>
+            {userPlaylists?.length > 0 ? (
+              userPlaylists?.map((playlist: any) => (
+                <MenuItem
+                  key={playlist._id}
+                  onClick={() => manageClick(playlist._id, trackTitle)}
+                  sx={{
+                    padding: "0.5rem 1rem",
+                    "&:hover": {
+                      backgroundColor: "var(--lightGrey)",
+                    },
+                  }}
+                >
+                  {playlist.title}
+                </MenuItem>
+              ))
+            ) : (
               <MenuItem
-                key={playlist._id}
-                onClick={() => manageClick(playlist._id, trackTitle)}
                 sx={{
-                  padding: '0.5rem 1rem',
-                  '&:hover': {
-                    backgroundColor: 'var(--grey)',
+                  fontStyle: "italic",
+                  cursor: "default",
+                  " &:hover": {
+                    backgroundColor: "transparent",
                   },
                 }}
               >
-                {playlist.title}
+                {t("content").noPlaylists}
               </MenuItem>
-            ))}
+            )}
           </Menu>
           <Toaster />
         </div>

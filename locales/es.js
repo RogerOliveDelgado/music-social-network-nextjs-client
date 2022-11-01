@@ -68,6 +68,8 @@ export default {
     uploadSong: "Subir canción",
     uploadYourSong: "Sube tu canción",
     songName: "Nombre de la canción",
+    menuItem: "Selecciona una lista de reproducción para añadir la canción",
+    noPlaylists: "No tienes ninguna lista de reproducción",
   },
   tooltip: {
     addAlbum: "Añadir álbum a tu librería",

@@ -47,6 +47,7 @@
 
 .menu_title{
   padding: 0rem 2rem;
+  color: var(--lightest_blue);
 }
 
 @keyframes moving {
