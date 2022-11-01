@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   currentTrack as setCurrentTrack,
+  decrementIndex,
   incrementIndex,
   resetIndex,
 } from '../../redux/features/player/currentTracks';
@@ -51,6 +52,12 @@ const PlayerWeb = () => {
       dispatch(resetIndex());
     }
   };
+  const handleClickPrevious = () => {
+    if (currentIndex > 0) {
+      dispatch(decrementIndex());
+      dispatch(setCurrentTrack(tracks[currentIndex - 1]));
+    }
+  };
 
   const handleEnd = () => {
     setTrackIndex((prevState) =>
@@ -65,8 +72,6 @@ const PlayerWeb = () => {
     }
   };
 
-
-
   return (
     <>
       {router.pathname !== '/signup' ? (
@@ -79,6 +84,7 @@ const PlayerWeb = () => {
               src={currentTrackAudio}
               showSkipControls
               onClickNext={handleClickNext}
+              onClickPrevious={handleClickPrevious}
               onEnded={handleEnd}
               autoPlay={true}
               autoPlayAfterSrcChange={true}
@@ -90,6 +96,7 @@ const PlayerWeb = () => {
               layout="stacked-reverse"
               src={currentTrackAudio}
               onClickNext={handleClickNext}
+              onClickPrevious={handleClickPrevious}
               autoPlay={true}
               autoPlayAfterSrcChange={true}
               onEnded={handleEnd}
