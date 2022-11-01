@@ -30,9 +30,6 @@ function CreatePlaylist(props: any) {
   const playlistId = router.query.playlistID;
   const BASE_URL_SPOTIFY = process.env.NEXT_PUBLIC_BACKEND_SPOTIFY_BACKEND;
 
-  const TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MzU2NmVjN2Y5ZDU4MDNhNDAxOWVkNTciLCJ1c2VybmFtZSI6IlZpY3RvciIsImlhdCI6MTY2NjYwODgzOSwiZXhwIjoxNjY3MDQwODM5fQ.vG3HadntCeYRofAR6ERiDFoM5gqeGRzKnzjGOcpQVak";
-
   const [hover, setHover] = useState(false);
   const [modalHover, setModalHover] = useState(false);
   const [playlistImage, setPlaylistImage] = useState<File | null>(null);
@@ -264,7 +261,7 @@ function CreatePlaylist(props: any) {
                 <img
                   alt="playlist"
                   className={styles.image_container}
-                  src="/images/default_playlist.png"
+                  src="/Images/default_playlist.png"
                 />
               </picture>
             )}
@@ -337,7 +334,7 @@ function CreatePlaylist(props: any) {
                       <img
                         alt="playlist"
                         className={styles.modal_image_container}
-                        src="/images/default_playlist.png"
+                        src="/Images/default_playlist.png"
                       />
                     </picture>
                     <span>{t("additional").selectImage}</span>
