@@ -59,7 +59,7 @@ const ChatRoom = (props: Props) => {
   useEffect(() => {
     const userChat = props.users.find((user) => user._id == props.id2);
     setImage(userChat?.image);
-  }, []);
+  }, [props.id2]);
 
   const [cookies, setCookie, removeCookie] = useCookies([
     "userID",

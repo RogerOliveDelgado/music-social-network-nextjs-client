@@ -109,6 +109,7 @@ const Chat = (props: Props) => {
         }
       );
       const data1 = await response.json();
+      console.log("response fetch", data1)
       setUsers(data1.data);
       setUserName(cookies.username); //Here we will set the name of user account
       setid1(cookies.userID); //Here we set the id of user account
@@ -135,6 +136,7 @@ const Chat = (props: Props) => {
           }
         );
         const room = await responseCurrentRoom.json();
+        console.log("room: ",room)
         if (room != undefined && room.msg != "No current chat") {
           setRoom(room);
           setCurrentRoom(room.data.username);

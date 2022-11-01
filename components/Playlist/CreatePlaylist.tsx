@@ -213,6 +213,7 @@ function CreatePlaylist(props: any) {
   });
 
   const { t } = useI18N();
+  console.log(props.playlistId)
 
   return (
     <>
@@ -264,7 +265,8 @@ function CreatePlaylist(props: any) {
                   src="/Images/default_playlist.png"
                 />
               </picture>
-            )}
+            )
+            }
           </div>
           <div className={styles.playlist_info}>
             {props.playlistId ? (

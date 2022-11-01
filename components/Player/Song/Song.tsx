@@ -41,6 +41,8 @@ function Song() {
   const album = useSelector(
     (state: RootState) => state.currentTrack.currentTrack
   );
+
+  console.log(album)
   const albumImage = album?.image;
 
   const width = useWidth();
