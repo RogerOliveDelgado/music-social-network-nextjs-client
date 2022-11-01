@@ -48,7 +48,7 @@ const FreeSongs = ({ tracks }: Props) => {
         >
           <div className={styles.imgSongDiv}>
             <Image
-              src={track.album.image}
+              src={track?.album?.image}
               alt={track.title}
               width={125}
               height={125}
